@@ -24,6 +24,7 @@ module.exports = {
         secondaryRed: "#B85042",
         primary: "#80A48B",
         secondaryGreen: "#A7BEAE",
+        errorRed: "#DD5A6B",
       },
       boxShadow: {
         card: "0px 18px 54px 0px rgba(58, 112, 86, 0.28)",
