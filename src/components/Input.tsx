@@ -60,7 +60,7 @@ export default function CustomInput({
           maxLength={40}
           className={clsx(
             "w-full rounded-[10px] border-[1px] border-solid border-[#E2E2E2] pl-10 px-4 py-3 text-[0.875rem] font-[500] font-[Inter] focus-visible:outline-none focus-visible:ring-[1px] focus-visible:ring-secondaryGreen focus-visible:ring-ring ring-offset-[1px] disabled:cursor-not-allowed disabled:opacity-50",
-            { "focus-visible:ring-errorRed": error } // Correctly formatted conditional class
+            { "!focus-visible:!ring-errorRed": error } // Correctly formatted conditional class
           )}
           {...props}
         />

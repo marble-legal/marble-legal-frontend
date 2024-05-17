@@ -1,22 +1,15 @@
 import { Formik, Form, useFormikContext } from "formik";
 import * as Yup from "yup";
-import { Link, useNavigate } from "react-router-dom";
-import { setToken, setUser } from "../../../helpers/utils";
-import { api } from "../../../helpers/api";
-import { ShowToast } from "../../../components/toast";
 import { Layout } from "../../../components/Layout";
 import FormField from "../../../components/FormField";
 import Button from "../../../components/Button";
-import { SocialLogin } from "../../../components/SocialLogin";
-import useViewportHeight from "../../../helpers/useViewportHeight";
-import Checkbox from "../../../components/Checkbox";
+import LayoutImg from "../../../assets/images/form-header.png";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
 });
 
-const LoginForm = () => {
-  const navigate = useNavigate();
+const ForgotPasswordForm = () => {
   return (
     <Layout>
       <Formik
@@ -27,24 +20,32 @@ const LoginForm = () => {
           console.log(values);
         }}
       >
-        <LoginFormContent />
+        <ForgotPasswordFormContent />
       </Formik>
     </Layout>
   );
 };
 
-const LoginFormContent = () => {
+const ForgotPasswordFormContent = () => {
   const { isValid, isSubmitting } = useFormikContext();
-  const navigate = useNavigate();
 
   return (
     <div className="grid items-center h-full justify-center">
       <div className="grid bg-white p-[1.5rem] rounded-[24px] lg:w-[420px] w-[calc(100vw-2rem)]">
         <Form className="grid gap-[1.5rem]">
           <div className="text-center grid gap-2">
-            <h1 className="text-[1.5rem]">Restore your account</h1>
+            <div>
+              <img
+                src={LayoutImg}
+                alt="layout"
+                className="w-full mx-auto"
+                loading="lazy"
+              />
+              <h1 className="text-[1.5rem]">Forgot your password?</h1>
+            </div>
             <h2 className="text-[0.875rem] text-[#888] flex gap-[0.375rem] justify-self-center font-[500]">
-              Please enter your email here.
+              Enter your email address to reset your password. We'll send you a
+              link to reset your password.
             </h2>
           </div>
           <div className="grid gap-4">
@@ -71,4 +72,4 @@ const LoginFormContent = () => {
   );
 };
 
-export default LoginForm;
+export default ForgotPasswordForm;

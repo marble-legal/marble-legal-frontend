@@ -30,6 +30,8 @@ module.exports = {
         card: "0px 18px 54px 0px rgba(58, 112, 86, 0.28)",
         socialLogin:
           "0px 8px 5.1px -6px rgba(0, 0, 0, 0.10), 0px 1px 1.7px 1px rgba(255, 255, 255, 0.07) inset, 0px -4px 2px 0px rgba(17, 17, 17, 0.05) inset",
+        button:
+          "0px 13px 22.6px 0px rgba(255, 255, 255, 0.10) inset, 0px 0px 0px 2px rgba(255, 255, 255, 0.18) inset",
       },
     },
   },

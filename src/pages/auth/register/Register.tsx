@@ -1,14 +1,13 @@
 import { Formik, Form, useFormikContext } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
-import { setToken, setUser } from "../../../helpers/utils";
 import { api } from "../../../helpers/api";
 import { ShowToast } from "../../../components/toast";
 import { Layout } from "../../../components/Layout";
 import FormField from "../../../components/FormField";
 import Button from "../../../components/Button";
 import { SocialLogin } from "../../../components/SocialLogin";
-import useViewportHeight from "../../../helpers/useViewportHeight";
+import LayoutImg from "../../../assets/images/form-header.png";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("Name is required"),
@@ -26,7 +25,6 @@ const validationSchema = Yup.object().shape({
 });
 
 const RegisterForm = () => {
-  const navigate = useNavigate();
   return (
     <Layout>
       <Formik
@@ -75,10 +73,18 @@ const RegisterFormContent = () => {
       <div className="grid bg-white p-[1.5rem] rounded-[24px] lg:w-[420px] w-[calc(100vw-2rem)]">
         <Form className="grid gap-[1.5rem] mb-[1.5rem]">
           <div className="text-center grid gap-2">
-            <h1 className="text-[1.5rem]">
-              Welcome to{" "}
-              <span className="text-primary font-[700]">Marble Legal</span>
-            </h1>
+            <div>
+              <img
+                src={LayoutImg}
+                alt="layout"
+                className="w-full mx-auto"
+                loading="lazy"
+              />
+              <h1 className="text-[1.5rem] -mt-4">
+                Welcome to{" "}
+                <span className="text-primary font-[700]">Marble Legal</span>
+              </h1>
+            </div>
             <h2 className="text-[0.875rem] text-[#888] flex gap-[0.375rem] justify-self-center font-[500]">
               Have an account?{" "}
               <Link to="/login">
