@@ -82,7 +82,7 @@ const LoginFormContent = () => {
           </div>
           <div className="grid gap-4">
             <FormField
-              label="Email"
+              label="Email address"
               name="email"
               type="email"
               placeholder="Enter your email"
@@ -103,12 +103,14 @@ const LoginFormContent = () => {
                   Remember me
                 </label>
               </div>
-              <Button
-                variant="link"
-                className="!text-[#888] !font-[500] underline"
-              >
-                Forgot password?
-              </Button>
+              <Link to="/forgot-password">
+                <Button
+                  variant="link"
+                  className="!text-[#888] !font-[500] underline"
+                >
+                  Forgot password?
+                </Button>
+              </Link>
             </div>
           </div>
           <div className="grid gap-4">

@@ -94,7 +94,7 @@ const RegisterFormContent = () => {
               placeholder="Enter your name"
             />
             <FormField
-              label="Email"
+              label="Email address"
               name="email"
               type="email"
               placeholder="Enter your email"
