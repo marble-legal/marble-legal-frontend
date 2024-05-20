@@ -49,12 +49,12 @@ const ResetPasswordContent = () => {
           <div className="text-center grid gap-3 mb-[0.5rem]">
             <div className="text-center grid gap-4">
               <div>
-                {/* <img
-                src={LayoutImg}
-                alt="layout"
-                className="w-full mx-auto"
-                loading="lazy"
-              /> */}
+                <img
+                  src={LayoutImg}
+                  alt="layout"
+                  className="w-full mx-auto"
+                  loading="lazy"
+                />
                 <h1 className="text-[1.5rem] font-outfit font-[600] leading-[110%]">
                   Forgot your password?
                 </h1>

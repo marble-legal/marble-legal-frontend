@@ -71,12 +71,12 @@ const LoginFormContent = () => {
         <Form className="grid gap-[1.5rem]">
           <div className="text-center grid gap-3 mb-[0.5rem]">
             <div>
-              {/* <img
+              <img
                 src={LayoutImg}
                 alt="layout"
                 className="w-full mx-auto"
                 loading="lazy"
-              /> */}
+              />
               <h1 className="text-[1.5rem] font-outfit font-[600] leading-[110%]">
                 Welcome to <span className="text-primary">Marble Legal</span>
               </h1>
