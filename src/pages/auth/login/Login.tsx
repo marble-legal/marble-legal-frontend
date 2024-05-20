@@ -67,24 +67,23 @@ const LoginFormContent = () => {
 
   return (
     <div className="grid items-center h-full justify-center">
-      <div className="grid bg-white p-[1.5rem] rounded-[24px] lg:w-[420px] w-[calc(100vw-2rem)]">
+      <div className="grid p-[1.5rem] rounded-[24px] lg:w-[500px] w-[calc(100vw-2rem)]">
         <Form className="grid gap-[1.5rem]">
-          <div className="text-center grid gap-2">
+          <div className="text-center grid gap-3 mb-[0.5rem]">
             <div>
-              <img
+              {/* <img
                 src={LayoutImg}
                 alt="layout"
                 className="w-full mx-auto"
                 loading="lazy"
-              />
-              <h1 className="text-[1.5rem] -mt-4">Welcome back</h1>
+              /> */}
+              <h1 className="text-[1.5rem] font-outfit font-[600] leading-[110%]">
+                Welcome to <span className="text-primary">Marble Legal</span>
+              </h1>
             </div>
-            <h2 className="text-[0.875rem] text-[#888] flex gap-[0.375rem] justify-self-center font-[500]">
-              Don’t Have an account?{" "}
-              <Link to="/register">
-                <Button variant="link">Create one now!</Button>
-              </Link>
-            </h2>
+            <p className="font-[500] text-[0.875rem] text-[#666] leading-[110%]">
+              Sign in to your account
+            </p>
           </div>
           <div className="grid gap-4">
             <FormField
@@ -100,7 +99,7 @@ const LoginFormContent = () => {
               placeholder="Enter your password"
             />
             <div className="flex justify-between">
-              <div className="flex gap-2">
+              {/* <div className="flex gap-2">
                 <Checkbox label="remember" />
                 <label
                   htmlFor="remember"
@@ -108,8 +107,8 @@ const LoginFormContent = () => {
                 >
                   Remember me
                 </label>
-              </div>
-              <Link to="/forgot-password">
+              </div> */}
+              <Link to="/forgot-password" className="ml-auto">
                 <Button
                   variant="link"
                   className="!text-[#888] !font-[500] underline"
@@ -137,6 +136,12 @@ const LoginFormContent = () => {
 
             <SocialLogin onGoogleLogin={handleGoogleLogin} />
           </div>
+          <h2 className="text-[0.875rem] text-[#888] flex gap-[0.375rem] justify-self-center font-[500]">
+            Don’t Have an account?{" "}
+            <Link to="/register">
+              <Button variant="link">Create one now!</Button>
+            </Link>
+          </h2>
         </Form>
       </div>
     </div>

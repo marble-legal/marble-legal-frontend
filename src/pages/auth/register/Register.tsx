@@ -70,27 +70,23 @@ const RegisterFormContent = () => {
 
   return (
     <div className="grid items-center h-full justify-center">
-      <div className="grid bg-white p-[1.5rem] rounded-[24px] lg:w-[420px] w-[calc(100vw-2rem)]">
-        <Form className="grid gap-[1.5rem] mb-[1.5rem]">
-          <div className="text-center grid gap-2">
+      <div className="grid p-[1.5rem] rounded-[24px] lg:w-[500px] w-[calc(100vw-2rem)]">
+        <Form className="grid gap-[1.5rem] mb-[2.25rem]">
+          <div className="text-center grid gap-3 mb-[0.5rem]">
             <div>
-              <img
+              {/* <img
                 src={LayoutImg}
                 alt="layout"
                 className="w-full mx-auto"
                 loading="lazy"
-              />
-              <h1 className="text-[1.5rem] -mt-4">
-                Welcome to{" "}
-                <span className="text-primary font-[700]">Marble Legal</span>
+              /> */}
+              <h1 className="text-[1.5rem] font-outfit font-[600] leading-[110%]">
+                Create an account
               </h1>
             </div>
-            <h2 className="text-[0.875rem] text-[#888] flex gap-[0.375rem] justify-self-center font-[500]">
-              Have an account?{" "}
-              <Link to="/login">
-                <Button variant="link">Sign in</Button>
-              </Link>
-            </h2>
+            <p className="font-[500] text-[0.875rem] text-[#666] leading-[110%]">
+              Enter the details below
+            </p>
           </div>
           <div className="grid gap-4">
             <FormField
@@ -136,16 +132,28 @@ const RegisterFormContent = () => {
 
             <SocialLogin onGoogleLogin={handleGoogleLogin} />
           </div>
+          <h2 className="text-[0.875rem] text-[#888] flex gap-[0.375rem] justify-self-center font-[500]">
+            Already have an account?{" "}
+            <Link to="/login">
+              <Button variant="link">Sign in</Button>
+            </Link>
+          </h2>
         </Form>
 
         <div className="text-center">
           <p className="text-[0.875rem] text-[#888]">
             By signing up you agree to our{" "}
-            <Button variant="link" className="underline !font-[500]">
+            <Button
+              variant="link"
+              className="underline !font-[400] text-[#666]"
+            >
               Terms of Service
             </Button>{" "}
             and{" "}
-            <Button variant="link" className="underline !font-[500]">
+            <Button
+              variant="link"
+              className="underline !font-[400] !text-[#666]"
+            >
               Privacy Policy
             </Button>
             .
