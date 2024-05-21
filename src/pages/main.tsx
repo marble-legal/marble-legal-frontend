@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { getUser } from "../helpers/utils";
+import Sidebar from "../components/Sidebar";
 
 function MainApp() {
   return (
     <div className="flex-1 flex flex-col lg:flex-row">
-      {/* <Sidebar /> */}
-      <div className="flex-1 max-h-screen overflow-auto bg-slate-50 lg:pt-0 pt-[3.5rem]">
+      <Sidebar />
+      <div className="flex-1 max-h-screen overflow-auto bg-[#F2F5FB] lg:pt-0 pt-[3.5rem]">
         <Outlet />
       </div>
     </div>

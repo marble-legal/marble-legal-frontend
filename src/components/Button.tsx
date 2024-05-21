@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import Spinner from "./Spinners";
 
-export default function CustomButton({
+export default function Button({
   children,
   onClick,
   className,
@@ -17,11 +17,14 @@ export default function CustomButton({
   disabled?: boolean;
   type?: "button" | "submit" | "reset";
   loading?: boolean;
-  variant?: "primary" | "link";
+  variant?: "primary" | "link" | "ghost";
 }) {
   const variants = {
     primary:
-      "h-10 px-6 py-2 bg-secondaryRed rounded-[10px] flex-col justify-center items-center gap-1.5 inline-flex text-[#FAFAFA] text-[0.875rem] disabled:bg-[#E2E2E2] disabled:text-[#888] transition-all shadow-button focus-visible:outline-secondaryRed focus-visible:ring-[1px] focus-visible:ring-secondaryRed focus-visible:ring-offset-[1px] focus-visible:ring-offset-[1px] disabled:cursor-not-allowed disabled:bg-[#D7D7D7] disabled:shadow-disabledButton disabled:text-[#888]",
+      "px-6 py-3 bg-secondaryRed rounded-[10px] justify-center items-center gap-1.5 inline-flex text-[#FAFAFA] text-[0.875rem] disabled:bg-[#E2E2E2] disabled:text-[#888] transition-all shadow-button focus-visible:outline-secondaryRed focus-visible:ring-[1px] focus-visible:ring-secondaryRed focus-visible:ring-offset-[1px] focus-visible:ring-offset-[1px] disabled:cursor-not-allowed disabled:bg-[#D7D7D7] disabled:shadow-disabledButton disabled:text-[#888]",
+    // ghost like primary but with a transparent background
+    ghost:
+      "px-6 py-3 bg-transparent rounded-[10px] justify-center items-center gap-1.5 inline-flex text-secondaryRed text-[0.875rem] disabled:text-[#888] transition-all shadow-button focus-visible:outline-secondaryRed focus-visible:ring-[1px] focus-visible:ring-secondaryRed focus-visible:ring-offset-[1px] focus-visible:ring-offset-[1px] disabled:cursor-not-allowed disabled:shadow-disabledButton disabled:text-[#888] hover:bg-[#F2F5FB]",
     link: "text-secondaryRed text-[0.875rem] transition-all font-[600] hover:underline",
   };
 
