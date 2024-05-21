@@ -12,7 +12,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       className="w-full lg:h-screen lg:overflow-hidden flex"
       style={{ height: viewportHeight }}
     >
-      <div className="flex-1 lg:block hidden relative bg-[#ACCAB5]">
+      <div className="flex-1 lg:block hidden relative">
         {/* <div className="text-center grid gap-4 mt-32 z-[2] relative">
           <h1 className="text-[2rem] font-[700] absolute top-32 top-1/2 transform -translate-y-1/2 w-full z-[2]">
             Putting the law in your hands
@@ -26,7 +26,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <img
           src={LayoutSvg}
           alt="layout"
-          className="w-full h-[100vh] object-cover absolute left-0 top-0 z-[1] bg-[#D6FEE3]"
+          className="w-auto h-[100vh] object-cover absolute left-0 top-0 z-[1] rounded-[8px]"
           loading="lazy"
         />
       </div>

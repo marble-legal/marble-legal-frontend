@@ -13,7 +13,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const ForgotPasswordForm = () => {
-  const [success, setSuccess] = useState(true);
+  const [success, setSuccess] = useState(false);
 
   return (
     <Layout>

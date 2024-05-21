@@ -22,7 +22,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const ResetPasswordForm = () => {
-  const [success, setSuccess] = useState(true);
+  const [success, setSuccess] = useState(false);
   return (
     <Layout>
       <Formik
