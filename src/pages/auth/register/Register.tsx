@@ -10,7 +10,7 @@ import { SocialLogin } from "../../../components/SocialLogin";
 import LayoutImg from "../../../assets/images/form-header.png";
 
 const validationSchema = Yup.object().shape({
-  name: Yup.string().required("Name is required"),
+  fullName: Yup.string().required("Name is required"),
   email: Yup.string().email("Invalid email").required("Email is required"),
   password: Yup.string()
     .required("Password is required")
@@ -25,6 +25,8 @@ const validationSchema = Yup.object().shape({
 });
 
 const RegisterForm = () => {
+  const navigate = useNavigate();
+
   return (
     <Layout>
       <Formik
@@ -32,7 +34,26 @@ const RegisterForm = () => {
         isInitialValid={false}
         validationSchema={validationSchema}
         onSubmit={(values, actions) => {
-          console.log(values);
+          api
+            .register(values)
+            .then((res) => {
+              actions.setSubmitting(false);
+              actions.resetForm();
+              ShowToast({
+                type: "success",
+                message: "Registration successful",
+              });
+              localStorage.setItem("token", res.data.accessToken);
+              localStorage.setItem("user", JSON.stringify(res.data));
+              navigate("/dashboard");
+            })
+            .catch((err) => {
+              actions.setSubmitting(false);
+              ShowToast({
+                type: "error",
+                message: "There was an error registering.",
+              });
+            });
         }}
       >
         <RegisterFormContent />
@@ -91,7 +112,7 @@ const RegisterFormContent = () => {
           <div className="grid gap-4">
             <FormField
               label="Full name"
-              name="name"
+              name="fullName"
               type="text"
               placeholder="Enter your name"
             />
@@ -145,7 +166,7 @@ const RegisterFormContent = () => {
             By signing up you agree to our{" "}
             <Button
               variant="link"
-              className="underline !font-[400] text-[#666]"
+              className="underline !font-[400] !text-[#666]"
             >
               Terms of Service
             </Button>{" "}

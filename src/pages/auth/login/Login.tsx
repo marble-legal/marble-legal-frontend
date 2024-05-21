@@ -30,6 +30,28 @@ const LoginForm = () => {
         validationSchema={validationSchema}
         onSubmit={(values, actions) => {
           console.log(values);
+          api
+            .login(values)
+            .then((res) => {
+              localStorage.setItem("token", res.data.accessToken);
+              localStorage.setItem("user", JSON.stringify(res.data));
+              actions.setSubmitting(false);
+              actions.resetForm();
+              ShowToast({
+                type: "success",
+                message: "Login successful",
+              });
+              setTimeout(() => {
+                window.location.href = "/dashboard";
+              }, 1000);
+            })
+            .catch((err) => {
+              actions.setSubmitting(false);
+              ShowToast({
+                type: "error",
+                message: "There was an error logging in.",
+              });
+            });
         }}
       >
         <LoginFormContent />

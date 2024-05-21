@@ -7,6 +7,8 @@ import LayoutImg from "../../../assets/images/form-header.png";
 import { useState } from "react";
 import { ReactComponent as SuccessIcon } from "../../../assets/icons/check-mark.svg";
 import CustomButton from "../../../components/Button";
+import { api } from "../../../helpers/api";
+import toast from "react-hot-toast";
 
 const validationSchema = Yup.object().shape({
   password: Yup.string()
@@ -30,7 +32,24 @@ const ResetPasswordForm = () => {
         isInitialValid={false}
         validationSchema={validationSchema}
         onSubmit={(values, actions) => {
-          console.log(values);
+          // update values to include token from query params
+          const resetPasswordToken = new URLSearchParams(
+            window.location.search
+          ).get("token");
+          const updatedValues = { ...values, resetPasswordToken };
+          api
+            .resetPassword(updatedValues)
+            .then(() => {
+              actions.setSubmitting(false);
+              actions.resetForm();
+              toast.success("Password changed successfully");
+              setSuccess(true);
+            })
+            .catch(() => {
+              toast.error("There was an error changing your password");
+              actions.setSubmitting(false);
+              actions.setSubmitting(false);
+            });
         }}
       >
         {success ? <ResetPasswordSuccess /> : <ResetPasswordContent />}

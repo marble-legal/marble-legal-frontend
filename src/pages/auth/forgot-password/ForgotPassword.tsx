@@ -7,6 +7,8 @@ import LayoutImg from "../../../assets/images/form-header.png";
 import { useState } from "react";
 import { ReactComponent as SuccessIcon } from "../../../assets/icons/check-mark.svg";
 import CustomButton from "../../../components/Button";
+import { api } from "../../../helpers/api";
+import toast from "react-hot-toast";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -14,6 +16,7 @@ const validationSchema = Yup.object().shape({
 
 const ForgotPasswordForm = () => {
   const [success, setSuccess] = useState(false);
+  const [email, setEmail] = useState("");
 
   return (
     <Layout>
@@ -22,10 +25,27 @@ const ForgotPasswordForm = () => {
         isInitialValid={false}
         validationSchema={validationSchema}
         onSubmit={(values, actions) => {
-          console.log(values);
+          api
+            .forgotPassword(values)
+            .then(() => {
+              setEmail(values.email); // Save email for success component
+              toast.success("Reset password link sent!");
+              actions.setSubmitting(false);
+              actions.resetForm();
+              setSuccess(true);
+            })
+            .catch(() => {
+              toast.error("There was an error sending the reset password link");
+              actions.setSubmitting(false);
+              actions.setSubmitting(false);
+            });
         }}
       >
-        {success ? <ForgotPasswordSuccess /> : <ForgotPasswordFormContent />}
+        {success ? (
+          <ForgotPasswordSuccess email={email} />
+        ) : (
+          <ForgotPasswordFormContent />
+        )}
       </Formik>
     </Layout>
   );
@@ -81,9 +101,7 @@ const ForgotPasswordFormContent = () => {
   );
 };
 
-const ForgotPasswordSuccess = () => {
-  const { values }: { values: { email: string } } = useFormikContext();
-
+const ForgotPasswordSuccess = ({ email }: { email: string }) => {
   return (
     <div className="grid items-center h-full justify-center">
       <div className="grid p-[1.5rem] rounded-[24px] lg:w-[500px] w-[calc(100vw-2rem)]">
@@ -95,7 +113,7 @@ const ForgotPasswordSuccess = () => {
             </h1>
             <p className="font-[500] text-[0.875rem] text-[#666] leading-[160%] max-w-[420px]">
               Please check your email. We’ve sent a reset password link to your
-              email ‘{values.email}’.
+              email ‘{email}’.
             </p>
           </div>
           <CustomButton className="w-fit mx-auto" onClick={() => {}}>
