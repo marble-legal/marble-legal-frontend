@@ -9,6 +9,7 @@ import { ReactComponent as SuccessIcon } from "../../../assets/icons/check-mark.
 import CustomButton from "../../../components/Button";
 import { api } from "../../../helpers/api";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -102,6 +103,18 @@ const ForgotPasswordFormContent = () => {
 };
 
 const ForgotPasswordSuccess = ({ email }: { email: string }) => {
+  const navigate = useNavigate();
+  const resendForgotPasswordLink = () => {
+    api
+      .forgotPassword({ email })
+      .then(() => {
+        toast.success("Reset password link sent!");
+      })
+      .catch(() => {
+        toast.error("There was an error sending the reset password link");
+      });
+  };
+
   return (
     <div className="grid items-center h-full justify-center">
       <div className="grid p-[1.5rem] rounded-[24px] lg:w-[500px] w-[calc(100vw-2rem)]">
@@ -116,12 +129,21 @@ const ForgotPasswordSuccess = ({ email }: { email: string }) => {
               email ‘{email}’.
             </p>
           </div>
-          <CustomButton className="w-fit mx-auto" onClick={() => {}}>
+          <CustomButton
+            className="w-fit mx-auto"
+            onClick={() => {
+              // Redirect to login
+              navigate("/login");
+            }}
+          >
             Go to login
           </CustomButton>
 
           <h2 className="text-[0.875rem] text-[#888] flex gap-[0.375rem] justify-self-center font-[600]">
-            Didn’t receive a link? <Button variant="link">Resend</Button>
+            Didn’t receive a link?{" "}
+            <Button variant="link" onClick={resendForgotPasswordLink}>
+              Resend
+            </Button>
           </h2>
         </div>
       </div>

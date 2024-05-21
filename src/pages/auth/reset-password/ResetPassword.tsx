@@ -9,6 +9,7 @@ import { ReactComponent as SuccessIcon } from "../../../assets/icons/check-mark.
 import CustomButton from "../../../components/Button";
 import { api } from "../../../helpers/api";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object().shape({
   password: Yup.string()
@@ -115,6 +116,7 @@ const ResetPasswordContent = () => {
 };
 
 const ResetPasswordSuccess = () => {
+  const navigate = useNavigate();
   return (
     <div className="grid items-center h-full justify-center">
       <div className="grid p-[1.5rem] rounded-[24px] lg:w-[500px] w-[calc(100vw-2rem)]">
@@ -128,7 +130,12 @@ const ResetPasswordSuccess = () => {
               Your password has been changed successfully
             </p>
           </div>
-          <CustomButton className="w-fit mx-auto" onClick={() => {}}>
+          <CustomButton
+            className="w-fit mx-auto"
+            onClick={() => {
+              navigate("/login");
+            }}
+          >
             Login
           </CustomButton>
         </div>
