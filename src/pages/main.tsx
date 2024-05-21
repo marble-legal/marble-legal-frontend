@@ -2,13 +2,23 @@ import { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { getUser } from "../helpers/utils";
 import Sidebar from "../components/Sidebar";
+import useViewportHeight from "../helpers/useViewportHeight";
 
 function MainApp() {
+  const vh = useViewportHeight();
+
   return (
     <div className="flex-1 flex flex-col lg:flex-row">
       <Sidebar />
-      <div className="flex-1 max-h-screen overflow-auto bg-[#F2F5FB] lg:pt-0 pt-[3.5rem]">
-        <Outlet />
+      <div className="bg-[white] pl-0 p-3 w-full">
+        <div
+          className="flex-1 overflow-auto bg-[#F2F5FB] lg:pt-0 pt-[3.5rem] rounded-[12px]"
+          style={{
+            height: vh - 24,
+          }}
+        >
+          <Outlet />
+        </div>
       </div>
     </div>
   );
