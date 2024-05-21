@@ -35,7 +35,7 @@ export default function Sidebar() {
   // Desktop Sidebar
   return (
     <div
-      className="lg:flex flex-col h-[100vh] relative hidden min-w-[280px] p-3"
+      className="lg:flex flex-col h-[100vh] relative hidden min-w-[300px] p-3"
       style={{
         // position bottom 0 background image
         backgroundImage: `url(${menuImage})`,
