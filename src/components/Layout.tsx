@@ -26,7 +26,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <img
           src={LayoutSvg}
           alt="layout"
-          className="w-auto h-[100vh] object-cover absolute left-0 top-0 z-[1] rounded-[8px]"
+          className="w-full h-[100vh] object-cover absolute left-0 top-0 z-[1] rounded-[8px]"
           loading="lazy"
         />
       </div>
