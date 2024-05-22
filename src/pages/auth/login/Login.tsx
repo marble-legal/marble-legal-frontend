@@ -77,7 +77,7 @@ const LoginFormContent = () => {
       .then((res) => {
         localStorage.setItem("token", res.data.accessToken);
         localStorage.setItem("user", JSON.stringify(res.data));
-        navigate("/dashboard");
+        navigate("/home");
       })
       .catch((err) => {
         ShowToast({
