@@ -134,8 +134,10 @@ function CustomLink({
       >
         <Icon
           className={clsx({
-            "[&>g>path]:fill-[#64AB7A] [&>path]:fill-[#64AB7A]": isActive,
-            "[&>g>path]:fill-[#666] [&>path]:fill-[#666]": !isActive,
+            "[&>g>path]:fill-[#64AB7A] [&>path]:fill-[#64AB7A] [&>g>g>path]:fill-[#64AB7A]":
+              isActive,
+            "[&>g>path]:fill-[#666] [&>path]:fill-[#666] [&>g>g>path]:fill-[#666]":
+              !isActive,
           })}
         />
         <span
