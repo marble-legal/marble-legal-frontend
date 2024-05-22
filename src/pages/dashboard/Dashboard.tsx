@@ -7,12 +7,13 @@ import { ReactComponent as RegenerateIcon } from "../../assets/icons/regenerate.
 import { EmptyState } from "./components/EmptyState";
 import { Editor } from "./components/Editor";
 import { Message } from "./components/Message";
+import Spinner from "../../components/Spinners";
 
 export default function Dashboard() {
   const [conversation, setConversation] = useState<any[]>([]);
   const [message, setMessage] = useState("");
   const [sending, setSending] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [currentUserMessage, setCurrentUserMessage] = useState("");
   const [currentReply, setCurrentReply] = useState<string>("");
   const [error, setError] = useState("");
@@ -117,10 +118,10 @@ export default function Dashboard() {
       >
         <div
           className={`w-[97%] sm:w-[580px] mx-auto ${
-            isEmpty ? "justify-center" : "justify-start"
+            isEmpty || loading ? "justify-center" : "justify-start"
           } flex-1 flex flex-col pt-4 pb-8`}
         >
-          {!isEmpty && (
+          {!isEmpty && !loading && (
             <div>
               {conversation?.map((item) => (
                 <Message
@@ -160,6 +161,11 @@ export default function Dashboard() {
             </div>
           )}
           {isEmpty && <EmptyState />}
+          {loading && (
+            <div className="[&_circle]:stroke-primary [&_path]:fill-primary h-full flex justify-center items-center">
+              <Spinner />
+            </div>
+          )}
         </div>
       </div>
       <div className="w-[97%] sm:w-[580px] mx-auto mb-4">
