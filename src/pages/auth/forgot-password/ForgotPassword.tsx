@@ -60,7 +60,7 @@ const ForgotPasswordFormContent = () => {
     <div className="grid items-center h-full justify-center relative">
       <Button
         variant="outline"
-        className="absolute top-4 left-0"
+        className="absolute top-4 md:left-0 left-4"
         onClick={() => window.history.back()}
       >
         <div className="gap-1 flex items-center">
