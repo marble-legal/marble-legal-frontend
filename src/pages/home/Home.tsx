@@ -62,7 +62,7 @@ export default function Home() {
         backgroundPosition: " bottom center",
       }}
     >
-      <div>
+      <div className="-mt-[3.125rem]">
         <div className="mb-3 justify-center gap-[1.25rem] grid">
           <div className="relative">
             <img
