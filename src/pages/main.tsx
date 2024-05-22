@@ -14,60 +14,26 @@ import {
 // import { Drawer } from "../components/Drawer";
 import menuImage from "../assets/images/sidebar.png";
 import { ReactComponent as MenuIcon } from "../assets/icons/menu.svg";
+import MobileMenu from "../components/MobileMenu";
 
 function MainApp() {
   const vh = useViewportHeight();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  const toggleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen);
-  };
 
   if (window.innerWidth < 1024) {
     return (
-      <div className="lg:hidden flex">
-        <Drawer direction="left">
-          <div className="w-full [&>button]:w-full [&>button]:p-4 fixed top-0 left-0 bg-[white] z-[9]">
-            <DrawerTrigger>
-              <div className="flex justify-between items-center w-full">
-                <div className="border-[1px] border-solid border-[#E5EFF6] p-2 px-4 rounded-[12px] bg-[#FDFEFD]">
-                  <Link
-                    to="/home"
-                    className="flex font-outfit font-[500] text-[1.125rem] items-center gap-1"
-                  >
-                    <img src={LogoIcon} alt="logo" className="h-[1.875rem]" />
-                    <span>Marble Legal</span>
-                  </Link>
-                </div>
-
-                <div>
-                  <MenuIcon className="w-[1.5rem] h-[1.5rem]" />
-                </div>
-              </div>
-            </DrawerTrigger>
+      <>
+        <MobileMenu />
+        <div className="bg-[white] pl-0 p-3 w-full">
+          <div
+            className="flex-1 overflow-auto bg-[#F2F5FB] lg:pt-0 mt-[5rem] rounded-[12px] mx-4"
+            style={{
+              height: vh - 80,
+            }}
+          >
+            <Outlet />
           </div>
-
-          <DrawerContent className="h-full bg-white !rounded-[0px] p-4">
-            <div className="flex justify-between">
-              <div className="border-[1px] border-solid border-[#E5EFF6] p-4 rounded-[12px] bg-[#FDFEFD] flex justify-between">
-                <Link
-                  to="/home"
-                  className="flex font-outfit font-[500] text-[1.125rem] items-center gap-1"
-                >
-                  <img src={LogoIcon} alt="logo" className="h-[1.875rem]" />
-                  <span>Marble Legal</span>
-                </Link>
-              </div>
-
-              <DrawerClose>
-                <button onClick={toggleDrawer}>
-                  <CloseIcon className="w-[1.5rem] h-[1.5rem] text-slate-500" />
-                </button>
-              </DrawerClose>
-            </div>
-          </DrawerContent>
-        </Drawer>
-      </div>
+        </div>
+      </>
     );
   }
 
