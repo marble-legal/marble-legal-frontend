@@ -4,7 +4,7 @@ import clsx from "clsx";
 interface DropdownItem {
   label: any;
   onClick: () => void; // Renamed to onClick and expects a function accepting no arguments
-  icon: JSX.Element;
+  icon?: JSX.Element;
   className?: string;
 }
 
@@ -13,6 +13,7 @@ interface DropdownProps {
   items: DropdownItem[];
   direction?: "up" | "down" | "left" | "right";
   className?: string;
+  triggerClassName?: string;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -20,6 +21,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   items,
   direction = "down",
   className = "",
+  triggerClassName = "",
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -28,10 +30,10 @@ const Dropdown: React.FC<DropdownProps> = ({
   };
 
   const dropdownClasses = clsx(
-    "origin-top-right absolute mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 !w-full !transition-transform duration-200 ease-out transform",
+    "!min-w-[200px] origin-top-right absolute mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 !w-full !transition-transform duration-200 ease-out transform",
     {
       "bottom-full": direction === "up",
-      "top-full": direction === "down",
+      "top-full right-0": direction === "down",
       "right-full": direction === "left",
       "left-full": direction === "right",
       "scale-95 opacity-0": !isOpen, // initial state
@@ -44,7 +46,10 @@ const Dropdown: React.FC<DropdownProps> = ({
       <div>
         <button
           type="button"
-          className="inline-flex items-center justify-between w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none"
+          className={clsx(
+            "inline-flex items-center justify-between w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none",
+            triggerClassName
+          )}
           onClick={toggleDropdown}
         >
           {label}

@@ -4,6 +4,9 @@ import Register from "./auth/register/Register";
 import { Main } from "./main";
 import ResetPassword from "./auth/reset-password/ResetPassword";
 import ForgotPassword from "./auth/forgot-password/ForgotPassword";
+import Dashboard from "./dashboard/Dashboard";
+import { Initial } from "./initial";
+import Home from "./home/Home";
 
 const RoutesList = () => {
   return (
@@ -14,8 +17,18 @@ const RoutesList = () => {
         <Route path="reset-password" element={<ResetPassword />} />
         <Route path="register" element={<Register />} />
       </Route>
+      <Route element={<Initial />}>
+        <Route path="home" element={<Home />} />
+        <Route
+          index
+          element={
+            // if loggged in redirect to dashboard
+            <Navigate to="/login" />
+          }
+        />
+      </Route>
       <Route element={<Main />}>
-        <Route path="dashboard" element={<div>Dashboard</div>} />
+        <Route path="dashboard" element={<Dashboard />} />
         <Route
           index
           element={

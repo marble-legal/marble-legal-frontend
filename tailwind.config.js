@@ -34,6 +34,8 @@ module.exports = {
           "0px 13px 22.6px 0px rgba(255, 255, 255, 0.10) inset, 0px 0px 0px 2px rgba(255, 255, 255, 0.18) inset",
         disabledButton:
           "0px 13px 22.6px 0px rgba(255, 255, 255, 0.10) inset, 0px 0px 0px 2px rgba(255, 255, 255, 0.18) inset;",
+        dropdown: "0px 4px 8px 0px rgba(78, 137, 137, 0.05)",
+        homeShadow: "5px 8px 24px 0px rgba(68, 72, 161, 0.19)",
       },
     },
   },

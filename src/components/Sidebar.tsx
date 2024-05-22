@@ -124,9 +124,10 @@ function CustomLink({
     <Link to={to}>
       <Button
         className={clsx(
-          "flex flex-row !justify-start gap-2 justify-start px-3 w-full gap-3 items-center",
+          "!p-4 flex flex-row !justify-start gap-2 justify-start px-3 w-full gap-3 items-center",
           {
-            "bg-[#E5F5EA] border-[1px] border-solid border-[#C1D2C5]": isActive,
+            "!bg-[#E5F5EA] border-[1px] border-solid !border-[#C1D2C5]":
+              isActive,
           }
         )}
         variant={isActive ? "primary" : "ghost"}
