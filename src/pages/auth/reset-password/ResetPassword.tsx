@@ -10,6 +10,7 @@ import CustomButton from "../../../components/Button";
 import { api } from "../../../helpers/api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { ReactComponent as ArrowIcon } from "../../../assets/icons/arrow.svg";
 
 const validationSchema = Yup.object().shape({
   password: Yup.string()
@@ -63,7 +64,17 @@ const ResetPasswordContent = () => {
   const { isValid, isSubmitting } = useFormikContext();
 
   return (
-    <div className="grid items-center h-full justify-center">
+    <div className="grid items-center h-full justify-center relative">
+      <Button
+        variant="outline"
+        className="absolute top-4 left-0"
+        onClick={() => window.history.back()}
+      >
+        <div className="gap-1 flex items-center">
+          <ArrowIcon />
+          Back
+        </div>
+      </Button>
       <div className="grid bg-white p-[1.5rem] rounded-[24px] lg:w-[420px] w-[calc(100vw-2rem)]">
         <Form className="grid gap-[1.5rem]">
           <div className="text-center grid gap-3 mb-[0.5rem]">
