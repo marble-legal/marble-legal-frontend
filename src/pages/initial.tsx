@@ -8,9 +8,11 @@ import Dropdown from "../components/Dropdown";
 
 function InitialApp() {
   const vh = useViewportHeight();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.clear();
+    navigate("/login");
   };
 
   const items = [

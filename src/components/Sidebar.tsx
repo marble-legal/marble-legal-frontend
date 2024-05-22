@@ -1,5 +1,5 @@
 import LogoIcon from "../assets/icons/logo.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import clsx from "clsx";
 import Button from "./Button";
 import { ReactComponent as MessageIcon } from "../assets/icons/message-text.svg";
@@ -14,8 +14,11 @@ import menuImage from "../assets/images/sidebar.png";
 import Dropdown from "./Dropdown";
 
 export default function Sidebar() {
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     localStorage.clear();
+    navigate("/login");
   };
 
   const items = [
