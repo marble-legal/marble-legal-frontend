@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import clsx from "clsx";
 
 interface DropdownItem {
@@ -24,10 +24,31 @@ const Dropdown: React.FC<DropdownProps> = ({
   triggerClassName = "",
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setIsOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
   const dropdownClasses = clsx(
     "!min-w-[200px] origin-top-right absolute mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 !w-full !transition-transform duration-200 ease-out transform",
@@ -42,7 +63,10 @@ const Dropdown: React.FC<DropdownProps> = ({
   );
 
   return (
-    <div className={clsx("relative inline-block text-left", className)}>
+    <div
+      className={clsx("relative inline-block text-left", className)}
+      ref={dropdownRef}
+    >
       <div>
         <button
           type="button"
