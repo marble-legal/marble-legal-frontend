@@ -46,7 +46,7 @@ export default function Sidebar() {
     >
       <div className="border-[1px] border-solid border-[#E5EFF6] p-4 rounded-[12px] bg-[#FDFEFD] mb-5">
         <Link
-          to="/dashboard"
+          to="/home"
           className="flex font-outfit font-[500] text-[1.125rem] items-center gap-1"
         >
           <img src={LogoIcon} alt="logo" className="h-[1.875rem]" />

@@ -5,6 +5,7 @@ import { ReactComponent as DocumentIcon } from "../../assets/icons/document-text
 import { ReactComponent as BuildingIcon } from "../../assets/icons/buliding.svg";
 import { ReactComponent as ChevronIcon } from "../../assets/icons/chevron.svg";
 import { ReactComponent as PremiumCrownIcon } from "../../assets/icons/premium-crown.svg";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const items = [
@@ -17,6 +18,7 @@ export default function Home() {
           <MessageIcon className="[&>g>path]:fill-[#986324] [&>path]:fill-[#986324] w-8 h-8" />
         </div>
       ),
+      link: "/dashboard",
     },
     {
       title: "Contract draft generation",
@@ -87,6 +89,7 @@ export default function Home() {
               title={item.title}
               description={item.description}
               icon={item.icon}
+              link={item.link}
             />
           ))}
         </div>
@@ -99,13 +102,18 @@ function Card({
   title,
   description,
   icon,
+  link,
 }: {
   title: string;
   description: string;
   icon: React.ReactNode;
+  link?: string;
 }) {
   return (
-    <div className="bg-[white] p-5 flex-1 min-w-[40%] shadow-homeShadow flex gap-4 rounded-[12px] cursor-pointer">
+    <Link
+      to={link || "home"}
+      className="bg-[white] p-5 flex-1 min-w-[40%] shadow-homeShadow flex gap-4 rounded-[12px] cursor-pointer"
+    >
       <div className="flex justify-center h-fit">{icon}</div>
       <div className="grid gap-2 content-baseline">
         <div className="flex gap-1 items-center">
@@ -116,6 +124,6 @@ function Card({
           {description}
         </p>
       </div>
-    </div>
+    </Link>
   );
 }
