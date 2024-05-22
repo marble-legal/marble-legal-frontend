@@ -107,14 +107,21 @@ export default function Dashboard() {
   console.log(conversation, loading, error);
   const isEmpty = !conversation.length && !loading;
   return (
-    <div className="flex flex-col h-full">
+    <div className="relative flex flex-col h-full">
       <div className="shadow-header px-[1.875rem] py-4">
         <h1 className="font-outfit text-[1.25rem] font-[500]">
           Legal AI assistant
         </h1>
       </div>
       <div
-        className={`w-[100%] flex-1 flex flex-col h-[calc(100vh-150px)] overflow-auto`}
+        style={{
+          background:
+            "linear-gradient(0deg, rgba(242, 245, 251, 0.20) 0%, #F2F5FB 76.09%)",
+        }}
+        className="absolute top-[80px] left-0 right-0 h-[118px]"
+      />
+      <div
+        className={`w-[100%] mt-5 flex-1 flex flex-col h-[calc(100vh-150px)] overflow-auto`}
       >
         <div
           className={`w-[97%] sm:w-[580px] mx-auto ${
