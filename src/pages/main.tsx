@@ -23,9 +23,9 @@ function MainApp() {
     return (
       <>
         <MobileMenu />
-        <div className="bg-[white] pl-0 p-3 w-full">
+        <div className="bg-[white] pl-0 md:p-3 w-full">
           <div
-            className="flex-1 overflow-auto bg-[#F2F5FB] lg:pt-0 mt-[5rem] rounded-[12px] mx-4"
+            className="flex-1 overflow-auto md:bg-[#F2F5FB] lg:pt-0 mt-[5rem] rounded-[12px] mx-4"
             style={{
               height: vh - 80,
             }}

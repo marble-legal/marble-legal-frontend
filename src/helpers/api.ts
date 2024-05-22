@@ -19,4 +19,17 @@ export const api = {
   resetPassword: (data: any) => {
     return apiClient.post("/auth/reset-password", data);
   },
+  askQuery: (data: { message: string }) => {
+    return apiClient.post("/conversations", data);
+  },
+  getAllConversations: () => {
+    return apiClient.get("/conversations");
+  },
+  updateConversation: (
+    conversationId: string,
+    data: { likeStatus: number }
+  ) => {
+    const url = `/conversations/${conversationId}`;
+    return apiClient.patch(url, data);
+  },
 };
