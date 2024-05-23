@@ -49,7 +49,7 @@ const LoginForm = () => {
               actions.setSubmitting(false);
               ShowToast({
                 type: "error",
-                message: "There was an error logging in.",
+                message: "The email or password is incorrect.",
               });
             });
         }}
@@ -82,7 +82,7 @@ const LoginFormContent = () => {
       .catch((err) => {
         ShowToast({
           type: "error",
-          message: "There was an error logging in.",
+          message: "The email or password is incorrect.",
         });
       });
   };

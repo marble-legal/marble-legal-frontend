@@ -10,6 +10,12 @@ export const api = {
   register: (data: any) => {
     return apiClient.post("/auth/register", data);
   },
+  checkEmail: (email: string) => {
+    return apiClient.post(`/auth/validate-field`, {
+      value: email,
+      fieldType: "email",
+    });
+  },
   forgotPassword: (data: any) => {
     return apiClient.post("/auth/forgot-password", {
       email: data.email,

@@ -8,6 +8,8 @@ import FormField from "../../../components/FormField";
 import Button from "../../../components/Button";
 import { SocialLogin } from "../../../components/SocialLogin";
 import LayoutImg from "../../../assets/images/form-header.png";
+import { useEffect, useState } from "react";
+import { useDebounce } from "../../../helpers/useDebounce";
 
 const validationSchema = Yup.object().shape({
   fullName: Yup.string().required("Name is required"),
@@ -63,7 +65,8 @@ const RegisterForm = () => {
 };
 
 const RegisterFormContent = () => {
-  const { isValid, isSubmitting } = useFormikContext();
+  const { isValid, isSubmitting, values, setErrors } = useFormikContext<any>();
+  const [emailCheckComplete, setEmailCheckComplete] = useState(false);
   const navigate = useNavigate();
 
   const handleGoogleLogin = async (response: any) => {
@@ -84,10 +87,29 @@ const RegisterFormContent = () => {
       .catch((err) => {
         ShowToast({
           type: "error",
-          message: "There was an error logging in.",
+          message: "There was an error registering.",
         });
       });
   };
+
+  const debouncedEmail = useDebounce(values?.email, 500);
+
+  useEffect(() => {
+    setEmailCheckComplete(false);
+    setErrors({ email: "Validating email" });
+    if (debouncedEmail) {
+      api
+        .checkEmail(debouncedEmail)
+        .then((res) => {
+          setErrors({ email: "" });
+          setEmailCheckComplete(true);
+        })
+        .catch((err) => {
+          setErrors({ email: "Email already exists" });
+          setEmailCheckComplete(true);
+        });
+    }
+  }, [debouncedEmail]);
 
   return (
     <div className="grid items-center h-full justify-center">
@@ -139,7 +161,7 @@ const RegisterFormContent = () => {
             <Button
               className="w-full"
               type="submit"
-              disabled={!isValid}
+              disabled={!isValid || !emailCheckComplete}
               loading={isSubmitting}
             >
               Sign up
