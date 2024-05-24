@@ -15,7 +15,7 @@ export function Message({
   onLike?: (id: string) => void;
   onDisLike?: (id: string) => void;
 }) {
-  const profileImg = null;
+  const profileImg = "https://randomuser.me/api/portraits/men/32.jpg";
   const [isCopied, setIsCopied] = useState(false);
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -35,7 +35,7 @@ export function Message({
               {profileImg ? (
                 <img
                   className="w-5 h-5"
-                  src="https://via.placeholder.com/20x20"
+                  src="https://randomuser.me/api/portraits/men/32.jpg"
                   alt="user"
                 />
               ) : (
