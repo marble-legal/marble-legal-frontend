@@ -37,23 +37,34 @@ const RegisterForm = () => {
         validationSchema={validationSchema}
         onSubmit={(values, actions) => {
           api
-            .register(values)
-            .then((res) => {
-              actions.setSubmitting(false);
-              actions.resetForm();
-              ShowToast({
-                type: "success",
-                message: "Registration successful",
-              });
-              localStorage.setItem("token", res.data.accessToken);
-              localStorage.setItem("user", JSON.stringify(res.data));
-              navigate("/dashboard");
+            .checkEmail(values.email)
+            .then(() => {
+              api
+                .register(values)
+                .then((res) => {
+                  actions.setSubmitting(false);
+                  actions.resetForm();
+                  ShowToast({
+                    type: "success",
+                    message: "Registration successful",
+                  });
+                  localStorage.setItem("token", res.data.accessToken);
+                  localStorage.setItem("user", JSON.stringify(res.data));
+                  navigate("/dashboard");
+                })
+                .catch(() => {
+                  actions.setSubmitting(false);
+                  ShowToast({
+                    type: "error",
+                    message: "There was an error registering.",
+                  });
+                });
             })
-            .catch((err) => {
+            .catch(() => {
               actions.setSubmitting(false);
               ShowToast({
                 type: "error",
-                message: "There was an error registering.",
+                message: "Email already exists.",
               });
             });
         }}
@@ -65,8 +76,7 @@ const RegisterForm = () => {
 };
 
 const RegisterFormContent = () => {
-  const { isValid, isSubmitting, values, setErrors } = useFormikContext<any>();
-  const [emailCheckComplete, setEmailCheckComplete] = useState(false);
+  const { isValid, isSubmitting } = useFormikContext<any>();
   const navigate = useNavigate();
 
   const handleGoogleLogin = async (response: any) => {
@@ -84,32 +94,13 @@ const RegisterFormContent = () => {
         localStorage.setItem("user", JSON.stringify(res.data));
         navigate("/home");
       })
-      .catch((err) => {
+      .catch(() => {
         ShowToast({
           type: "error",
           message: "There was an error registering.",
         });
       });
   };
-
-  const debouncedEmail = useDebounce(values?.email, 500);
-
-  useEffect(() => {
-    setEmailCheckComplete(false);
-    setErrors({ email: "Validating email" });
-    if (debouncedEmail) {
-      api
-        .checkEmail(debouncedEmail)
-        .then((res) => {
-          setErrors({ email: "" });
-          setEmailCheckComplete(true);
-        })
-        .catch((err) => {
-          setErrors({ email: "Email already exists" });
-          setEmailCheckComplete(true);
-        });
-    }
-  }, [debouncedEmail]);
 
   return (
     <div className="grid items-center h-full justify-center">
@@ -161,7 +152,7 @@ const RegisterFormContent = () => {
             <Button
               className="w-full"
               type="submit"
-              disabled={!isValid || !emailCheckComplete}
+              disabled={!isValid}
               loading={isSubmitting}
             >
               Sign up
