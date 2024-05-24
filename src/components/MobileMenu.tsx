@@ -23,11 +23,14 @@ import { ReactComponent as LogoutIcon } from "../assets/icons/logout.svg";
 import { ReactComponent as ShieldIcon } from "../assets/icons/shield.svg";
 import Dropdown from "./Dropdown";
 import { getUser } from "../helpers/utils";
+import { api } from "../helpers/api";
+import { useQuery } from "@tanstack/react-query";
 
 export default function MobileMenu() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const navigate = useNavigate();
-  const user = getUser();
+  const userId = getUser().id;
+  const { data: user } = useQuery(["user"], () => api.getUser({ id: userId }));
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -134,7 +137,9 @@ export default function MobileMenu() {
                       alt="profile"
                       className="h-8 w-8 rounded-md"
                     />
-                    <span className="text-[0.875rem]">{user.fullName}</span>
+                    <span className="text-[0.875rem]">
+                      {user?.data?.fullName}
+                    </span>
                   </div>
                 }
                 items={items}
