@@ -8,6 +8,7 @@ import { EmptyState } from "./components/EmptyState";
 import { Editor } from "./components/Editor";
 import { Message } from "./components/Message";
 import Spinner from "../../components/Spinners";
+import React from "react";
 
 export default function Dashboard() {
   const [conversation, setConversation] = useState<any[]>([]);
@@ -17,6 +18,7 @@ export default function Dashboard() {
   const [currentUserMessage, setCurrentUserMessage] = useState("");
   const [currentReply, setCurrentReply] = useState<string>("");
   const [error, setError] = useState("");
+  const listRef = React.useRef<HTMLDivElement | null>(null);
 
   const askQuery = async (message: string) => {
     if (!message) return;
@@ -27,7 +29,7 @@ export default function Dashboard() {
       setSending(false);
       if ([200, 201].includes(response.status)) {
         setCurrentReply(response.data.message);
-        fetchConversation();
+        fetchConversation(false);
       }
       console.log(response);
     } catch (error) {
@@ -36,9 +38,9 @@ export default function Dashboard() {
     }
   };
 
-  const fetchConversation = async () => {
+  const fetchConversation = async (shouldSetLoading = true) => {
     try {
-      setLoading(true);
+      shouldSetLoading && setLoading(true);
       const response = await api.getAllConversations();
       console.log(response);
       if ([200, 201].includes(response.status)) {
@@ -104,6 +106,16 @@ export default function Dashboard() {
     fetchConversation();
   }, []);
 
+  useEffect(() => {
+    if (
+      (conversation?.length || currentReply || currentUserMessage) &&
+      listRef.current
+    ) {
+      // scroll to the bottom of the list
+      listRef.current.scrollTop = listRef.current.scrollHeight;
+    }
+  }, [conversation, currentReply, currentUserMessage]);
+
   console.log(conversation, loading, error);
   const isEmpty = !conversation.length && !loading;
   return (
@@ -121,6 +133,7 @@ export default function Dashboard() {
         className="absolute top-[80px] left-0 right-0 h-[118px]"
       />
       <div
+        ref={(e) => (listRef.current = e)}
         className={`w-[100%] mt-5 flex-1 flex flex-col h-[calc(100vh-150px)] overflow-auto`}
       >
         <div
