@@ -12,9 +12,11 @@ import { ReactComponent as ShieldIcon } from "../assets/icons/shield.svg";
 import { ReactComponent as CrownIcon } from "../assets/icons/crown.svg";
 import menuImage from "../assets/images/sidebar.png";
 import Dropdown from "./Dropdown";
+import { getUser } from "../helpers/utils";
 
 export default function Sidebar() {
   const navigate = useNavigate();
+  const user = getUser();
 
   const handleLogout = () => {
     localStorage.clear();
@@ -97,7 +99,7 @@ export default function Sidebar() {
                   alt="profile"
                   className="h-8 w-8 rounded-md"
                 />
-                <span className="text-[1rem]">John</span>
+                <span className="text-[1rem]">{user.fullName}</span>
               </div>
             }
             items={items}

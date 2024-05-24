@@ -38,4 +38,7 @@ export const api = {
     const url = `/conversations/${conversationId}`;
     return apiClient.patch(url, data);
   },
+  getUser: ({ id }: { id: string }) => {
+    return apiClient.get(`/users/${id}`);
+  },
 };
