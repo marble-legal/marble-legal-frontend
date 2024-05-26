@@ -7,6 +7,7 @@ import ForgotPassword from "./auth/forgot-password/ForgotPassword";
 import Dashboard from "./dashboard/Dashboard";
 import { Initial } from "./initial";
 import Home from "./home/Home";
+import ContractAnalysis from "./contract-analysis/ContractAnalysis";
 
 const RoutesList = () => {
   return (
@@ -29,6 +30,7 @@ const RoutesList = () => {
       </Route>
       <Route element={<Main />}>
         <Route path="dashboard" element={<Dashboard />} />
+        <Route path="contracts" element={<ContractAnalysis />} />
         <Route
           index
           element={

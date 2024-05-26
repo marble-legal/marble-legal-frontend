@@ -122,7 +122,7 @@ export default function Dashboard() {
   const isEmpty = !conversation.length && !loading;
   return (
     <div className="relative flex flex-col h-full">
-      <div className="shadow-header px-[1.875rem] py-4">
+      <div className="shadow-header px-[1.875rem] py-4 border-b-solid border-b-[1px] border-[#DADCE2]">
         <h1 className="font-outfit text-[1.25rem] font-[500]">
           Legal AI assistant
         </h1>
