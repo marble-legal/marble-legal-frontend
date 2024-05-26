@@ -9,6 +9,7 @@ import { Editor } from "./components/Editor";
 import { Message } from "./components/Message";
 import Spinner from "../../components/Spinners";
 import React from "react";
+import { getUser } from "../../helpers/utils";
 
 export default function Dashboard() {
   const [conversation, setConversation] = useState<any[]>([]);
@@ -19,6 +20,7 @@ export default function Dashboard() {
   const [currentReply, setCurrentReply] = useState<string>("");
   const [error, setError] = useState("");
   const listRef = React.useRef<HTMLDivElement | null>(null);
+  const user = getUser();
 
   const askQuery = async (message: string) => {
     if (!message) return;
@@ -41,7 +43,7 @@ export default function Dashboard() {
   const fetchConversation = async (shouldSetLoading = true) => {
     try {
       shouldSetLoading && setLoading(true);
-      const response = await api.getAllConversations();
+      const response = await api.getAllConversations(user.id);
       console.log(response);
       if ([200, 201].includes(response.status)) {
         setCurrentUserMessage("");

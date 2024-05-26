@@ -28,8 +28,8 @@ export const api = {
   askQuery: (data: { message: string }) => {
     return apiClient.post("/conversations", data);
   },
-  getAllConversations: () => {
-    return apiClient.get("/conversations");
+  getAllConversations: (userId: string) => {
+    return apiClient.get(`/conversations?userId=${userId}`);
   },
   updateConversation: (
     conversationId: string,

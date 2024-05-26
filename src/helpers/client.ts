@@ -1,5 +1,6 @@
 import axios from "axios";
 import toast from "react-hot-toast";
+import { clearTokenAndUser } from "./utils";
 // import { getToken } from "helpers/utils/auth-provider";
 
 const apiURLEndpoint = process.env.REACT_APP_API_URL;
@@ -9,6 +10,7 @@ const onResponseError = (error: any) => {
   if (error.response?.status === 401 && !error.config.url.includes("login")) {
     // handle unauthorized
     toast.error("Session expired. Please login again.");
+    clearTokenAndUser();
     setTimeout(() => {
       window.location.replace("/");
     }, 1000);
