@@ -47,9 +47,13 @@ const ResetPasswordForm = () => {
               toast.success("Password changed successfully");
               setSuccess(true);
             })
-            .catch(() => {
-              toast.error("There was an error changing your password");
-              actions.setSubmitting(false);
+            .catch((err) => {
+              console.log(err);
+              toast.error(
+                err.response?.data?.message ||
+                  "There was an error changing your password"
+              );
+
               actions.setSubmitting(false);
             });
         }}

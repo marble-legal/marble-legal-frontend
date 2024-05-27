@@ -36,9 +36,13 @@ const ForgotPasswordForm = () => {
               actions.resetForm();
               setSuccess(true);
             })
-            .catch(() => {
-              toast.error("There was an error sending the reset password link");
-              actions.setSubmitting(false);
+            .catch((err) => {
+              console.log(err);
+              toast.error(
+                err.response?.data?.message ||
+                  "There was an error sending the reset password link"
+              );
+
               actions.setSubmitting(false);
             });
         }}
