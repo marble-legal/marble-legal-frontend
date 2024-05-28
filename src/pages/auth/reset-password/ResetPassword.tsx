@@ -91,12 +91,11 @@ const ResetPasswordContent = () => {
                   loading="lazy"
                 />
                 <h1 className="text-[1.5rem] font-outfit font-[600] leading-[110%]">
-                  Forgot your password?
+                  Reset password
                 </h1>
               </div>
               <p className="font-[500] text-[0.875rem] text-[#666] leading-[110%]">
-                Enter your register email below and we’ll send you a link to
-                reset your password
+                Create a new password
               </p>
             </div>
           </div>
@@ -121,7 +120,7 @@ const ResetPasswordContent = () => {
               disabled={!isValid}
               loading={isSubmitting}
             >
-              Recover my account
+              Submit
             </Button>
           </div>
         </Form>
