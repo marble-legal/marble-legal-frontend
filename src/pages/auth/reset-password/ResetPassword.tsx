@@ -27,6 +27,8 @@ const validationSchema = Yup.object().shape({
 
 const ResetPasswordForm = () => {
   const [success, setSuccess] = useState(false);
+  const rt = new URLSearchParams(window.location.search).get("rt");
+
   return (
     <Layout>
       <Formik
@@ -35,10 +37,7 @@ const ResetPasswordForm = () => {
         validationSchema={validationSchema}
         onSubmit={(values, actions) => {
           // update values to include token from query params
-          const resetPasswordToken = new URLSearchParams(
-            window.location.search
-          ).get("token");
-          const updatedValues = { ...values, resetPasswordToken };
+          const updatedValues = { ...values, resetPasswordToken: rt };
           api
             .resetPassword(updatedValues)
             .then(() => {
