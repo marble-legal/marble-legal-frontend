@@ -15,6 +15,7 @@ import {
 import menuImage from "../assets/images/sidebar.png";
 import { ReactComponent as MenuIcon } from "../assets/icons/menu.svg";
 import MobileMenu from "../components/MobileMenu";
+import { ContractAnalysisProvider } from "./contract-analysis/contract-analysis-context";
 
 function MainApp() {
   const vh = useViewportHeight();
@@ -91,9 +92,9 @@ export function Main() {
 
   return (
     // <UserProvider>
-    //   <PraxisCallProvider>
-    <MainApp />
-    //   </PraxisCallProvider>
+    <ContractAnalysisProvider>
+      <MainApp />
+    </ContractAnalysisProvider>
     // </UserProvider>
   );
 }

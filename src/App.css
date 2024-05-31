@@ -43,3 +43,7 @@ textarea::-webkit-resizer {
   box-shadow: none;
   outline: none; */
 }
+
+#react-tiny-popover-container {
+  z-index: 2 !important;
+}

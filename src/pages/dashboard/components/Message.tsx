@@ -10,10 +10,12 @@ export function Message({
   conversation,
   onLike,
   onDisLike,
+  systemMessageClassName = "",
 }: {
   conversation: any;
   onLike?: (id: string) => void;
   onDisLike?: (id: string) => void;
+  systemMessageClassName?: string;
 }) {
   const profileImg = "https://randomuser.me/api/portraits/men/32.jpg";
   const [isCopied, setIsCopied] = useState(false);
@@ -62,7 +64,9 @@ export function Message({
 
   return (
     <div className="relative w-full justify-start items-start gap-1.5 mb-12 sm:mb-8 flex">
-      <div className="pl-4 flex-1 pr-5 py-4 bg-white/70 rounded-lg border border-[#DCDBE8] justify-start items-start gap-3 flex">
+      <div
+        className={`pl-4 flex-1 pr-5 py-4 bg-white/70 rounded-lg border border-[#DCDBE8] justify-start items-start gap-3 flex ${systemMessageClassName}`}
+      >
         <div className="justify-start items-center gap-1.5 flex">
           <div className="w-6 h-6 bg-[rgba(166,189,173,0.27)] rounded justify-center items-center gap-2.5 flex">
             <LogoIcon className="w-5 h-5" />
