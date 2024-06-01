@@ -34,7 +34,7 @@ const Selectable: React.FC<SelectableProps> = ({
       //   }`}
       className={clsx(
         "w-6 h-6 flex items-center justify-center cursor-pointer rounded-md",
-        isChecked ? "bg-green-500" : "bg-gray-300",
+        isChecked ? "bg-[#76BD8C]" : "bg-gray-300",
         readonly && "cursor-not-allowed"
       )}
       onClick={readonly ? undefined : handleToggle}

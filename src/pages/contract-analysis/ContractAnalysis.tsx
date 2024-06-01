@@ -19,11 +19,11 @@ export default function ContractAnalysis() {
     useContractAnalysis() as any;
 
   const handleContractSelect = (contract: any) => {
-    console.log(contract);
+    // console.log(contract);
     setSelectedContract(contract);
   };
 
-  console.log(contractList);
+  // console.log(contractList);
   return (
     <div>
       <div className="shadow-header px-[1.875rem] py-4 flex justify-between border-b-solid border-b-[1px] border-[#DADCE2] items-center">

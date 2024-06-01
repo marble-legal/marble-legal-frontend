@@ -18,14 +18,14 @@ export function UploadContract({ onSuccess }) {
       const formData = new FormData();
       formData.append("file", file);
       api.uploadFile(getUser().id, formData).then((response) => {
-        console.log(response);
+        // console.log(response);
         refetchContractList();
         onSuccess && onSuccess();
         setUploading(false);
       });
     } catch (error) {
       setUploading(false);
-      console.log(error);
+      // console.log(error);
     }
   };
 

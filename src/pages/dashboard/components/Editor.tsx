@@ -4,7 +4,7 @@ import { ReactComponent as ArrowUpIcon } from "../../../assets/icons/arrow-up.sv
 export function Editor({ onSend, isSending }) {
   const [message, setMessage] = useState("");
   const handleSend = () => {
-    console.log("message", message);
+    // console.log("message", message);
     onSend(message);
     setMessage("");
   };

@@ -37,7 +37,7 @@ const ForgotPasswordForm = () => {
               setSuccess(true);
             })
             .catch((err) => {
-              console.log(err);
+              // console.log(err);
               toast.error(
                 err.response?.data?.message ||
                   "There was an error sending the reset password link"

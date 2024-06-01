@@ -116,10 +116,12 @@ const FeatureSpecificPlanModal: React.FC<{
                 </div>
 
                 {/* Desktop */}
-                <Button className="text-lg font-semibold items-center gap-0 md:block hidden">
-                  <span className="text-lg font-bold">$90</span>
+                <Button className="items-center gap-0 md:block hidden">
+                  <span className="text-[1rem] font-[700] tracking-[0.32px]">
+                    $90
+                  </span>
                   <span className="border-l border-white h-7 mx-3 opacity-60"></span>
-                  <span className="text-lg font-medium">
+                  <span className="text-[1rem] font-[500] tracking-[0.32px]">
                     Continue to checkout
                   </span>
                 </Button>
@@ -127,9 +129,11 @@ const FeatureSpecificPlanModal: React.FC<{
             </div>
             {/* Mobile */}
             <Button className="text-lg font-semibold items-center gap-0 md:hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 px-[1.75rem] py-[1.125rem] leading-[1.125rem] md:w-auto w-[90vw] z-60">
-              <span className="text-[1rem] font-[700]">$90</span>
-              <span className="border-l border-white h-[0.875rem] mx-3 opacity-[0.6]"></span>
-              <span className="text-[1rem] font-[500]">
+              <span className="text-[1rem] font-[700] tracking-[0.32px]">
+                $90
+              </span>
+              <span className="border-l border-white h-4 mx-3 opacity-60"></span>
+              <span className="text-[1rem] font-[500] tracking-[0.32px]">
                 Continue to checkout
               </span>
             </Button>

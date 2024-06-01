@@ -33,10 +33,10 @@ export default function Dashboard() {
         setCurrentReply(response.data.message);
         fetchConversation(false);
       }
-      console.log(response);
+      // console.log(response);
     } catch (error) {
       setSending(false);
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -44,7 +44,7 @@ export default function Dashboard() {
     try {
       shouldSetLoading && setLoading(true);
       const response = await api.getAllConversations(user.id);
-      console.log(response);
+      // console.log(response);
       if ([200, 201].includes(response.status)) {
         setCurrentUserMessage("");
         setCurrentReply("");
@@ -69,9 +69,9 @@ export default function Dashboard() {
         });
         setConversation(updatedConversation);
       }
-      console.log(response);
+      // console.log(response);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -89,9 +89,9 @@ export default function Dashboard() {
         });
         setConversation(updatedConversation);
       }
-      console.log(response);
+      // console.log(response);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -118,7 +118,7 @@ export default function Dashboard() {
     }
   }, [conversation, currentReply, currentUserMessage]);
 
-  console.log(conversation, loading, error);
+  // console.log(conversation, loading, error);
   const isEmpty = !conversation.length && !loading;
   return (
     <div className="relative flex flex-col h-full">

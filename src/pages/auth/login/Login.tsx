@@ -29,7 +29,7 @@ const LoginForm = () => {
         isInitialValid={false}
         validationSchema={validationSchema}
         onSubmit={(values, actions) => {
-          console.log(values);
+          // console.log(values);
           api
             .login(values)
             .then((res) => {

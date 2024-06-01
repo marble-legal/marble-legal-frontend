@@ -103,24 +103,28 @@ export default function MobileMenu() {
               activePath="/dashboard"
               Icon={MessageIcon}
               label="Legal AI assistant"
+              toggleDrawer={toggleDrawer}
             />
             <CustomLink
               to="/contracts"
               activePath="/contracts"
               Icon={ContractIcon}
               label="Contract Analysis"
+              toggleDrawer={toggleDrawer}
             />
             <CustomLink
               to="/documents"
               activePath="/documents"
               Icon={DocumentIcon}
               label="Contract draft generation"
+              toggleDrawer={toggleDrawer}
             />
             <CustomLink
               to="/buildings"
               activePath="/buildings"
               Icon={BuildingIcon}
               label="Business Entity formation"
+              toggleDrawer={toggleDrawer}
             />
 
             <div className="absolute bottom-3 w-[calc(100%-24px)]">
@@ -140,7 +144,7 @@ export default function MobileMenu() {
                       alt="profile"
                       className="h-8 w-8 rounded-md"
                     />
-                    <span className="text-[0.875rem]">
+                    <span className="text-[0.875rem] truncate max-w-[120px]">
                       {user?.data?.fullName}
                     </span>
                   </div>
@@ -162,19 +166,26 @@ function CustomLink({
   activePath,
   Icon,
   label,
+  toggleDrawer,
 }: {
   to: string;
   activePath: string;
   Icon: any;
   label: string;
+  toggleDrawer: () => void;
 }) {
   const isActive = window.location.pathname === activePath;
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    toggleDrawer();
+    navigate(to);
+  };
 
   return (
-    <Link to={to}>
+    <button onClick={() => handleNavigate()}>
       <Button
         className={clsx(
-          "!p-4 flex flex-row !justify-start gap-2 justify-start px-3 w-full gap-3 items-center",
+          "!p-4 flex flex-row !justify-start gap-2 justify-start px-3 w-full gap-3 items-center border-[1px] border-transparent",
           {
             "!bg-[#E5F5EA] border-[1px] border-solid !border-[#C1D2C5]":
               isActive,
@@ -199,6 +210,6 @@ function CustomLink({
           {label}
         </span>
       </Button>
-    </Link>
+    </button>
   );
 }

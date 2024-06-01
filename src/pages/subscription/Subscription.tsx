@@ -57,8 +57,8 @@ export default function Subscription() {
           </div>
         </div>
         <div className="flex flex-row flex-wrap lg:w-[950px] max-w-[950px] gap-4">
-          {subscriptions.map((sub) => (
-            <SubscriptionCard data={sub} isAnnual={isAnnual} />
+          {subscriptions.map((sub, index) => (
+            <SubscriptionCard data={sub} isAnnual={isAnnual} key={index} />
           ))}
         </div>
         <div className="mt-[3rem] text-center flex gap-1 justify-center flex flex-row flex-wrap">
@@ -118,8 +118,8 @@ function SubscriptionCard({
       </div>
       <div className="px-6 py-3 text-[0.9375rem] font-[500]">
         <ul className="grid gap-4">
-          {features.map((feature) => (
-            <li className="flex items-center gap-[0.625rem]">
+          {features.map((feature, index) => (
+            <li className="flex items-center gap-[0.625rem]" key={index}>
               <CheckCircleIcon />
               <span>{feature}</span>
             </li>
