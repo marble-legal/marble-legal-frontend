@@ -86,10 +86,13 @@ export default function Sidebar() {
         />
 
         <div className="absolute bottom-3 w-[calc(100%-24px)]">
-          <div className="bg-[#FFF7F7] flex gap-[0.375rem] p-4 font-[500] text-[1rem] justify-center border-[1px] border-solid border-[#F1D6D3] rounded-[10px] mb-[0.625rem] items-center cursor-pointer">
+          <Link
+            to="/subscription"
+            className="bg-[#FFF7F7] flex gap-[0.375rem] p-4 font-[500] text-[1rem] justify-center border-[1px] border-solid border-[#F1D6D3] rounded-[10px] mb-[0.625rem] items-center cursor-pointer"
+          >
             <CrownIcon className="w-[1.5rem] h-[1.5rem]" />
             <span>Upgrade your plan</span>
-          </div>
+          </Link>
           <Dropdown
             label={
               <div className="flex gap-[0.625rem] items-center">

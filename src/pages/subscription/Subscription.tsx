@@ -3,16 +3,22 @@ import HueBG from "../../assets/images/hue.png";
 import ToggleSwitch from "../../components/ToggleSwitch";
 import { useViewportWidth } from "../../helpers/useViewportHeight";
 import clsx from "clsx";
-import { subscriptions } from "../../helpers/consts";
 import { ReactComponent as CheckCircleIcon } from "../../assets/icons/check-circle.svg";
 import Button from "../../components/Button";
+import FeatureSpecificPlanModal from "./FeatureSpecificPlan";
+import { subscriptions } from "../../helpers/consts";
 
 export default function Subscription() {
   const viewWidth = useViewportWidth();
   const [isAnnual, setIsAnnual] = useState(false);
+  const [isFeatureSpecificPlanModalOpen, setIsFeatureSpecificPlanModalOpen] =
+    useState(false);
 
   const handleToggle = () => {
     setIsAnnual(!isAnnual);
+  };
+  const handleFeatureSpecificPlanModal = () => {
+    setIsFeatureSpecificPlanModalOpen(!isFeatureSpecificPlanModalOpen);
   };
 
   return (
@@ -29,6 +35,11 @@ export default function Subscription() {
             }
       }
     >
+      <FeatureSpecificPlanModal
+        isOpen={isFeatureSpecificPlanModalOpen}
+        onClose={handleFeatureSpecificPlanModal}
+      />
+
       <div className="md:-mt-[3.125rem] mt-[3.5rem]">
         <div className="mb-4 justify-center gap-[1.25rem] grid">
           <h1 className="text-center font-[700] text-[1.75rem] font-outfit">
@@ -36,7 +47,7 @@ export default function Subscription() {
           </h1>
         </div>
         <div className="mt-3 mb-[2.5rem] flex flex-col gap-6">
-          <p className="leading-[150%] text-[#888] text-[0.875rem] max-w-[430px] text-center mx-auto">
+          <p className="leading-[150%] text-[#888] text-[0.875rem] max-w-[430px] text-center mx-auto font-[500]">
             Select a plan that fits your needs and enjoy a 7-day free trial.
           </p>
           <div className="flex flex-row gap-[0.625rem] items-center text-[0.75rem] font-[500] px-[1.25rem] py-2 bg-white w-fit mx-auto rounded-full transition-all">
@@ -54,7 +65,11 @@ export default function Subscription() {
           <span className="text-[1.125rem] text-[#666] font-[500]">
             Looking for a plan with specific features?
           </span>
-          <Button variant="link" className="text-[1.125rem] font-[600]">
+          <Button
+            variant="link"
+            className="text-[1.125rem] font-[600]"
+            onClick={handleFeatureSpecificPlanModal}
+          >
             Click here.
           </Button>
         </div>

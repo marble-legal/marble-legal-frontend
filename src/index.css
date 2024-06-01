@@ -10,6 +10,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #fff;
+  caret-color: #b85042;
 }
 
 @media screen and (max-width: 640px) {
