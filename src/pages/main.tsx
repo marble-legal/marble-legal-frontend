@@ -1,30 +1,23 @@
-import { ReactComponent as CloseIcon } from "../assets/icons/x.svg";
-import LogoIcon from "../assets/icons/logo.svg";
 import { useEffect, useState } from "react";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { getUser } from "../helpers/utils";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import useViewportHeight from "../helpers/useViewportHeight";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerTrigger,
-} from "../components/Drawer";
-// import { Drawer } from "../components/Drawer";
-import menuImage from "../assets/images/sidebar.png";
-import { ReactComponent as MenuIcon } from "../assets/icons/menu.svg";
 import MobileMenu from "../components/MobileMenu";
 import { ContractAnalysisProvider } from "./contract-analysis/contract-analysis-context";
 import { AuthProvider } from "../AuthContext";
+import SettingsModal from "../components/Settings";
 
 function MainApp() {
   const vh = useViewportHeight();
+  const [showSettings, setShowSettings] = useState(false);
+  const toggleSettings = () => setShowSettings(!showSettings);
+  console.log(showSettings);
 
   if (window.innerWidth < 1024) {
     return (
       <>
-        <MobileMenu />
+        {showSettings && <SettingsModal onClose={toggleSettings} />}
+        <MobileMenu toggleSettings={toggleSettings} />
         <div className="bg-[white] pl-0 md:p-3 w-full">
           <div
             className="flex-1 overflow-auto md:bg-[#F2F5FB] lg:pt-0 mt-[5rem] rounded-[12px] mx-4"
@@ -41,7 +34,8 @@ function MainApp() {
 
   return (
     <div className="flex-1 flex flex-col lg:flex-row">
-      <Sidebar />
+      {showSettings && <SettingsModal onClose={toggleSettings} />}
+      <Sidebar toggleSettings={toggleSettings} />
       <div className="bg-[white] pl-0 p-3 w-full">
         <div
           className="flex-1 overflow-auto bg-[#F2F5FB] lg:pt-0 pt-[3.5rem] rounded-[12px]"
@@ -60,11 +54,6 @@ export function Main() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // const user = getUser();
-  // const { data: activeSubscription, isLoading } = useQuery(
-  //   ["subscription"],
-  //   () => api.getUserSubscription(user.id)
-  // );
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -81,15 +70,7 @@ export function Main() {
     }
   }, [location]);
 
-  // useEffect(() => {
-  //   // if (isLoading) return;
-  //   if (!activeSubscription?.[0]) {
-  //     navigate("/subscription");
-  //   }
-  // }, [activeSubscription, isLoading, location.pathname, navigate]);
-
   if (!isLoggedIn) return null;
-  // if (isLoading) return null;
 
   return (
     <AuthProvider>

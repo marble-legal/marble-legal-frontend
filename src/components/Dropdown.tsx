@@ -104,7 +104,10 @@ const Dropdown: React.FC<DropdownProps> = ({
             {items.map((item, index) => (
               <button
                 key={index}
-                onClick={item.onClick}
+                onClick={() => {
+                  item.onClick();
+                  toggleDropdown();
+                }}
                 className="text-black font-[500] block px-4 py-2 text-sm hover:bg-gray-100 flex items-center w-full"
                 role="menuitem"
               >

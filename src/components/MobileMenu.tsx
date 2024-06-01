@@ -26,7 +26,11 @@ import { getUser } from "../helpers/utils";
 import { api } from "../helpers/api";
 import { useQuery } from "@tanstack/react-query";
 
-export default function MobileMenu() {
+export default function MobileMenu({
+  toggleSettings,
+}: {
+  toggleSettings: () => void;
+}) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const navigate = useNavigate();
   const userId = getUser().id;
@@ -44,7 +48,7 @@ export default function MobileMenu() {
   const items = [
     {
       label: "Settings",
-      onClick: () => console.log("Settings"),
+      onClick: toggleSettings,
       icon: <SettingsIcon />,
     },
     {

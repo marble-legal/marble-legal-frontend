@@ -14,7 +14,11 @@ import menuImage from "../assets/images/sidebar.png";
 import Dropdown from "./Dropdown";
 import { useAuth } from "../AuthContext";
 
-export default function Sidebar() {
+export default function Sidebar({
+  toggleSettings,
+}: {
+  toggleSettings: () => void;
+}) {
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -26,7 +30,7 @@ export default function Sidebar() {
   const items = [
     {
       label: "Settings",
-      onClick: () => console.log("Settings"),
+      onClick: toggleSettings,
       icon: <SettingsIcon />,
     },
     {
