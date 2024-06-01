@@ -132,7 +132,7 @@ function CustomLink({
     <Link to={to}>
       <Button
         className={clsx(
-          "!p-4 flex flex-row !justify-start gap-2 justify-start px-3 w-full gap-3 items-center",
+          "!p-4 flex flex-row !justify-start gap-2 justify-start px-3 w-full gap-3 items-center border-[1px] border-transparent",
           {
             "!bg-[#E5F5EA] border-[1px] border-solid !border-[#C1D2C5]":
               isActive,
