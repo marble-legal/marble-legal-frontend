@@ -51,7 +51,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   }, [isOpen]);
 
   const dropdownClasses = clsx(
-    "!min-w-[200px] origin-top-right absolute mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 !w-full !transition-transform duration-200 ease-out transform",
+    "z-[999999] !min-w-[200px] origin-top-right absolute mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 !w-full !transition-transform duration-200 ease-out transform",
     {
       "bottom-full": direction === "up",
       "top-full right-0": direction === "down",
