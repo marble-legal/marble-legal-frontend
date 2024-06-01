@@ -6,15 +6,12 @@ import { ReactComponent as NegativeIcon } from "../../assets/icons/negative.svg"
 import { ReactComponent as PlusIcon } from "../../assets/icons/plus.svg";
 import clsx from "clsx";
 import Selectable from "../../components/Selectable";
+import FullScreenModal from "../../components/FullScreenModal";
 
 const FeatureSpecificPlanModal: React.FC<{
   isOpen: boolean;
   onClose: () => void;
 }> = ({ isOpen, onClose }) => {
-  const backdropVariants = {
-    visible: { opacity: 1 },
-    hidden: { opacity: 0 },
-  };
   // buying data
   const [formData, setFormData] = useState({
     assistant: 0,
@@ -22,30 +19,6 @@ const FeatureSpecificPlanModal: React.FC<{
     analysis: 0,
     entity: 0,
   });
-
-  const modalVariants = {
-    hidden: {
-      y: "100vh",
-      // opacity: 0,
-    },
-    visible: {
-      y: 0,
-      // opacity: 1,
-      transition: { type: "tween", duration: 0.25, ease: "linear" },
-    },
-    exit: {
-      y: "100vh",
-      // opacity: 0,
-      transition: { type: "tween", duration: 0.25, ease: "linear" },
-    },
-  };
-
-  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    // Close the modal if the user clicks directly on the backdrop
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
 
   // stop behind scrolling
   if (isOpen) {
@@ -55,92 +28,46 @@ const FeatureSpecificPlanModal: React.FC<{
   }
 
   return (
-    <AnimatePresence mode="wait">
-      {isOpen && (
-        <motion.div
-          className="fixed inset-0 flex bg-gray-900 bg-opacity-50 z-50 pt-12"
-          variants={backdropVariants}
-          initial="hidden"
-          animate="visible"
-          exit="hidden"
-          onClick={handleBackdropClick}
-        >
-          <button
-            onClick={onClose}
-            className="absolute top-4 right-4 text-white hover:text-white/80 z-10 transition-all"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-          <motion.div
-            className="bg-[#F2F5FB] rounded-lg shadow-lg md:p-8 w-full relative z-51"
-            variants={modalVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-          >
-            <div className="overflow-auto h-[calc(100vh-6rem)] p-8">
-              {" "}
-              {/* Adjusted height to account for fixed button */}
-              <div className="md:h-full h-auto items-center content-center text-center flex flex-col gap-[3rem] justify-center">
-                <div className="grid gap-4">
-                  <h2 className="font-outfit text-[2rem] font-[700] leading-[110%]">
-                    Feature specific plan
-                  </h2>
-                  <p className="text-[1rem] font-[500] text-[#666] leading-[150%]">
-                    Select features as per your needs
-                  </p>
-                </div>
+    <FullScreenModal isOpen={isOpen} onClose={onClose}>
+      {/* Adjusted height to account for fixed button */}
+      <div className="md:h-full h-auto items-center content-center text-center flex flex-col gap-[3rem] justify-center">
+        <div className="grid gap-4">
+          <h2 className="font-outfit text-[2rem] font-[700] leading-[110%]">
+            Feature specific plan
+          </h2>
+          <p className="text-[1rem] font-[500] text-[#666] leading-[150%]">
+            Select features as per your needs
+          </p>
+        </div>
 
-                <div className="flex flex-row flex-wrap gap-4">
-                  {featureSpecificPlan.map((data) => (
-                    <Card
-                      key={data.title}
-                      data={data}
-                      formData={formData}
-                      setFormData={setFormData}
-                    />
-                  ))}
-                </div>
+        <div className="flex flex-row flex-wrap gap-4">
+          {featureSpecificPlan.map((data) => (
+            <Card
+              key={data.title}
+              data={data}
+              formData={formData}
+              setFormData={setFormData}
+            />
+          ))}
+        </div>
 
-                {/* Desktop */}
-                <Button className="items-center gap-0 md:block hidden">
-                  <span className="text-[1rem] font-[700] tracking-[0.32px]">
-                    $90
-                  </span>
-                  <span className="border-l border-white h-7 mx-3 opacity-60"></span>
-                  <span className="text-[1rem] font-[500] tracking-[0.32px]">
-                    Continue to checkout
-                  </span>
-                </Button>
-              </div>
-            </div>
-            {/* Mobile */}
-            <Button className="text-lg font-semibold items-center gap-0 md:hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 px-[1.75rem] py-[1.125rem] leading-[1.125rem] md:w-auto w-[90vw] z-60">
-              <span className="text-[1rem] font-[700] tracking-[0.32px]">
-                $90
-              </span>
-              <span className="border-l border-white h-4 mx-3 opacity-60"></span>
-              <span className="text-[1rem] font-[500] tracking-[0.32px]">
-                Continue to checkout
-              </span>
-            </Button>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+        {/* Desktop */}
+        <Button className="items-center gap-0 md:block hidden">
+          <span className="text-[1rem] font-[700] tracking-[0.32px]">$90</span>
+          <span className="border-l border-white h-7 mx-3 opacity-60"></span>
+          <span className="text-[1rem] font-[500] tracking-[0.32px]">
+            Continue to checkout
+          </span>
+        </Button>
+      </div>
+      <Button className="text-lg font-semibold items-center gap-0 md:hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 px-[1.75rem] py-[1.125rem] leading-[1.125rem] md:w-auto w-[90vw] z-60">
+        <span className="text-[1rem] font-[700] tracking-[0.32px]">$90</span>
+        <span className="border-l border-white h-4 mx-3 opacity-60"></span>
+        <span className="text-[1rem] font-[500] tracking-[0.32px]">
+          Continue to checkout
+        </span>
+      </Button>
+    </FullScreenModal>
   );
 };
 
