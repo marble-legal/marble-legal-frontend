@@ -8,6 +8,7 @@ import Dashboard from "./dashboard/Dashboard";
 import { Initial } from "./initial";
 import Home from "./home/Home";
 import ContractAnalysis from "./contract-analysis/ContractAnalysis";
+import Subscription from "./subscription/Subscription";
 
 const RoutesList = () => {
   return (
@@ -20,6 +21,7 @@ const RoutesList = () => {
       </Route>
       <Route element={<Initial />}>
         <Route path="home" element={<Home />} />
+        <Route path="subscription" element={<Subscription />} />
         <Route
           index
           element={
