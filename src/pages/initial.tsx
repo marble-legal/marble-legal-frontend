@@ -6,11 +6,14 @@ import Sidebar from "../components/Sidebar";
 import useViewportHeight from "../helpers/useViewportHeight";
 import Dropdown from "../components/Dropdown";
 import { AuthProvider, useAuth } from "../AuthContext";
+import SettingsModal from "../components/Settings";
 
 function InitialApp() {
   const vh = useViewportHeight();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [showSettings, setShowSettings] = useState(false);
+  const toggleSettings = () => setShowSettings(!showSettings);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -20,7 +23,7 @@ function InitialApp() {
   const items = [
     {
       label: "Settings",
-      onClick: () => console.log("Settings"),
+      onClick: () => toggleSettings(),
     },
     {
       label: "Privacy and policy",
@@ -31,6 +34,7 @@ function InitialApp() {
 
   return (
     <div className="flex-1 flex flex-col lg:flex-row">
+      {showSettings && <SettingsModal onClose={toggleSettings} />}
       <div className="md:bg-[white] bg-[#F2F5FB] md:p-3 w-full">
         <div
           className="flex-1 md:overflow-hidden bg-[#F2F5FB] p-4 md:rounded-[12px] h-full overflow-auto"
