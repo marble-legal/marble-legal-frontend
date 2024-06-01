@@ -203,8 +203,8 @@ function Card({
     >
       <div
         className={clsx(
-          "right-3 top-3 transition-all",
-          isSelected ? "absolute opacity-1" : "hidden opacity-0"
+          "right-3 top-3 transition-all absolute",
+          isSelected ? "absolute opacity-1" : ""
         )}
       >
         <Selectable
