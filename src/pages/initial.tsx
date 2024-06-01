@@ -5,11 +5,12 @@ import { getUser } from "../helpers/utils";
 import Sidebar from "../components/Sidebar";
 import useViewportHeight from "../helpers/useViewportHeight";
 import Dropdown from "../components/Dropdown";
-import { AuthProvider } from "../AuthContext";
+import { AuthProvider, useAuth } from "../AuthContext";
 
 function InitialApp() {
   const vh = useViewportHeight();
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const handleLogout = () => {
     localStorage.clear();
@@ -56,7 +57,7 @@ function InitialApp() {
                     alt="profile"
                     className="h-8 w-8 rounded-full shadow-dropdown"
                   />
-                  <span className="text-[1rem]">John</span>
+                  <span className="text-[1rem]">{user?.fullName}</span>
                 </div>
               }
               items={items}
