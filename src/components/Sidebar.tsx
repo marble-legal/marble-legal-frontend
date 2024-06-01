@@ -102,7 +102,9 @@ export default function Sidebar() {
                   alt="profile"
                   className="h-8 w-8 rounded-md"
                 />
-                <span className="text-[1rem]">{user?.fullName}</span>
+                <span className="text-[1rem] truncate max-w-[120px]">
+                  {user?.fullName}
+                </span>
               </div>
             }
             items={items}

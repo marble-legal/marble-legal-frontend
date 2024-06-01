@@ -57,7 +57,9 @@ function InitialApp() {
                     alt="profile"
                     className="h-8 w-8 rounded-full shadow-dropdown"
                   />
-                  <span className="text-[1rem]">{user?.fullName}</span>
+                  <span className="text-[1rem] truncate max-w-[120px]">
+                    {user?.fullName}
+                  </span>
                 </div>
               }
               items={items}
