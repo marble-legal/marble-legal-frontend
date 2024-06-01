@@ -67,7 +67,7 @@ export default function MobileMenu() {
                   className="flex font-outfit font-[500] text-[1.125rem] items-center gap-1"
                 >
                   <img src={LogoIcon} alt="logo" className="h-[1.875rem]" />
-                  <span>Marble Legal</span>
+                  {/* <span>Marble Legal</span> */}
                 </Link>
               </div>
 
@@ -86,7 +86,7 @@ export default function MobileMenu() {
                 className="flex font-outfit font-[500] text-[1.125rem] items-center gap-1"
               >
                 <img src={LogoIcon} alt="logo" className="h-[1.875rem]" />
-                <span>Marble Legal</span>
+                {/* <span>Marble Legal</span> */}
               </Link>
             </div>
 

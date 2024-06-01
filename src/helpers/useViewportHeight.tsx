@@ -27,4 +27,31 @@ function useViewportHeight() {
   return viewportHeight;
 }
 
+export const useViewportWidth = () => {
+  const [viewportWidth, setViewportWidth] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const vw = Math.max(
+        document.documentElement.clientWidth || 0,
+        window.innerWidth || 0
+      );
+      setViewportWidth(vw);
+    };
+
+    // Initial call to set viewport width
+    handleResize();
+
+    // Listen for window resize events
+    window.addEventListener("resize", handleResize);
+
+    // Cleanup function to remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  return viewportWidth;
+};
+
 export default useViewportHeight;

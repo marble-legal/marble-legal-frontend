@@ -12,14 +12,11 @@ import { ReactComponent as ShieldIcon } from "../assets/icons/shield.svg";
 import { ReactComponent as CrownIcon } from "../assets/icons/crown.svg";
 import menuImage from "../assets/images/sidebar.png";
 import Dropdown from "./Dropdown";
-import { useQuery } from "@tanstack/react-query";
-import { api } from "../helpers/api";
-import { getUser } from "../helpers/utils";
+import { useAuth } from "../AuthContext";
 
 export default function Sidebar() {
   const navigate = useNavigate();
-  const userId = getUser().id;
-  const { data: user } = useQuery(["user"], () => api.getUser({ id: userId }));
+  const { user } = useAuth();
 
   const handleLogout = () => {
     localStorage.clear();
@@ -58,7 +55,7 @@ export default function Sidebar() {
           className="flex font-outfit font-[500] text-[1.125rem] items-center gap-1"
         >
           <img src={LogoIcon} alt="logo" className="h-[1.875rem]" />
-          <span>Marble Legal</span>
+          {/* <span>Marble Legal</span> */}
         </Link>
       </div>
 
@@ -102,7 +99,7 @@ export default function Sidebar() {
                   alt="profile"
                   className="h-8 w-8 rounded-md"
                 />
-                <span className="text-[1rem]">{user?.data?.fullName}</span>
+                <span className="text-[1rem]">{user?.fullName}</span>
               </div>
             }
             items={items}

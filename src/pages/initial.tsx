@@ -5,6 +5,7 @@ import { getUser } from "../helpers/utils";
 import Sidebar from "../components/Sidebar";
 import useViewportHeight from "../helpers/useViewportHeight";
 import Dropdown from "../components/Dropdown";
+import { AuthProvider } from "../AuthContext";
 
 function InitialApp() {
   const vh = useViewportHeight();
@@ -29,12 +30,14 @@ function InitialApp() {
 
   return (
     <div className="flex-1 flex flex-col lg:flex-row">
-      <div className="bg-[white] p-3 w-full">
+      <div className="md:bg-[white] bg-[#F2F5FB] md:p-3 w-full">
         <div
-          className="flex-1 overflow-hidden bg-[#F2F5FB] p-4 rounded-[12px] h-full"
-          style={{
-            height: vh - 24,
-          }}
+          className="flex-1 md:overflow-hidden bg-[#F2F5FB] p-4 md:rounded-[12px] h-full overflow-auto"
+          style={
+            {
+              // height: vh - 24,
+            }
+          }
         >
           <div className="flex justify-between">
             <Link
@@ -42,7 +45,7 @@ function InitialApp() {
               className="flex font-outfit font-[500] text-[1.125rem] items-center gap-1"
             >
               <img src={LogoIcon} alt="logo" className="h-[1.875rem]" />
-              <span>Marble Legal</span>
+              {/* <span>Marble Legal</span> */}
             </Link>
             <Dropdown
               label={
@@ -105,10 +108,8 @@ export function Initial() {
   // if (isLoading) return null;
 
   return (
-    // <UserProvider>
-    //   <PraxisCallProvider>
-    <InitialApp />
-    //   </PraxisCallProvider>
-    // </UserProvider>
+    <AuthProvider>
+      <InitialApp />
+    </AuthProvider>
   );
 }

@@ -6,8 +6,12 @@ import { ReactComponent as BuildingIcon } from "../../assets/icons/buliding.svg"
 import { ReactComponent as ChevronIcon } from "../../assets/icons/chevron.svg";
 import { ReactComponent as PremiumCrownIcon } from "../../assets/icons/premium-crown.svg";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../AuthContext";
+import { useViewportWidth } from "../../helpers/useViewportHeight";
 
 export default function Home() {
+  const { user } = useAuth();
+  const viewWidth = useViewportWidth();
   const items = [
     {
       title: "Legal AI assistant",
@@ -39,6 +43,7 @@ export default function Home() {
           <ContractIcon className="[&>g>path]:fill-[#42B89C] [&>path]:fill-[#42B89C] w-8 h-8" />
         </div>
       ),
+      link: "/contracts",
     },
     {
       title: "Business Entity formation",
@@ -54,15 +59,19 @@ export default function Home() {
 
   return (
     <div
-      className="h-[calc(100%-2rem)] grid items-center justify-center"
-      style={{
-        backgroundImage: `url(${HueBG})`,
-        backgroundSize: "auto",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: " bottom center",
-      }}
+      className="md:h-[calc(100%)] grid items-center justify-center"
+      style={
+        viewWidth < 768
+          ? { padding: "1rem" }
+          : {
+              backgroundImage: `url(${HueBG})`,
+              backgroundSize: "auto",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: " bottom center",
+            }
+      }
     >
-      <div className="-mt-[3.125rem]">
+      <div className="md:-mt-[3.125rem] mt-[3.5rem]">
         <div className="mb-3 justify-center gap-[1.25rem] grid">
           <div className="relative">
             <img
@@ -73,7 +82,7 @@ export default function Home() {
             <PremiumCrownIcon className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full" />
           </div>
           <h1 className="text-center font-[700] text-[1.75rem] font-outfit">
-            Welcome back John!
+            Welcome back {user?.fullName}!
           </h1>
         </div>
         <div className="mt-3 mb-[2.5rem]">
@@ -111,8 +120,8 @@ function Card({
 }) {
   return (
     <Link
-      to={link || "home"}
-      className="bg-[white] p-5 flex-1 min-w-[40%] shadow-homeShadow flex gap-4 rounded-[12px] cursor-pointer"
+      to={link || "/home"}
+      className="bg-[white] p-5 flex-1 md:min-w-[40%] shadow-homeShadow flex gap-4 rounded-[12px] cursor-pointer"
     >
       <div className="flex justify-center h-fit">{icon}</div>
       <div className="grid gap-2 content-baseline">
