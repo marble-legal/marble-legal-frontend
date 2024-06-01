@@ -11,16 +11,16 @@ export function EmptyState() {
         Ask any legal query you have
       </div>
       <div className="flex flex-col gap-2">
-        <div className="p-4 w-[360px] bg-slate-100 rounded-lg border border-gray-300 justify-start items-center flex">
-          <div className="justify-start items-center gap-2 flex">
+        <div className="p-4 lg:w-[360px] bg-slate-100 rounded-lg border border-gray-300 justify-start lg:items-center flex">
+          <div className="justify-start lg:items-center gap-2 flex">
             <MessageText className="w-5 h-5" />
             <div className=" text-black text-sm font-normal leading-tight">
               What steps should I take to form an LLC?
             </div>
           </div>
         </div>
-        <div className="p-4 w-[360px] bg-slate-100 rounded-lg border border-gray-300 justify-start items-center flex">
-          <div className="justify-start items-center gap-2 flex">
+        <div className="p-4 lg:w-[360px] bg-slate-100 rounded-lg border border-gray-300 justify-start lg:items-center flex">
+          <div className="justify-start lg:items-center gap-2 flex">
             <MessageText className="w-5 h-5" />
             <div className=" text-black text-sm font-normal leading-tight">
               How can I protect my intellectual property?

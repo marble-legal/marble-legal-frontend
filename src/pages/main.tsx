@@ -16,15 +16,9 @@ function MainApp() {
   if (window.innerWidth < 1024) {
     return (
       <>
-        {showSettings && <SettingsModal onClose={toggleSettings} />}
-        <MobileMenu toggleSettings={toggleSettings} />
-        <div className="md:bg-[white] pl-0 md:p-3 w-full">
-          <div
-            className="flex-1 overflow-auto md:bg-[#F2F5FB] lg:pt-0 mt-[5rem] rounded-[12px] px-4"
-            style={{
-              height: vh - 80,
-            }}
-          >
+        {/* <MobileMenu /> */}
+        <div className="bg-[white] pl-0 md:p-3 w-full">
+          <div className="flex-1 mt-[62px] lg:mt-0 overflow-auto bg-[#F2F5FB] lg:pt-0 rounded-[12px] lg:mx-4">
             <Outlet />
           </div>
         </div>

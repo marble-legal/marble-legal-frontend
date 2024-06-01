@@ -1,5 +1,5 @@
 import { ReactComponent as CloseIcon } from "../assets/icons/x.svg";
-import LogoIcon from "../assets/icons/logo.svg";
+import LogoIcon from "../assets/icons/lara-logo.svg";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -27,9 +27,9 @@ import { api } from "../helpers/api";
 import { useQuery } from "@tanstack/react-query";
 
 export default function MobileMenu({
-  toggleSettings,
+  renderAction,
 }: {
-  toggleSettings: () => void;
+  renderAction?: JSX.Element;
 }) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const navigate = useNavigate();
@@ -46,11 +46,11 @@ export default function MobileMenu({
   };
 
   const items = [
-    {
-      label: "Settings",
-      onClick: toggleSettings,
-      icon: <SettingsIcon />,
-    },
+    // {
+    //   label: "Settings",
+    //   onClick: toggleSettings,
+    //   icon: <SettingsIcon />,
+    // },
     {
       label: "Privacy and policy",
       onClick: () => console.log("Privacy and policy"),
@@ -62,24 +62,18 @@ export default function MobileMenu({
   return (
     <div className="lg:hidden flex">
       <Drawer direction="left">
-        <div className="w-full [&>button]:w-full [&>button]:p-4 fixed top-0 left-0 bg-[white] z-[9]">
-          <DrawerTrigger>
-            <div className="flex justify-between items-center w-full">
-              <div className="border-[1px] border-solid border-[#E5EFF6] p-2 px-4 rounded-[12px] bg-[#FDFEFD]">
-                <Link
-                  to="/home"
-                  className="flex font-outfit font-[500] text-[1.125rem] items-center gap-1"
-                >
-                  <img src={LogoIcon} alt="logo" className="h-[1.875rem]" />
-                  {/* <span>Marble Legal</span> */}
-                </Link>
-              </div>
-
-              <div>
-                <MenuIcon className="w-[1.5rem] h-[1.5rem]" />
-              </div>
+        <div className="w-full flex justify-between items-center p-3.5 fixed top-0 left-0 bg-[white] z-[9]">
+          <DrawerTrigger className="!w-fit flex-1">
+            <div className=" pl-2">
+              <MenuIcon className="w-[1.5rem] h-[1.5rem]" />
             </div>
           </DrawerTrigger>
+          <div className="flex-1 flex justify-center items-center w-full">
+            <div className="h-[34px] w-[74px]">
+              <img src={LogoIcon} alt="logo" className="h-full w-full" />
+            </div>
+          </div>
+          <div className="flex-1">{renderAction}</div>
         </div>
 
         <DrawerContent className="h-full bg-white !rounded-[0px] p-4">

@@ -30,11 +30,11 @@ export function UploadContract({ onSuccess }) {
   };
 
   return (
-    <div className="h-[calc(100vh-90px)] flex flex-col items-center justify-center gap-4">
+    <div className="h-[calc(100vh-80px)] lg:h-[calc(100vh-90px)] flex flex-col items-center justify-center gap-4">
       <h2 className="text-[1.75rem] font-[700] font-outfit text-center">
         Upload contract
       </h2>
-      <p className="w-[530px] text-center text-[#727272]">
+      <p className="w-[324px] md:w-[400px] lg:w-[530px] text-sm lg:text-base font-medium text-center text-[#727272]">
         Upload existing contracts for detailed analysis and insights on clauses
         and key information.
       </p>
@@ -45,7 +45,7 @@ export function UploadContract({ onSuccess }) {
           }}
         >
           {({ getRootProps, getInputProps }) => (
-            <section className="border-[2px] border-dashed border-[#64B667] bg-[#EDF5EF] p-[3.125rem] rounded-[10px] w-[550px] text-center">
+            <section className="border-[2px] border-dashed border-[#64B667] bg-[#EDF5EF] px-[30px] py-[50px] lg:px-[3.125rem] lg:py-[3.125rem] rounded-[10px] w-[324px] md:w-[400px] lg:w-[550px] text-center">
               <div {...getRootProps()}>
                 <input {...getInputProps()} />
                 <div className="grid gap-3 justify-items-center">

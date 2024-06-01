@@ -22,7 +22,7 @@ function ContractButton({
   selected?: boolean;
 }) {
   const buttonVariants = cva(
-    "flex gap-2 max-w-[296px] p-2 w-full rounded-[8px] items-center transition-all hover:bg-[#ECF1EC]",
+    "flex gap-2 lg:max-w-[296px] p-2 w-full rounded-[8px] items-center transition-all hover:bg-[#ECF1EC]",
     {
       variants: {
         variant: {
@@ -75,7 +75,7 @@ function ContractButton({
 export function ContractList({ list, onSelect, selectedContract }) {
   const [search, setSearch] = useState("");
   return (
-    <div className="bg-white w-full max-w-[316px] lg:w-[316px] flex-[0.5] rounded-[12px] p-2.5">
+    <div className="bg-white w-full lg:max-w-[316px] lg:w-[316px] flex-[0.5] rounded-[12px] lg:p-2.5">
       <h2 className="font-outfit text-[1.25rem] font-[600] px-[1.125rem] pt-1 pb-3">
         Contracts
       </h2>
@@ -83,7 +83,7 @@ export function ContractList({ list, onSelect, selectedContract }) {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
-      <div className="mt-3 flex flex-col gap-2 h-[calc(100vh-300px)] overflow-auto">
+      <div className="mt-3 flex flex-col gap-2 h-[calc(100vh-300px)] lg:h-[calc(100vh-265px)] overflow-auto">
         {filterContracts(list, search)?.map((contract) => (
           <ContractButton
             key={contract.id}

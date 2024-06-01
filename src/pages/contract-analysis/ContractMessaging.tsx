@@ -66,15 +66,15 @@ export function ContractMessaging() {
   const isEmpty = !conversations?.length && !conversationLoading;
 
   return (
-    <div className="relative flex flex-col h-full">
-      <div className="shadow-header flex justify-between items-center px-4 py-[0.875rem] border-b-solid border-b-[1px] border-[#DADCE2]">
+    <div className="relative flex flex-col h-[calc(100vh-110px)] lg:h-full">
+      <div className="shadow-header px-7 flex justify-between items-center md:px-4 py-[0.875rem] border-b-solid border-b-[1px] border-[#DADCE2]">
         <div>
-          <h1 className="font-outfit text-[1rem] font-[600]">
+          <h1 className="max-w-[250px] overflow-hidden whitespace-nowrap text-ellipsis md:max-w-full font-outfit text-[1rem] font-[600]">
             {selectedContract?.title}
           </h1>
         </div>
         <div className="flex items-center gap-2">
-          <div className="text-[#646464] text-[13px] font-normal leading-[14.30px]">
+          <div className="hidden lg:block text-[#646464] text-[13px] font-normal leading-[14.30px]">
             Uploaded on{" "}
             {moment(selectedContract?.createdAt).format("MMM DD, YYYY")}
           </div>
@@ -100,10 +100,10 @@ export function ContractMessaging() {
       />
       <div
         ref={(e) => (listRef.current = e)}
-        className={`w-[100%] mt-5 flex-1 flex flex-col h-[calc(100vh-150px)] overflow-auto`}
+        className={`w-[100%] px-7 mt-5 flex-1 flex flex-col h-[calc(100vh-150px)] overflow-auto`}
       >
         <div
-          className={`w-[97%] sm:w-[580px] mx-auto ${
+          className={`w-full mx-auto ${
             isEmpty || conversationLoading ? "justify-center" : "justify-start"
           } flex-1 flex flex-col pt-4 pb-8`}
         >
@@ -157,7 +157,7 @@ export function ContractMessaging() {
           )}
         </div>
       </div>
-      <div className="w-[97%] mx-auto pb-2.5">
+      <div className="w-full pt-1 lg:pt-0 px-7 mx-auto pb-1 lg:pb-2.5">
         <Editor onSend={askQuery} isSending={sending} />
       </div>
       {deleteConfirm && (

@@ -58,16 +58,22 @@ export function ContractAnalysisProvider({ children }) {
     }
   };
 
-  const fetchContracts = useCallback(async (userId?: string) => {
-    if (!userId) return;
-    try {
-      setLoading(true);
-      const res = await api.getContracts(userId, false);
-      // console.log(res);
-      setLoading(false);
-      setContractList(res.data || []);
-    } catch (e) {}
-  }, []);
+  const fetchContracts = useCallback(
+    async (userId?: string) => {
+      if (!userId) return;
+      try {
+        setLoading(true);
+        const res = await api.getContracts(userId, false);
+        console.log(res);
+        setLoading(false);
+        setContractList(res.data || []);
+        if (!selectedContract && res?.data?.[0]) {
+          setSelectedContract(res.data[0]);
+        }
+      } catch (e) {}
+    },
+    [selectedContract]
+  );
 
   const refetch = async () => {
     if (!user.id) return;

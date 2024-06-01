@@ -10,6 +10,7 @@ import { Message } from "./components/Message";
 import Spinner from "../../components/Spinners";
 import React from "react";
 import { getUser } from "../../helpers/utils";
+import MobileMenu from "../../components/MobileMenu";
 
 export default function Dashboard() {
   const [conversation, setConversation] = useState<any[]>([]);
@@ -121,78 +122,82 @@ export default function Dashboard() {
   // console.log(conversation, loading, error);
   const isEmpty = !conversation.length && !loading;
   return (
-    <div className="relative flex flex-col h-full">
-      <div className="shadow-header px-[1.875rem] py-4 border-b-solid border-b-[1px] border-[#DADCE2]">
-        <h1 className="font-outfit text-[1.25rem] font-[500]">
-          Legal AI assistant
-        </h1>
-      </div>
-      <div
-        style={{
-          background:
-            "linear-gradient(0deg, rgba(242, 245, 251, 0.20) 0%, #F2F5FB 76.09%)",
-        }}
-        className="absolute top-[80px] left-0 right-0 h-[118px]"
-      />
-      <div
-        ref={(e) => (listRef.current = e)}
-        className={`w-[100%] mt-5 flex-1 flex flex-col h-[calc(100vh-150px)] overflow-auto`}
-      >
-        <div
-          className={`w-[97%] sm:w-[580px] mx-auto ${
-            isEmpty || loading ? "justify-center" : "justify-start"
-          } flex-1 flex flex-col pt-4 pb-8`}
-        >
-          {!isEmpty && !loading && (
-            <div>
-              {conversation?.map((item) => (
-                <Message
-                  key={item.id}
-                  conversation={item}
-                  onDisLike={handleDisLike}
-                  onLike={handleLike}
-                />
-              ))}
-              {currentUserMessage && (
-                <Message
-                  key="current-user-message"
-                  conversation={{
-                    message: currentUserMessage,
-                    isUserMessage: true,
-                  }}
-                />
-              )}
-              {currentReply && (
-                <Message
-                  key="current-reply"
-                  conversation={{
-                    message: currentReply,
-                  }}
-                />
-              )}
+    <>
+      <MobileMenu />
 
-              <div className="w-full flex justify-end">
-                <Button
-                  onClick={handleRegenerate}
-                  className="bg-white text-black shadow-[0px_2px_2.3px_0px_rgba(186,207,193,0.20)] border border-[#E6E6E6] rounded-[10px]"
-                >
-                  <RegenerateIcon />
-                  Regenerate
-                </Button>
+      <div className="relative flex flex-col h-[calc(100vh-110px)] lg:h-full">
+        <div className="hidden lg:block shadow-header px-[1.875rem] py-4 border-b-solid border-b-[1px] border-[#DADCE2]">
+          <h1 className="font-outfit text-[1.25rem] font-[500]">
+            Legal AI assistant
+          </h1>
+        </div>
+        <div
+          style={{
+            background:
+              "linear-gradient(0deg, rgba(242, 245, 251, 0.20) 0%, #F2F5FB 76.09%)",
+          }}
+          className="absolute top-[80px] left-0 right-0 h-[118px]"
+        />
+        <div
+          ref={(e) => (listRef.current = e)}
+          className={`w-[100%] mt-5 flex-1 flex flex-col h-[calc(100vh-200px)] overflow-auto`}
+        >
+          <div
+            className={`w-full px-[18px] sm:w-[580px] ${
+              isEmpty || loading ? "justify-center" : "justify-start"
+            } flex-1 flex flex-col pt-4 pb-8`}
+          >
+            {!isEmpty && !loading && (
+              <div>
+                {conversation?.map((item) => (
+                  <Message
+                    key={item.id}
+                    conversation={item}
+                    onDisLike={handleDisLike}
+                    onLike={handleLike}
+                  />
+                ))}
+                {currentUserMessage && (
+                  <Message
+                    key="current-user-message"
+                    conversation={{
+                      message: currentUserMessage,
+                      isUserMessage: true,
+                    }}
+                  />
+                )}
+                {currentReply && (
+                  <Message
+                    key="current-reply"
+                    conversation={{
+                      message: currentReply,
+                    }}
+                  />
+                )}
+
+                <div className="w-full flex justify-end">
+                  <Button
+                    onClick={handleRegenerate}
+                    className="bg-white text-black shadow-[0px_2px_2.3px_0px_rgba(186,207,193,0.20)] border border-[#E6E6E6] rounded-[10px]"
+                  >
+                    <RegenerateIcon />
+                    Regenerate
+                  </Button>
+                </div>
               </div>
-            </div>
-          )}
-          {isEmpty && <EmptyState />}
-          {loading && (
-            <div className="[&_circle]:stroke-primary [&_path]:fill-primary h-full flex justify-center items-center">
-              <Spinner />
-            </div>
-          )}
+            )}
+            {isEmpty && <EmptyState />}
+            {loading && (
+              <div className="[&_circle]:stroke-primary [&_path]:fill-primary h-full flex justify-center items-center">
+                <Spinner />
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="w-full px-[18px] sm:w-[580px] mb-4">
+          <Editor onSend={askQuery} isSending={sending} />
         </div>
       </div>
-      <div className="w-[97%] sm:w-[580px] mx-auto mb-4">
-        <Editor onSend={askQuery} isSending={sending} />
-      </div>
-    </div>
+    </>
   );
 }
