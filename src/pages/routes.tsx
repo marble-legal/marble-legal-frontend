@@ -9,6 +9,7 @@ import { Initial } from "./initial";
 import Home from "./home/Home";
 import ContractAnalysis from "./contract-analysis/ContractAnalysis";
 import Subscription from "./subscription/Subscription";
+import EntityFormation from "./entity-formation/EntityFormation";
 
 const RoutesList = () => {
   return (
@@ -33,6 +34,7 @@ const RoutesList = () => {
       <Route element={<Main />}>
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="contracts" element={<ContractAnalysis />} />
+        <Route path="entity-formation" element={<EntityFormation />} />
         <Route
           index
           element={

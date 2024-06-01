@@ -124,8 +124,8 @@ export default function MobileMenu({
               toggleDrawer={toggleDrawer}
             />
             <CustomLink
-              to="/buildings"
-              activePath="/buildings"
+              to="/entity-formation"
+              activePath="/entity-formation"
               Icon={BuildingIcon}
               label="Business Entity formation"
               toggleDrawer={toggleDrawer}

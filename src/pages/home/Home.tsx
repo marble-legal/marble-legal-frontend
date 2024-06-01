@@ -54,6 +54,7 @@ export default function Home() {
           <BuildingIcon className="[&>g>path]:fill-[#5A42B8] [&>g>g>path]:fill-[#5A42B8] [&>path]:fill-[#5A42B8] w-8 h-8" />
         </div>
       ),
+      link: "/entity-formation",
     },
   ];
 

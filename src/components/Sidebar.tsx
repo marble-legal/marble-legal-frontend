@@ -83,8 +83,8 @@ export default function Sidebar({
           label="Contract draft generation"
         />
         <CustomLink
-          to="/buildings"
-          activePath="/buildings"
+          to="/entity-formation"
+          activePath="/entity-formation"
           Icon={BuildingIcon}
           label="Business Entity formation"
         />
