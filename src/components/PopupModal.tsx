@@ -24,6 +24,7 @@ export function PopupModal({
   shouldStopPropagation?: boolean;
 }) {
   const handleClose = (e) => {
+    console.log("handleClose");
     e.stopPropagation();
     e.preventDefault();
     onClose && onClose();
@@ -44,14 +45,14 @@ export function PopupModal({
 
   return (
     <>
-      <motion.div
-        className={`fixed z-[9] top-0 left-0 right-0 bottom-0 bg-black/40 h-[100vh] ${overlayClassName}`}
-        onClick={handleClose}
-        {...{ ...framerSidebarBackground, exit }}
-      />
       <div className="fixed z-[10] top-0 left-0 right-0 bottom-0 h-[100vh] flex flex-col justify-center">
         <motion.div
-          className={`p-8 bg-white rounded-2xl flex-col gap-6 flex ${contentClassName}`}
+          className={`fixed z-[9] top-0 left-0 right-0 bottom-0 bg-black/40 h-[100vh] ${overlayClassName}`}
+          onClick={handleClose}
+          {...{ ...framerSidebarBackground, exit }}
+        />
+        <motion.div
+          className={`p-8 bg-white rounded-2xl flex-col gap-6 flex z-[10] ${contentClassName}`}
           {...framerSidebarBackground}
           onClick={(e) => {
             if (shouldStopPropagation) {
