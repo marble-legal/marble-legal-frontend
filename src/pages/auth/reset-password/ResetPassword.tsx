@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import { Layout } from "../../../components/Layout";
 import FormField from "../../../components/FormField";
 import Button from "../../../components/Button";
-import LayoutImg from "../../../assets/images/form-header.png";
+import LayoutImg from "../../../assets/images/form-header.svg";
 import { useState } from "react";
 import { ReactComponent as SuccessIcon } from "../../../assets/icons/check-mark.svg";
 import CustomButton from "../../../components/Button";

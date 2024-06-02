@@ -31,7 +31,7 @@ export default function EntityFormation() {
         <Button
           variant="primary"
           className="flex gap-1 px-6 py-3 bg-[#B84242] border-[#B85042] font-[500]"
-          onClick={() => console.log("clicked")}
+          onClick={() => handleOpenDetails()}
         >
           <PlusIcon />
           Form an entity
@@ -76,7 +76,7 @@ export function EntityDetailsCard({
           <BuildingIcon className="[&_path]:fill-[#5A42B8]" />
         </div>
         <div className="flex flex-col gap-3">
-          <span className="font-[500] text-[0.875rem] leading-[110%]">
+          <span className="font-[500] text-[1.125rem] leading-[110%]">
             Visionary Designs LLC
           </span>
           <div className="flex flex-row flex-wrap gap-[1.5rem] md:text-[0.875rem] text-[0.75rem] font-[500] text-[#666]">

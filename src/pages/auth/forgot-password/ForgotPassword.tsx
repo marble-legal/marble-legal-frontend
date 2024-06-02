@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import { Layout } from "../../../components/Layout";
 import FormField from "../../../components/FormField";
 import Button from "../../../components/Button";
-import LayoutImg from "../../../assets/images/form-header.png";
+import LayoutImg from "../../../assets/images/form-header.svg";
 import { useState } from "react";
 import { ReactComponent as SuccessIcon } from "../../../assets/icons/check-mark.svg";
 import CustomButton from "../../../components/Button";
@@ -87,7 +87,7 @@ const ForgotPasswordFormContent = () => {
                   Forgot your password?
                 </h1>
               </div>
-              <p className="font-[500] text-[0.875rem] text-[#666] leading-[110%]">
+              <p className="font-[500] text-[0.875rem] text-[#666] md:leading-[110%] leading-[134%]">
                 Enter your register email below and we’ll send you a link to
                 reset your password
               </p>

@@ -8,7 +8,7 @@ import FormField from "../../../components/FormField";
 import Button from "../../../components/Button";
 import { SocialLogin } from "../../../components/SocialLogin";
 import Checkbox from "../../../components/Checkbox";
-import LayoutImg from "../../../assets/images/form-header.png";
+import LayoutImg from "../../../assets/images/form-header.svg";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),

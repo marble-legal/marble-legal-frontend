@@ -69,9 +69,9 @@ export default function MobileMenu({
             </div>
           </DrawerTrigger>
           <div className="flex-1 flex justify-center items-center w-full">
-            <div className="h-[34px] w-[74px]">
+            <Link to="/home" className="h-[34px] w-[74px]">
               <img src={LogoIcon} alt="logo" className="h-full w-full" />
-            </div>
+            </Link>
           </div>
           <div className="flex-1">{renderAction}</div>
         </div>

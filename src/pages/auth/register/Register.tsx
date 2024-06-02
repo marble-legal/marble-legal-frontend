@@ -7,7 +7,7 @@ import { Layout } from "../../../components/Layout";
 import FormField from "../../../components/FormField";
 import Button from "../../../components/Button";
 import { SocialLogin } from "../../../components/SocialLogin";
-import LayoutImg from "../../../assets/images/form-header.png";
+import LayoutImg from "../../../assets/images/form-header.svg";
 import { useEffect, useState } from "react";
 import { useDebounce } from "../../../helpers/useDebounce";
 
