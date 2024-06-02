@@ -5,10 +5,24 @@ import { ReactComponent as ClockIcon } from "../../assets/icons/clock.svg";
 import { ReactComponent as BIcon } from "../../assets/icons/b.svg";
 import { ReactComponent as LocationIcon } from "../../assets/icons/location.svg";
 import clsx from "clsx";
+import { useState } from "react";
+import EntityDetails from "./EntityDetails";
 
 export default function EntityFormation() {
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [entityData, setEntityData] = useState({} as any);
+  const handleDetailsClose = () => setIsDetailsOpen(false);
+
+  console.log("entityData", isDetailsOpen);
+
+  const handleOpenDetails = () => {
+    setIsDetailsOpen(true);
+    setEntityData({});
+  };
+
   return (
     <div>
+      <EntityDetails isOpen={isDetailsOpen} handleClose={handleDetailsClose} />
       <div className="shadow-header px-[1.875rem] py-4 md:flex justify-between border-b-solid border-b-[1px] border-[#DADCE2] items-center hidden">
         <h1 className="font-outfit text-[1.25rem] font-[500]">
           Contract Analysis
@@ -24,23 +38,39 @@ export default function EntityFormation() {
         </Button>
       </div>
       <div className="py-[1.625rem] flex flex-col gap-[1.375rem] md:px-[1.875rem] px-[1rem]">
-        <Card data={{ status: "Completed" }} />
-        <Card data={{ status: "In-progress" }} />
-        <Card data={{ status: "Refused" }} />
+        <EntityDetailsCard
+          data={{ status: "Completed" }}
+          handleOpenDetails={handleOpenDetails}
+        />
+        <EntityDetailsCard
+          data={{ status: "In-progress" }}
+          handleOpenDetails={handleOpenDetails}
+        />
+        <EntityDetailsCard
+          data={{ status: "Refused" }}
+          handleOpenDetails={handleOpenDetails}
+        />
       </div>
     </div>
   );
 }
 
-function Card({
+export function EntityDetailsCard({
   data: { status },
+  handleOpenDetails,
 }: {
   data: {
     status: string;
   };
+  handleOpenDetails?: () => void;
 }) {
   return (
-    <div className="bg-white p-4 rounded-[12px] shadow-[2px_4px_9px_0px_rgba(107,103,158,0.05)] flex flex-row flex-wrap justify-between items-center">
+    <button
+      className="text-start bg-white p-4 rounded-[12px] shadow-[2px_4px_9px_0px_rgba(107,103,158,0.05)] flex flex-row flex-wrap justify-between items-center w-full"
+      onClick={() => {
+        handleOpenDetails && handleOpenDetails();
+      }}
+    >
       <div className="flex flex-row flex-wrap gap-4">
         <div className="bg-[#F9F6FF] p-3 rounded-[7px] w-fit">
           <BuildingIcon className="[&_path]:fill-[#5A42B8]" />
@@ -83,7 +113,7 @@ function Card({
           <StatusBadge status="Refused" />
         )}
       </div>
-    </div>
+    </button>
   );
 }
 

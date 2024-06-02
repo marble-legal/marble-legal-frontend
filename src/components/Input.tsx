@@ -15,6 +15,8 @@ export default function CustomInput({
   onChange,
   className,
   error,
+  disabled,
+  change,
   ...props
 }: {
   label: string;
@@ -26,8 +28,15 @@ export default function CustomInput({
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
   error?: any;
+  disabled?: boolean;
+  change?: boolean;
 }) {
   const [showPassword, setShowPassword] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(disabled);
+
+  const handleIsDisabled = () => {
+    setIsDisabled((prev) => !prev);
+  };
 
   return (
     <div className={clsx("flex flex-col gap-[0.25rem]", className)}>
@@ -58,8 +67,9 @@ export default function CustomInput({
           placeholder={placeholder}
           onChange={onChange}
           maxLength={40}
+          disabled={isDisabled}
           className={clsx(
-            "bg-transparent w-full rounded-[10px] border-[1px] border-solid border-[#E2E2E2] pl-10 px-4 py-3 text-[0.875rem] font-[500] font-[Inter] focus-visible:outline-none focus-visible:ring-[1px] focus-visible:ring-secondaryGreen focus-visible:ring-ring ring-offset-[1px] disabled:cursor-not-allowed disabled:opacity-50",
+            "bg-transparent w-full rounded-[10px] border-[1px] border-solid border-[#E2E2E2] pl-10 px-4 py-3 text-[0.875rem] font-[500] font-[Inter] focus-visible:outline-none focus-visible:ring-[1px] focus-visible:ring-secondaryGreen focus-visible:ring-ring ring-offset-[1px] disabled:cursor-not-allowed disabled:bg-[#F6F6F6] disabled:text-[#B4B4B4] disabled:border-[#D7D7D7] leading-[18px]",
             { "!focus-visible:!ring-errorRed": error } // Correctly formatted conditional class
           )}
           {...props}
@@ -71,6 +81,15 @@ export default function CustomInput({
             onClick={() => setShowPassword((prev) => !prev)}
           >
             {showPassword ? <ShowIcon /> : <HideIcon />}
+          </button>
+        )}
+        {type === "email" && change && isDisabled && (
+          <button
+            type="button"
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[#B85042] text-[0.75rem] fon-[500]"
+            onClick={handleIsDisabled}
+          >
+            Change
           </button>
         )}
       </div>

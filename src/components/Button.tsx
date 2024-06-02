@@ -21,7 +21,7 @@ export default function Button({
 }) {
   const variants = {
     primary:
-      "px-6 py-3 bg-secondaryRed rounded-[10px] justify-center items-center gap-1.5 inline-flex text-[#FAFAFA] text-[0.875rem] disabled:bg-[#E2E2E2] disabled:text-[#888] transition-all shadow-button focus-visible:outline-secondaryRed focus-visible:ring-[1px] focus-visible:ring-secondaryRed focus-visible:ring-offset-[1px] focus-visible:ring-offset-[1px] disabled:cursor-not-allowed disabled:bg-[#D7D7D7] disabled:shadow-disabledButton disabled:text-[#888]",
+      "px-6 py-3 bg-secondaryRed rounded-[10px] justify-center items-center gap-1.5 inline-flex text-[#FAFAFA] text-[0.875rem] disabled:bg-[#E2E2E2] disabled:text-[#888] transition-all shadow-button focus-visible:outline-secondaryRed focus-visible:ring-[1px] focus-visible:ring-secondaryRed focus-visible:ring-offset-[1px] focus-visible:ring-offset-[1px] disabled:cursor-not-allowed disabled:bg-[#D7D7D7] disabled:shadow-disabledButton disabled:text-[#888] hover:bg-secondaryRed/90",
     // ghost like primary but with a transparent background
     ghost:
       "px-6 py-3 bg-transparent rounded-[10px] justify-center items-center gap-1.5 inline-flex text-secondaryRed text-[0.875rem] disabled:text-[#888] transition-all shadow-button focus-visible:outline-secondaryRed focus-visible:ring-[1px] focus-visible:ring-secondaryRed focus-visible:ring-offset-[1px] focus-visible:ring-offset-[1px] disabled:cursor-not-allowed disabled:shadow-disabledButton disabled:text-[#888] hover:bg-[#F2F5FB]",
