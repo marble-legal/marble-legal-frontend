@@ -73,13 +73,13 @@ const FullScreenModal: React.FC<{
             </svg>
           </button>
           <motion.div
-            className="bg-[#F2F5FB] rounded-lg shadow-lg md:p-8 w-full relative z-51"
+            className="bg-[#F2F5FB] rounded-tl-lg rounded-tr-lg shadow-lg w-full relative z-51 h-[calc(100vh-3rem)] md:p-0 p-4 overflow-auto"
             variants={modalVariants}
             initial="hidden"
             animate="visible"
             exit="exit"
           >
-            <div className="overflow-auto h-[calc(100vh-6rem)] p-8">
+            <div className="">
               {/* Adjusted height to account for fixed button */}
               {children}
             </div>

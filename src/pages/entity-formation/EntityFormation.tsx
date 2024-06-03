@@ -7,6 +7,7 @@ import { ReactComponent as LocationIcon } from "../../assets/icons/location.svg"
 import clsx from "clsx";
 import { useState } from "react";
 import EntityDetails from "./EntityDetails";
+import MobileMenu from "../../components/MobileMenu";
 
 export default function EntityFormation() {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
@@ -22,6 +23,16 @@ export default function EntityFormation() {
 
   return (
     <div>
+      <MobileMenu
+        renderAction={
+          <Button
+            className="!p-2 ml-auto float-end"
+            onClick={() => console.log("clicked")}
+          >
+            <PlusIcon />
+          </Button>
+        }
+      />
       <EntityDetails isOpen={isDetailsOpen} handleClose={handleDetailsClose} />
       <div className="shadow-header px-[1.875rem] py-4 md:flex justify-between border-b-solid border-b-[1px] border-[#DADCE2] items-center hidden">
         <h1 className="font-outfit text-[1.25rem] font-[500]">

@@ -30,7 +30,7 @@ const FeatureSpecificPlanModal: React.FC<{
   return (
     <FullScreenModal isOpen={isOpen} onClose={onClose}>
       {/* Adjusted height to account for fixed button */}
-      <div className="md:h-full h-auto items-center content-center text-center flex flex-col gap-[3rem] justify-center">
+      <div className="md:h-[calc(100vh-3rem)] py-[2rem]  h-auto items-center content-center text-center flex flex-col gap-[3rem] justify-center">
         <div className="grid gap-4">
           <h2 className="font-outfit text-[2rem] font-[700] leading-[110%]">
             Feature specific plan
@@ -60,7 +60,8 @@ const FeatureSpecificPlanModal: React.FC<{
           </span>
         </Button>
       </div>
-      <Button className="text-lg font-semibold items-center gap-0 md:hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 px-[1.75rem] py-[1.125rem] leading-[1.125rem] md:w-auto w-[90vw] z-60">
+      {/* Mobile */}
+      <Button className="text-lg font-semibold items-center gap-0 md:hidden sticky bottom-0 px-[1.75rem] py-[1.125rem] leading-[1.125rem] md:w-auto w-[90vw] z-60">
         <span className="text-[1rem] font-[700] tracking-[0.32px]">$90</span>
         <span className="border-l border-white h-4 mx-3 opacity-60"></span>
         <span className="text-[1rem] font-[500] tracking-[0.32px]">
