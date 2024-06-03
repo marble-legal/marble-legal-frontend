@@ -128,7 +128,7 @@ const DirectorData = [
 function DirectorDetails() {
   return (
     <div className="bg-white p-4 rounded-lg w-full shadow-[2px_4px_9px_0px_rgba(107,103,158,0.05)] flex flex-col gap-4">
-      <h1 className="text-xl font-semibold">Agent information</h1>
+      <h1 className="text-xl font-semibold">Director information</h1>
       {DirectorData.map((director, index) => (
         <DetailsCard key={index} data={director} />
       ))}

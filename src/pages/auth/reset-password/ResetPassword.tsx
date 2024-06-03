@@ -67,7 +67,7 @@ const ResetPasswordContent = () => {
   const { isValid, isSubmitting } = useFormikContext();
 
   return (
-    <div className="grid items-center h-full justify-center relative">
+    <div className="grid items-center h-full justify-center relative bg-white">
       <Button
         variant="outline"
         className="absolute top-4 md:left-0 left-4"
@@ -131,7 +131,7 @@ const ResetPasswordContent = () => {
 const ResetPasswordSuccess = () => {
   const navigate = useNavigate();
   return (
-    <div className="grid items-center h-full justify-center">
+    <div className="grid items-center h-full justify-center bg-white">
       <div className="grid p-[1.5rem] rounded-[24px] lg:w-[500px] w-[calc(100vw-2rem)]">
         <div className="text-center grid gap-[1.5rem] mb-[0.5rem]">
           <SuccessIcon className="mx-auto" />

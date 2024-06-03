@@ -88,7 +88,7 @@ const LoginFormContent = () => {
   };
 
   return (
-    <div className="grid items-center h-full justify-center">
+    <div className="grid items-center h-full justify-center bg-white">
       <div className="grid p-[1.5rem] rounded-[24px] lg:w-[500px] w-[calc(100vw-2rem)]">
         <Form className="grid gap-[1.5rem]">
           <div className="text-center grid gap-3 mb-[0.5rem]">
