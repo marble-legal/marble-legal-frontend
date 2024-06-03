@@ -25,6 +25,7 @@ import Dropdown from "./Dropdown";
 import { getUser } from "../helpers/utils";
 import { api } from "../helpers/api";
 import { useQuery } from "@tanstack/react-query";
+import SettingsModal from "./Settings";
 
 export default function MobileMenu({
   renderAction,
@@ -35,6 +36,11 @@ export default function MobileMenu({
   const navigate = useNavigate();
   const userId = getUser().id;
   const { data: user } = useQuery(["user"], () => api.getUser({ id: userId }));
+  const [showSettings, setShowSettings] = useState(false);
+  const toggleSettings = () => {
+    setShowSettings(!showSettings);
+    setIsDrawerOpen(false);
+  };
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -46,11 +52,11 @@ export default function MobileMenu({
   };
 
   const items = [
-    // {
-    //   label: "Settings",
-    //   onClick: toggleSettings,
-    //   icon: <SettingsIcon />,
-    // },
+    {
+      label: "Settings",
+      onClick: toggleSettings,
+      icon: <SettingsIcon />,
+    },
     {
       label: "Privacy and policy",
       onClick: () => console.log("Privacy and policy"),
@@ -61,9 +67,10 @@ export default function MobileMenu({
 
   return (
     <div className="lg:hidden flex">
-      <Drawer direction="left">
+      {showSettings && <SettingsModal onClose={toggleSettings} />}
+      <Drawer direction="left" open={isDrawerOpen}>
         <div className="w-full flex justify-between items-center p-3.5 fixed top-0 left-0 bg-[white] z-[9]">
-          <DrawerTrigger className="!w-fit flex-1">
+          <DrawerTrigger className="!w-fit flex-1" onClick={toggleDrawer}>
             <div className=" pl-2">
               <MenuIcon className="w-[1.5rem] h-[1.5rem]" />
             </div>
@@ -76,7 +83,10 @@ export default function MobileMenu({
           <div className="flex-1">{renderAction}</div>
         </div>
 
-        <DrawerContent className="h-full bg-white !rounded-[0px] p-4">
+        <DrawerContent
+          className="h-full bg-white !rounded-[0px] p-4"
+          onClose={() => setIsDrawerOpen(false)}
+        >
           <div className="flex justify-between">
             <div className="border-[1px] border-solid border-[#E5EFF6] py-2 px-4 rounded-[12px] bg-[#FDFEFD] flex justify-between">
               <Link

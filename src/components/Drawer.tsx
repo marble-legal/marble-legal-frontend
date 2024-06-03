@@ -21,24 +21,32 @@ const DrawerClose = DrawerPrimitive.Close;
 
 const DrawerOverlay = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Overlay>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>
->(({ className, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay> & {
+    onClose?: () => void;
+  }
+>(({ className, onClose, ...props }, ref) => (
   <DrawerPrimitive.Overlay
     ref={ref}
     className={clsx("overlay fixed inset-0 z-50 bg-black/80", className)}
+    onClick={onClose}
     {...props}
   />
 ));
 DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName;
 
+type DrawerContentProps = React.ComponentPropsWithoutRef<
+  typeof DrawerPrimitive.Content
+> & {
+  overlayClassName?: string;
+  onClose?: () => void;
+};
+
 const DrawerContent = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Content>,
-  React.ComponentPropsWithoutRef<
-    typeof DrawerPrimitive.Content & { overlayClassName?: string }
-  >
->(({ className, children, ...props }, ref) => (
-  <DrawerPortal>
-    <DrawerOverlay />
+  DrawerContentProps
+>(({ className, children, overlayClassName, onClose, ...props }, ref) => (
+  <DrawerPrimitive.Portal>
+    <DrawerOverlay className={overlayClassName} onClose={onClose} />
     <DrawerPrimitive.Content
       ref={ref}
       className={clsx(
@@ -47,10 +55,9 @@ const DrawerContent = React.forwardRef<
       )}
       {...props}
     >
-      {/* <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" /> */}
       {children}
     </DrawerPrimitive.Content>
-  </DrawerPortal>
+  </DrawerPrimitive.Portal>
 ));
 DrawerContent.displayName = "DrawerContent";
 

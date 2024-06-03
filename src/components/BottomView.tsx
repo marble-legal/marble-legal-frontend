@@ -32,6 +32,7 @@ export function BottomView({
     <Drawer direction="bottom" open={open} onClose={onClose}>
       <DrawerContent
         className={`!h-[85vh] bg-white !rounded-[10px] p-4 !w-full ${contentClassName}`}
+        onClose={onClose}
       >
         <div className={`w-full flex flex-col fixed -top-8 ${topbarClassName}`}>
           <div className="flex justify-end px-6">

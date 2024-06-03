@@ -101,15 +101,15 @@ export default function ContractAnalysis() {
           </>
         )}
       </div>
-      {bottomView && (
-        <BottomView open={bottomView} onClose={() => setBottomView(false)}>
-          <ContractList
-            selectedContract={selectedContract}
-            list={contractList}
-            onSelect={handleContractSelect}
-          />
-        </BottomView>
-      )}
+      {/* {bottomView && ( */}
+      <BottomView open={bottomView} onClose={() => setBottomView(false)}>
+        <ContractList
+          selectedContract={selectedContract}
+          list={contractList}
+          onSelect={handleContractSelect}
+        />
+      </BottomView>
+      {/* )} */}
     </>
   );
 }
