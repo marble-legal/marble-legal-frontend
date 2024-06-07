@@ -5,6 +5,7 @@ import { ReactComponent as CopyIcon } from "../../../assets/icons/copy.svg";
 import { ReactComponent as LogoIcon } from "../../../assets/icons/logo.svg";
 
 import { getInitial, getUser } from "../../../helpers/utils";
+import MDEditor from "@uiw/react-md-editor";
 
 export function Message({
   conversation,
@@ -73,8 +74,10 @@ export function Message({
           </div>
         </div>
         <div className="flex-col justify-start items-start gap-3 flex">
-          <div className="opacity-90 text-black text-base font-normal leading-normal">
-            {conversation.message}
+          <div className="opacity-90 text-black text-base font-normal leading-normal [&_.wmde-markdown]:!bg-transparent [&_.wmde-markdown]:!text-black">
+            <MDEditor.Markdown source={conversation.message} />
+
+            {/* {conversation.message} */}
           </div>
         </div>
       </div>

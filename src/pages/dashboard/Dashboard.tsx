@@ -125,7 +125,7 @@ export default function Dashboard() {
     <>
       <MobileMenu />
 
-      <div className="relative flex flex-col h-[calc(100vh-110px)] lg:h-full">
+      <div className="relative flex flex-col h-[calc(100vh-56px)] md:h-[calc(100vh-110px)] lg:h-full">
         <div className="hidden lg:block shadow-header px-[1.875rem] py-4 border-b-solid border-b-[1px] border-[#DADCE2]">
           <h1 className="font-outfit text-[1.25rem] font-[500]">
             Legal AI assistant
@@ -140,7 +140,7 @@ export default function Dashboard() {
         />
         <div
           ref={(e) => (listRef.current = e)}
-          className={`w-[100%] mt-5 flex-1 flex flex-col h-[calc(100vh-200px)] overflow-auto`}
+          className={`w-[100%] mt-5 flex-1 flex flex-col items-center h-[calc(100vh-200px)] overflow-auto`}
         >
           <div
             className={`w-full px-[18px] sm:w-[580px] ${
@@ -194,7 +194,7 @@ export default function Dashboard() {
             )}
           </div>
         </div>
-        <div className="w-full px-[18px] sm:w-[580px] mb-4">
+        <div className="w-full self-center px-[18px] sm:w-[580px] mb-4">
           <Editor onSend={askQuery} isSending={sending} />
         </div>
       </div>
