@@ -106,3 +106,16 @@ export const featureSpecificPlan = [
     input_label: "# of entities you need",
   },
 ];
+
+export const contractTypes = [
+  { value: "Employment", label: "Employment Contracts" },
+  { value: "NDA", label: "Non-Disclosure Agreement" },
+  { value: "Service", label: "Service Agreement" },
+  { value: "Lease", label: "Lease Agreement" },
+  { value: "Partnership", label: "Partnership Agreement" },
+  { value: "Independent", label: "Independent Contractor Agreement" },
+  { value: "Sales", label: "Sales Agreement" },
+  { value: "Licensing", label: "Licensing Agreement" },
+  { value: "Confidentiality", label: "Confidentiality Agreement" },
+  { value: "Consulting", label: "Consulting Agreement" },
+];

@@ -70,4 +70,7 @@ export const api = {
       body: data,
     });
   },
+  createContract: (data: any) => {
+    return apiClient.post("/contracts", data);
+  },
 };

@@ -8,9 +8,11 @@ import clsx from "clsx";
 import { useState } from "react";
 import EntityDetails from "./EntityDetails";
 import MobileMenu from "../../components/MobileMenu";
+import CreateEntity from "./CreateEntity";
 
 export default function EntityFormation() {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const [isCreateEntityOpen, setIsCreateEntityOpen] = useState(false);
   const [entityData, setEntityData] = useState({} as any);
   const handleDetailsClose = () => setIsDetailsOpen(false);
 
@@ -34,6 +36,10 @@ export default function EntityFormation() {
         }
       />
       <EntityDetails isOpen={isDetailsOpen} handleClose={handleDetailsClose} />
+      <CreateEntity
+        isOpen={isCreateEntityOpen}
+        handleClose={() => setIsCreateEntityOpen(false)}
+      />
       <div className="shadow-header px-[1.875rem] py-4 md:flex justify-between border-b-solid border-b-[1px] border-[#DADCE2] items-center hidden">
         <h1 className="font-outfit text-[1.25rem] font-[500]">
           Business Entity formation
@@ -42,7 +48,9 @@ export default function EntityFormation() {
         <Button
           variant="primary"
           className="flex gap-1 px-6 py-3 bg-[#B84242] border-[#B85042] font-[500]"
-          onClick={() => handleOpenDetails()}
+          onClick={() => {
+            setIsCreateEntityOpen(true);
+          }}
         >
           <PlusIcon />
           Form an entity

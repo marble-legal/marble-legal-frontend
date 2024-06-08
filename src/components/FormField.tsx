@@ -1,7 +1,13 @@
 import { useFormikContext } from "formik";
 import Input from "./Input";
 
-export default function FormField({ label, name, type, placeholder }: any) {
+export default function FormField({
+  label,
+  name,
+  type,
+  placeholder,
+  noIcon,
+}: any) {
   const { handleChange, values, errors, touched, setTouched } =
     useFormikContext<any>(); // Provide type 'any' to useFormikContext
 
@@ -20,6 +26,7 @@ export default function FormField({ label, name, type, placeholder }: any) {
       placeholder={placeholder}
       label={label}
       error={touched[name] && errors[name]}
+      noIcon={noIcon}
     />
   );
 }

@@ -45,5 +45,5 @@ textarea::-webkit-resizer {
 }
 
 #react-tiny-popover-container {
-  z-index: 2 !important;
+  z-index: 999 !important;
 }

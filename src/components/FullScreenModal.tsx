@@ -79,7 +79,7 @@ const FullScreenModal: React.FC<{
             animate="visible"
             exit="exit"
           >
-            <div className="">
+            <div className="h-full">
               {/* Adjusted height to account for fixed button */}
               {children}
             </div>
