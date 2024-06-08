@@ -6,16 +6,23 @@ import { ReactComponent as MoreIcon } from "../../assets/icons/more.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/icons/delete.svg";
 import { ReactComponent as DownloadIcon } from "../../assets/icons/download.svg";
 import { ReactComponent as ViewIcon } from "../../assets/icons/view.svg";
+import { ReactComponent as CloseIcon } from "../../assets/icons/x.svg";
+import { ReactComponent as ChevronIcon } from "../../assets/icons/chevron.svg";
 import SearchComponent from "../../components/Search";
 import UIPopover from "../../components/Popover";
+import { PopupModal } from "../../components/PopupModal";
+import { useState } from "react";
+import CustomInput from "../../components/Input";
 
 export default function ContractDraftGeneration() {
-  const handleOpenDetails = () => {
-    console.log("clicked");
-  };
+  const [createDraftModal, setCreateDraftModal] = useState(false);
 
   return (
     <div className="">
+      {createDraftModal && (
+        <CreateDraft onClose={() => setCreateDraftModal(false)} />
+      )}
+
       <div className="shadow-header px-[1.875rem] py-4 md:flex justify-between border-b-solid border-b-[1px] border-[#DADCE2] items-center hidden">
         <h1 className="font-outfit text-[1.25rem] font-[500]">
           Contract draft generation
@@ -28,7 +35,7 @@ export default function ContractDraftGeneration() {
           <Button
             variant="primary"
             className="flex gap-1 px-6 py-3 bg-[#B84242] border-[#B85042] font-[500]"
-            onClick={() => handleOpenDetails()}
+            onClick={() => setCreateDraftModal(true)}
           >
             <PlusIcon />
             Create a contract
@@ -86,7 +93,9 @@ function Card() {
         </div>
       </div>
       <div className="flex flex-row gap-4 items-center">
-        <span>Apr 20,2024</span>
+        <span className="text-[#808080] text-[0.875rem] font-[500]">
+          Apr 20,2024
+        </span>
         <UIPopover
           trigger={
             <div className="cursor-pointer rounded-[6px] border-[1px] border-solid border-[#DDD7D7] hover:border-[#7F7F7F] p-1.5 transition-all">
@@ -155,5 +164,51 @@ const Dropdown = ({ onDelete }) => {
         </li>
       </ul>
     </div>
+  );
+};
+
+const CreateDraft = ({ onClose }: { onClose: () => void }) => {
+  return (
+    <PopupModal
+      //   title="Create a new draft"
+      //   isOpen={true}
+      contentClassName="w-[600px] mx-auto !gap-0"
+      onClose={onClose}
+    >
+      <div className="flex flex-row justify-between items-center">
+        <span className="font-outfit text-[1.25rem] font-[600]">
+          Create a contract draft
+        </span>
+        <CloseIcon className="cursor-pointer" onClick={onClose} />
+      </div>
+      <p className="mt-3 text-[0.9375rem] font-[400] leading-[140%]">
+        Select the type of the contract and summaries your requirements below,
+        make sure to write as much details as you can for accurate results
+      </p>
+      <div className="flex flex-col gap-5 my-6">
+        <label
+          htmlFor="type"
+          className="text-[#030712] text-[0.875rem] font-[Inter] font-[500] font-[Inter] flex flex-col gap-2"
+        >
+          <span>Type of contract</span>
+          <button className="px-4 py-3 flex flex-row justify-between border-[#D7D7D7] border-[1px] border-solid rounded-[10px] items-center">
+            {/* <option value="employment">Employment</option> */}
+            Choose the type <ChevronIcon className="rotate-[90deg]" />
+          </button>
+        </label>
+        <label
+          htmlFor="requirement"
+          className="text-[#030712] text-[0.875rem] font-[Inter] font-[500] font-[Inter] flex flex-col gap-2"
+        >
+          Enter your requirements
+          <textarea
+            id="requirement"
+            className="px-4 py-3 flex flex-row justify-between border-[#D7D7D7] border-[1px] border-solid rounded-[10px] items-center min-h-[150px]"
+            placeholder='e.g. "I need an employment agreement for John Doe as a Software Engineer starting June 1, 2024, with an annual salary of $80,000, paid bi-weekly, including benefits, confidentiality, and a 30-day termination notice.”'
+          />
+        </label>
+      </div>
+      <Button>Generate contract draft</Button>
+    </PopupModal>
   );
 };
