@@ -36,7 +36,7 @@ export default function EntityFormation() {
       <EntityDetails isOpen={isDetailsOpen} handleClose={handleDetailsClose} />
       <div className="shadow-header px-[1.875rem] py-4 md:flex justify-between border-b-solid border-b-[1px] border-[#DADCE2] items-center hidden">
         <h1 className="font-outfit text-[1.25rem] font-[500]">
-          Contract Analysis
+          Business Entity formation
         </h1>
 
         <Button

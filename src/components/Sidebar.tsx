@@ -77,8 +77,8 @@ export default function Sidebar({
           label="Contract Analysis"
         />
         <CustomLink
-          to="/documents"
-          activePath="/documents"
+          to="/draft-generation"
+          activePath="/draft-generation"
           Icon={DocumentIcon}
           label="Contract draft generation"
         />
