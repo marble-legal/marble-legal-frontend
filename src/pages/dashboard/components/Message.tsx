@@ -64,7 +64,7 @@ export function Message({
   }
 
   return (
-    <div className="relative w-full justify-start items-start gap-1.5 mb-12 sm:mb-8 flex">
+    <div className="relative w-full justify-start items-start gap-1.5 mb-12 md:mb-8 flex">
       <div
         className={`pl-4 flex-1 pr-5 py-4 bg-white/70 rounded-lg border border-[#DCDBE8] justify-start items-start gap-3 flex ${systemMessageClassName}`}
       >
@@ -82,7 +82,7 @@ export function Message({
         </div>
       </div>
       {onLike && onDisLike && (
-        <div className="absolute sm:-right-[72px] sm:top-0 right-0 -bottom-6 sm:bottom-0 sm:h-full sm:justify-start sm:items-center gap-2 flex">
+        <div className="absolute md:-right-[72px] md:top-0 right-0 -bottom-6 md:bottom-0 md:h-full md:justify-start md:items-center gap-2 flex">
           <button
             onClick={() => onLike(conversation.id)}
             className="w-4 h-4 rounded justify-center items-center flex"

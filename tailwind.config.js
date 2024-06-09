@@ -5,7 +5,6 @@ module.exports = {
     extend: {
       screens: {
         tall2: { raw: "(min-height: 700px)" },
-        md: { min: "800px" },
       },
       fontFamily: {
         outfit: ["Outfit", "sans-serif"],
@@ -40,5 +39,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/line-clamp")],
 };

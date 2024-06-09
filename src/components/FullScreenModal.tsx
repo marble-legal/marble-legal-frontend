@@ -7,7 +7,16 @@ const FullScreenModal: React.FC<{
   onClose: () => void;
   children: React.ReactNode;
   customContentClassName?: string;
-}> = ({ isOpen, onClose, children, customContentClassName }) => {
+  contentClassName?: string;
+  actionView?: React.ReactNode;
+}> = ({
+  isOpen,
+  onClose,
+  children,
+  customContentClassName,
+  contentClassName = "",
+  actionView = null,
+}) => {
   const backdropVariants = {
     visible: { opacity: 1 },
     hidden: { opacity: 0 },
@@ -48,7 +57,7 @@ const FullScreenModal: React.FC<{
     <AnimatePresence mode="wait">
       {isOpen && (
         <motion.div
-          className="fixed inset-0 flex bg-gray-900 bg-opacity-50 z-50 pt-12"
+          className={`fixed inset-0 flex bg-gray-900 bg-opacity-50 z-50 pt-12 ${contentClassName}`}
           variants={backdropVariants}
           initial="hidden"
           animate="visible"
@@ -74,6 +83,7 @@ const FullScreenModal: React.FC<{
               />
             </svg>
           </button>
+          {actionView}
           <motion.div
             className={clsx(
               `bg-[#F2F5FB] rounded-tl-lg rounded-tr-lg shadow-lg w-full relative z-51 h-[calc(100vh-3rem)] md:p-0 p-4 overflow-auto`,

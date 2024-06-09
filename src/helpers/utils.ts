@@ -110,3 +110,16 @@ export function getInitial(firstName: string, lastName: string) {
     return "";
   }
 }
+
+export function downloadPDF(url: string) {
+  const fileName = url.split("/").pop() || "file.pdf";
+  fetch(url)
+    .then((res) => res.blob())
+    .then((blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fileName;
+      a.click();
+    });
+}

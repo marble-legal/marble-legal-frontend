@@ -2,12 +2,6 @@ import Button from "../../components/Button";
 import { ReactComponent as PlusIcon } from "../../assets/icons/add.svg";
 import { ReactComponent as FiltersIcon } from "../../assets/icons/filters.svg";
 import { ReactComponent as DocumentIcon } from "../../assets/icons/document-text.svg";
-import { ReactComponent as MoreIcon } from "../../assets/icons/more.svg";
-import { ReactComponent as DeleteIcon } from "../../assets/icons/delete.svg";
-import { ReactComponent as DownloadIcon } from "../../assets/icons/download.svg";
-import { ReactComponent as ViewIcon } from "../../assets/icons/view.svg";
-import { ReactComponent as CloseIcon } from "../../assets/icons/x.svg";
-import { ReactComponent as ChevronIcon } from "../../assets/icons/chevron.svg";
 import SearchComponent from "../../components/Search";
 import UIPopover from "../../components/Popover";
 import { PopupModal } from "../../components/PopupModal";
@@ -21,18 +15,21 @@ import { CreateDraftForm } from "./components/CreateDraft";
 import { ContractListItem } from "./components/ContractListItem";
 import { ContractView } from "./components/ContractView";
 import { dummyContent } from "./dummy";
+import { DeleteContractDraftConfirm } from "./components/DeleteContractDraftConfirm";
 
 export default function ContractDraftGeneration() {
   const [createDraftModal, setCreateDraftModal] = useState(false);
-  const rest = useContractGeneration() as any;
+  const { search, setSearch, ...rest } = useContractGeneration() as any;
   const [selectedContract, setSelectedContract] = useState<any>();
+  const [deleteConfirm, setDeleteConfirm] = useState<any>(null);
   console.log(rest);
 
-  const onDelete = (e, contract) => {
-    e.stopPropagation();
-    // setDeleteConfirm(true);
+  const onDelete = (contract) => {
+    setDeleteConfirm(contract);
     // console.log("Delete");
   };
+
+  const handleDelete = async (contract) => {};
 
   const onView = (contract) => {
     setSelectedContract(contract);
@@ -75,12 +72,12 @@ export default function ContractDraftGeneration() {
         </div>
       </div>
 
-      <div className="py-[1.625rem] flex flex-col gap-[1.25rem] md:px-[1.875rem] px-[1rem]">
-        <div className="flex flex-row justify-between items-center">
+      <div className="py-[1.625rem] flex flex-col gap-[1.25rem] ">
+        <div className="flex flex-row justify-between items-center md:px-[1.875rem] px-[1rem]">
           <div className="flex flex-row gap-2.5">
             <SearchComponent
-              onChange={(e) => console.log(e.target.value)}
-              value=""
+              onChange={(e) => setSearch(e.target.value)}
+              value={search}
             />
             <UIPopover
               trigger={
@@ -103,18 +100,45 @@ export default function ContractDraftGeneration() {
               )}
             </UIPopover>
           </div>
-          <span>Total drafts: 36</span>
+          <div className="hidden md:block">
+            <span>Total drafts: {rest?.contractList?.length}</span>
+          </div>
         </div>
-        <div className="flex flex-col gap-4">
+
+        <div className="w-full px-5 md:hidden flex justify-between items-center">
+          <span className="text-black text-sm font-medium leading-none">
+            Total drafts: {rest?.contractList?.length}
+          </span>
+          <span className=" md:hidden text-black/40 text-xs font-medium leading-3">
+            4/20 credits left for this month
+          </span>
+        </div>
+        <div className="h-[calc(100vh-210px)] md:px-[1.875rem] px-[1rem] overflow-auto flex flex-col gap-4">
           {rest.loading && <CardSkeleton />}
-          {rest.contractList?.map((contract: any) => (
-            <ContractListItem
-              contract={contract}
-              key={contract.id}
-              onView={() => onView(contract)}
-              onDelete={(e) => onDelete(e, contract)}
-            />
-          ))}
+          {!rest.loading &&
+            rest.contractList?.map((contract: any) => (
+              <ContractListItem
+                contract={contract}
+                key={contract.id}
+                onView={() => onView(contract)}
+                onDelete={() => onDelete(contract)}
+              />
+            ))}
+          {!rest.loading && rest?.contractList?.length === 0 && (
+            <div className="flex flex-col gap-4 items-center justify-center flex-1 py-16">
+              <h1 className="text-[1.5rem] font-[500] ">
+                No contracts created yet
+              </h1>
+              <Button
+                variant="primary"
+                className="flex gap-1 px-6 py-3 font-[500]"
+                onClick={() => setCreateDraftModal(true)}
+              >
+                <PlusIcon />
+                Create a contract
+              </Button>
+            </div>
+          )}
         </div>
       </div>
       {selectedContract && (
@@ -122,6 +146,16 @@ export default function ContractDraftGeneration() {
           isOpen={!!selectedContract}
           onClose={() => setSelectedContract(null)}
           contract={{ ...selectedContract, content: dummyContent }}
+        />
+      )}
+      {!!deleteConfirm && (
+        <DeleteContractDraftConfirm
+          contract={deleteConfirm}
+          onCancel={() => setDeleteConfirm(null)}
+          onSuccess={() => {
+            setSelectedContract(null);
+            setDeleteConfirm(null);
+          }}
         />
       )}
     </div>

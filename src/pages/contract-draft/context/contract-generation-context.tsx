@@ -5,6 +5,7 @@ import { api } from "../../../helpers/api";
 export const ContractGenerationContext = React.createContext({});
 
 export function ContractGenerationProvider({ children }) {
+  const [search, setSearch] = useState("");
   const [contractList, setContractList] = React.useState<any[] | null>(null);
   const [selectedContract, setSelectedContract] = React.useState<any | null>(
     null
@@ -41,15 +42,25 @@ export function ContractGenerationProvider({ children }) {
     }
   }, [user.id, fetchContracts]);
 
+  const filterContractList = (list, search) => {
+    if (!list) return [];
+    if (!search) return list;
+    return list.filter((item) => {
+      return item?.title?.toLowerCase().includes(search.toLowerCase());
+    });
+  };
+
   console.log({ contractList });
   const values = {
-    contractList,
+    contractList: filterContractList(contractList, search),
     setContractList,
     selectedContract,
     setSelectedContract,
     loading,
     setLoading,
     refetchContractList: refetch,
+    search,
+    setSearch,
   };
 
   return (

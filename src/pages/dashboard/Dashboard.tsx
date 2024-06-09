@@ -143,7 +143,7 @@ export default function Dashboard() {
           className={`w-[100%] mt-5 flex-1 flex flex-col items-center h-[calc(100vh-200px)] overflow-auto`}
         >
           <div
-            className={`w-full px-[18px] sm:w-[580px] ${
+            className={`w-full px-[18px] md:w-[580px] ${
               isEmpty || loading ? "justify-center" : "justify-start"
             } flex-1 flex flex-col pt-4 pb-8`}
           >
@@ -194,7 +194,7 @@ export default function Dashboard() {
             )}
           </div>
         </div>
-        <div className="w-full self-center px-[18px] sm:w-[580px] mb-4">
+        <div className="w-full self-center px-[18px] md:w-[580px] mb-4">
           <Editor onSend={askQuery} isSending={sending} />
         </div>
       </div>
