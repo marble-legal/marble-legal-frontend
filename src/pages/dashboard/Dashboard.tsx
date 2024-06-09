@@ -175,15 +175,17 @@ export default function Dashboard() {
                   />
                 )}
 
-                <div className="w-full flex justify-end">
-                  <Button
-                    onClick={handleRegenerate}
-                    className="bg-white text-black shadow-[0px_2px_2.3px_0px_rgba(186,207,193,0.20)] border border-[#E6E6E6] rounded-[10px]"
-                  >
-                    <RegenerateIcon />
-                    Regenerate
-                  </Button>
-                </div>
+                {!sending && (
+                  <div className="w-full flex justify-end">
+                    <Button
+                      onClick={handleRegenerate}
+                      className="bg-white text-black shadow-[0px_2px_2.3px_0px_rgba(186,207,193,0.20)] border border-[#E6E6E6] rounded-[10px]"
+                    >
+                      <RegenerateIcon />
+                      Regenerate
+                    </Button>
+                  </div>
+                )}
               </div>
             )}
             {isEmpty && <EmptyState />}
