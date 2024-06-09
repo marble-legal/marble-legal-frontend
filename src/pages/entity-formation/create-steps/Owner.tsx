@@ -115,14 +115,12 @@ export function OwnerQuestions({ onBack }: { onBack: () => void }) {
       }}
     >
       {({ values, isValid, setValues }) => (
-        <Form className="w-full h-[calc(100%-48px)] flex flex-col gap-[2.75rem] justify-between">
-          <div className="w-[700px] mx-auto">
-            <h1 className="font-[600] text-[1.75rem] mt-[1.875rem] font-outfit">
-              Ownership Questions
-            </h1>
+        <Form className="w-full md:h-[calc(100%-48px)] h-[calc(100%-8px)] flex flex-col gap-[2.75rem] justify-between">
+          <div className="md:w-[700px] w-full mx-auto">
+            <h1 className="create-entity-title">Ownership Questions</h1>
             <FieldArray name="owners">
               {({ push, remove }) => (
-                <div className="flex flex-col w-full gap-[1.5rem] mt-[2.5rem]">
+                <div className="flex flex-col w-full md:gap-[1.5rem] gap-6 md:mt-[2.5rem] mt-6">
                   {values.owners.map((owner, index) => (
                     <div key={index} className="flex flex-col gap-4">
                       <h2 className="font-[600] text-[1rem] text-[#808080] items-center gap-1 flex flex-row">
@@ -138,7 +136,7 @@ export function OwnerQuestions({ onBack }: { onBack: () => void }) {
                         ) : null}
                         Owner/Investor {index + 1}
                       </h2>
-                      <div className="w-full grid grid-cols-2 gap-[1.25rem]">
+                      <div className="w-full md:grid md:grid-cols-2 gap-[1.25rem] flex flex-row flex-wrap">
                         {ownerFields.map((field) => (
                           <FormField
                             key={field.name}
@@ -147,6 +145,7 @@ export function OwnerQuestions({ onBack }: { onBack: () => void }) {
                             name={`owners.${index}.${field.name}`}
                             type={field.type}
                             noIcon
+                            className="w-full"
                           />
                         ))}
                       </div>

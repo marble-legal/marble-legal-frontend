@@ -61,14 +61,12 @@ export function ClientInformation({ onBack }: { onBack: () => void }) {
       }}
     >
       {({ values, isValid }) => (
-        <Form className="w-full h-[calc(100%-48px)] flex flex-col gap-[2.75rem] justify-between">
-          <div className="w-[540px] mx-auto">
-            <h1 className="font-[600] text-[1.75rem] mt-[1.875rem] font-outfit">
-              Client Information
-            </h1>
+        <Form className="w-full md:h-[calc(100%-48px)] h-[calc(100%-8px)] flex flex-col gap-[2.75rem] justify-between">
+          <div className="md:w-[540px] w-full mx-auto">
+            <h1 className="create-entity-title">Client Information</h1>
             <FieldArray name="clients">
               {({ push, remove }) => (
-                <div className="flex flex-col w-full gap-[2.75rem] mt-[2.75rem]">
+                <div className="flex flex-col w-full md:gap-[2.75rem] gap-6 md:mt-[2.75rem] mt-6">
                   {values.clients.map((client, index) => (
                     <div key={index} className="flex flex-col gap-4">
                       <h2 className="font-[600] text-[1rem] text-[#808080] items-center gap-1 flex flex-row">

@@ -29,7 +29,9 @@ export default function EntityFormation() {
         renderAction={
           <Button
             className="!p-2 ml-auto float-end"
-            onClick={() => console.log("clicked")}
+            onClick={() => {
+              setIsCreateEntityOpen(true);
+            }}
           >
             <PlusIcon />
           </Button>

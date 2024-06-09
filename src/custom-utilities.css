@@ -24,5 +24,9 @@
 }
 
 .create-entity-label {
-  @apply text-black text-[1.125rem] font-inter font-[600] leading-[160%];
+  @apply text-black md:text-[1.125rem] text-[0.875rem] font-inter font-[600] leading-[160%];
+}
+
+.create-entity-title {
+  @apply font-[600] md:text-[1.75rem] text-[1.25rem] md:mt-[1.875rem] mt-4 font-outfit;
 }

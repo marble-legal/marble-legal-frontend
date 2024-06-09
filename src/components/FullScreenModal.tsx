@@ -1,11 +1,13 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import clsx from "clsx";
 
 const FullScreenModal: React.FC<{
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
-}> = ({ isOpen, onClose, children }) => {
+  customContentClassName?: string;
+}> = ({ isOpen, onClose, children, customContentClassName }) => {
   const backdropVariants = {
     visible: { opacity: 1 },
     hidden: { opacity: 0 },
@@ -73,7 +75,10 @@ const FullScreenModal: React.FC<{
             </svg>
           </button>
           <motion.div
-            className="bg-[#F2F5FB] rounded-tl-lg rounded-tr-lg shadow-lg w-full relative z-51 h-[calc(100vh-3rem)] md:p-0 p-4 overflow-auto"
+            className={clsx(
+              `bg-[#F2F5FB] rounded-tl-lg rounded-tr-lg shadow-lg w-full relative z-51 h-[calc(100vh-3rem)] md:p-0 p-4 overflow-auto`,
+              customContentClassName
+            )}
             variants={modalVariants}
             initial="hidden"
             animate="visible"

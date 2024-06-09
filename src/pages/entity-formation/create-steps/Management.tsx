@@ -53,13 +53,11 @@ export function ManagementQuestions({ onBack }: { onBack: () => void }) {
       }}
     >
       {({ values, isValid, setValues }) => (
-        <Form className="w-full h-[calc(100%-48px)] flex flex-col gap-[2.75rem] justify-between">
-          <div className="w-[700px] mx-auto">
-            <h1 className="font-[600] text-[1.75rem] mt-[1.875rem] font-outfit">
-              Management consideration
-            </h1>
+        <Form className="w-full md:h-[calc(100%-48px)] h-[calc(100%-8px)] flex flex-col gap-[2.75rem] justify-between">
+          <div className="md:w-[700px] w-full mx-auto">
+            <h1 className="create-entity-title">Management consideration</h1>
 
-            <div className="mt-[2.5rem] flex flex-col gap-[2.5rem]">
+            <div className="md:mt-[2.5rem] flex flex-col md:gap-[2.5rem] gap-6 mt-6">
               {fields.map((field) => (
                 <div key={field.name} className="flex flex-col gap-[1.125rem]">
                   <label htmlFor={field.name} className="create-entity-label">
