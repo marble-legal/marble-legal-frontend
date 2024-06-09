@@ -47,3 +47,11 @@ textarea::-webkit-resizer {
 #react-tiny-popover-container {
   z-index: 999 !important;
 }
+
+.divtext {
+  border: ridge 2px;
+  padding: 5px;
+  width: 20em;
+  min-height: 5em;
+  overflow: auto;
+}

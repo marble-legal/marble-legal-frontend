@@ -11,10 +11,10 @@ import Dropzone from "react-dropzone";
 import { ReactComponent as DocumentUploadIcon } from "../../assets/icons/document-upload.svg";
 import { ContractMessaging } from "./ContractMessaging";
 import { ContractList } from "./ContractList";
-import { useContractAnalysis } from "./contract-analysis-context";
 import { UploadContract } from "./UploadContract";
 import MobileMenu from "../../components/MobileMenu";
 import { BottomView } from "../../components/BottomView";
+import { useContractAnalysis } from "./contract-analysis-context";
 
 export default function ContractAnalysis() {
   const [bottomView, setBottomView] = useState(false);

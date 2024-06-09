@@ -47,14 +47,21 @@ export const api = {
   getUser: ({ id }: { id: string }) => {
     return apiClient.get(`/users/${id}`);
   },
-  queryContract: (id: string, data: { message: string }) => {
+  queryContract: (id: string, data: { message: string }, signal?: any) => {
     const url = `/contracts/${id}/query`;
-    return apiClient.post(url, data);
+    return apiClient.post(url, data, { signal });
   },
   getContracts: (userId: string, isGenerated: boolean) => {
     return apiClient.get(
       `/contracts?userId=${userId}&isGenerated=${isGenerated}`
     );
+  },
+  searchContracts: (userId: string, data: any, signal?: any) => {
+    let url = `/contracts?userId=${userId}`;
+    if (data.isGenerated) {
+      url += `&isGenerated=${data.isGenerated}`;
+    }
+    return apiClient.get(url, { signal }).then((res) => res.data);
   },
   deleteContract: (id: string) => {
     return apiClient.delete(`/contracts/${id}`);

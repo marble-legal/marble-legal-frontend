@@ -3,9 +3,10 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import useViewportHeight from "../helpers/useViewportHeight";
 import MobileMenu from "../components/MobileMenu";
-import { ContractAnalysisProvider } from "./contract-analysis/contract-analysis-context";
+import { ContractGenerationProvider } from "./contract-draft/context/contract-generation-context";
 import { AuthProvider } from "../AuthContext";
 import SettingsModal from "../components/Settings";
+import { ContractAnalysisProvider } from "./contract-analysis/contract-analysis-context";
 
 function MainApp() {
   const vh = useViewportHeight();
@@ -68,9 +69,7 @@ export function Main() {
 
   return (
     <AuthProvider>
-      <ContractAnalysisProvider>
-        <MainApp />
-      </ContractAnalysisProvider>
+      <MainApp />
     </AuthProvider>
   );
 }

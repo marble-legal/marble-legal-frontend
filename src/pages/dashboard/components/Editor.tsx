@@ -29,10 +29,18 @@ export function Editor({ onSend, isSending }) {
             className="w-full bg-transparent max-h-[30vh] border-none focus:outline-none text-base font-medium"
             placeholder="Write your question here"
           />
+          {/* <div
+            className="w-full bg-transparent max-h-[30vh] border-none focus:outline-none text-base font-medium"
+            contentEditable
+            onChange={(e) => console.log(e.currentTarget.textContent)}
+          >
+            Hello World
+          </div> */}
         </div>
         <button
           onClick={handleSend}
           className="p-1 bg-[#B85042] rounded justify-center items-center gap-2.5 flex"
+          disabled={isSending}
         >
           <ArrowUpIcon className="w-4 h-4" />
         </button>

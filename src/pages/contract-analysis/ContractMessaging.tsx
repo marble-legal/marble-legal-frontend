@@ -9,10 +9,10 @@ import { getUser } from "../../helpers/utils";
 import React from "react";
 import { ReactComponent as RegenerateIcon } from "../../assets/icons/regenerate.svg";
 import { ReactComponent as HorizontalDotIcon } from "../../assets/icons/horizontal-dot.svg";
-import { useContractAnalysis } from "./contract-analysis-context";
 import UIPopover from "../../components/Popover";
 import { DeleteContractConfirm } from "./components/DeleteContractConfirm";
 import moment from "moment";
+import { useContractAnalysis } from "./contract-analysis-context";
 
 export function ContractMessaging() {
   const {
@@ -104,10 +104,12 @@ export function ContractMessaging() {
       >
         <div
           className={`w-full mx-auto ${
-            isEmpty || conversationLoading ? "justify-center" : "justify-start"
+            (isEmpty && !sending) || conversationLoading
+              ? "justify-center"
+              : "justify-start"
           } flex-1 flex flex-col pt-4 pb-8`}
         >
-          {!isEmpty && !conversationLoading && (
+          {(!isEmpty || currentUserMessage) && !conversationLoading && (
             <div>
               {conversations?.map((item) => (
                 <Message
@@ -137,19 +139,26 @@ export function ContractMessaging() {
                   systemMessageClassName="!bg-[#F1F6F1]/70 !border-[#D4E2D7]"
                 />
               )}
+              {sending && (
+                <div className="[&_circle]:stroke-primary [&_path]:fill-primary flex justify-center">
+                  <Spinner />
+                </div>
+              )}
 
-              <div className="w-full flex justify-end">
-                <Button
-                  onClick={handleRegenerate}
-                  className="bg-white text-black shadow-[0px_2px_2.3px_0px_rgba(186,207,193,0.20)] border border-[#E6E6E6] rounded-[10px]"
-                >
-                  <RegenerateIcon />
-                  Regenerate
-                </Button>
-              </div>
+              {!sending && (
+                <div className="w-full flex justify-end">
+                  <Button
+                    onClick={handleRegenerate}
+                    className="bg-white text-black shadow-[0px_2px_2.3px_0px_rgba(186,207,193,0.20)] border border-[#E6E6E6] rounded-[10px]"
+                  >
+                    <RegenerateIcon />
+                    Regenerate
+                  </Button>
+                </div>
+              )}
             </div>
           )}
-          {isEmpty && <EmptyState />}
+          {isEmpty && !currentUserMessage && <EmptyState />}
           {conversationLoading && (
             <div className="[&_circle]:stroke-primary [&_path]:fill-primary h-full flex justify-center items-center">
               <Spinner />

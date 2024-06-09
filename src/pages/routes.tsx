@@ -11,6 +11,8 @@ import ContractAnalysis from "./contract-analysis/ContractAnalysis";
 import Subscription from "./subscription/Subscription";
 import EntityFormation from "./entity-formation/EntityFormation";
 import ContractDraftGeneration from "./contract-draft/ContractDraftGeneration";
+import { ContractAnalysisProvider } from "./contract-analysis/contract-analysis-context";
+import { ContractGenerationProvider } from "./contract-draft/context/contract-generation-context";
 
 const RoutesList = () => {
   return (
@@ -34,9 +36,23 @@ const RoutesList = () => {
       </Route>
       <Route element={<Main />}>
         <Route path="dashboard" element={<Dashboard />} />
-        <Route path="contracts" element={<ContractAnalysis />} />
+        <Route
+          path="contracts"
+          element={
+            <ContractAnalysisProvider>
+              <ContractAnalysis />
+            </ContractAnalysisProvider>
+          }
+        />
         <Route path="entity-formation" element={<EntityFormation />} />
-        <Route path="draft-generation" element={<ContractDraftGeneration />} />
+        <Route
+          path="draft-generation"
+          element={
+            <ContractGenerationProvider>
+              <ContractDraftGeneration />
+            </ContractGenerationProvider>
+          }
+        />
         <Route
           index
           element={

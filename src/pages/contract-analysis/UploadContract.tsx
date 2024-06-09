@@ -5,6 +5,8 @@ import { getUser } from "../../helpers/utils";
 import Dropzone from "react-dropzone";
 import { ReactComponent as DocumentUploadIcon } from "../../assets/icons/document-upload.svg";
 import { useContractAnalysis } from "./contract-analysis-context";
+import { ReactComponent as ContractsIcon } from "../../assets/icons/contracts.svg";
+import { ReactComponent as CloseIcon } from "../../assets/icons/x.svg";
 
 export function UploadContract({ onSuccess }) {
   const { refetchContractList } = useContractAnalysis() as any;
@@ -18,8 +20,8 @@ export function UploadContract({ onSuccess }) {
       const formData = new FormData();
       formData.append("file", file);
       api.uploadFile(getUser().id, formData).then((response) => {
-        // console.log(response);
-        refetchContractList();
+        console.log(response);
+        refetchContractList(true);
         onSuccess && onSuccess();
         setUploading(false);
       });
@@ -39,25 +41,44 @@ export function UploadContract({ onSuccess }) {
         and key information.
       </p>
       <div className="py-[1.375rem]">
-        <Dropzone
-          onDrop={(acceptedFiles) => {
-            setFile(acceptedFiles[0]);
-          }}
-        >
-          {({ getRootProps, getInputProps }) => (
-            <section className="border-[2px] border-dashed border-[#64B667] bg-[#EDF5EF] px-[30px] py-[50px] lg:px-[3.125rem] lg:py-[3.125rem] rounded-[10px] w-[324px] md:w-[400px] lg:w-[550px] text-center">
-              <div {...getRootProps()}>
-                <input {...getInputProps()} />
-                <div className="grid gap-3 justify-items-center">
-                  <DocumentUploadIcon />
-                  <p className="text-[0.875rem]">
-                    Drag and drop or click to upload (.pdf)
-                  </p>
+        {file ? (
+          <section className="border-[2px] border-dashed border-[#64B667] bg-[#EDF5EF] px-[30px] py-[50px] lg:px-[3.125rem] lg:py-[3.125rem] rounded-[10px] w-[324px] md:w-[400px] lg:w-[550px] text-center">
+            <div className="flex items-center justify-center gap-2.5">
+              <div className="px-4 py-4 bg-white rounded-lg justify-start items-center gap-2 flex">
+                <ContractsIcon className="w-4 h-4 " />
+                <div className="w-[200px] text-ellipsis overflow-hidden whitespace-nowrap text-black text-base font-normal font-['Inter'] leading-none">
+                  {file.name}
                 </div>
               </div>
-            </section>
-          )}
-        </Dropzone>
+              <button onClick={() => setFile(null)}>
+                <CloseIcon />
+              </button>
+            </div>
+          </section>
+        ) : (
+          <Dropzone
+            onDrop={(acceptedFiles) => {
+              setFile(acceptedFiles[0]);
+            }}
+            accept={{
+              "application/pdf": [".pdf"],
+            }}
+          >
+            {({ getRootProps, getInputProps }) => (
+              <section className="border-[2px] border-dashed border-[#64B667] bg-[#EDF5EF] px-[30px] py-[50px] lg:px-[3.125rem] lg:py-[3.125rem] rounded-[10px] w-[324px] md:w-[400px] lg:w-[550px] text-center">
+                <div {...getRootProps()}>
+                  <input {...getInputProps()} />
+                  <div className="grid gap-3 justify-items-center">
+                    <DocumentUploadIcon />
+                    <p className="text-[0.875rem]">
+                      Drag and drop or click to upload (.pdf)
+                    </p>
+                  </div>
+                </div>
+              </section>
+            )}
+          </Dropzone>
+        )}
       </div>
       {file && (
         <Button

@@ -5,6 +5,7 @@ import { api } from "../../helpers/api";
 export const ContractAnalysisContext = React.createContext({});
 
 export function ContractAnalysisProvider({ children }) {
+  const querySignalRef = React.useRef<any>(null);
   const [contractList, setContractList] = React.useState<any[] | null>(null);
   const [selectedContract, setSelectedContract] = React.useState<any | null>(
     null
@@ -43,9 +44,15 @@ export function ContractAnalysisProvider({ children }) {
     try {
       setCurrentUserMessage(message);
       setSending(true);
-      const response = await api.queryContract(selectedContract.id, {
-        message,
-      });
+      querySignalRef.current = new AbortController();
+      const response = await api.queryContract(
+        selectedContract.id,
+        {
+          message,
+        },
+        querySignalRef.current.signal
+      );
+
       setSending(false);
       if ([200, 201].includes(response.status)) {
         setCurrentReply(response.data.message);
@@ -54,30 +61,32 @@ export function ContractAnalysisProvider({ children }) {
       // console.log(response);
     } catch (error) {
       setSending(false);
-      // console.log(error);
     }
   };
 
   const fetchContracts = useCallback(
-    async (userId?: string) => {
+    async (userId?: string, selectLast = false) => {
       if (!userId) return;
       try {
         setLoading(true);
         const res = await api.getContracts(userId, false);
-        console.log(res);
         setLoading(false);
         setContractList(res.data || []);
-        if (!selectedContract && res?.data?.[0]) {
-          setSelectedContract(res.data[0]);
+        if (selectLast && res?.data?.length > 0) {
+          setSelectedContract(res.data[res.data.length - 1]);
+        } else {
+          if (!selectedContract && res?.data?.[0]) {
+            setSelectedContract(res.data[0]);
+          }
         }
       } catch (e) {}
     },
     [selectedContract]
   );
 
-  const refetch = async () => {
+  const refetch = async (selectLast = false) => {
     if (!user.id) return;
-    await fetchContracts(user?.id);
+    await fetchContracts(user?.id, selectLast);
   };
 
   useEffect(() => {
@@ -88,6 +97,12 @@ export function ContractAnalysisProvider({ children }) {
 
   useEffect(() => {
     if (selectedContract?.id) {
+      setCurrentReply("");
+      setCurrentUserMessage("");
+      if (querySignalRef.current) {
+        querySignalRef.current.abort();
+        querySignalRef.current = null;
+      }
       fetchContractMessages(selectedContract.id);
     }
   }, [selectedContract, fetchContractMessages]);
