@@ -2,8 +2,8 @@ import { FieldArray, Form, Formik } from "formik";
 import { ReactComponent as DeleteIcon } from "../../../assets/icons/delete.svg";
 import * as Yup from "yup";
 import FormField from "../../../components/FormField";
-import Button from "../../../components/Button";
 import clsx from "clsx";
+import { CreateEntityFooter } from "../CreateEntity";
 
 export function ClientInformation({ onBack }: { onBack: () => void }) {
   const validationSchema = Yup.object().shape({
@@ -24,10 +24,38 @@ export function ClientInformation({ onBack }: { onBack: () => void }) {
     clients: [{ fullName: "", address: "", phoneNumber: "", email: "" }],
   };
 
+  const clientFields = [
+    {
+      label: "Full Legal Name",
+      placeholder: "Enter your full legal name",
+      name: "fullName",
+      type: "text",
+    },
+    {
+      label: "Home address",
+      placeholder: "Enter your home address",
+      name: "address",
+      type: "text",
+    },
+    {
+      label: "Phone number",
+      placeholder: "Enter your phone number",
+      name: "phoneNumber",
+      type: "text",
+    },
+    {
+      label: "Email",
+      placeholder: "Enter your email address",
+      name: "email",
+      type: "email",
+    },
+  ];
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
+      isInitialValid={false}
       onSubmit={(values) => {
         console.log(values);
       }}
@@ -56,36 +84,20 @@ export function ClientInformation({ onBack }: { onBack: () => void }) {
                         ) : null}
                         Client {index + 1}
                       </h2>
-                      <FormField
-                        label="Full Legal Name"
-                        placeholder="Enter your full legal name"
-                        name={`clients[${index}].fullName`}
-                        type="text"
-                        noIcon
-                      />
-                      <FormField
-                        label="Home address"
-                        placeholder="Enter your home address"
-                        name={`clients[${index}].address`}
-                        type="text"
-                        noIcon
-                      />
-                      <FormField
-                        label="Phone number"
-                        placeholder="Enter your phone number"
-                        name={`clients[${index}].phoneNumber`}
-                        type="text"
-                        noIcon
-                      />
-                      <FormField
-                        label="Email"
-                        placeholder="Enter your email address"
-                        name={`clients[${index}].email`}
-                        type="email"
-                        noIcon
-                      />
+                      {clientFields.map((field) => (
+                        <FormField
+                          key={field.name}
+                          label={field.label}
+                          placeholder={field.placeholder}
+                          name={`clients.${index}.${field.name}`}
+                          type={field.type}
+                          noIcon
+                        />
+                      ))}
                     </div>
                   ))}
+
+                  {/* Add another client */}
                   <button
                     type="button"
                     onClick={() =>
@@ -109,24 +121,7 @@ export function ClientInformation({ onBack }: { onBack: () => void }) {
               )}
             </FieldArray>
           </div>
-          <div className="sticky bottom-0 right-0 w-full p-4 border-t-solid border-t-[1px] bg-[#F2F5FB]">
-            <div className="float-end gap-3 flex flex-row">
-              <Button
-                variant="ghost"
-                className="bg-[#F8E3E3] text-[#B94444] border-[#B85042] border-[1px] leading-[18px] hover:bg-[#F8E3E3]/70"
-                onClick={onBack}
-              >
-                Back
-              </Button>
-              <Button
-                type="submit"
-                disabled={!isValid}
-                className="leading-[18px]"
-              >
-                Continue
-              </Button>
-            </div>
-          </div>
+          <CreateEntityFooter onBack={onBack} isValid={isValid} />
         </Form>
       )}
     </Formik>

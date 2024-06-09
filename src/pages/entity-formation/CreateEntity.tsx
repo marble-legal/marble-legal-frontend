@@ -7,6 +7,7 @@ import { OwnerQuestions } from "./create-steps/Owner";
 import { GeneralQuestions } from "./create-steps/General";
 import { FinancialQuestions } from "./create-steps/Financial";
 import { ManagementQuestions } from "./create-steps/Management";
+import Button from "../../components/Button";
 
 export default function CreateEntity({
   isOpen,
@@ -15,7 +16,7 @@ export default function CreateEntity({
   isOpen: boolean;
   handleClose: () => void;
 }) {
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(0);
 
   const Steps = [
     {
@@ -33,7 +34,7 @@ export default function CreateEntity({
         setStep(2);
       },
       onBack: () => {
-        setStep(1);
+        setStep(0);
       },
     },
     {
@@ -120,3 +121,27 @@ const StepIndicator = ({ steps, currentStep }) => {
     </div>
   );
 };
+export function CreateEntityFooter({
+  onBack,
+  isValid,
+}: {
+  onBack: () => void;
+  isValid: boolean;
+}) {
+  return (
+    <div className="sticky bottom-0 right-0 w-full p-4 border-t-solid border-t-[1px] bg-[#F2F5FB]">
+      <div className="float-end gap-3 flex flex-row">
+        <Button
+          variant="ghost"
+          className="bg-[#F8E3E3] text-[#B94444] border-[#B85042] border-[1px] leading-[18px] hover:bg-[#F8E3E3]/70"
+          onClick={onBack}
+        >
+          Back
+        </Button>
+        <Button type="submit" disabled={!isValid} className="leading-[18px]">
+          Continue
+        </Button>
+      </div>
+    </div>
+  );
+}

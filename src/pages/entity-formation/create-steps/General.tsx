@@ -1,9 +1,8 @@
-import { FieldArray, Form, Formik } from "formik";
-import { ReactComponent as DeleteIcon } from "../../../assets/icons/delete.svg";
+import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import FormField from "../../../components/FormField";
 import Button from "../../../components/Button";
 import clsx from "clsx";
+import { CreateEntityFooter } from "../CreateEntity";
 
 export function GeneralQuestions({ onBack }: { onBack: () => void }) {
   const validationSchema = Yup.object().shape({
@@ -46,6 +45,48 @@ export function GeneralQuestions({ onBack }: { onBack: () => void }) {
     "Ability to sell or transfer your interest in the business",
   ];
 
+  const fields = [
+    {
+      label:
+        "Have you chosen a name for your business? Do you have an alternate name in case your first choice is not available? If yes please list name(s) exactly as you would like.",
+      name: "name",
+      placeholder: "Describe here",
+    },
+    {
+      label:
+        "What is the business address and will this be the principle place of business?",
+      name: "address",
+      placeholder: "Describe here",
+    },
+    {
+      label: "What is the primary purpose of the business?",
+      name: "purpose",
+      placeholder: "Describe here",
+    },
+    {
+      label: "In what state(s) will the business operate?",
+      name: "operation",
+      placeholder: "Describe here",
+    },
+    {
+      label: "Who will serve as the registered agent for the business?",
+      name: "agent",
+      placeholder: "Describe here",
+    },
+    {
+      label:
+        "Will the business use trademarks or logos? If yes, please describe.",
+      name: "trademarks",
+      placeholder: "Describe here",
+    },
+    {
+      label:
+        "Will the business require any special licenses (i.e. liquor, gambling, etc.)? If yes, please describe.",
+      name: "license",
+      placeholder: "Describe here",
+    },
+  ];
+
   return (
     <Formik
       initialValues={initialValues}
@@ -62,6 +103,7 @@ export function GeneralQuestions({ onBack }: { onBack: () => void }) {
               General Questions
             </h1>
 
+            {/* TYPE */}
             <div className="mt-[2.5rem] flex flex-col gap-[2.5rem]">
               <div className="flex flex-col gap-[1.125rem]">
                 <label htmlFor="usCitizens" className="create-entity-label">
@@ -89,6 +131,7 @@ export function GeneralQuestions({ onBack }: { onBack: () => void }) {
                 </div>
               </div>
 
+              {/* Issues Selection */}
               <div className="flex flex-col gap-[1.125rem]">
                 <label htmlFor="usCitizens" className="create-entity-label">
                   Place a check next to any issues that are important to you in
@@ -119,158 +162,32 @@ export function GeneralQuestions({ onBack }: { onBack: () => void }) {
                   ))}
                 </div>
               </div>
-              <div className="flex flex-col gap-[1.125rem]">
-                <label htmlFor="name" className="create-entity-label">
-                  Have you chosen a name for your business? Do you have an
-                  alternate name in case your first choice is not available? If
-                  yes please list name(s) exactly as you would like.
-                </label>
-                <textarea
-                  className="create-entity-textarea"
-                  placeholder="Describe here"
-                  name="name"
-                  id="name"
-                  value={values.name}
-                  onChange={(e) =>
-                    setValues({
-                      ...values,
-                      name: e.target.value,
-                    })
-                  }
-                />
-              </div>
-              <div className="flex flex-col gap-[1.125rem]">
-                <label htmlFor="address" className="create-entity-label">
-                  What is the business address and will this be the principle
-                  place of business?
-                </label>
-                <textarea
-                  className="create-entity-textarea"
-                  placeholder="Describe here"
-                  name="address"
-                  id="address"
-                  value={values.address}
-                  onChange={(e) =>
-                    setValues({
-                      ...values,
-                      address: e.target.value,
-                    })
-                  }
-                />
-              </div>
-              <div className="flex flex-col gap-[1.125rem]">
-                <label htmlFor="purpose" className="create-entity-label">
-                  What is the primary purpose of the business?
-                </label>
-                <textarea
-                  className="create-entity-textarea"
-                  placeholder="Describe here"
-                  name="purpose"
-                  id="purpose"
-                  value={values.purpose}
-                  onChange={(e) =>
-                    setValues({
-                      ...values,
-                      purpose: e.target.value,
-                    })
-                  }
-                />
-              </div>
-              <div className="flex flex-col gap-[1.125rem]">
-                <label htmlFor="operation" className="create-entity-label">
-                  In what state(s) will the business operate?
-                </label>
-                <textarea
-                  className="create-entity-textarea"
-                  placeholder="Describe here"
-                  name="operation"
-                  id="operation"
-                  value={values.operation}
-                  onChange={(e) =>
-                    setValues({
-                      ...values,
-                      operation: e.target.value,
-                    })
-                  }
-                />
-              </div>
-              <div className="flex flex-col gap-[1.125rem]">
-                <label htmlFor="agent" className="create-entity-label">
-                  Who will serve as the registered agent for the business?
-                </label>
-                <textarea
-                  className="create-entity-textarea"
-                  placeholder="Describe here"
-                  name="agent"
-                  id="agent"
-                  value={values.agent}
-                  onChange={(e) =>
-                    setValues({
-                      ...values,
-                      agent: e.target.value,
-                    })
-                  }
-                />
-              </div>
-              <div className="flex flex-col gap-[1.125rem]">
-                <label htmlFor="trademarks" className="create-entity-label">
-                  Will the business use trademarks or logos? If yes, please
-                  describe.
-                </label>
-                <textarea
-                  className="create-entity-textarea"
-                  placeholder="Describe here"
-                  name="trademarks"
-                  id="trademarks"
-                  value={values.trademarks}
-                  onChange={(e) =>
-                    setValues({
-                      ...values,
-                      trademarks: e.target.value,
-                    })
-                  }
-                />
-              </div>
-              <div className="flex flex-col gap-[1.125rem]">
-                <label htmlFor="license" className="create-entity-label">
-                  Will the business require any special licenses (i.e. liquor,
-                  gambling, etc.)? If yes, please describe.
-                </label>
-                <textarea
-                  className="create-entity-textarea"
-                  placeholder="Describe here"
-                  name="license"
-                  id="license"
-                  value={values.license}
-                  onChange={(e) =>
-                    setValues({
-                      ...values,
-                      license: e.target.value,
-                    })
-                  }
-                />
-              </div>
+
+              {/* TextArea Fields */}
+              {fields.map((field) => (
+                <div key={field.name} className="flex flex-col gap-[1.125rem]">
+                  <label htmlFor={field.name} className="create-entity-label">
+                    {field.label}
+                  </label>
+                  <textarea
+                    className="create-entity-textarea"
+                    placeholder={field.placeholder}
+                    name={field.name}
+                    id={field.name}
+                    value={values[field.name]}
+                    onChange={(e) =>
+                      setValues({
+                        ...values,
+                        [field.name]: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              ))}
             </div>
           </div>
 
-          <div className="sticky bottom-0 right-0 w-full p-4 border-t-solid border-t-[1px] bg-[#F2F5FB]">
-            <div className="float-end gap-3 flex flex-row">
-              <Button
-                variant="ghost"
-                className="bg-[#F8E3E3] text-[#B94444] border-[#B85042] border-[1px] leading-[18px] hover:bg-[#F8E3E3]/70"
-                onClick={onBack}
-              >
-                Back
-              </Button>
-              <Button
-                type="submit"
-                disabled={!isValid}
-                className="leading-[18px]"
-              >
-                Continue
-              </Button>
-            </div>
-          </div>
+          <CreateEntityFooter onBack={onBack} isValid={isValid} />
         </Form>
       )}
     </Formik>

@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import FormField from "../../../components/FormField";
 import Button from "../../../components/Button";
 import clsx from "clsx";
+import { CreateEntityFooter } from "../CreateEntity";
 
 export function OwnerQuestions({ onBack }: { onBack: () => void }) {
   const validationSchema = Yup.object().shape({
@@ -77,6 +78,32 @@ export function OwnerQuestions({ onBack }: { onBack: () => void }) {
       additionalContent: null,
     },
   ];
+  const ownerFields = [
+    {
+      label: "Owner name",
+      placeholder: "Enter owner name",
+      name: "ownerName",
+      type: "text",
+    },
+    {
+      label: "Address",
+      placeholder: "Enter address",
+      name: "address",
+      type: "text",
+    },
+    {
+      label: "Ownership interest (%)",
+      placeholder: "Enter ownership interest",
+      name: "ownershipInterest",
+      type: "number",
+    },
+    {
+      label: "Initial contribution (U.S. Dollars or Equivalent)",
+      placeholder: "Enter initial contribution",
+      name: "initialContribution",
+      type: "number",
+    },
+  ];
 
   return (
     <Formik
@@ -112,37 +139,21 @@ export function OwnerQuestions({ onBack }: { onBack: () => void }) {
                         Owner/Investor {index + 1}
                       </h2>
                       <div className="w-full grid grid-cols-2 gap-[1.25rem]">
-                        <FormField
-                          label="Owner name"
-                          placeholder="Enter owner name"
-                          name={`owners[${index}].ownerName`}
-                          type="text"
-                          noIcon
-                        />
-                        <FormField
-                          label="Address"
-                          placeholder="Enter address"
-                          name={`owners[${index}].address`}
-                          type="text"
-                          noIcon
-                        />
-                        <FormField
-                          label="Ownership interest (%)"
-                          placeholder="Enter ownership interest"
-                          name={`owners[${index}].ownershipInterest`}
-                          type="number"
-                          noIcon
-                        />
-                        <FormField
-                          label="Initial contribution (U.S. Dollars or Equivalent)"
-                          placeholder="Enter initial contribution"
-                          name={`owners[${index}].initialContribution`}
-                          type="number"
-                          noIcon
-                        />
+                        {ownerFields.map((field) => (
+                          <FormField
+                            key={field.name}
+                            label={field.label}
+                            placeholder={field.placeholder}
+                            name={`owners.${index}.${field.name}`}
+                            type={field.type}
+                            noIcon
+                          />
+                        ))}
                       </div>
                     </div>
                   ))}
+
+                  {/* Add another Owner */}
                   <button
                     type="button"
                     onClick={() =>
@@ -185,24 +196,7 @@ export function OwnerQuestions({ onBack }: { onBack: () => void }) {
             </div>
           </div>
 
-          <div className="sticky bottom-0 right-0 w-full p-4 border-t-solid border-t-[1px] bg-[#F2F5FB]">
-            <div className="float-end gap-3 flex flex-row">
-              <Button
-                variant="ghost"
-                className="bg-[#F8E3E3] text-[#B94444] border-[#B85042] border-[1px] leading-[18px] hover:bg-[#F8E3E3]/70"
-                onClick={onBack}
-              >
-                Back
-              </Button>
-              <Button
-                type="submit"
-                disabled={!isValid}
-                className="leading-[18px]"
-              >
-                Continue
-              </Button>
-            </div>
-          </div>
+          <CreateEntityFooter onBack={onBack} isValid={isValid} />
         </Form>
       )}
     </Formik>
