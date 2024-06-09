@@ -46,6 +46,38 @@ export function OwnerQuestions({ onBack }: { onBack: () => void }) {
     sharedProfitsAndLosses: false,
   };
 
+  const questions = [
+    {
+      label: "Are all of the initial investor/owners U.S. citizens?",
+      valueKey: "usCitizens",
+      additionalContent: null,
+    },
+    {
+      label:
+        "Do you want there to be any restrictions on transfers or sales of owner's interests?",
+      valueKey: "transferRestrictions",
+      additionalContent: (values, setValues) => (
+        <textarea
+          className="w-full h-[100px] border-[1px] border-solid border-[#E2E2E2] rounded-[10px] p-4 text-[0.875rem] font-[500] font-[Inter] leading-[18px] bg-transparent"
+          placeholder="Describe here"
+          name="transferRestrictionsDescription"
+          value={values.transferRestrictionsDescription}
+          onChange={(e) =>
+            setValues({
+              ...values,
+              transferRestrictionsDescription: e.target.value,
+            })
+          }
+        />
+      ),
+    },
+    {
+      label: "Will profits and losses be shared equally amongst the owners?",
+      valueKey: "sharedProfitsAndLosses",
+      additionalContent: null,
+    },
+  ];
+
   return (
     <Formik
       initialValues={initialValues}
@@ -135,133 +167,21 @@ export function OwnerQuestions({ onBack }: { onBack: () => void }) {
             </FieldArray>
 
             <div className="mt-[2.5rem] flex flex-col gap-[2.5rem]">
-              <div className="flex flex-col gap-[1.125rem]">
-                <label
-                  htmlFor="usCitizens"
-                  className="text-[#030712] text-[0.875rem] font-[Inter] font-[500] font-[Inter]"
-                >
-                  Are all of the initial investor/owners U.S. citizens?
-                </label>
-                <div className="flex flex-row gap-3">
-                  <Button
-                    variant="outline"
-                    className={clsx("font-[600] text-[0.875rem] w-[120px]", {
-                      "bg-[#F5F5F5] border-black text-black": values.usCitizens,
-                    })}
-                    onClick={() => {
-                      setValues({ ...values, usCitizens: true });
-                    }}
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className={clsx(
-                      "font-[600] text-[0.875rem] text-[#888] w-[120px]",
-                      {
-                        "bg-[#F5F5F5] border-black text-black":
-                          !values.usCitizens,
-                      }
-                    )}
-                    onClick={() => {
-                      setValues({ ...values, usCitizens: false });
-                    }}
-                  >
-                    No
-                  </Button>
-                </div>
-              </div>
-
-              <div className="flex flex-col gap-[1.125rem]">
-                <label
-                  htmlFor="usCitizens"
-                  className="text-[#030712] text-[0.875rem] font-[Inter] font-[500] font-[Inter]"
-                >
-                  Do you want there to be any restrictions on transfers or sales
-                  of owner's interests?
-                </label>
-                <div className="flex flex-row gap-3">
-                  <Button
-                    variant="outline"
-                    className={clsx("font-[600] text-[0.875rem] w-[120px]", {
-                      "bg-[#F5F5F5] border-black text-black":
-                        values.transferRestrictions,
-                    })}
-                    onClick={() =>
-                      setValues({ ...values, transferRestrictions: true })
-                    }
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className={clsx(
-                      "font-[600] text-[0.875rem] text-[#888] w-[120px]",
-                      {
-                        "bg-[#F5F5F5] border-black text-black":
-                          !values.transferRestrictions,
-                      }
-                    )}
-                    onClick={() =>
-                      setValues({ ...values, transferRestrictions: false })
-                    }
-                  >
-                    No
-                  </Button>
-                </div>
-                {values.transferRestrictions && (
-                  <textarea
-                    className="w-full h-[100px] border-[1px] border-solid border-[#E2E2E2] rounded-[10px] p-4 text-[0.875rem] font-[500] font-[Inter] leading-[18px] bg-transparent"
-                    placeholder="Describe here"
-                    name="transferRestrictionsDescription"
-                    value={values.transferRestrictionsDescription}
-                    onChange={(e) =>
-                      setValues({
-                        ...values,
-                        transferRestrictionsDescription: e.target.value,
-                      })
-                    }
-                  />
-                )}
-              </div>
-
-              <div className="flex flex-col gap-[1.125rem]">
-                <label
-                  htmlFor="usCitizens"
-                  className="text-[#030712] text-[0.875rem] font-[Inter] font-[500] font-[Inter]"
-                >
-                  Will profits and losses be shared equally amongst the owners?
-                </label>
-                <div className="flex flex-row gap-3">
-                  <Button
-                    variant="outline"
-                    className={clsx("font-[600] text-[0.875rem] w-[120px]", {
-                      "bg-[#F5F5F5] border-black text-black":
-                        values.sharedProfitsAndLosses,
-                    })}
-                    onClick={() =>
-                      setValues({ ...values, sharedProfitsAndLosses: true })
-                    }
-                  >
-                    Yes
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className={clsx(
-                      "font-[600] text-[0.875rem] text-[#888] w-[120px]",
-                      {
-                        "bg-[#F5F5F5] border-black text-black":
-                          !values.sharedProfitsAndLosses,
-                      }
-                    )}
-                    onClick={() =>
-                      setValues({ ...values, sharedProfitsAndLosses: false })
-                    }
-                  >
-                    No
-                  </Button>
-                </div>
-              </div>
+              {questions.map((question) => (
+                <QuestionBlock
+                  key={question.label}
+                  label={question.label}
+                  value={values[question.valueKey]}
+                  onChange={(value) =>
+                    setValues({ ...values, [question.valueKey]: value })
+                  }
+                  name={question.valueKey}
+                  additionalContent={question.additionalContent?.(
+                    values,
+                    setValues
+                  )}
+                />
+              ))}
             </div>
           </div>
 
@@ -286,5 +206,44 @@ export function OwnerQuestions({ onBack }: { onBack: () => void }) {
         </Form>
       )}
     </Formik>
+  );
+}
+
+function QuestionBlock({
+  label,
+  value,
+  onChange,
+  options = ["Yes", "No"],
+  name,
+  additionalContent,
+}: {
+  label: string;
+  value: boolean;
+  onChange: (value: boolean) => void;
+  options?: string[];
+  name: string;
+  additionalContent?: React.ReactNode;
+}) {
+  return (
+    <div className="flex flex-col gap-[1.125rem]">
+      <label htmlFor={name} className="create-entity-label">
+        {label}
+      </label>
+      <div className="flex flex-row gap-3">
+        {options.map((option, index) => (
+          <Button
+            key={option}
+            variant="outline"
+            className={clsx("!w-[120px] create-entity-button", {
+              "create-entity-button-active": value === (index === 0),
+            })}
+            onClick={() => onChange(index === 0)}
+          >
+            {option}
+          </Button>
+        ))}
+      </div>
+      {additionalContent && value && additionalContent}
+    </div>
   );
 }

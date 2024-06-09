@@ -4,6 +4,9 @@ import clsx from "clsx";
 import { WelcomeStep } from "./create-steps/Welcome";
 import { ClientInformation } from "./create-steps/Client";
 import { OwnerQuestions } from "./create-steps/Owner";
+import { GeneralQuestions } from "./create-steps/General";
+import { FinancialQuestions } from "./create-steps/Financial";
+import { ManagementQuestions } from "./create-steps/Management";
 
 export default function CreateEntity({
   isOpen,
@@ -43,6 +46,36 @@ export default function CreateEntity({
         setStep(1);
       },
     },
+    {
+      step: 3,
+      Component: GeneralQuestions,
+      onNext: () => {
+        setStep(4);
+      },
+      onBack: () => {
+        setStep(2);
+      },
+    },
+    {
+      step: 4,
+      Component: FinancialQuestions,
+      onNext: () => {
+        setStep(5);
+      },
+      onBack: () => {
+        setStep(3);
+      },
+    },
+    {
+      step: 5,
+      Component: ManagementQuestions,
+      onNext: () => {
+        setStep(6);
+      },
+      onBack: () => {
+        setStep(4);
+      },
+    },
   ];
 
   return (
@@ -75,7 +108,7 @@ export default function CreateEntity({
 const StepIndicator = ({ steps, currentStep }) => {
   return (
     <div className="w-full flex flex-row gap-2 justify-between items-center transition-all">
-      {[1, 2, 3, 4, 5, 6].map((step) => (
+      {[1, 2, 3, 4, 5].map((step) => (
         <div
           key={step}
           className={clsx(
