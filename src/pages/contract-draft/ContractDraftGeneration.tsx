@@ -195,7 +195,7 @@ function FilterPopup() {
       {(close) => (
         <div
           style={{ zIndex: 9999 }}
-          className="z-20 p-[0.875rem] flex flex-col justify-center items-center bg-white shadow-[0_6px_24px_0_rgba(28,43,40,0.25)] rounded-xl py-2"
+          className="z-20 p-[0.875rem] flex flex-col justify-center items-center bg-white shadow-[0_6px_24px_0_rgba(28,43,40,0.25)] rounded-xl py-2 md:mr-0 mr-[12rem]"
         >
           <div className="flex flex-row p-2 flex-wrap gap-4">
             <div className="flex flex-col">
