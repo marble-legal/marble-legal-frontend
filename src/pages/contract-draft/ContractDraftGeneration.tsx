@@ -16,6 +16,8 @@ import { ContractListItem } from "./components/ContractListItem";
 import { ContractView } from "./components/ContractView";
 import { dummyContent } from "./dummy";
 import { DeleteContractDraftConfirm } from "./components/DeleteContractDraftConfirm";
+import RadioButton from "../../components/RadioButton";
+import Checkbox from "../../components/Checkbox";
 
 export default function ContractDraftGeneration() {
   const [createDraftModal, setCreateDraftModal] = useState(false);
@@ -79,26 +81,7 @@ export default function ContractDraftGeneration() {
               onChange={(e) => setSearch(e.target.value)}
               value={search}
             />
-            <UIPopover
-              trigger={
-                <Button
-                  variant="outline"
-                  className="flex flex-row gap-1.5 items-center bg-white h-full"
-                >
-                  <FiltersIcon />
-                  Filters
-                </Button>
-              }
-            >
-              {(close) => (
-                <div
-                  style={{ zIndex: 9999 }}
-                  className="z-20 p-4 flex flex-col justify-center items-center bg-white shadow-[0_6px_24px_0_rgba(28,43,40,0.25)] rounded-xl py-2 mr-8"
-                >
-                  <h1>something</h1>
-                </div>
-              )}
-            </UIPopover>
+            <FilterPopup />
           </div>
           <div className="hidden md:block">
             <span>Total drafts: {rest?.contractList?.length}</span>
@@ -181,5 +164,92 @@ function CardSkeleton() {
         </div>
       </div>
     </div>
+  );
+}
+function FilterPopup() {
+  const [selectedValue, setSelectedValue] = useState<string>("custom_date");
+
+  const handleRadioChange = (value: string) => {
+    setSelectedValue(value);
+  };
+
+  const options = [
+    { label: "This week", value: "this_week" },
+    { label: "This month", value: "this_month" },
+    { label: "This year", value: "this_year" },
+    { label: "Custom date", value: "custom_date" },
+  ];
+
+  return (
+    <UIPopover
+      trigger={
+        <Button
+          variant="outline"
+          className="flex flex-row gap-1.5 items-center bg-white h-full"
+        >
+          <FiltersIcon />
+          Filters
+        </Button>
+      }
+    >
+      {(close) => (
+        <div
+          style={{ zIndex: 9999 }}
+          className="z-20 p-[0.875rem] flex flex-col justify-center items-center bg-white shadow-[0_6px_24px_0_rgba(28,43,40,0.25)] rounded-xl py-2"
+        >
+          <div className="flex flex-row p-2 flex-wrap gap-4">
+            <div className="flex flex-col">
+              <span className="tracking-tight font-bold text-sm mb-3">
+                Filter by date Created
+              </span>
+              <div className="flex flex-col gap-3.5">
+                <RadioButton
+                  name="dateFilter"
+                  options={options}
+                  selectedValue={selectedValue}
+                  onChange={handleRadioChange}
+                />
+                <div className="flex flex-row gap-1 items-center">
+                  <input
+                    type="date"
+                    className="border-[1px] rounded-md py-2 px-3 text-xs placeholder-[#999999]"
+                  />
+                  <span>to</span>
+                  <input
+                    type="date"
+                    className="border-[1px] rounded-md py-2 px-3 text-xs placeholder-[#999999]"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="border-r-[1px] border-black/10 md:flex hidden" />
+
+            <div className="flex flex-col">
+              <span className="tracking-tight font-bold text-sm mb-3">
+                Filter by date Created
+              </span>
+              <div className="flex flex-col gap-3.5">
+                {contractTypes.map((type, index) => (
+                  <label
+                    key={index}
+                    htmlFor={type.label}
+                    className="flex flex-row gap-1.5 font-medium text-sm items-center cursor-pointer font-inter"
+                  >
+                    <Checkbox
+                      label={type.label}
+                      className="w-[1.375rem] h-[1.375rem]"
+                    />
+                    {type.label}
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <Button className="w-full !py-2">Apply</Button>
+          </div>
+        </div>
+      )}
+    </UIPopover>
   );
 }

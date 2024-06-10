@@ -1,4 +1,6 @@
-function Checkbox({ label }: { label: string }) {
+import clsx from "clsx";
+
+function Checkbox({ label, className }: { label: string; className?: string }) {
   return (
     <div className="flex items-center">
       <input
@@ -9,7 +11,10 @@ function Checkbox({ label }: { label: string }) {
       />
       <label
         htmlFor={label}
-        className="w-4 h-4 flex items-center justify-center bg-white border-[1px] border-gray-300 rounded cursor-pointer hover:bg-gray-100"
+        className={clsx(
+          "w-4 h-4 flex items-center justify-center bg-white border-[1px] border-gray-300 rounded cursor-pointer hover:bg-gray-100",
+          className
+        )}
       >
         {/* Icon when checked, controlled by sibling input:checked */}
         <svg
