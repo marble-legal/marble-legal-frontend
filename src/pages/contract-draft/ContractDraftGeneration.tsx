@@ -160,7 +160,7 @@ function CardSkeleton() {
           <div className="bg-[#E0E0E0] h-[0.9375rem] w-[250px] rounded"></div>
         </div>
       </div>
-      <div className="flex flex-row gap-4 items-center">
+      <div className="md:flex hidden flex-row gap-4 items-center">
         <div className="bg-[#E0E0E0] h-[0.875rem] w-[100px] rounded"></div>
         <div className="cursor-pointer rounded-[6px] border-[1px] border-solid border-[#E0E0E0] p-1.5 transition-all">
           <div className="bg-[#E0E0E0] w-5 h-5 rounded"></div>
