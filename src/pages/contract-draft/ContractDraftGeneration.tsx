@@ -18,13 +18,13 @@ import { dummyContent } from "./dummy";
 import { DeleteContractDraftConfirm } from "./components/DeleteContractDraftConfirm";
 import RadioButton from "../../components/RadioButton";
 import Checkbox from "../../components/Checkbox";
+import moment from "moment";
 
 export default function ContractDraftGeneration() {
   const [createDraftModal, setCreateDraftModal] = useState(false);
   const { search, setSearch, ...rest } = useContractGeneration() as any;
   const [selectedContract, setSelectedContract] = useState<any>();
   const [deleteConfirm, setDeleteConfirm] = useState<any>(null);
-  console.log(rest);
 
   const onDelete = (contract) => {
     setDeleteConfirm(contract);
@@ -37,7 +37,6 @@ export default function ContractDraftGeneration() {
     setSelectedContract(contract);
   };
 
-  console.log(selectedContract);
   return (
     <div className="">
       {createDraftModal && (
@@ -54,7 +53,7 @@ export default function ContractDraftGeneration() {
         }
       />
 
-      <div className="md:sticky md:block top-0 z-10 bg-[#F2F5FB]">
+      <div className="md:sticky md:block top-0 z-[5] bg-[#F2F5FB]">
         <div className="shadow-header px-[1.875rem] py-4 md:flex justify-between border-b-solid border-b-[1px] border-[#DADCE2] items-center hidden">
           <h1 className="font-outfit text-[1.25rem] font-[500]">
             Contract draft generation
@@ -83,7 +82,9 @@ export default function ContractDraftGeneration() {
             <FilterPopup />
           </div>
           <div className="hidden md:block">
-            <span>Total drafts: {rest?.contractList?.length}</span>
+            <span className="font-medium">
+              Total drafts: {rest?.contractList?.length}
+            </span>
           </div>
         </div>
       </div>
@@ -170,9 +171,54 @@ function CardSkeleton() {
 }
 function FilterPopup() {
   const [selectedValue, setSelectedValue] = useState<string>("custom_date");
+  const { filters, setFilters } = useContractGeneration() as any;
+  const [tempFilters, setTempFilters] = useState<any>();
+  // console.log(contextFilters);
 
-  const handleRadioChange = (value: string) => {
+  const handleDateChange = (value: string) => {
     setSelectedValue(value);
+    if (value === "this_week") {
+      setTempFilters({
+        ...tempFilters,
+        date: {
+          startDate: moment().startOf("week").toISOString(),
+          endDate: moment().endOf("week").toISOString(),
+        },
+      });
+    } else if (value === "this_month") {
+      setTempFilters({
+        ...tempFilters,
+        date: {
+          startDate: moment().startOf("month").toISOString(),
+          endDate: moment().endOf("month").toISOString(),
+        },
+      });
+    } else if (value === "this_year") {
+      setTempFilters({
+        ...tempFilters,
+        date: {
+          startDate: moment().startOf("year").toISOString(),
+          endDate: moment().endOf("year").toISOString(),
+        },
+      });
+    } else {
+      setTempFilters({
+        ...tempFilters,
+        date: {
+          startDate: "",
+          endDate: "",
+        },
+      });
+    }
+  };
+
+  const handleCheckboxChange = (type: string) => {
+    setTempFilters((prevFilters) => ({
+      ...prevFilters,
+      types: prevFilters.types.includes(type)
+        ? prevFilters.types.filter((t) => t !== type)
+        : [...prevFilters.types, type],
+    }));
   };
 
   const options = [
@@ -181,6 +227,10 @@ function FilterPopup() {
     { label: "This year", value: "this_year" },
     { label: "Custom date", value: "custom_date" },
   ];
+
+  const onApplyFilters = () => {
+    setFilters(tempFilters);
+  };
 
   return (
     <UIPopover
@@ -209,19 +259,41 @@ function FilterPopup() {
                   name="dateFilter"
                   options={options}
                   selectedValue={selectedValue}
-                  onChange={handleRadioChange}
+                  onChange={(value: string) => handleDateChange(value)}
                 />
-                <div className="flex flex-row gap-1 items-center">
-                  <input
-                    type="date"
-                    className="border-[1px] rounded-md py-2 px-3 text-xs placeholder-[#999999]"
-                  />
-                  <span>to</span>
-                  <input
-                    type="date"
-                    className="border-[1px] rounded-md py-2 px-3 text-xs placeholder-[#999999]"
-                  />
-                </div>
+                {selectedValue === "custom_date" && (
+                  <div className="flex flex-row gap-1 items-center">
+                    <input
+                      type="date"
+                      className="border-[1px] rounded-md py-2 px-3 text-xs placeholder-[#999999]"
+                      value={tempFilters?.date?.startDate}
+                      onChange={(e) =>
+                        setTempFilters({
+                          ...tempFilters,
+                          date: {
+                            ...tempFilters.date,
+                            startDate: e.target.value,
+                          },
+                        })
+                      }
+                    />
+                    <span className="opacity-[0.4] text-xs">to</span>
+                    <input
+                      type="date"
+                      className="border-[1px] rounded-md py-2 px-3 text-xs placeholder-[#999999]"
+                      value={tempFilters?.date?.endDate}
+                      onChange={(e) =>
+                        setTempFilters({
+                          ...tempFilters,
+                          date: {
+                            ...tempFilters.date,
+                            endDate: e.target.value,
+                          },
+                        })
+                      }
+                    />
+                  </div>
+                )}
               </div>
             </div>
 
@@ -235,20 +307,34 @@ function FilterPopup() {
                 {contractTypes.map((type, index) => (
                   <label
                     key={index}
-                    htmlFor={type.label}
+                    htmlFor={type.value}
                     className="flex flex-row gap-1.5 font-medium text-sm items-center cursor-pointer font-inter"
                   >
                     <Checkbox
-                      label={type.label}
+                      label={type.value}
                       className="w-[1.375rem] h-[1.375rem]"
+                      checked={tempFilters?.types?.includes(type.value)}
+                      onChange={() => handleCheckboxChange(type.value)}
                     />
-                    {type.label}
+                    {type.value}
                   </label>
                 ))}
               </div>
             </div>
 
-            <Button className="w-full !py-2">Apply</Button>
+            <Button
+              className="w-full !py-2"
+              onClick={() => {
+                onApplyFilters();
+                close();
+              }}
+              disabled={
+                selectedValue === "custom_date" &&
+                (!tempFilters?.date?.startDate || !tempFilters?.date?.endDate)
+              }
+            >
+              Apply
+            </Button>
           </div>
         </div>
       )}

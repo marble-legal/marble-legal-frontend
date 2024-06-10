@@ -6,6 +6,10 @@ export const ContractGenerationContext = React.createContext({});
 
 export function ContractGenerationProvider({ children }) {
   const [search, setSearch] = useState("");
+  const [filters, setFilters] = useState({
+    date: { startDate: "", endDate: "" },
+    types: [],
+  });
   const [contractList, setContractList] = React.useState<any[] | null>(null);
   const [selectedContract, setSelectedContract] = React.useState<any | null>(
     null
@@ -20,7 +24,7 @@ export function ContractGenerationProvider({ children }) {
       try {
         setLoading(true);
         const res = await api.getContracts(userId, true);
-        console.log(res);
+        // console.log(res);
         setLoading(false);
         setContractList(res.data || []);
         if (!selectedContract && res?.data?.[0]) {
@@ -42,17 +46,52 @@ export function ContractGenerationProvider({ children }) {
     }
   }, [user.id, fetchContracts]);
 
-  const filterContractList = (list, search) => {
+  const filterContractList = (
+    list: any[] | null,
+    search: string,
+    filters: {
+      date: { startDate: string; endDate: string };
+      types: string[];
+    } | null
+  ) => {
     if (!list) return [];
-    if (!search) return list;
-    return list.filter((item) => {
-      return item?.title?.toLowerCase().includes(search.toLowerCase());
-    });
+    let filteredList = list;
+
+    if (search) {
+      filteredList = filteredList.filter((item) => {
+        return item?.title?.toLowerCase().includes(search.toLowerCase());
+      });
+    }
+
+    // console.log("Reached");
+    // console.log(filters);
+    if (filters) {
+      if (filters.date) {
+        const { startDate, endDate } = filters.date;
+        filteredList = filteredList.filter((item) => {
+          const itemDate = new Date(item.createdAt);
+          return (
+            itemDate >= new Date(startDate) && itemDate <= new Date(endDate)
+          );
+        });
+      }
+
+      if (filters.types && filters.types.length > 0) {
+        // console.log(filters.types);
+        filteredList = filteredList.filter((item) => {
+          return filters.types.includes(item.type);
+        });
+      }
+    }
+
+    return filteredList;
   };
 
-  console.log({ contractList });
+  console.log(contractList);
+
+  // console.log({ contractList });
   const values = {
-    contractList: filterContractList(contractList, search),
+    contractList: filterContractList(contractList, search, filters),
     setContractList,
     selectedContract,
     setSelectedContract,
@@ -61,6 +100,8 @@ export function ContractGenerationProvider({ children }) {
     refetchContractList: refetch,
     search,
     setSearch,
+    filters,
+    setFilters,
   };
 
   return (

@@ -14,7 +14,7 @@ export function ContractListItem({ contract, onView, onDelete }) {
       downloadPDF(contract?.pdfUrl);
     }
   };
-  console.log(contract);
+
   return (
     <div className="bg-white w-full flex flex-row p-4 justify-between gap-5 rounded-[12px] shadow-[2px_4px_9px_0px_rgba(107,103,158,0.05)]">
       <div className="flex flex-1 flex-row gap-4 items-start md:items-center">

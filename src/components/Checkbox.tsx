@@ -1,13 +1,25 @@
 import clsx from "clsx";
 
-function Checkbox({ label, className }: { label: string; className?: string }) {
+function Checkbox({
+  label,
+  className,
+  checked,
+  onChange,
+}: {
+  label: string;
+  className?: string;
+  checked?: boolean;
+  onChange?: (checked: boolean) => void;
+}) {
   return (
     <div className="flex items-center">
       <input
         id={label}
         type="checkbox"
         className="hidden" // Hides the checkbox
-        onChange={(e) => console.log(e.target.checked)} // Handle change
+        defaultChecked={checked} // Default checked state
+        // onChange={(e) => console.log(e.target.checked)} // Handle change
+        onChange={(e) => onChange?.(e.target.checked)} // Handle change
       />
       <label
         htmlFor={label}
