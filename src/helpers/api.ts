@@ -80,4 +80,29 @@ export const api = {
   createContract: (data: any) => {
     return apiClient.post("/contracts", data);
   },
+  getSignedUrl: ({ id, data }: { id: string; data: any }) => {
+    // /users/{id}/images/signed-url
+    return apiClient.get(`/users/${id}/images/signed-url`, {
+      params: data,
+    });
+  },
+  editUser: (id: string, data: any) => {
+    return apiClient.put(`/users/${id}`, data);
+  },
+  deleteUser: (id: string) => {
+    return apiClient.delete(`/users/${id}`);
+  },
+  initiateEmailUpdate: (id: string, email: string) => {
+    return apiClient.post(`/users/${id}/email/verify/initiate`, {
+      email,
+    });
+  },
+  verifyEmailUpdate: (id: string, otp: string) => {
+    return apiClient.post(`/users/${id}/email/update`, {
+      otp,
+    });
+  },
+  changePassword: (id: string, data: any) => {
+    return apiClient.patch(`/users/${id}/password`, data);
+  },
 };

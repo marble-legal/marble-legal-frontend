@@ -13,7 +13,7 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const userId = getUser().id;
-  const { data: userData } = useQuery(["user"], () =>
+  const { data: userData, refetch } = useQuery(["user"], () =>
     api.getUser({ id: userId })
   );
 
@@ -26,6 +26,7 @@ export const AuthProvider = ({ children }) => {
   // Value provided by the context
   const value = {
     user,
+    refetch,
   };
 
   // Render children with auth context provider

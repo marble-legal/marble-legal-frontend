@@ -25,7 +25,7 @@ import Dropdown from "./Dropdown";
 import { getUser } from "../helpers/utils";
 import { api } from "../helpers/api";
 import { useQuery } from "@tanstack/react-query";
-import SettingsModal from "./Settings";
+import SettingsModal from "./settings/Settings";
 
 export default function MobileMenu({
   renderAction,

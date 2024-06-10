@@ -6,7 +6,7 @@ import Sidebar from "../components/Sidebar";
 import useViewportHeight from "../helpers/useViewportHeight";
 import Dropdown from "../components/Dropdown";
 import { AuthProvider, useAuth } from "../AuthContext";
-import SettingsModal from "../components/Settings";
+import SettingsModal from "../components/settings/Settings";
 
 function InitialApp() {
   const vh = useViewportHeight();

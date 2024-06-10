@@ -18,6 +18,7 @@ export default function CustomInput({
   disabled,
   change,
   noIcon,
+  onChangeButton,
   ...props
 }: {
   label: string;
@@ -32,6 +33,7 @@ export default function CustomInput({
   disabled?: boolean;
   change?: boolean;
   noIcon?: boolean;
+  onChangeButton?: () => void;
 }) {
   const [showPassword, setShowPassword] = useState(false);
   const [isDisabled, setIsDisabled] = useState(disabled);
@@ -44,7 +46,7 @@ export default function CustomInput({
     <div className={clsx("flex flex-col gap-[0.25rem]", className)}>
       <label
         htmlFor={id}
-        className="text-[#030712] text-[0.875rem] font-[Inter] font-[500] font-[Inter]"
+        className="text-[#030712] text-[0.875rem] font-[500] font-inter"
       >
         {label}
       </label>
@@ -95,7 +97,7 @@ export default function CustomInput({
           <button
             type="button"
             className="absolute right-4 top-1/2 transform -translate-y-1/2 text-[#B85042] text-[0.75rem] fon-[500]"
-            onClick={handleIsDisabled}
+            onClick={onChangeButton}
           >
             Change
           </button>
