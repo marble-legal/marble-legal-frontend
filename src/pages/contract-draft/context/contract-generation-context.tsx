@@ -66,7 +66,12 @@ export function ContractGenerationProvider({ children }) {
     // console.log("Reached");
     // console.log(filters);
     if (filters) {
-      if (filters.date) {
+      if (
+        filters.date.startDate &&
+        filters.date.endDate &&
+        filters.date.startDate !== "" &&
+        filters.date.endDate !== ""
+      ) {
         const { startDate, endDate } = filters.date;
         filteredList = filteredList.filter((item) => {
           const itemDate = new Date(item.createdAt);

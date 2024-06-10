@@ -170,9 +170,16 @@ function CardSkeleton() {
   );
 }
 function FilterPopup() {
-  const [selectedValue, setSelectedValue] = useState<string>("custom_date");
-  const { filters, setFilters } = useContractGeneration() as any;
-  const [tempFilters, setTempFilters] = useState<any>();
+  const [selectedValue, setSelectedValue] = useState<string>("");
+  const { setFilters } = useContractGeneration() as any;
+  const [tempFilters, setTempFilters] = useState<{
+    date: { startDate: string; endDate: string };
+    types: string[];
+  }>({
+    date: { startDate: "", endDate: "" },
+    types: [],
+  });
+
   // console.log(contextFilters);
 
   const handleDateChange = (value: string) => {
@@ -213,12 +220,18 @@ function FilterPopup() {
   };
 
   const handleCheckboxChange = (type: string) => {
-    setTempFilters((prevFilters) => ({
-      ...prevFilters,
-      types: prevFilters.types.includes(type)
-        ? prevFilters.types.filter((t) => t !== type)
-        : [...prevFilters.types, type],
-    }));
+    // setTempFilters((prevFilters) => ({
+    //   ...prevFilters,
+    //   types: prevFilters.types.includes(type)
+    //     ? prevFilters.types.filter((t) => t !== type)
+    //     : [...prevFilters.types, type],
+    // }));
+    setTempFilters({
+      ...tempFilters,
+      types: tempFilters?.types?.includes(type)
+        ? tempFilters.types.filter((t) => t !== type)
+        : [...tempFilters.types, type],
+    });
   };
 
   const options = [
