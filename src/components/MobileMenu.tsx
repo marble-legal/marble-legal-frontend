@@ -121,8 +121,8 @@ export default function MobileMenu({
               toggleDrawer={toggleDrawer}
             />
             <CustomLink
-              to="/documents"
-              activePath="/documents"
+              to="/draft-generation"
+              activePath="/draft-generation"
               Icon={DocumentIcon}
               label="Contract draft generation"
               toggleDrawer={toggleDrawer}

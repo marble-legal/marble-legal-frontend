@@ -54,29 +54,28 @@ export default function ContractDraftGeneration() {
         }
       />
 
-      <div className="shadow-header px-[1.875rem] py-4 md:flex justify-between border-b-solid border-b-[1px] border-[#DADCE2] items-center hidden">
-        <h1 className="font-outfit text-[1.25rem] font-[500]">
-          Contract draft generation
-        </h1>
-
-        <div className="flex flex-row gap-3 items-center">
-          <span className="text-[0.875rem]">
-            4/20 credits left for this month
-          </span>
-          <Button
-            variant="primary"
-            className="flex gap-1 px-6 py-3 bg-[#B84242] border-[#B85042] font-[500]"
-            onClick={() => setCreateDraftModal(true)}
-          >
-            <PlusIcon />
-            Create a contract
-          </Button>
+      <div className="md:sticky md:block top-0 z-10 bg-[#F2F5FB]">
+        <div className="shadow-header px-[1.875rem] py-4 md:flex justify-between border-b-solid border-b-[1px] border-[#DADCE2] items-center hidden">
+          <h1 className="font-outfit text-[1.25rem] font-[500]">
+            Contract draft generation
+          </h1>
+          <div className="flex flex-row gap-3 items-center">
+            <span className="text-[0.875rem]">
+              4/20 credits left for this month
+            </span>
+            <Button
+              variant="primary"
+              className="flex gap-1 px-6 py-3 bg-[#B84242] border-[#B85042] font-[500]"
+              onClick={() => setCreateDraftModal(true)}
+            >
+              <PlusIcon />
+              Create a contract
+            </Button>
+          </div>
         </div>
-      </div>
 
-      <div className="py-[1.625rem] flex flex-col gap-[1.25rem] ">
-        <div className="flex flex-row justify-between items-center md:px-[1.875rem] px-[1rem]">
-          <div className="flex flex-row gap-2.5">
+        <div className="flex flex-row justify-between items-center md:px-[1.875rem] px-[1rem] mt-[1.625rem]">
+          <div className="flex flex-row gap-2.5 md:w-auto w-full">
             <SearchComponent
               onChange={(e) => setSearch(e.target.value)}
               value={search}
@@ -87,7 +86,9 @@ export default function ContractDraftGeneration() {
             <span>Total drafts: {rest?.contractList?.length}</span>
           </div>
         </div>
+      </div>
 
+      <div className="py-[1.625rem] flex flex-col gap-[1.25rem] ">
         <div className="w-full px-5 md:hidden flex justify-between items-center">
           <span className="text-black text-sm font-medium leading-none">
             Total drafts: {rest?.contractList?.length}
@@ -96,7 +97,7 @@ export default function ContractDraftGeneration() {
             4/20 credits left for this month
           </span>
         </div>
-        <div className="h-[calc(100vh-210px)] md:px-[1.875rem] px-[1rem] overflow-auto flex flex-col gap-4">
+        <div className="md:px-[1.875rem] px-[1rem] flex flex-col gap-4">
           {rest.loading && <CardSkeleton />}
           {!rest.loading &&
             rest.contractList?.map((contract: any) => (
@@ -124,6 +125,7 @@ export default function ContractDraftGeneration() {
           )}
         </div>
       </div>
+
       {selectedContract && (
         <ContractView
           isOpen={!!selectedContract}
