@@ -108,14 +108,17 @@ export const featureSpecificPlan = [
 ];
 
 export const contractTypes = [
-  { value: "Employment", label: "Employment Contracts" },
-  { value: "NDA", label: "Non-Disclosure Agreement" },
-  { value: "Service", label: "Service Agreement" },
-  { value: "Lease", label: "Lease Agreement" },
-  { value: "Partnership", label: "Partnership Agreement" },
-  { value: "Independent", label: "Independent Contractor Agreement" },
-  { value: "Sales", label: "Sales Agreement" },
-  { value: "Licensing", label: "Licensing Agreement" },
-  { value: "Confidentiality", label: "Confidentiality Agreement" },
-  { value: "Consulting", label: "Consulting Agreement" },
+  { value: "Employment Contracts", label: "Employment Contracts" },
+  { value: "Non-Disclosure Agreement", label: "Non-Disclosure Agreement" },
+  { value: "Service Agreement", label: "Service Agreement" },
+  { value: "Lease Agreement", label: "Lease Agreement" },
+  { value: "Partnership Agreement", label: "Partnership Agreement" },
+  {
+    value: "Independent Contractor Agreement",
+    label: "Independent Contractor Agreement",
+  },
+  { value: "Sales Agreement", label: "Sales Agreement" },
+  { value: "Licensing Agreement", label: "Licensing Agreement" },
+  { value: "Confidentiality Agreement", label: "Confidentiality Agreement" },
+  { value: "Consulting Agreement", label: "Consulting Agreement" },
 ];

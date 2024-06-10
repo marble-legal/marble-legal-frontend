@@ -14,7 +14,7 @@ export function EditContractView({ contract, onDiscard, isOpen, onChange }) {
         className="md:w-[682px] mx-auto overflow-auto !h-[calc(100vh-110px)] bg-white rounded-[12px] md:p-7 [&_.wmde-markdown]:!bg-transparent [&_.wmde-markdown]:!text-black"
       >
         <MDEditor
-          value={contract.content}
+          value={contract.generatedContent}
           onChange={handleChange}
           className="!h-full"
         />

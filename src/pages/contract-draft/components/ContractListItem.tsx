@@ -17,7 +17,7 @@ export function ContractListItem({ contract, onView, onDelete }) {
   console.log(contract);
   return (
     <div className="bg-white w-full flex flex-row p-4 justify-between gap-5 rounded-[12px] shadow-[2px_4px_9px_0px_rgba(107,103,158,0.05)]">
-      <div className="flex flex-row gap-4 items-start md:items-center">
+      <div className="flex flex-1 flex-row gap-4 items-start md:items-center">
         <div className="bg-[#F5FAF0] p-3 rounded-[8px] h-fit">
           <DocumentIcon className="[&>g>path]:fill-[#5E9B22] [&>path]:fill-[#5E9B22] w-8 h-8" />
         </div>

@@ -139,7 +139,7 @@ export function ContractView({ isOpen, onClose, contract }) {
           </div>
           <div className="h-[calc(100vh-110px)] overflow-auto">
             <div className="md:w-[682px] mx-auto bg-white rounded-[12px] md:p-7 [&_.wmde-markdown]:!bg-transparent [&_.wmde-markdown]:!text-black">
-              <MDEditor.Markdown source={contract.content} />
+              <MDEditor.Markdown source={contract.generatedContent} />
             </div>
           </div>
         </>

@@ -19,7 +19,7 @@ export function ContractGenerationProvider({ children }) {
       if (!userId) return;
       try {
         setLoading(true);
-        const res = await api.getContracts(userId, false);
+        const res = await api.getContracts(userId, true);
         console.log(res);
         setLoading(false);
         setContractList(res.data || []);
