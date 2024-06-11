@@ -5,7 +5,7 @@ import { ReactComponent as DocumentIcon } from "../../assets/icons/document-text
 import SearchComponent from "../../components/Search";
 import UIPopover from "../../components/Popover";
 import { PopupModal } from "../../components/PopupModal";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import MobileMenu from "../../components/MobileMenu";
 import { useContractGeneration } from "./context/contract-generation-context";
 import { contractTypes } from "../../helpers/consts";
@@ -171,7 +171,7 @@ function CardSkeleton() {
 }
 function FilterPopup() {
   const [selectedValue, setSelectedValue] = useState<string>("");
-  const { setFilters } = useContractGeneration() as any;
+  const { setFilters, filters } = useContractGeneration() as any;
   const [tempFilters, setTempFilters] = useState<{
     date: { startDate: string; endDate: string };
     types: string[];
@@ -245,16 +245,47 @@ function FilterPopup() {
     setFilters(tempFilters);
   };
 
+  const hasFilters = useMemo(() => {
+    return (
+      filters.date.startDate || filters.date.endDate || filters.types.length > 0
+    );
+  }, [filters]);
+
   return (
     <UIPopover
       trigger={
-        <Button
-          variant="outline"
-          className="flex flex-row gap-1.5 items-center bg-white h-full"
-        >
-          <FiltersIcon />
-          Filters
-        </Button>
+        <div className="flex items-center gap-2 w-full flex-1">
+          <Button
+            variant="outline"
+            className="relative flex flex-row gap-1.5 items-center bg-white h-full"
+          >
+            <FiltersIcon />
+            Filters
+            {hasFilters && (
+              <div className="absolute -top-1 border border-white -right-1 w-3 h-3 bg-[#B84242] rounded-full" />
+            )}
+          </Button>
+          {hasFilters && (
+            <button
+              className="text-primary whitespace-nowrap font-medium"
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                setFilters({
+                  date: { startDate: "", endDate: "" },
+                  types: [],
+                });
+                setSelectedValue("");
+                setTempFilters({
+                  date: { startDate: "", endDate: "" },
+                  types: [],
+                });
+              }}
+            >
+              Clear all filters
+            </button>
+          )}
+        </div>
       }
     >
       {(close) => (
@@ -286,6 +317,10 @@ function FilterPopup() {
                           date: {
                             ...tempFilters.date,
                             startDate: e.target.value,
+                            endDate:
+                              tempFilters.date.endDate < e.target.value
+                                ? ""
+                                : tempFilters.date.endDate,
                           },
                         })
                       }
@@ -295,6 +330,7 @@ function FilterPopup() {
                       type="date"
                       className="border-[1px] rounded-md py-2 px-3 text-xs placeholder-[#999999]"
                       value={tempFilters?.date?.endDate}
+                      min={tempFilters?.date?.startDate}
                       onChange={(e) =>
                         setTempFilters({
                           ...tempFilters,
