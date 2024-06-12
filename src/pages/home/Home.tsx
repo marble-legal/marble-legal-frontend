@@ -79,7 +79,7 @@ export default function Home() {
             <img
               src={user?.profileImg || ProfileImageIcon}
               alt="profile"
-              className="h-16 w-16 rounded-md mx-auto"
+              className="h-16 w-16 rounded-full mx-auto"
             />
             <PremiumCrownIcon className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-6 h-6 rounded-full" />
           </div>
