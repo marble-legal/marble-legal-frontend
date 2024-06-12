@@ -95,7 +95,7 @@ export const api = {
     });
   },
   initiateEmailUpdate: (id: string, email: string) => {
-    return apiClient.post(`/users/${id}/email/verify/initiate`, {
+    return apiClient.post(`/users/${id}/email/update/initiate`, {
       email,
     });
   },
