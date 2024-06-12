@@ -105,7 +105,7 @@ export default function Sidebar({
                 <img
                   src={user?.profileImg || ProfileImageIcon}
                   alt="profile"
-                  className="h-8 w-8 rounded-md"
+                  className="h-8 w-8 rounded-full"
                 />
                 <span className="text-[1rem] truncate max-w-[120px]">
                   {user?.fullName}

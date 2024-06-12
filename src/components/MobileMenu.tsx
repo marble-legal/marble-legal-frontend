@@ -153,7 +153,7 @@ export default function MobileMenu({
                     <img
                       src={userSelf?.profileImg || ProfileImageIcon}
                       alt="profile"
-                      className="h-8 w-8 rounded-md"
+                      className="h-8 w-8 rounded-full"
                     />
                     <span className="text-[0.875rem] truncate max-w-[120px]">
                       {user?.data?.fullName}
