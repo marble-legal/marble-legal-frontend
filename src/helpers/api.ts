@@ -89,8 +89,10 @@ export const api = {
   editUser: (id: string, data: any) => {
     return apiClient.put(`/users/${id}`, data);
   },
-  deleteUser: (id: string) => {
-    return apiClient.delete(`/users/${id}`);
+  deleteUser: (id: string, password: string) => {
+    return apiClient.delete(`/users/${id}`, {
+      data: { password },
+    });
   },
   initiateEmailUpdate: (id: string, email: string) => {
     return apiClient.post(`/users/${id}/email/verify/initiate`, {

@@ -1,4 +1,5 @@
 import { ReactComponent as CloseIcon } from "../assets/icons/x.svg";
+import ProfileImageIcon from "../assets/icons/profile.svg";
 import LogoIcon from "../assets/icons/lara-logo.svg";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -26,6 +27,7 @@ import { getUser } from "../helpers/utils";
 import { api } from "../helpers/api";
 import { useQuery } from "@tanstack/react-query";
 import SettingsModal from "./settings/Settings";
+import { useAuth } from "../AuthContext";
 
 export default function MobileMenu({
   renderAction,
@@ -37,6 +39,7 @@ export default function MobileMenu({
   const userId = getUser().id;
   const { data: user } = useQuery(["user"], () => api.getUser({ id: userId }));
   const [showSettings, setShowSettings] = useState(false);
+  const { user: userSelf } = useAuth();
   const toggleSettings = () => {
     setShowSettings(!showSettings);
     setIsDrawerOpen(false);
@@ -148,7 +151,7 @@ export default function MobileMenu({
                   <div className="flex gap-[0.625rem] items-center">
                     {/* randomg image */}
                     <img
-                      src="https://randomuser.me/api/portraits/men/32.jpg"
+                      src={userSelf?.profileImg || ProfileImageIcon}
                       alt="profile"
                       className="h-8 w-8 rounded-md"
                     />

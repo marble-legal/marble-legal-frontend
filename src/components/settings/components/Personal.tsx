@@ -1,11 +1,12 @@
 import Button from "../../Button";
 import CustomInput from "../../Input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ReactComponent as EditIcon } from "../../../assets/icons/edit.svg";
 import { api } from "../../../helpers/api";
 import { useAuth } from "../../../AuthContext";
 import axios from "axios";
 import toast from "react-hot-toast";
+import UserProfileIcon from "../../../assets/icons/profile.svg";
 
 export default function Personal({
   onClose,
@@ -17,19 +18,18 @@ export default function Personal({
   const { user, refetch } = useAuth();
   const [name, setName] = useState(user?.fullName);
   const [isLoading, setLoading] = useState(false);
-  // const [imgUrl, setImgUrl] = useState("");
-  // const [isImageUploading, setImageUploading] = useState(false);
-  // const [tempImage, setTempImg] = useState<any>(null);
+  const [imgUrl, setImgUrl] = useState(user.profileImg || "");
+  const [isImageUploading, setImageUploading] = useState(false);
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // setImageUploading(true);
+    setImageUploading(true);
     api
       .getSignedUrl({
         id: user.id,
         data: {
-          mimeType: e?.target?.files?.[0].type,
+          mimeType: e?.target?.files?.[0]?.type,
           uploadType: "USER_PROFILE",
-          fileName: e?.target?.files?.[0].name,
+          fileName: e?.target?.files?.[0]?.name,
         },
       })
       .then((res: any) => {
@@ -39,15 +39,34 @@ export default function Personal({
               "Content-Type": e?.target?.files?.[0].type,
             },
           })
-          .then((res) => {
-            console.log(res);
+          .then(() => {
+            api
+              .editUser(user.id, {
+                profileImg: res.data.accessUrl,
+              })
+              .then(() => {
+                setImageUploading(false);
+                setImgUrl(res.data.accessUrl);
+                refetch();
+              })
+              .catch((error) => {
+                toast.error(
+                  error.response?.data?.message || "Failed to upload image"
+                );
+                setImageUploading(false);
+              });
           })
           .catch((err) => {
-            console.log(err);
+            toast.error(
+              err.response?.data?.message || "Failed to upload image"
+            );
+            setImageUploading(false);
           });
       })
       .catch((err) => {
         console.log(err);
+        toast.error(err.response?.data?.message || "Failed to upload image");
+        setImageUploading(false);
       });
   };
 
@@ -82,11 +101,20 @@ export default function Personal({
               accept="image/*"
               onChange={handleUpload}
             />
-            <img
-              className="w-[4.5rem] h-[4.5rem] rounded-full"
-              src="https://randomuser.me/api/portraits/men/32.jpg"
-              alt="profile"
-            />
+            {isImageUploading && (
+              <div className="w-[4.5rem] h-[4.5rem] rounded-full">
+                <div className="absolute inset-0 bg-opacity-50 flex items-center justify-center border-[#ddd] rounded-full border-[1px]">
+                  <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-[#4AA064]"></div>
+                </div>
+              </div>
+            )}
+            {!isImageUploading && (
+              <img
+                className="w-[4.5rem] h-[4.5rem] rounded-full"
+                src={imgUrl || UserProfileIcon}
+                alt="profile"
+              />
+            )}
             <div className="absolute -bottom-0 -right-1 bg-[#4AA064] rounded-full p-1 border-[1.5px] border-white">
               <EditIcon className="w-4 h-4 [&_path]:stroke-white" />
             </div>

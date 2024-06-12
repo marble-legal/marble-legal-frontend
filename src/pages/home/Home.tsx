@@ -5,6 +5,7 @@ import { ReactComponent as DocumentIcon } from "../../assets/icons/document-text
 import { ReactComponent as BuildingIcon } from "../../assets/icons/buliding.svg";
 import { ReactComponent as ChevronIcon } from "../../assets/icons/chevron.svg";
 import { ReactComponent as PremiumCrownIcon } from "../../assets/icons/premium-crown.svg";
+import ProfileImageIcon from "../../assets/icons/profile.svg";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
 import { useViewportWidth } from "../../helpers/useViewportHeight";
@@ -76,7 +77,7 @@ export default function Home() {
         <div className="mb-3 justify-center gap-[1.25rem] grid">
           <div className="relative">
             <img
-              src="https://randomuser.me/api/portraits/men/32.jpg"
+              src={user?.profileImg || ProfileImageIcon}
               alt="profile"
               className="h-16 w-16 rounded-md mx-auto"
             />

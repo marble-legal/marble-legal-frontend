@@ -7,6 +7,7 @@ import useViewportHeight from "../helpers/useViewportHeight";
 import Dropdown from "../components/Dropdown";
 import { AuthProvider, useAuth } from "../AuthContext";
 import SettingsModal from "../components/settings/Settings";
+import ProfileImageIcon from "../assets/icons/profile.svg";
 
 function InitialApp() {
   const vh = useViewportHeight();
@@ -57,7 +58,7 @@ function InitialApp() {
                 <div className="flex gap-[0.625rem] items-center rounded-[48px]">
                   {/* randomg image */}
                   <img
-                    src="https://randomuser.me/api/portraits/men/32.jpg"
+                    src={user?.profileImg || ProfileImageIcon}
                     alt="profile"
                     className="h-8 w-8 rounded-full shadow-dropdown"
                   />

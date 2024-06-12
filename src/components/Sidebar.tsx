@@ -10,6 +10,7 @@ import { ReactComponent as SettingsIcon } from "../assets/icons/setting.svg";
 import { ReactComponent as LogoutIcon } from "../assets/icons/logout.svg";
 import { ReactComponent as ShieldIcon } from "../assets/icons/shield.svg";
 import { ReactComponent as CrownIcon } from "../assets/icons/crown.svg";
+import ProfileImageIcon from "../assets/icons/profile.svg";
 import menuImage from "../assets/images/sidebar.png";
 import Dropdown from "./Dropdown";
 import { useAuth } from "../AuthContext";
@@ -102,7 +103,7 @@ export default function Sidebar({
               <div className="flex gap-[0.625rem] items-center">
                 {/* randomg image */}
                 <img
-                  src="https://randomuser.me/api/portraits/men/32.jpg"
+                  src={user?.profileImg || ProfileImageIcon}
                   alt="profile"
                   className="h-8 w-8 rounded-md"
                 />

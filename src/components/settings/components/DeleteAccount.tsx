@@ -2,16 +2,38 @@ import Button from "../../Button";
 import CustomInput from "../../Input";
 import { ReactComponent as ArrowIcon } from "../../../assets/icons/arrow.svg";
 import { useState } from "react";
+import { api } from "../../../helpers/api";
+import toast from "react-hot-toast";
+import { useAuth } from "../../../AuthContext";
 
 export default function DeleteAccount({
   setActiveTab,
 }: {
   setActiveTab: (tab: string) => void;
 }) {
+  const { user } = useAuth();
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     password: "",
     confirm: "",
   });
+
+  const handleDeleteAccount = () => {
+    console.log(user.id);
+    setLoading(true);
+    api
+      .deleteUser(user.id, form.password)
+      .then(() => {
+        toast.success("Account deleted successfully");
+        localStorage.clear();
+        setLoading(false);
+      })
+      .catch((err) => {
+        // handle error;
+        toast.error(err.response.data.message || "An error occurred");
+        setLoading(false);
+      });
+  };
 
   return (
     <div className="md:p-[1.5rem] p-[1.25rem] w-full flex flex-col gap-4">
@@ -24,9 +46,9 @@ export default function DeleteAccount({
         </button>
         <Button
           className="h-fit w-[100px] leading-[18px]"
-          //   onClick={handleInitiateChangeEmail}
-          //   loading={isLoading}
-          //   disabled={!email}
+          onClick={handleDeleteAccount}
+          disabled={form.confirm !== "Confirm" || form.password.length < 8}
+          loading={loading}
         >
           Delete
         </Button>
@@ -39,10 +61,13 @@ export default function DeleteAccount({
           name="password"
           id="password"
           placeholder="Enter your full name"
-          //   value={user?.email}
-          //   onChange={(e) => {}}
-          value="something"
-          onChange={() => {}}
+          value={form.password}
+          onChange={(e) => {
+            setForm((prev) => ({
+              ...prev,
+              password: e.target.value,
+            }));
+          }}
           className="w-full"
           noIcon
         />
@@ -53,8 +78,6 @@ export default function DeleteAccount({
           name="confirm"
           id="confirm"
           placeholder="Enter Confirm"
-          //   value={email}
-          //   onChange={(e) => setEmail(e.target.value)}
           value={form.confirm}
           onChange={(e) => {
             setForm((prev) => ({

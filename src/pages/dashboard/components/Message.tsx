@@ -3,6 +3,7 @@ import { ReactComponent as LikeIcon } from "../../../assets/icons/like.svg";
 import { ReactComponent as DisLikeIcon } from "../../../assets/icons/dislike.svg";
 import { ReactComponent as CopyIcon } from "../../../assets/icons/copy.svg";
 import { ReactComponent as LogoIcon } from "../../../assets/icons/logo.svg";
+import ProfileImageIcon from "../../../assets/icons/profile.svg";
 
 import { getInitial, getUser } from "../../../helpers/utils";
 import MDEditor from "@uiw/react-md-editor";
@@ -18,7 +19,7 @@ export function Message({
   onDisLike?: (id: string) => void;
   systemMessageClassName?: string;
 }) {
-  const profileImg = "https://randomuser.me/api/portraits/men/32.jpg";
+  // const profileImg = "https://randomuser.me/api/portraits/men/32.jpg";
   const [isCopied, setIsCopied] = useState(false);
   const handleCopy = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -35,10 +36,10 @@ export function Message({
         <div className="pl-4 flex-1 pr-5 py-4 rounded-lg border border-[#D0CEE3] justify-start items-start gap-3 flex">
           <div className="justify-start items-center gap-1.5 flex">
             <div className="w-6 h-6 bg-primary rounded justify-center items-center gap-2.5 flex">
-              {profileImg ? (
+              {user?.profileImg ? (
                 <img
                   className="w-5 h-5"
-                  src="https://randomuser.me/api/portraits/men/32.jpg"
+                  src={user?.profileImg || ProfileImageIcon}
                   alt="user"
                 />
               ) : (
