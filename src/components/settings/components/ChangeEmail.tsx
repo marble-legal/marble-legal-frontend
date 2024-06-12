@@ -75,7 +75,7 @@ function InitiateStep({
         </Button>
       </div>
 
-      <div className="grid gap-4">
+      <div className="grid gap-4 mt-4">
         <CustomInput
           label="Current Email Address"
           type="text"
@@ -157,7 +157,7 @@ function VerifyStep({
         </Button>
       </div>
 
-      <div className="grid gap-2">
+      <div className="grid gap-2 mt-4">
         <CustomInput
           label="Please enter the code"
           type="text"
