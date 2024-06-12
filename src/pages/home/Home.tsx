@@ -34,6 +34,7 @@ export default function Home() {
           <DocumentIcon className="[&>g>path]:fill-[#5E9B22] [&>path]:fill-[#5E9B22] w-8 h-8" />
         </div>
       ),
+      link: "/draft-generation",
     },
     {
       title: "Contract Analysis",
