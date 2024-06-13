@@ -50,7 +50,8 @@ export default function ChangePassword({
       className="md:p-[1.5rem] p-[1.25rem] w-full flex flex-col gap-4"
       onSubmit={handleChangePassword}
     >
-      <div className="flex flex-row justify-between items-center">
+      {/* Desktop */}
+      <div className="md:flex flex-row justify-between items-center hidden">
         <button
           className="relative p-2.5 border-solid rounded-lg border-[#D7D7D7] border-[1px]"
           onClick={() => setActiveTab("personal")}
@@ -74,6 +75,7 @@ export default function ChangePassword({
           Change
         </Button>
       </div>
+      {/* END */}
 
       <div className="grid gap-4">
         <CustomInput
@@ -138,6 +140,24 @@ export default function ChangePassword({
           className="w-full"
           noIcon
         />
+
+        {/* Mobile */}
+        <Button
+          className="h-fit w-full leading-[18px] md:hidden flex"
+          type="submit"
+          loading={isLoading}
+          disabled={
+            form.oldPassword.length < 6 ||
+            form.newPassword.length < 6 ||
+            form.confirm.length < 6 ||
+            form.newPassword !== form.confirm ||
+            checkPasswordStrength(form.newPassword).score < 80 ||
+            isLoading
+          }
+        >
+          Change
+        </Button>
+        {/* END */}
       </div>
     </form>
   );

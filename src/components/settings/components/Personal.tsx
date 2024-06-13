@@ -134,16 +134,34 @@ export default function Personal({
             </div>
           </label>
         </div>
+        {/* Desktop */}
         <Button
           disabled={
             name === user?.fullName || name.length < 3 || name.length > 50
           }
-          className="h-fit w-[100px] leading-[18px]"
+          className="h-fit w-[100px] leading-[18px] md:flex hidden"
           onClick={handleUpdateUser}
           loading={isLoading}
         >
           Save
         </Button>
+        {/* END */}
+        {/* Mobile */}
+        <div className="md:hidden flex flex-col gap-3 md:mx-0">
+          <button
+            className="!text-[0.75rem] !font-[500] leading-[110%] underline transition-all hover:underline text-[#888] text-end"
+            onClick={() => setActiveTab("deleteAccount")}
+          >
+            Delete Account
+          </button>
+          <button
+            className="!text-[0.75rem] !font-[500] leading-[110%] underline transition-all hover:underline text-[#888] text-end"
+            onClick={() => setActiveTab("changePassword")}
+          >
+            Change Password
+          </button>
+        </div>
+        {/* END */}
       </div>
 
       <div className="grid gap-4">
@@ -170,8 +188,22 @@ export default function Personal({
           disabled
           change
         />
+        {/* Mobile */}
+        <Button
+          disabled={
+            name === user?.fullName || name.length < 3 || name.length > 50
+          }
+          className="h-fit w-full leading-[18px] md:hidden flex"
+          onClick={handleUpdateUser}
+          loading={isLoading}
+        >
+          Save
+        </Button>
+        {/* END */}
       </div>
-      <div className="flex flex-row gap-5 mt-5 md:mx-0 mx-auto">
+
+      {/* Desktop */}
+      <div className="md:flex hidden flex-row gap-5 mt-5 md:mx-0 mx-auto">
         <button
           className="!text-[0.75rem] !font-[500] leading-[110%] underline transition-all hover:underline text-[#888]"
           onClick={() => setActiveTab("deleteAccount")}
@@ -185,6 +217,7 @@ export default function Personal({
           Change Password
         </button>
       </div>
+      {/* END */}
     </div>
   );
 }

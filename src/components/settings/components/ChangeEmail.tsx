@@ -70,7 +70,8 @@ function InitiateStep({
 
   return (
     <form onSubmit={handleInitiateChangeEmail}>
-      <div className="flex flex-row justify-between items-center">
+      {/* Desktop */}
+      <div className="md:flex hidden flex-row justify-between items-center">
         <button
           className="relative p-2.5 border-solid rounded-lg border-[#D7D7D7] border-[1px]"
           onClick={() => setActiveTab("personal")}
@@ -80,7 +81,6 @@ function InitiateStep({
         </button>
         <Button
           className="h-fit w-[100px] leading-[18px]"
-          //   onClick={handleInitiateChangeEmail}
           type="submit"
           loading={isLoading}
           disabled={!email}
@@ -88,8 +88,9 @@ function InitiateStep({
           Next
         </Button>
       </div>
+      {/* END */}
 
-      <div className="grid gap-4 mt-4">
+      <div className="grid gap-4 md:mt-4">
         <CustomInput
           label="Current Email Address"
           type="text"
@@ -114,6 +115,17 @@ function InitiateStep({
           className="w-full"
           noIcon
         />
+
+        {/* Mobile */}
+        <Button
+          className="h-fit w-full leading-[18px] md:hidden flex"
+          type="submit"
+          loading={isLoading}
+          disabled={!email}
+        >
+          Next
+        </Button>
+        {/* END */}
       </div>
     </form>
   );
@@ -159,7 +171,8 @@ function VerifyStep({
 
   return (
     <form onSubmit={handleVerifyChangeEmail}>
-      <div className="flex flex-row justify-between items-center">
+      {/* Desktop */}
+      <div className="md:flex hidden flex-row justify-between items-center">
         <button
           className="relative p-2.5 border-solid rounded-lg border-[#D7D7D7] border-[1px]"
           onClick={() => setStep(1)}
@@ -177,8 +190,9 @@ function VerifyStep({
           Submit
         </Button>
       </div>
+      {/* END */}
 
-      <div className="grid gap-2 mt-4">
+      <div className="grid gap-2 md:mt-4">
         <CustomInput
           label="Please enter the code"
           type="text"
@@ -193,6 +207,16 @@ function VerifyStep({
         <span className="font-bold text-sm text-[#4AA064]">
           We've sent a code to {email}
         </span>
+        {/* Mobile */}
+        <Button
+          className="h-fit w-full leading-[18px] md:hidden flex"
+          type="submit"
+          disabled={!verificationCode}
+          loading={isLoading}
+        >
+          Submit
+        </Button>
+        {/* END */}
       </div>
     </form>
   );
