@@ -25,7 +25,11 @@ export default function ChangeEmail({
         />
       )}
       {step === 2 && (
-        <VerifyStep setActiveTab={setActiveTab} setStep={setStep} />
+        <VerifyStep
+          setActiveTab={setActiveTab}
+          setStep={setStep}
+          email={email}
+        />
       )}
     </div>
   );
