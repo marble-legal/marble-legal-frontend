@@ -16,7 +16,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <Toaster />
         {/* <AppProvider> */}
-        <div className="font-inter min-h-screen flex flex-col">
+        <div className="font-inter flex flex-col">
           <Routes />
         </div>
         {/* </AppProvider> */}
