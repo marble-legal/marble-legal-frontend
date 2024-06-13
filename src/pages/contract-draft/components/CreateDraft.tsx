@@ -1,12 +1,12 @@
 import { useState } from "react";
 import Button from "../../../components/Button";
 import { api } from "../../../helpers/api";
-import toast from "react-hot-toast";
 import { PopupModal } from "../../../components/PopupModal";
 import { ReactComponent as CloseIcon } from "../../../assets/icons/x.svg";
 import { ReactComponent as ChevronIcon } from "../../../assets/icons/chevron.svg";
 import { contractTypes } from "../../../helpers/consts";
 import UIPopover from "../../../components/Popover";
+import { ShowToast } from "../../../components/toast";
 
 export const CreateDraftForm = ({ onClose }: { onClose: () => void }) => {
   const [form, setForm] = useState({
@@ -20,15 +20,20 @@ export const CreateDraftForm = ({ onClose }: { onClose: () => void }) => {
     api
       .createContract(form)
       .then((res) => {
-        toast.success("Contract draft created successfully");
+        ShowToast({
+          type: "success",
+          message: "Contract draft created successfully",
+        });
         onClose();
         setForm({ type: "", content: "" });
         setLoading(false);
       })
       .catch((err) => {
-        toast.error(
-          err.response?.data?.message || "Failed to create contract draft"
-        );
+        ShowToast({
+          type: "error",
+          message:
+            err.response?.data?.message || "Failed to create contract draft",
+        });
         setLoading(false);
       });
   };

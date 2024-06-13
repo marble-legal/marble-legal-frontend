@@ -13,7 +13,7 @@ export default function SettingsModal({ onClose }: { onClose: () => void }) {
 
   return (
     <PopupModal
-      contentClassName="md:max-w-[700px] max-w-[96vw] mx-auto !p-0 w-full !gap-0 min-h-[400px]"
+      contentClassName="md:max-w-[700px] max-w-[96vw] mx-auto !p-0 w-full !gap-0 md:min-h-[400px]"
       onClose={onClose}
       shouldStopPropagation={false}
     >
@@ -29,15 +29,27 @@ export default function SettingsModal({ onClose }: { onClose: () => void }) {
 
       <div className="flex md:flex-row flex-col h-full">
         {/* Tab */}
+
         <div
           className={clsx(
-            "flex gap-2 font-[500] text-[0.875rem] leading-[110%] text-black h-full",
+            "md:flex gap-2 font-[500] text-[0.875rem] leading-[110%] text-black h-full flex-wrap",
             "md:border-r-[#D7D7D7] md:border-r-solid md:border-r-[1px] md:flex-col md:p-3 md:border-b-[0px]",
-            "border-b-[#D7D7D7] border-b-solid border-b-[1px] flex-row p-2"
+            "border-b-[#D7D7D7] border-b-solid border-b-[1px] flex-row p-2",
+            {
+              hidden:
+                activeTab === "deleteAccount" ||
+                activeTab === "changePassword" ||
+                activeTab === "changeEmail",
+            }
           )}
         >
           <TabButton
-            isActive={activeTab === "personal"}
+            isActive={
+              activeTab === "personal" ||
+              activeTab === "changeEmail" ||
+              activeTab === "changePassword" ||
+              activeTab === "deleteAccount"
+            }
             onClick={() => setActiveTab("personal")}
           >
             My profile

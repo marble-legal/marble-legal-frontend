@@ -10,7 +10,6 @@ import MobileMenu from "../../components/MobileMenu";
 import { useContractGeneration } from "./context/contract-generation-context";
 import { contractTypes } from "../../helpers/consts";
 import { api } from "../../helpers/api";
-import toast from "react-hot-toast";
 import { CreateDraftForm } from "./components/CreateDraft";
 import { ContractListItem } from "./components/ContractListItem";
 import { ContractView } from "./components/ContractView";

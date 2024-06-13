@@ -8,9 +8,9 @@ import { useState } from "react";
 import { ReactComponent as SuccessIcon } from "../../../assets/icons/check-mark.svg";
 import CustomButton from "../../../components/Button";
 import { api } from "../../../helpers/api";
-import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as ArrowIcon } from "../../../assets/icons/arrow.svg";
+import { ShowToast } from "../../../components/toast";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Email is required"),
@@ -31,18 +31,22 @@ const ForgotPasswordForm = () => {
             .forgotPassword(values)
             .then(() => {
               setEmail(values.email); // Save email for success component
-              toast.success("Reset password link sent!");
+              ShowToast({
+                type: "success",
+                message: "Reset password link sent!",
+              });
               actions.setSubmitting(false);
               actions.resetForm();
               setSuccess(true);
             })
             .catch((err) => {
               // console.log(err);
-              toast.error(
-                err.response?.data?.message ||
-                  "There was an error sending the reset password link"
-              );
-
+              ShowToast({
+                type: "error",
+                message:
+                  err.response?.data?.message ||
+                  "There was an error sending the reset password link",
+              });
               actions.setSubmitting(false);
             });
         }}
@@ -123,10 +127,18 @@ const ForgotPasswordSuccess = ({ email }: { email: string }) => {
     api
       .forgotPassword({ email })
       .then(() => {
-        toast.success("Reset password link sent!");
+        ShowToast({
+          type: "success",
+          message: "Reset password link sent!",
+        });
       })
-      .catch(() => {
-        toast.error("There was an error sending the reset password link");
+      .catch((err) => {
+        ShowToast({
+          type: "error",
+          message:
+            err.response?.data?.message ||
+            "There was an error sending the reset password link",
+        });
       });
   };
 

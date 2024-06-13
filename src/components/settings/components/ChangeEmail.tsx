@@ -3,8 +3,8 @@ import CustomInput from "../../Input";
 import { useState } from "react";
 import { api } from "../../../helpers/api";
 import { useAuth } from "../../../AuthContext";
-import toast from "react-hot-toast";
 import { ReactComponent as ArrowIcon } from "../../../assets/icons/arrow.svg";
+import { ShowToast } from "../../toast";
 
 export default function ChangeEmail({
   setActiveTab,
@@ -12,11 +12,17 @@ export default function ChangeEmail({
   setActiveTab: (tab: string) => void;
 }) {
   const [step, setStep] = useState(1);
+  const [email, setEmail] = useState("");
 
   return (
     <div className="md:p-[1.5rem] p-[1.25rem] w-full flex flex-col gap-4">
       {step === 1 && (
-        <InitiateStep setActiveTab={setActiveTab} setStep={setStep} />
+        <InitiateStep
+          setActiveTab={setActiveTab}
+          setStep={setStep}
+          email={email}
+          setEmail={setEmail}
+        />
       )}
       {step === 2 && (
         <VerifyStep setActiveTab={setActiveTab} setStep={setStep} />
@@ -28,11 +34,14 @@ export default function ChangeEmail({
 function InitiateStep({
   setActiveTab,
   setStep,
+  email,
+  setEmail,
 }: {
   setActiveTab: (tab: string) => void;
   setStep: (step: number) => void;
+  email: string;
+  setEmail: (email: string) => void;
 }) {
-  const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();
 
@@ -42,14 +51,19 @@ function InitiateStep({
     api
       .initiateEmailUpdate(user.id, email)
       .then(() => {
-        toast.success("OTP sent to your email address");
+        ShowToast({
+          type: "success",
+          message: "OTP sent to your email address",
+        });
         setStep(2);
         setIsLoading(false);
       })
       .catch((err) => {
-        toast.error(
-          err.response?.data?.message || "Failed to initiate email change"
-        );
+        ShowToast({
+          type: "error",
+          message:
+            err.response?.data?.message || "Failed to initiate email change",
+        });
         setIsLoading(false);
       });
   };
@@ -108,9 +122,11 @@ function InitiateStep({
 function VerifyStep({
   setActiveTab,
   setStep,
+  email,
 }: {
   setActiveTab: (tab: string) => void;
   setStep: (step: number) => void;
+  email?: string;
 }) {
   const [verificationCode, setVerificationCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -123,15 +139,20 @@ function VerifyStep({
     api
       .verifyEmailUpdate(user.id, verificationCode)
       .then(() => {
-        toast.success("Email updated successfully");
+        ShowToast({
+          type: "success",
+          message: "Email updated successfully!",
+        });
         setStep(1);
         setActiveTab("personal");
         setIsLoading(false);
       })
       .catch((err) => {
-        toast.error(
-          err.response?.data?.message || "Failed to verify email change"
-        );
+        ShowToast({
+          type: "error",
+          message:
+            err.response?.data?.message || "Failed to verify email change",
+        });
         setIsLoading(false);
       });
   };
@@ -170,7 +191,7 @@ function VerifyStep({
           noIcon
         />
         <span className="font-bold text-sm text-[#4AA064]">
-          We've sent a code to example@email.com
+          We've sent a code to {email}
         </span>
       </div>
     </form>

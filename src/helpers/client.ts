@@ -9,7 +9,7 @@ const onResponse = (response: any) => response;
 const onResponseError = (error: any) => {
   if (error.response?.status === 401 && !error.config.url.includes("login")) {
     // handle unauthorized
-    toast.error("Session expired. Please login again.");
+    // toast.error("Session expired. Please login again.");
     clearTokenAndUser();
     setTimeout(() => {
       window.location.replace("/");

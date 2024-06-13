@@ -3,8 +3,9 @@ import CustomInput from "../../Input";
 import { ReactComponent as ArrowIcon } from "../../../assets/icons/arrow.svg";
 import { useState } from "react";
 import { api } from "../../../helpers/api";
-import toast from "react-hot-toast";
 import { useAuth } from "../../../AuthContext";
+import { ShowToast } from "../../toast";
+import { useNavigate } from "react-router-dom";
 
 export default function DeleteAccount({
   setActiveTab,
@@ -15,8 +16,9 @@ export default function DeleteAccount({
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     password: "",
-    confirm: "",
+    // confirm: "",
   });
+  const navigate = useNavigate();
 
   const handleDeleteAccount = () => {
     console.log(user.id);
@@ -24,13 +26,20 @@ export default function DeleteAccount({
     api
       .deleteUser(user.id, form.password)
       .then(() => {
-        toast.success("Account deleted successfully");
+        ShowToast({
+          type: "success",
+          message: "Account deleted successfully",
+        });
         localStorage.clear();
+        navigate("/login");
         setLoading(false);
       })
       .catch((err) => {
         // handle error;
-        toast.error(err.response.data.message || "An error occurred");
+        ShowToast({
+          type: "error",
+          message: err.response.data.message || "An error occurred",
+        });
         setLoading(false);
       });
   };
@@ -47,7 +56,8 @@ export default function DeleteAccount({
         <Button
           className="h-fit w-[100px] leading-[18px]"
           onClick={handleDeleteAccount}
-          disabled={form.confirm !== "Confirm" || form.password.length < 8}
+          // disabled={form.confirm !== "Confirm" || form.password.length < 8}
+          disabled={form.password.length < 8}
           loading={loading}
         >
           Delete
@@ -60,7 +70,7 @@ export default function DeleteAccount({
           type="password"
           name="password"
           id="password"
-          placeholder="Enter your full name"
+          placeholder="Enter Password"
           value={form.password}
           onChange={(e) => {
             setForm((prev) => ({
@@ -72,7 +82,7 @@ export default function DeleteAccount({
           noIcon
         />
 
-        <CustomInput
+        {/* <CustomInput
           label="Please write “Confirm” below"
           type="text"
           name="confirm"
@@ -87,7 +97,7 @@ export default function DeleteAccount({
           }}
           className="w-full"
           noIcon
-        />
+        /> */}
 
         <p className="text-xs font-medium text-[#888]">
           Deleting your account will{" "}

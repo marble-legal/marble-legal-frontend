@@ -5,8 +5,8 @@ import { ReactComponent as EditIcon } from "../../../assets/icons/edit.svg";
 import { api } from "../../../helpers/api";
 import { useAuth } from "../../../AuthContext";
 import axios from "axios";
-import toast from "react-hot-toast";
 import UserProfileIcon from "../../../assets/icons/profile.svg";
+import { ShowToast } from "../../toast";
 
 export default function Personal({
   onClose,
@@ -50,22 +50,29 @@ export default function Personal({
                 refetch();
               })
               .catch((error) => {
-                toast.error(
-                  error.response?.data?.message || "Failed to upload image"
-                );
+                ShowToast({
+                  type: "error",
+                  message:
+                    error.response?.data?.message || "Failed to upload image",
+                });
                 setImageUploading(false);
               });
           })
           .catch((err) => {
-            toast.error(
-              err.response?.data?.message || "Failed to upload image"
-            );
+            ShowToast({
+              type: "error",
+              message: err.response?.data?.message || "Failed to upload image",
+            });
             setImageUploading(false);
           });
       })
       .catch((err) => {
         console.log(err);
-        toast.error(err.response?.data?.message || "Failed to upload image");
+
+        ShowToast({
+          type: "error",
+          message: err.response?.data?.message || "Failed to upload image",
+        });
         setImageUploading(false);
       });
   };
@@ -75,13 +82,20 @@ export default function Personal({
     api
       .editUser(user.id, { fullName: name })
       .then((res) => {
-        toast.success("Profile updated successfully");
+        ShowToast({
+          type: "success",
+          message: "Profile updated successfully",
+        });
+
         refetch();
         onClose();
         setLoading(false);
       })
       .catch((err) => {
-        toast.error(err.response?.data?.message || "Failed to update profile");
+        ShowToast({
+          type: "error",
+          message: err.response?.data?.message || "Failed to update profile",
+        });
         setLoading(false);
       });
   };
@@ -158,20 +172,18 @@ export default function Personal({
         />
       </div>
       <div className="flex flex-row gap-5 mt-5 md:mx-0 mx-auto">
-        <Button
-          variant="link"
-          className="!text-[0.75rem] !font-[500] leading-[110%] underline !text-[#888]"
+        <button
+          className="!text-[0.75rem] !font-[500] leading-[110%] underline transition-all hover:underline text-[#888]"
           onClick={() => setActiveTab("deleteAccount")}
         >
           Delete Account
-        </Button>
-        <Button
-          variant="link"
-          className="!text-[0.75rem] !font-[500] leading-[110%] underline !text-[#888]"
+        </button>
+        <button
+          className="!text-[0.75rem] !font-[500] leading-[110%] underline transition-all hover:underline text-[#888]"
           onClick={() => setActiveTab("changePassword")}
         >
           Change Password
-        </Button>
+        </button>
       </div>
     </div>
   );

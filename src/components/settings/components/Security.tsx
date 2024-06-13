@@ -3,7 +3,7 @@ import { useState } from "react";
 import ToggleSwitch from "../../ToggleSwitch";
 import { api } from "../../../helpers/api";
 import { useAuth } from "../../../AuthContext";
-import toast from "react-hot-toast";
+import { ShowToast } from "../../toast";
 
 export default function Security() {
   const handleToggle = () => setIsToggled((prev) => !prev);
@@ -14,14 +14,19 @@ export default function Security() {
     api
       .editUser(user.id, { isEmailNotificationOn: !isToggled })
       .then(() => {
-        toast.success("Notification settings updated");
+        ShowToast({
+          type: "success",
+          message: "Notification settings updated",
+        });
         refetch();
       })
       .catch((err) => {
-        toast.error(
-          err.response?.data?.message ||
-            "Failed to update notification settings"
-        );
+        ShowToast({
+          type: "error",
+          message:
+            err.response?.data?.message ||
+            "Failed to update notification settings",
+        });
       });
     handleToggle();
   };

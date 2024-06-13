@@ -8,9 +8,9 @@ import { useState } from "react";
 import { ReactComponent as SuccessIcon } from "../../../assets/icons/check-mark.svg";
 import CustomButton from "../../../components/Button";
 import { api } from "../../../helpers/api";
-import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as ArrowIcon } from "../../../assets/icons/arrow.svg";
+import { ShowToast } from "../../../components/toast";
 
 const validationSchema = Yup.object().shape({
   password: Yup.string()
@@ -43,16 +43,20 @@ const ResetPasswordForm = () => {
             .then(() => {
               actions.setSubmitting(false);
               actions.resetForm();
-              toast.success("Password changed successfully");
+              ShowToast({
+                type: "success",
+                message: "Password changed successfully",
+              });
               setSuccess(true);
             })
             .catch((err) => {
               // console.log(err);
-              toast.error(
-                err.response?.data?.message ||
-                  "There was an error changing your password"
-              );
-
+              ShowToast({
+                type: "error",
+                message:
+                  err.response?.data?.message ||
+                  "There was an error changing your password",
+              });
               actions.setSubmitting(false);
             });
         }}

@@ -3,9 +3,9 @@ import CustomInput from "../../Input";
 import { ReactComponent as ArrowIcon } from "../../../assets/icons/arrow.svg";
 import { useState } from "react";
 import { api } from "../../../helpers/api";
-import toast from "react-hot-toast";
 import { checkPasswordStrength } from "../../../helpers/utils";
 import { useAuth } from "../../../AuthContext";
+import { ShowToast } from "../../toast";
 
 export default function ChangePassword({
   setActiveTab,
@@ -29,12 +29,18 @@ export default function ChangePassword({
         newPassword: form.newPassword,
       })
       .then(() => {
-        toast.success("Password changed successfully");
+        ShowToast({
+          type: "success",
+          message: "Password changed successfully",
+        });
         setActiveTab("personal");
         setLoading(false);
       })
       .catch((err) => {
-        toast.error(err.response?.data?.message || "Failed to change password");
+        ShowToast({
+          type: "error",
+          message: err.response?.data?.message || "Failed to change password",
+        });
         setLoading(false);
       });
   };

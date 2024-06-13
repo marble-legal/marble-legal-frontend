@@ -62,6 +62,7 @@ const LoginForm = () => {
 
 const LoginFormContent = () => {
   const { isValid, isSubmitting } = useFormikContext();
+  const vh = window.innerHeight;
   const navigate = useNavigate();
 
   const handleGoogleLogin = async (response: any) => {
