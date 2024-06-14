@@ -189,7 +189,7 @@ export default function Dashboard() {
               </div>
             )}
             {isEmpty && <EmptyState />}
-            {loading && (
+            {(loading || sending) && (
               <div className="[&_circle]:stroke-primary [&_path]:fill-primary h-full flex justify-center items-center">
                 <Spinner />
               </div>

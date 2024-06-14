@@ -9,7 +9,6 @@ import moment from "moment";
 
 export function ContractListItem({ contract, onView, onDelete }) {
   const handleDownload = (contract) => {
-    console.log("Download");
     if (contract?.pdfUrl) {
       downloadPDF(contract?.pdfUrl);
     }
@@ -51,12 +50,10 @@ export function ContractListItem({ contract, onView, onDelete }) {
                 close();
               }}
               onView={() => {
-                console.log("View");
                 close();
                 onView(contract);
               }}
               onDownload={() => {
-                console.log("Download");
                 close();
                 handleDownload(contract);
               }}

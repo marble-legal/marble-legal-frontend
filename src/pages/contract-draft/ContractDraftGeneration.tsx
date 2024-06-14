@@ -13,7 +13,6 @@ import { api } from "../../helpers/api";
 import { CreateDraftForm } from "./components/CreateDraft";
 import { ContractListItem } from "./components/ContractListItem";
 import { ContractView } from "./components/ContractView";
-import { dummyContent } from "./dummy";
 import { DeleteContractDraftConfirm } from "./components/DeleteContractDraftConfirm";
 import RadioButton from "../../components/RadioButton";
 import Checkbox from "../../components/Checkbox";
@@ -21,13 +20,13 @@ import moment from "moment";
 
 export default function ContractDraftGeneration() {
   const [createDraftModal, setCreateDraftModal] = useState(false);
-  const { search, setSearch, ...rest } = useContractGeneration() as any;
+  const { search, setSearch, refetchContractList, ...rest } =
+    useContractGeneration() as any;
   const [selectedContract, setSelectedContract] = useState<any>();
   const [deleteConfirm, setDeleteConfirm] = useState<any>(null);
 
   const onDelete = (contract) => {
     setDeleteConfirm(contract);
-    // console.log("Delete");
   };
 
   const handleDelete = async (contract) => {};
@@ -130,7 +129,8 @@ export default function ContractDraftGeneration() {
         <ContractView
           isOpen={!!selectedContract}
           onClose={() => setSelectedContract(null)}
-          contract={{ ...selectedContract, content: dummyContent }}
+          contract={{ ...selectedContract }}
+          onUpdate={refetchContractList}
         />
       )}
       {!!deleteConfirm && (
@@ -178,8 +178,6 @@ function FilterPopup() {
     date: { startDate: "", endDate: "" },
     types: [],
   });
-
-  // console.log(contextFilters);
 
   const handleDateChange = (value: string) => {
     setSelectedValue(value);

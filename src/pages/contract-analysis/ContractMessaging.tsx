@@ -33,7 +33,6 @@ export function ContractMessaging() {
   const onDelete = (e) => {
     e.stopPropagation();
     setDeleteConfirm(true);
-    // console.log("Delete");
   };
 
   const handleRegenerate = () => {
@@ -55,14 +54,6 @@ export function ContractMessaging() {
     }
   }, [conversations, currentReply, currentUserMessage]);
 
-  // console.log(
-  //   conversations,
-  //   conversationLoading,
-  //   error,
-  //   currentReply,
-  //   currentUserMessage,
-  //   selectedContract
-  // );
   const isEmpty = !conversations?.length && !conversationLoading;
 
   return (

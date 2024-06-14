@@ -80,6 +80,12 @@ export const api = {
   createContract: (data: any) => {
     return apiClient.post("/contracts", data);
   },
+  updateContract: (id: string, data: any) => {
+    return apiClient.patch(`/contracts/${id}`, data);
+  },
+  getContract: (id: string) => {
+    return apiClient.get(`/contracts/${id}`);
+  },
   getSignedUrl: ({ id, data }: { id: string; data: any }) => {
     // /users/{id}/images/signed-url
     return apiClient.get(`/users/${id}/images/signed-url`, {
