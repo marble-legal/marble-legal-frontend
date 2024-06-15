@@ -8,7 +8,13 @@ import { contractTypes } from "../../../helpers/consts";
 import UIPopover from "../../../components/Popover";
 import { ShowToast } from "../../../components/toast";
 
-export const CreateDraftForm = ({ onClose }: { onClose: () => void }) => {
+export const CreateDraftForm = ({
+  onClose,
+  onUpdate,
+}: {
+  onClose: () => void;
+  onUpdate: () => Promise<void>;
+}) => {
   const [form, setForm] = useState({
     type: "",
     content: "",
@@ -19,14 +25,23 @@ export const CreateDraftForm = ({ onClose }: { onClose: () => void }) => {
     setLoading(true);
     api
       .createContract(form)
-      .then((res) => {
-        ShowToast({
-          type: "success",
-          message: "Contract draft created successfully",
-        });
-        onClose();
-        setForm({ type: "", content: "" });
-        setLoading(false);
+      .then(async (res) => {
+        if ([200, 201].includes(res.status)) {
+          await onUpdate();
+          ShowToast({
+            type: "success",
+            message: "Contract draft created successfully",
+          });
+          onClose();
+          setForm({ type: "", content: "" });
+          setLoading(false);
+        } else {
+          setLoading(false);
+          ShowToast({
+            type: "error",
+            message: res?.data?.message || "Failed to create contract draft",
+          });
+        }
       })
       .catch((err) => {
         ShowToast({

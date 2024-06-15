@@ -39,7 +39,10 @@ export default function ContractDraftGeneration() {
   return (
     <div className="">
       {createDraftModal && (
-        <CreateDraftForm onClose={() => setCreateDraftModal(false)} />
+        <CreateDraftForm
+          onClose={() => setCreateDraftModal(false)}
+          onUpdate={() => refetchContractList()}
+        />
       )}
       <MobileMenu
         renderAction={
