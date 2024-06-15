@@ -34,10 +34,8 @@ export default function Dashboard() {
         setCurrentReply(response.data);
         fetchConversation(false);
       }
-      // console.log(response);
     } catch (error) {
       setSending(false);
-      // console.log(error);
     }
   };
 
@@ -45,7 +43,6 @@ export default function Dashboard() {
     try {
       shouldSetLoading && setLoading(true);
       const response = await api.getAllConversations(user.id);
-      // console.log(response);
       if ([200, 201].includes(response.status)) {
         setCurrentUserMessage("");
         setCurrentReply(null);
@@ -70,10 +67,7 @@ export default function Dashboard() {
         });
         setConversation(updatedConversation);
       }
-      // console.log(response);
-    } catch (error) {
-      // console.log(error);
-    }
+    } catch (error) {}
   };
 
   const handleDisLike = async (conversationId: string) => {
@@ -90,10 +84,7 @@ export default function Dashboard() {
         });
         setConversation(updatedConversation);
       }
-      // console.log(response);
-    } catch (error) {
-      // console.log(error);
-    }
+    } catch (error) {}
   };
 
   const handleRegenerate = () => {
@@ -119,7 +110,6 @@ export default function Dashboard() {
     }
   }, [conversation, currentReply, currentUserMessage]);
 
-  // console.log(conversation, loading, error);
   const isEmpty = !conversation.length && !loading;
   return (
     <>

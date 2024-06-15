@@ -25,7 +25,6 @@ export function ContractAnalysisProvider({ children }) {
       try {
         shouldShowLoading && setConversationLoading(true);
         const res = await api.getAllConversations(user?.id, contractId);
-        // console.log(res);
         shouldShowLoading && setConversationLoading(false);
         if ([200, 201].includes(res.status)) {
           setConversations(res?.data || []);
@@ -58,7 +57,6 @@ export function ContractAnalysisProvider({ children }) {
         setCurrentReply(response.data.message);
         fetchContractMessages(selectedContract.id, false);
       }
-      // console.log(response);
     } catch (error) {
       setSending(false);
     }

@@ -54,22 +54,22 @@ function ViewAction({ onEdit, onDownload, onCopy, isCopied }) {
 
 export function EditAction({ onDiscard, onSave, saving }) {
   return (
-    <div className="bg-white md:bg-transparent text-xs md:text-sm rounded-[10px] px-6 md:px-0 flex justify-center md:justify-start items-center gap-3">
+    <div className="bg-white md:bg-transparent text-xs md:text-sm rounded-[10px] px-6 md:px-0 flex justify-center md:justify-start items-center gap-[60px] md:gap-3">
       <button
         onClick={onDiscard}
-        className="py-4 flex items-center gap-1.5 hover:text-black/60"
+        className="py-4 flex items-center gap-1.5 text-xs font-medium text-black hover:text-black/60"
       >
-        <DiscardIcon className="[&_path]:stroke-[#64B667] " />
+        <DiscardIcon className="[&_path]:stroke-[#64B667] !w-5 !h-5" />
         Discard changes
       </button>
-      <div className="h-3 border-l border-l-[#A69EC8]/60" />
+      <div className="hidden md:block h-3 border-l border-l-[#A69EC8]/60" />
       <button
         onClick={() => {
           onSave();
         }}
-        className="py-4 flex items-center gap-1.5 hover:text-black/60"
+        className="py-4 flex items-center gap-1.5 text-xs font-medium text-black hover:text-black/60"
       >
-        <CheckIcon />
+        <CheckIcon className=" !w-5 !h-5" />
         Save
         {saving && (
           <div className="[&_circle]:stroke-primary [&_path]:fill-primary">

@@ -23,7 +23,6 @@ export default function ContractAnalysis() {
     useContractAnalysis() as any;
 
   const handleContractSelect = (contract: any) => {
-    console.log(contract);
     setUploadContract(false);
     setBottomView(false);
     setSelectedContract(contract);
@@ -35,7 +34,6 @@ export default function ContractAnalysis() {
     }
   }, [contractList, loading]);
 
-  console.log(contractList);
   return (
     <>
       <MobileMenu

@@ -1,28 +1,35 @@
 import Button from "../../components/Button";
 import { ReactComponent as PlusIcon } from "../../assets/icons/add.svg";
-import { ReactComponent as FiltersIcon } from "../../assets/icons/filters.svg";
+import { ReactComponent as CloseIcon } from "../../assets/icons/x.svg";
 import { ReactComponent as DocumentIcon } from "../../assets/icons/document-text.svg";
 import SearchComponent from "../../components/Search";
-import UIPopover from "../../components/Popover";
-import { PopupModal } from "../../components/PopupModal";
 import { useMemo, useState } from "react";
 import MobileMenu from "../../components/MobileMenu";
 import { useContractGeneration } from "./context/contract-generation-context";
-import { contractTypes } from "../../helpers/consts";
-import { api } from "../../helpers/api";
 import { CreateDraftForm } from "./components/CreateDraft";
 import { ContractListItem } from "./components/ContractListItem";
 import { ContractView } from "./components/ContractView";
 import { DeleteContractDraftConfirm } from "./components/DeleteContractDraftConfirm";
-import RadioButton from "../../components/RadioButton";
-import Checkbox from "../../components/Checkbox";
+import { FilterPopup } from "./components/Filters";
 import moment from "moment";
-import useResponsive from "../../helpers/useResponsive";
 
 export default function ContractDraftGeneration() {
   const [createDraftModal, setCreateDraftModal] = useState(false);
-  const { search, setSearch, refetchContractList, ...rest } =
-    useContractGeneration() as any;
+  const {
+    search,
+    setSearch,
+    refetchContractList,
+    setFilters,
+    filters,
+    ...rest
+  } = useContractGeneration() as any;
+  const [tempFilters, setTempFilters] = useState<{
+    date: { startDate: string; endDate: string };
+    types: string[];
+  }>({
+    date: { startDate: "", endDate: "" },
+    types: [],
+  });
   const [selectedContract, setSelectedContract] = useState<any>();
   const [deleteConfirm, setDeleteConfirm] = useState<any>(null);
 
@@ -36,6 +43,12 @@ export default function ContractDraftGeneration() {
     setSelectedContract(contract);
   };
 
+  const hasFilters = useMemo(() => {
+    return (
+      filters.date.startDate || filters.date.endDate || filters.types.length > 0
+    );
+  }, [filters]);
+
   return (
     <div className="">
       {createDraftModal && (
@@ -46,12 +59,17 @@ export default function ContractDraftGeneration() {
       )}
       <MobileMenu
         renderAction={
-          <Button
-            className="!p-2 ml-auto float-end"
-            onClick={() => setCreateDraftModal(true)}
-          >
-            <PlusIcon />
-          </Button>
+          <div className="flex justify-end gap-2 items-center">
+            <span className="text-[0.875rem] text-black/60 font-medium">
+              4/20
+            </span>
+            <Button
+              className="!px-2 !py-2 h-8"
+              onClick={() => setCreateDraftModal(true)}
+            >
+              <PlusIcon className="!w-4 !h-4" />
+            </Button>
+          </div>
         }
       />
 
@@ -66,7 +84,7 @@ export default function ContractDraftGeneration() {
             </span>
             <Button
               variant="primary"
-              className="flex gap-1 px-6 py-3 bg-[#B84242] border-[#B85042] font-[500]"
+              className="flex gap-1 px-6 py-3 bg-[#B84242] shadow-[0px_13px_22.6px_0px_rgba(255,255,255,0.10)_inset,0px_0px_0px_2px_rgba(255,255,255,0.18)_inset] border-secondaryRed font-[500]"
               onClick={() => setCreateDraftModal(true)}
             >
               <PlusIcon />
@@ -75,13 +93,18 @@ export default function ContractDraftGeneration() {
           </div>
         </div>
 
-        <div className="flex flex-row justify-between items-center md:px-[1.875rem] px-[1rem] mt-[1.625rem]">
+        <div className="flex flex-row justify-between items-center md:px-5 px-4 mt-5">
           <div className="flex flex-row gap-2.5 md:w-auto w-full">
             <SearchComponent
               onChange={(e) => setSearch(e.target.value)}
               value={search}
             />
-            <FilterPopup />
+            <FilterPopup
+              hasFilters={hasFilters}
+              setFilters={setFilters}
+              tempFilters={tempFilters}
+              setTempFilters={setTempFilters}
+            />
           </div>
           <div className="hidden md:block">
             <span className="font-medium">
@@ -91,16 +114,105 @@ export default function ContractDraftGeneration() {
         </div>
       </div>
 
-      <div className="py-[1.625rem] flex flex-col gap-[1.25rem] ">
-        <div className="w-full px-5 md:hidden flex justify-between items-center">
+      <div className="py-4 flex flex-col h-[calc(100vh-150px)] md:h-[calc(100vh-180px)]">
+        <div className="w-full px-5 md:hidden mb-4 flex justify-between items-center">
+          {hasFilters && (
+            <button
+              className="text-secondaryRed whitespace-nowrap font-medium"
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                setFilters({
+                  date: { startDate: "", endDate: "" },
+                  types: [],
+                });
+                setTempFilters({
+                  date: { startDate: "", endDate: "" },
+                  types: [],
+                });
+              }}
+            >
+              Clear all filters
+            </button>
+          )}
           <span className="text-black text-sm font-medium leading-none">
             Total drafts: {rest?.contractList?.length}
           </span>
-          <span className=" md:hidden text-black/40 text-xs font-medium leading-3">
-            4/20 credits left for this month
-          </span>
         </div>
-        <div className="md:px-[1.875rem] px-[1rem] flex flex-col gap-4">
+        <div className="mx-4 md:mx-5 mb-2 flex items-center gap-2 pb-2 overflow-auto md:overflow-hidden md:flex-wrap">
+          {filters.date.startDate && (
+            <div className="whitespace-nowrap rounded-md border border-[#D7D7D7] py-2.5 px-3 flex gap-1 items-center">
+              <span>
+                {moment(filters.date.startDate).format("MM/DD/YYYY")} -{" "}
+                {moment(filters.date.endDate).format("MM/DD/YYYY")}
+              </span>
+              <button
+                onClick={() => {
+                  setFilters((prev) => {
+                    return {
+                      ...prev,
+                      date: { startDate: "", endDate: "" },
+                      selectedDateFilter: null,
+                    };
+                  });
+                  setTempFilters((prev) => {
+                    return {
+                      ...prev,
+                      date: { startDate: "", endDate: "" },
+                      selectedDateFilter: null,
+                    };
+                  });
+                }}
+              >
+                <CloseIcon className="w-4 h-4" />
+              </button>
+            </div>
+          )}
+          {filters.types.map((type) => (
+            <div className="rounded-md whitespace-nowrap border border-[#D7D7D7] py-2.5 px-3 flex gap-1 items-center">
+              <span>{type}</span>
+              <button
+                onClick={() => {
+                  setFilters((prev) => {
+                    return {
+                      ...prev,
+                      types: prev.types.filter((t) => t !== type),
+                    };
+                  });
+                  setTempFilters((prev) => {
+                    return {
+                      ...prev,
+                      types: prev.types.filter((t) => t !== type),
+                    };
+                  });
+                }}
+              >
+                <CloseIcon className="w-4 h-4" />
+              </button>
+            </div>
+          ))}
+          {hasFilters && (
+            <button
+              className="hidden md:block text-secondaryRed whitespace-nowrap font-medium"
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                setFilters({
+                  date: { startDate: "", endDate: "" },
+                  types: [],
+                });
+                setTempFilters({
+                  date: { startDate: "", endDate: "" },
+                  types: [],
+                });
+              }}
+            >
+              Clear all filters
+            </button>
+          )}
+        </div>
+
+        <div className="md:px-5 px-4 flex flex-col gap-4 overflow-auto flex-1">
           {rest.loading && <CardSkeleton />}
           {!rest.loading &&
             rest.contractList?.map((contract: any) => (
@@ -170,231 +282,5 @@ function CardSkeleton() {
         </div>
       </div>
     </div>
-  );
-}
-function FilterPopup() {
-  const { isAnyMobile } = useResponsive();
-  const [selectedValue, setSelectedValue] = useState<string>("");
-  const { setFilters, filters } = useContractGeneration() as any;
-  const [tempFilters, setTempFilters] = useState<{
-    date: { startDate: string; endDate: string };
-    types: string[];
-  }>({
-    date: { startDate: "", endDate: "" },
-    types: [],
-  });
-
-  const handleDateChange = (value: string) => {
-    setSelectedValue(value);
-    if (value === "this_week") {
-      setTempFilters({
-        ...tempFilters,
-        date: {
-          startDate: moment().startOf("week").toISOString(),
-          endDate: moment().endOf("week").toISOString(),
-        },
-      });
-    } else if (value === "this_month") {
-      setTempFilters({
-        ...tempFilters,
-        date: {
-          startDate: moment().startOf("month").toISOString(),
-          endDate: moment().endOf("month").toISOString(),
-        },
-      });
-    } else if (value === "this_year") {
-      setTempFilters({
-        ...tempFilters,
-        date: {
-          startDate: moment().startOf("year").toISOString(),
-          endDate: moment().endOf("year").toISOString(),
-        },
-      });
-    } else {
-      setTempFilters({
-        ...tempFilters,
-        date: {
-          startDate: "",
-          endDate: "",
-        },
-      });
-    }
-  };
-
-  const handleCheckboxChange = (type: string) => {
-    // setTempFilters((prevFilters) => ({
-    //   ...prevFilters,
-    //   types: prevFilters.types.includes(type)
-    //     ? prevFilters.types.filter((t) => t !== type)
-    //     : [...prevFilters.types, type],
-    // }));
-    setTempFilters({
-      ...tempFilters,
-      types: tempFilters?.types?.includes(type)
-        ? tempFilters.types.filter((t) => t !== type)
-        : [...tempFilters.types, type],
-    });
-  };
-
-  const options = [
-    { label: "This week", value: "this_week" },
-    { label: "This month", value: "this_month" },
-    { label: "This year", value: "this_year" },
-    { label: "Custom date", value: "custom_date" },
-  ];
-
-  const onApplyFilters = () => {
-    setFilters(tempFilters);
-  };
-
-  const hasFilters = useMemo(() => {
-    return (
-      filters.date.startDate || filters.date.endDate || filters.types.length > 0
-    );
-  }, [filters]);
-
-  return (
-    <UIPopover
-      shouldCloseOnScroll={false}
-      align={isAnyMobile ? "end" : "center"}
-      trigger={
-        <div className="flex items-center gap-2 w-full flex-1">
-          <Button
-            variant="outline"
-            className="relative flex flex-row gap-1.5 items-center bg-white h-full"
-          >
-            <FiltersIcon />
-            Filters
-            {hasFilters && (
-              <div className="absolute -top-1 border border-white -right-1 w-3 h-3 bg-[#B84242] rounded-full" />
-            )}
-          </Button>
-          {hasFilters && (
-            <button
-              className="text-primary whitespace-nowrap font-medium"
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                setFilters({
-                  date: { startDate: "", endDate: "" },
-                  types: [],
-                });
-                setSelectedValue("");
-                setTempFilters({
-                  date: { startDate: "", endDate: "" },
-                  types: [],
-                });
-              }}
-            >
-              Clear all filters
-            </button>
-          )}
-        </div>
-      }
-    >
-      {(close) => (
-        <div
-          style={{ zIndex: 9999 }}
-          className="mt-2 max-w-[320px] md:max-w-[unset] z-20 p-[0.875rem] flex flex-col justify-center items-center bg-white shadow-[0_6px_24px_0_rgba(28,43,40,0.25)] rounded-xl py-2"
-        >
-          <div className="flex flex-row p-2 flex-wrap gap-4">
-            <div className="flex flex-row p-2 flex-wrap gap-4 max-h-[400px] overflow-auto">
-              <div className="flex flex-col">
-                <span className="tracking-tight font-bold text-sm mb-3">
-                  Filter by date Created
-                </span>
-                <div className="flex flex-col gap-[11px]">
-                  <RadioButton
-                    name="dateFilter"
-                    options={options}
-                    selectedValue={selectedValue}
-                    onChange={(value: string) => handleDateChange(value)}
-                  />
-                  {selectedValue === "custom_date" && (
-                    <div className="flex flex-row gap-1 items-center">
-                      <input
-                        type="date"
-                        className="border-[1px] rounded-md py-2 px-3 text-xs placeholder-[#999999]"
-                        value={tempFilters?.date?.startDate}
-                        max={new Date().toISOString().split("T")[0]}
-                        onChange={(e) =>
-                          setTempFilters({
-                            ...tempFilters,
-                            date: {
-                              ...tempFilters.date,
-                              startDate: e.target.value,
-                              endDate:
-                                tempFilters.date.endDate < e.target.value
-                                  ? ""
-                                  : tempFilters.date.endDate,
-                            },
-                          })
-                        }
-                      />
-                      <span className="opacity-[0.4] text-xs">to</span>
-                      <input
-                        type="date"
-                        className="border-[1px] rounded-md py-2 px-3 text-xs placeholder-[#999999]"
-                        value={tempFilters?.date?.endDate}
-                        min={tempFilters?.date?.startDate}
-                        max={new Date().toISOString().split("T")[0]}
-                        onChange={(e) =>
-                          setTempFilters({
-                            ...tempFilters,
-                            date: {
-                              ...tempFilters.date,
-                              endDate: e.target.value,
-                            },
-                          })
-                        }
-                      />
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="border-r-[1px] border-black/10 md:flex hidden" />
-
-              <div className="flex flex-col">
-                <span className="tracking-tight font-bold text-sm mb-3">
-                  Filter by date Created
-                </span>
-                <div className="flex flex-col gap-3.5">
-                  {contractTypes.map((type, index) => (
-                    <label
-                      key={index}
-                      htmlFor={type.value}
-                      className="flex flex-row gap-1.5 font-medium text-sm items-center cursor-pointer font-inter"
-                    >
-                      <Checkbox
-                        label={type.value}
-                        className="w-[1.375rem] h-[1.375rem]"
-                        checked={tempFilters?.types?.includes(type.value)}
-                        onChange={() => handleCheckboxChange(type.value)}
-                      />
-                      {type.value}
-                    </label>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <Button
-              className="w-full !py-2"
-              onClick={() => {
-                onApplyFilters();
-                close();
-              }}
-              disabled={
-                selectedValue === "custom_date" &&
-                (!tempFilters?.date?.startDate || !tempFilters?.date?.endDate)
-              }
-            >
-              Apply
-            </Button>
-          </div>
-        </div>
-      )}
-    </UIPopover>
   );
 }

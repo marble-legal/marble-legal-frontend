@@ -24,7 +24,6 @@ export function PopupModal({
   shouldStopPropagation?: boolean;
 }) {
   const handleClose = (e) => {
-    console.log("handleClose");
     e.stopPropagation();
     e.preventDefault();
     onClose && onClose();

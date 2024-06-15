@@ -67,8 +67,6 @@ export default function Personal({
           });
       })
       .catch((err) => {
-        console.log(err);
-
         ShowToast({
           type: "error",
           message: err.response?.data?.message || "Failed to upload image",

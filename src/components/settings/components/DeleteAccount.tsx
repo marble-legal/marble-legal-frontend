@@ -21,7 +21,6 @@ export default function DeleteAccount({
   const navigate = useNavigate();
 
   const handleDeleteAccount = () => {
-    console.log(user.id);
     setLoading(true);
     api
       .deleteUser(user.id, form.password)

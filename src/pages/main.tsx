@@ -7,7 +7,6 @@ import SettingsModal from "../components/settings/Settings";
 function MainApp() {
   const [showSettings, setShowSettings] = useState(false);
   const toggleSettings = () => setShowSettings(!showSettings);
-  console.log(showSettings);
 
   if (window.innerWidth < 1024) {
     return (
