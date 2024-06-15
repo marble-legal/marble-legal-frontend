@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { getUser } from "../../../helpers/utils";
 import { api } from "../../../helpers/api";
+import moment from "moment";
 
 export const ContractGenerationContext = React.createContext({});
 
@@ -70,10 +71,10 @@ export function ContractGenerationProvider({ children }) {
       ) {
         const { startDate, endDate } = filters.date;
         filteredList = filteredList.filter((item) => {
-          const itemDate = new Date(item.createdAt);
-          return (
-            itemDate >= new Date(startDate) && itemDate <= new Date(endDate)
-          );
+          const itemDate = moment(item.createdAt);
+          const start = moment.utc(startDate, "YYYY-MM-DD").startOf("day");
+          const end = moment.utc(endDate, "YYYY-MM-DD").endOf("day");
+          return itemDate.isSameOrAfter(start) && itemDate.isSameOrBefore(end);
         });
       }
 

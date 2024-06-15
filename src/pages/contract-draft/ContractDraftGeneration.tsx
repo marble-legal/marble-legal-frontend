@@ -316,6 +316,7 @@ function FilterPopup() {
                         type="date"
                         className="border-[1px] rounded-md py-2 px-3 text-xs placeholder-[#999999]"
                         value={tempFilters?.date?.startDate}
+                        max={new Date().toISOString().split("T")[0]}
                         onChange={(e) =>
                           setTempFilters({
                             ...tempFilters,
@@ -336,6 +337,7 @@ function FilterPopup() {
                         className="border-[1px] rounded-md py-2 px-3 text-xs placeholder-[#999999]"
                         value={tempFilters?.date?.endDate}
                         min={tempFilters?.date?.startDate}
+                        max={new Date().toISOString().split("T")[0]}
                         onChange={(e) =>
                           setTempFilters({
                             ...tempFilters,
