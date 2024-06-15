@@ -7,10 +7,12 @@ function UIPopover({
   children,
   trigger,
   positions,
+  align,
   withChevron,
   containerClassName,
   popoverButtonClassName = "",
   disabled,
+  shouldCloseOnScroll = true,
 }: {
   children: (close: () => void, position?: string) => any;
   trigger: any;
@@ -19,6 +21,8 @@ function UIPopover({
   containerClassName?: string;
   popoverButtonClassName?: string;
   disabled?: boolean;
+  align?: "start" | "center" | "end";
+  shouldCloseOnScroll?: boolean;
 }) {
   const clickMeButtonRef = useRef<any>();
   const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
@@ -26,18 +30,21 @@ function UIPopover({
   useEffect(() => {
     // on scroll, close the popover
     const handleScroll = () => {
-      setIsPopoverOpen(false);
+      if (shouldCloseOnScroll) {
+        setIsPopoverOpen(false);
+      }
     };
     document.addEventListener("scroll", handleScroll, true);
     return () => {
       document.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [shouldCloseOnScroll]);
 
   return (
     <Popover
       isOpen={isPopoverOpen}
       positions={positions || ["bottom", "top", "left", "right"]}
+      align={align}
       clickOutsideCapture={true}
       onClickOutside={() => {
         setIsPopoverOpen(false);

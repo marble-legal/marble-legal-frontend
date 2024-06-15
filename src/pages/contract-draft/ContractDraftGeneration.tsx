@@ -17,6 +17,7 @@ import { DeleteContractDraftConfirm } from "./components/DeleteContractDraftConf
 import RadioButton from "../../components/RadioButton";
 import Checkbox from "../../components/Checkbox";
 import moment from "moment";
+import useResponsive from "../../helpers/useResponsive";
 
 export default function ContractDraftGeneration() {
   const [createDraftModal, setCreateDraftModal] = useState(false);
@@ -169,6 +170,7 @@ function CardSkeleton() {
   );
 }
 function FilterPopup() {
+  const { isAnyMobile } = useResponsive();
   const [selectedValue, setSelectedValue] = useState<string>("");
   const { setFilters, filters } = useContractGeneration() as any;
   const [tempFilters, setTempFilters] = useState<{
@@ -250,6 +252,8 @@ function FilterPopup() {
 
   return (
     <UIPopover
+      shouldCloseOnScroll={false}
+      align={isAnyMobile ? "end" : "center"}
       trigger={
         <div className="flex items-center gap-2 w-full flex-1">
           <Button
@@ -288,83 +292,85 @@ function FilterPopup() {
       {(close) => (
         <div
           style={{ zIndex: 9999 }}
-          className="z-20 p-[0.875rem] flex flex-col justify-center items-center bg-white shadow-[0_6px_24px_0_rgba(28,43,40,0.25)] rounded-xl py-2"
+          className="mt-2 max-w-[320px] md:max-w-[unset] z-20 p-[0.875rem] flex flex-col justify-center items-center bg-white shadow-[0_6px_24px_0_rgba(28,43,40,0.25)] rounded-xl py-2"
         >
           <div className="flex flex-row p-2 flex-wrap gap-4">
-            <div className="flex flex-col">
-              <span className="tracking-tight font-bold text-sm mb-3">
-                Filter by date Created
-              </span>
-              <div className="flex flex-col gap-3.5">
-                <RadioButton
-                  name="dateFilter"
-                  options={options}
-                  selectedValue={selectedValue}
-                  onChange={(value: string) => handleDateChange(value)}
-                />
-                {selectedValue === "custom_date" && (
-                  <div className="flex flex-row gap-1 items-center">
-                    <input
-                      type="date"
-                      className="border-[1px] rounded-md py-2 px-3 text-xs placeholder-[#999999]"
-                      value={tempFilters?.date?.startDate}
-                      onChange={(e) =>
-                        setTempFilters({
-                          ...tempFilters,
-                          date: {
-                            ...tempFilters.date,
-                            startDate: e.target.value,
-                            endDate:
-                              tempFilters.date.endDate < e.target.value
-                                ? ""
-                                : tempFilters.date.endDate,
-                          },
-                        })
-                      }
-                    />
-                    <span className="opacity-[0.4] text-xs">to</span>
-                    <input
-                      type="date"
-                      className="border-[1px] rounded-md py-2 px-3 text-xs placeholder-[#999999]"
-                      value={tempFilters?.date?.endDate}
-                      min={tempFilters?.date?.startDate}
-                      onChange={(e) =>
-                        setTempFilters({
-                          ...tempFilters,
-                          date: {
-                            ...tempFilters.date,
-                            endDate: e.target.value,
-                          },
-                        })
-                      }
-                    />
-                  </div>
-                )}
+            <div className="flex flex-row p-2 flex-wrap gap-4 max-h-[400px] overflow-auto">
+              <div className="flex flex-col">
+                <span className="tracking-tight font-bold text-sm mb-3">
+                  Filter by date Created
+                </span>
+                <div className="flex flex-col gap-[11px]">
+                  <RadioButton
+                    name="dateFilter"
+                    options={options}
+                    selectedValue={selectedValue}
+                    onChange={(value: string) => handleDateChange(value)}
+                  />
+                  {selectedValue === "custom_date" && (
+                    <div className="flex flex-row gap-1 items-center">
+                      <input
+                        type="date"
+                        className="border-[1px] rounded-md py-2 px-3 text-xs placeholder-[#999999]"
+                        value={tempFilters?.date?.startDate}
+                        onChange={(e) =>
+                          setTempFilters({
+                            ...tempFilters,
+                            date: {
+                              ...tempFilters.date,
+                              startDate: e.target.value,
+                              endDate:
+                                tempFilters.date.endDate < e.target.value
+                                  ? ""
+                                  : tempFilters.date.endDate,
+                            },
+                          })
+                        }
+                      />
+                      <span className="opacity-[0.4] text-xs">to</span>
+                      <input
+                        type="date"
+                        className="border-[1px] rounded-md py-2 px-3 text-xs placeholder-[#999999]"
+                        value={tempFilters?.date?.endDate}
+                        min={tempFilters?.date?.startDate}
+                        onChange={(e) =>
+                          setTempFilters({
+                            ...tempFilters,
+                            date: {
+                              ...tempFilters.date,
+                              endDate: e.target.value,
+                            },
+                          })
+                        }
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
 
-            <div className="border-r-[1px] border-black/10 md:flex hidden" />
+              <div className="border-r-[1px] border-black/10 md:flex hidden" />
 
-            <div className="flex flex-col">
-              <span className="tracking-tight font-bold text-sm mb-3">
-                Filter by date Created
-              </span>
-              <div className="flex flex-col gap-3.5">
-                {contractTypes.map((type, index) => (
-                  <label
-                    key={index}
-                    htmlFor={type.value}
-                    className="flex flex-row gap-1.5 font-medium text-sm items-center cursor-pointer font-inter"
-                  >
-                    <Checkbox
-                      label={type.value}
-                      className="w-[1.375rem] h-[1.375rem]"
-                      checked={tempFilters?.types?.includes(type.value)}
-                      onChange={() => handleCheckboxChange(type.value)}
-                    />
-                    {type.value}
-                  </label>
-                ))}
+              <div className="flex flex-col">
+                <span className="tracking-tight font-bold text-sm mb-3">
+                  Filter by date Created
+                </span>
+                <div className="flex flex-col gap-3.5">
+                  {contractTypes.map((type, index) => (
+                    <label
+                      key={index}
+                      htmlFor={type.value}
+                      className="flex flex-row gap-1.5 font-medium text-sm items-center cursor-pointer font-inter"
+                    >
+                      <Checkbox
+                        label={type.value}
+                        className="w-[1.375rem] h-[1.375rem]"
+                        checked={tempFilters?.types?.includes(type.value)}
+                        onChange={() => handleCheckboxChange(type.value)}
+                      />
+                      {type.value}
+                    </label>
+                  ))}
+                </div>
               </div>
             </div>
 
