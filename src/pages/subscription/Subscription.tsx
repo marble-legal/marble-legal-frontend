@@ -1,15 +1,15 @@
 import { useState } from "react";
 import HueBG from "../../assets/images/hue.png";
 import ToggleSwitch from "../../components/ToggleSwitch";
-import { useViewportWidth } from "../../helpers/useViewportHeight";
 import clsx from "clsx";
 import { ReactComponent as CheckCircleIcon } from "../../assets/icons/check-circle.svg";
 import Button from "../../components/Button";
 import FeatureSpecificPlanModal from "./FeatureSpecificPlan";
 import { subscriptions } from "../../helpers/consts";
+import useResponsive from "../../helpers/useResponsive";
 
 export default function Subscription() {
-  const viewWidth = useViewportWidth();
+  const { isAnyMobile } = useResponsive();
   const [isAnnual, setIsAnnual] = useState(false);
   const [isFeatureSpecificPlanModalOpen, setIsFeatureSpecificPlanModalOpen] =
     useState(false);
@@ -25,7 +25,7 @@ export default function Subscription() {
     <div
       className="md:h-[calc(100%)] grid items-center justify-center"
       style={
-        viewWidth < 768
+        isAnyMobile
           ? { padding: "1rem" }
           : {
               backgroundImage: `url(${HueBG})`,

@@ -1,18 +1,10 @@
-// import { Link } from "react-router-dom";
-import { useState } from "react";
 import LayoutSvg from "../assets/images/auth-layout.svg";
-// import LogoIcon from "../assets/icons/logo.svg";
-import useViewportHeight from "../helpers/useViewportHeight";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   // check if location is /login
-  const viewportHeight = useViewportHeight();
 
   return (
-    <div
-      className="w-full lg:h-screen lg:overflow-hidden flex"
-      style={{ height: viewportHeight }}
-    >
+    <div className="w-full lg:h-screen lg:overflow-hidden flex h-[100vh]">
       <div className="flex-1 lg:flex hidden relative m-4 rounded-[32px] bg-[#D6FEE3] justify-center align-center">
         {/* <div className="text-center grid gap-4 mt-32 z-[2] relative">
           <h1 className="text-[2rem] font-[700] absolute top-32 top-1/2 transform -translate-y-1/2 w-full z-[2]">

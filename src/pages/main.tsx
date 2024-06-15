@@ -1,15 +1,10 @@
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
-import useViewportHeight from "../helpers/useViewportHeight";
-import MobileMenu from "../components/MobileMenu";
-import { ContractGenerationProvider } from "./contract-draft/context/contract-generation-context";
 import { AuthProvider } from "../AuthContext";
 import SettingsModal from "../components/settings/Settings";
-import { ContractAnalysisProvider } from "./contract-analysis/contract-analysis-context";
 
 function MainApp() {
-  const vh = useViewportHeight();
   const [showSettings, setShowSettings] = useState(false);
   const toggleSettings = () => setShowSettings(!showSettings);
   console.log(showSettings);
@@ -32,12 +27,7 @@ function MainApp() {
       {showSettings && <SettingsModal onClose={toggleSettings} />}
       <Sidebar toggleSettings={toggleSettings} />
       <div className="bg-[white] pl-0 p-3 w-full">
-        <div
-          className="flex-1 overflow-auto bg-[#F2F5FB] lg:pt-0 pt-[3.5rem] rounded-[12px]"
-          style={{
-            height: vh - 24,
-          }}
-        >
+        <div className="flex-1 overflow-auto bg-[#F2F5FB] lg:pt-0 pt-[3.5rem] rounded-[12px] h-[calc(100vh-24px)]">
           <Outlet />
         </div>
       </div>

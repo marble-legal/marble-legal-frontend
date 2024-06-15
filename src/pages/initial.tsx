@@ -1,16 +1,12 @@
 import LogoIcon from "../assets/icons/logo.svg";
 import { useEffect, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { getUser } from "../helpers/utils";
-import Sidebar from "../components/Sidebar";
-import useViewportHeight from "../helpers/useViewportHeight";
 import Dropdown from "../components/Dropdown";
 import { AuthProvider, useAuth } from "../AuthContext";
 import SettingsModal from "../components/settings/Settings";
 import ProfileImageIcon from "../assets/icons/profile.svg";
 
 function InitialApp() {
-  const vh = useViewportHeight();
   const navigate = useNavigate();
   const { user } = useAuth();
   const [showSettings, setShowSettings] = useState(false);

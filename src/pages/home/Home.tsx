@@ -8,11 +8,11 @@ import { ReactComponent as PremiumCrownIcon } from "../../assets/icons/premium-c
 import ProfileImageIcon from "../../assets/icons/profile.svg";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
-import { useViewportWidth } from "../../helpers/useViewportHeight";
+import useResponsive from "../../helpers/useResponsive";
 
 export default function Home() {
   const { user } = useAuth();
-  const viewWidth = useViewportWidth();
+  const { isAnyMobile } = useResponsive();
   const items = [
     {
       title: "Legal AI assistant",
@@ -64,7 +64,7 @@ export default function Home() {
     <div
       className="md:h-[calc(100%)] grid items-center justify-center"
       style={
-        viewWidth < 768
+        isAnyMobile
           ? { padding: "1rem" }
           : {
               backgroundImage: `url(${HueBG})`,
