@@ -47,7 +47,6 @@ function useContracts({ userId }) {
         signalRef.current.signal
       );
       setIsLoading(false);
-      console.log("data", data, pageInfo, params);
       // filter deleted question
       if (isDeleted && refetchId) {
         setData((prev) => prev.filter((item) => item.user_id !== refetchId));
@@ -81,7 +80,6 @@ function useContracts({ userId }) {
       setTotal(total);
     } catch (err: any) {
       setIsLoading(false);
-      console.log(err);
       if (err.code !== "ERR_CANCELED") {
         ShowToast({
           type: "error",

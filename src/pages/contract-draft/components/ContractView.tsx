@@ -10,13 +10,13 @@ import { ReactComponent as CheckIcon } from "../../../assets/icons/check.svg";
 
 import { ReactComponent as DownloadIcon } from "../../../assets/icons/download.svg";
 import { DeleteContractDraftConfirm } from "./DeleteContractDraftConfirm";
-import { downloadPDF } from "../../../helpers/utils";
+import { copyToClipboard, downloadPDF } from "../../../helpers/utils";
 import ReactQuill from "react-quill";
 import { ShowToast } from "../../../components/toast";
 import { api } from "../../../helpers/api";
 import Spinner from "../../../components/Spinners";
 
-function ViewAction({ onEdit, onDownload, onCopy }) {
+function ViewAction({ onEdit, onDownload, onCopy, isCopied }) {
   return (
     <div className="bg-white md:bg-transparent text-xs md:text-sm rounded-[10px] px-6 md:px-0 flex items-center gap-3">
       <button
@@ -39,7 +39,13 @@ function ViewAction({ onEdit, onDownload, onCopy }) {
         onClick={onCopy}
         className="py-4 flex items-center gap-1.5 hover:text-black/60"
       >
-        <CopyIcon className="[&_path]:stroke-[#64B667]" />
+        <CopyIcon
+          className={`${
+            isCopied
+              ? "[&_path]:fill-[#B7FAC9] [&_path]:stroke-[#34A853]"
+              : "[&_path]:stroke-[#64B667]"
+          }`}
+        />
         Copy
       </button>
     </div>
@@ -81,6 +87,16 @@ export function ContractView({ isOpen, onClose, contract, onUpdate }) {
   const [saving, setSaving] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<any>(null);
 
+  const [isCopied, setIsCopied] = useState(false);
+
+  const handleCopy = (text: string) => {
+    copyToClipboard("contract-content");
+    setIsCopied(true);
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 3000);
+  };
+
   const handleChange = (value) => {
     setEdit({ ...edit, generatedContent: value });
   };
@@ -95,9 +111,7 @@ export function ContractView({ isOpen, onClose, contract, onUpdate }) {
       if (response?.data) {
         setContractDetails(response.data);
       }
-    } catch (e) {
-      console.log(e);
-    }
+    } catch (e) {}
   };
 
   const handleSave = async () => {
@@ -156,9 +170,10 @@ export function ContractView({ isOpen, onClose, contract, onUpdate }) {
             <>
               <div className="flex items-center gap-1.5 justify-center">
                 <ViewAction
-                  onCopy={() => console.log("Copy")}
+                  onCopy={handleCopy}
                   onDownload={() => handleDownload(contractDetails)}
                   onEdit={() => setEdit({ ...contractDetails })}
+                  isCopied={isCopied}
                 />
                 <div className="bg-white md:bg-transparent rounded-[10px] px-2.5 text-xs md:text-sm">
                   <button
@@ -187,9 +202,10 @@ export function ContractView({ isOpen, onClose, contract, onUpdate }) {
         <>
           <div className="hidden w-[682px] mx-auto md:flex justify-between items-center gap-4">
             <ViewAction
-              onCopy={() => console.log("Copy")}
+              onCopy={handleCopy}
               onDownload={() => handleDownload(contractDetails)}
               onEdit={() => setEdit(contractDetails)}
+              isCopied={isCopied}
             />
             <button
               onClick={() => onDelete(contractDetails)}
@@ -203,6 +219,7 @@ export function ContractView({ isOpen, onClose, contract, onUpdate }) {
             <div
               // dangerouslySetInnerHTML={{ __html: contract.generatedContent }}
               className="md:w-[682px] mx-auto bg-white rounded-[12px] md:p-7 [&_.wmde-markdown]:!bg-transparent [&_.wmde-markdown]:!text-black"
+              id="contract-content"
             >
               <ReactQuill
                 theme="bubble"

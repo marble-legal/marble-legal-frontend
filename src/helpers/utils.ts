@@ -123,3 +123,20 @@ export function downloadPDF(url: string) {
       a.click();
     });
 }
+
+export function copyToClipboard(element: string) {
+  // copy given element to clipboard with id
+  // rich text editor content
+  // also copy it with style and formatting
+  // use widnow.navigator.clipboard api instead of document.execCommand
+  const el = document.getElementsByClassName("ql-editor")[0];
+  if (el) {
+    const range = document.createRange();
+    const selection = window.getSelection();
+    range.selectNodeContents(el);
+    selection?.removeAllRanges();
+    selection?.addRange(range);
+    document.execCommand("copy");
+    selection?.removeAllRanges();
+  }
+}

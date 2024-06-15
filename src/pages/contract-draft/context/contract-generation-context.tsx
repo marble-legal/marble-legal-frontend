@@ -24,7 +24,6 @@ export function ContractGenerationProvider({ children }) {
       try {
         setLoading(true);
         const res = await api.getContracts(userId, true);
-        // console.log(res);
         setLoading(false);
         setContractList(res.data || []);
         if (!selectedContract && res?.data?.[0]) {
@@ -62,9 +61,6 @@ export function ContractGenerationProvider({ children }) {
         return item?.title?.toLowerCase().includes(search.toLowerCase());
       });
     }
-
-    // console.log("Reached");
-    // console.log(filters);
     if (filters) {
       if (
         filters.date.startDate &&
@@ -82,7 +78,6 @@ export function ContractGenerationProvider({ children }) {
       }
 
       if (filters.types && filters.types.length > 0) {
-        // console.log(filters.types);
         filteredList = filteredList.filter((item) => {
           return filters.types.includes(item.type);
         });
@@ -91,10 +86,6 @@ export function ContractGenerationProvider({ children }) {
 
     return filteredList;
   };
-
-  console.log(contractList);
-
-  // console.log({ contractList });
   const values = {
     contractList: filterContractList(contractList, search, filters),
     setContractList,
