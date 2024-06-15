@@ -18,7 +18,7 @@ export default function Dashboard() {
   const [sending, setSending] = useState(false);
   const [loading, setLoading] = useState(true);
   const [currentUserMessage, setCurrentUserMessage] = useState("");
-  const [currentReply, setCurrentReply] = useState<string>("");
+  const [currentReply, setCurrentReply] = useState<any>(null);
   const [error, setError] = useState("");
   const listRef = React.useRef<HTMLDivElement | null>(null);
   const user = getUser();
@@ -31,7 +31,7 @@ export default function Dashboard() {
       const response = await api.askQuery({ message });
       setSending(false);
       if ([200, 201].includes(response.status)) {
-        setCurrentReply(response.data.message);
+        setCurrentReply(response.data);
         fetchConversation(false);
       }
       // console.log(response);
@@ -48,7 +48,7 @@ export default function Dashboard() {
       // console.log(response);
       if ([200, 201].includes(response.status)) {
         setCurrentUserMessage("");
-        setCurrentReply("");
+        setCurrentReply(null);
         setConversation(response.data);
       }
 
@@ -170,7 +170,7 @@ export default function Dashboard() {
                   <Message
                     key="current-reply"
                     conversation={{
-                      message: currentReply,
+                      ...currentReply,
                     }}
                   />
                 )}

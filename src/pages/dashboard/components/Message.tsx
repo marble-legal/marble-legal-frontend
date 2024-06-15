@@ -3,10 +3,12 @@ import { ReactComponent as LikeIcon } from "../../../assets/icons/like.svg";
 import { ReactComponent as DisLikeIcon } from "../../../assets/icons/dislike.svg";
 import { ReactComponent as CopyIcon } from "../../../assets/icons/copy.svg";
 import { ReactComponent as LogoIcon } from "../../../assets/icons/logo.svg";
+import { ReactComponent as BrowserIcon } from "../../../assets/icons/browser.svg";
 import ProfileImageIcon from "../../../assets/icons/profile.svg";
 
-import { getInitial, getUser } from "../../../helpers/utils";
+import { getInitial } from "../../../helpers/utils";
 import MDEditor from "@uiw/react-md-editor";
+import { useAuth } from "../../../AuthContext";
 
 export function Message({
   conversation,
@@ -28,7 +30,9 @@ export function Message({
       setIsCopied(false);
     }, 3000);
   };
-  const user = getUser();
+  const { user: authUser } = useAuth();
+
+  const { sourceDocuments = [] } = conversation;
 
   if (conversation.isUserMessage) {
     return (
@@ -36,18 +40,18 @@ export function Message({
         <div className="pl-4 flex-1 pr-5 py-4 rounded-lg border border-[#D0CEE3] justify-start items-start gap-3 flex">
           <div className="justify-start items-center gap-1.5 flex">
             <div className="w-6 h-6 bg-primary rounded justify-center items-center gap-2.5 flex">
-              {user?.profileImg ? (
+              {authUser?.profileImg ? (
                 <img
                   className="w-5 h-5"
-                  src={user?.profileImg || ProfileImageIcon}
+                  src={authUser?.profileImg || ProfileImageIcon}
                   alt="user"
                 />
               ) : (
                 <div className="text-white text-xs font-medium">
-                  {user?.fullName
+                  {authUser?.fullName
                     ? getInitial(
-                        user?.fullName?.split(" ")[0],
-                        user?.fullName?.split(" ")[1]
+                        authUser?.fullName?.split(" ")[0],
+                        authUser?.fullName?.split(" ")[1]
                       )
                     : ""}
                 </div>
@@ -79,6 +83,20 @@ export function Message({
             <MDEditor.Markdown source={conversation.message} />
 
             {/* {conversation.message} */}
+          </div>
+          <div className="flex items-center flex-wrap gap-1">
+            {sourceDocuments.map((source, i) => (
+              <a
+                key={i}
+                href={source}
+                target="_blank"
+                rel="noreferrer"
+                className="text-black flex items-center gap-1.5 rounded-[10px] px-4 py-3 text-xs font-medium border border-[#E6E6E6] bg-white shadow-[0px_2px_2.3px_0px_rgba(186,207,193,0.20)]"
+              >
+                <BrowserIcon className="!w-3.5 !h-3.5" />
+                <span className="underline">Opinion {i + 1}</span>
+              </a>
+            ))}
           </div>
         </div>
       </div>
