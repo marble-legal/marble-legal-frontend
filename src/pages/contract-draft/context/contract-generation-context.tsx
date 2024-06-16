@@ -72,8 +72,12 @@ export function ContractGenerationProvider({ children }) {
         const { startDate, endDate } = filters.date;
         filteredList = filteredList.filter((item) => {
           const itemDate = moment(item.createdAt);
-          const start = moment.utc(startDate, "YYYY-MM-DD").startOf("day");
-          const end = moment.utc(endDate, "YYYY-MM-DD").endOf("day");
+          const start = moment(startDate, "YYYY-MM-DD")
+            .set("hour", 0)
+            .set("minute", 0)
+            .set("second", 0)
+            .local();
+          const end = moment(endDate, "YYYY-MM-DD").local().endOf("day");
           return itemDate.isSameOrAfter(start) && itemDate.isSameOrBefore(end);
         });
       }

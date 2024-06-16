@@ -20,8 +20,8 @@ export function FilterPopup({
       setTempFilters({
         ...tempFilters,
         date: {
-          startDate: moment().startOf("week").toISOString(),
-          endDate: moment().endOf("week").toISOString(),
+          startDate: moment().local().startOf("week").format("YYYY-MM-DD"),
+          endDate: moment().local().endOf("week").format("YYYY-MM-DD"),
         },
         selectedDateFilter: value,
       });
@@ -29,8 +29,8 @@ export function FilterPopup({
       setTempFilters({
         ...tempFilters,
         date: {
-          startDate: moment().startOf("month").toISOString(),
-          endDate: moment().endOf("month").toISOString(),
+          startDate: moment().local().startOf("month").format("YYYY-MM-DD"),
+          endDate: moment().local().endOf("month").format("YYYY-MM-DD"),
         },
         selectedDateFilter: value,
       });
@@ -38,8 +38,8 @@ export function FilterPopup({
       setTempFilters({
         ...tempFilters,
         date: {
-          startDate: moment().startOf("year").toISOString(),
-          endDate: moment().endOf("year").toISOString(),
+          startDate: moment().local().endOf("year").format("YYYY-MM-DD"),
+          endDate: moment().local().endOf("year").format("YYYY-MM-DD"),
         },
         selectedDateFilter: value,
       });

@@ -13,7 +13,6 @@ export function ContractListItem({ contract, onView, onDelete }) {
       downloadPDF(contract?.pdfUrl);
     }
   };
-
   return (
     <div className="bg-white w-full flex flex-row p-4 justify-between gap-5 rounded-[12px] shadow-[2px_4px_9px_0px_rgba(107,103,158,0.05)]">
       <div className="flex flex-1 flex-row gap-4 items-start md:items-center">
@@ -28,13 +27,13 @@ export function ContractListItem({ contract, onView, onDelete }) {
             {contract?.summary}
           </span>
           <span className="md:hidden text-[#808080] text-[0.875rem] font-[500]">
-            {moment(contract?.createdAt).format("MMM DD, YYYY")}
+            {moment(contract?.createdAt).local().format("MMM DD, YYYY")}
           </span>
         </div>
       </div>
       <div className="flex flex-row gap-4 items-start md:items-center">
         <span className="hidden md:inline text-[#808080] text-[0.875rem] font-[500]">
-          {moment(contract?.createdAt).format("MMM DD, YYYY")}
+          {moment(contract?.createdAt).local().format("MMM DD, YYYY")}
         </span>
         <UIPopover
           trigger={
