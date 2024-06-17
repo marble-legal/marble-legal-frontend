@@ -9,19 +9,24 @@ import { useState } from "react";
 import EntityDetails from "./EntityDetails";
 import MobileMenu from "../../components/MobileMenu";
 import CreateEntity from "./CreateEntity";
+import { useQuery } from "@tanstack/react-query";
+import { api } from "../../helpers/api";
+import { BusinessEntity } from "../../types/business-entity.types";
+import { AxiosResponse } from "axios";
+import moment from "moment";
 
 export default function EntityFormation() {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [isCreateEntityOpen, setIsCreateEntityOpen] = useState(false);
   const [entityData, setEntityData] = useState({} as any);
   const handleDetailsClose = () => setIsDetailsOpen(false);
+  const { data, isLoading } = useQuery<AxiosResponse<BusinessEntity[]>>(
+    ["entities"],
+    api.getEntities
+  );
 
-  console.log("entityData", isDetailsOpen);
-
-  const handleOpenDetails = () => {
-    setIsDetailsOpen(true);
-    setEntityData({});
-  };
+  // console.log("entityData", isDetailsOpen);
+  console.log(data);
 
   return (
     <div>
@@ -37,7 +42,11 @@ export default function EntityFormation() {
           </Button>
         }
       />
-      <EntityDetails isOpen={isDetailsOpen} handleClose={handleDetailsClose} />
+      <EntityDetails
+        isOpen={isDetailsOpen}
+        handleClose={handleDetailsClose}
+        data={entityData}
+      />
       <CreateEntity
         isOpen={isCreateEntityOpen}
         handleClose={() => setIsCreateEntityOpen(false)}
@@ -59,30 +68,27 @@ export default function EntityFormation() {
         </Button>
       </div>
       <div className="py-[1.625rem] flex flex-col gap-[1.375rem] md:px-[1.875rem] px-[1rem]">
-        <EntityDetailsCard
-          data={{ status: "Completed" }}
-          handleOpenDetails={handleOpenDetails}
-        />
-        <EntityDetailsCard
-          data={{ status: "In-progress" }}
-          handleOpenDetails={handleOpenDetails}
-        />
-        <EntityDetailsCard
-          data={{ status: "Refused" }}
-          handleOpenDetails={handleOpenDetails}
-        />
+        {isLoading && [1, 2, 3].map((i) => <EntityDetailsCardSkeleton />)}
+
+        {data?.data.map((entity) => (
+          <EntityDetailsCard
+            data={entity}
+            handleOpenDetails={() => {
+              setIsDetailsOpen(true);
+              setEntityData(entity);
+            }}
+          />
+        ))}
       </div>
     </div>
   );
 }
 
 export function EntityDetailsCard({
-  data: { status },
+  data,
   handleOpenDetails,
 }: {
-  data: {
-    status: string;
-  };
+  data: BusinessEntity;
   handleOpenDetails?: () => void;
 }) {
   return (
@@ -98,21 +104,62 @@ export function EntityDetailsCard({
         </div>
         <div className="flex flex-col gap-3">
           <span className="font-[500] text-[1.125rem] leading-[110%]">
-            Visionary Designs LLC
+            {data?.name}
           </span>
           <div className="flex flex-row flex-wrap gap-[1.5rem] md:text-[0.875rem] text-[0.75rem] font-[500] text-[#666]">
             <div className="flex flex-row flex-wrap gap-1 items-center">
               <ClockIcon />
               <span className="font-[400]">Applied on:</span>
-              <span>14 May, 2024</span>
+              <span>{moment(data?.createdAt).format("DD MMM, YYYY")}</span>
             </div>
-            <div className="flex flex-row flex-wrap gap-1 items-center">
+            {/* <div className="flex flex-row flex-wrap gap-1 items-center">
               <BIcon />
-              <span>LLC</span>
+              <span className="md:max-w-[150px] md:truncate">{data?.type}</span>
             </div>
             <div className="md:flex flex-row flex-wrap gap-1 items-center hidden">
               <LocationIcon />
-              <span>1100 Plum Creek Pkwy</span>
+              <span className="md:max-w-[150px] md:truncate">
+                {data?.address}
+              </span>
+            </div> */}
+          </div>
+        </div>
+      </div>
+
+      <div className="border-b-[#E5E5E5] border-b-solid border-b-[1px] my-4 w-full md:hidden flex" />
+
+      <div className="md:text-[0.875rem] text-[0.75rem] font-[500] flex flex-row items-center justify-between w-full md:w-auto">
+        {/* <div className="flex flex-row flex-wrap gap-1 items-center md:hidden text-[#666]">
+          <LocationIcon />
+          <span className="max-w-[150px] truncate">{data?.address}</span>
+        </div> */}
+
+        {data?.status === 1 ? (
+          <StatusBadge status="Completed" />
+        ) : data?.status === 0 ? (
+          <StatusBadge status="In-progress" />
+        ) : (
+          <StatusBadge status="Refused" />
+        )}
+      </div>
+    </button>
+  );
+}
+
+export function EntityDetailsCardSkeleton() {
+  return (
+    <div className="animate-pulse bg-white p-4 rounded-[12px] shadow-[2px_4px_9px_0px_rgba(107,103,158,0.05)] flex flex-row flex-wrap justify-between items-center w-full">
+      <div className="flex flex-row flex-wrap gap-4">
+        <div className="bg-[#F9F6FF] p-3 rounded-[7px] w-fit">
+          <BuildingIcon className="[&_path]:fill-[#5A42B8]" />
+        </div>
+        <div className="flex flex-col gap-3">
+          <span className="font-[500] text-[1.125rem] leading-[110%] w-[200px] h-4 bg-gray-200 rounded"></span>
+          <div className="flex flex-row flex-wrap gap-[1.5rem] md:text-[0.875rem] text-[0.75rem] font-[500] text-[#666]">
+            <div className="flex flex-row flex-wrap gap-1 items-center">
+              <ClockIcon />
+              <span className="font-[400] h-4 w-12 bg-gray-200 rounded"></span>
+              <span className="h-4 w-8 bg-gray-200 rounded"></span>
             </div>
           </div>
         </div>
@@ -121,20 +168,13 @@ export function EntityDetailsCard({
       <div className="border-b-[#E5E5E5] border-b-solid border-b-[1px] my-4 w-full md:hidden flex" />
 
       <div className="md:text-[0.875rem] text-[0.75rem] font-[500] flex flex-row items-center justify-between w-full md:w-auto">
+        <span className="h-4 w-12 bg-gray-200 rounded"></span>
         <div className="flex flex-row flex-wrap gap-1 items-center md:hidden text-[#666]">
           <LocationIcon />
-          <span>1100 Plum Creek Pkwy</span>
+          <span className="max-w-[150px] truncate"></span>
         </div>
-
-        {status === "Completed" ? (
-          <StatusBadge status="Completed" />
-        ) : status === "In-progress" ? (
-          <StatusBadge status="In-progress" />
-        ) : (
-          <StatusBadge status="Refused" />
-        )}
       </div>
-    </button>
+    </div>
   );
 }
 

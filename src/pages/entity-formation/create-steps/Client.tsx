@@ -4,14 +4,21 @@ import * as Yup from "yup";
 import FormField from "../../../components/FormField";
 import clsx from "clsx";
 import { CreateEntityFooter } from "../CreateEntity";
+import { BusinessEntityCreation } from "../../../types/business-entity.types";
 
-export function ClientInformation({ onBack }: { onBack: () => void }) {
+export function ClientInformation({
+  onBack,
+  onNext,
+}: {
+  onBack: () => void;
+  onNext: (data: Partial<BusinessEntityCreation>) => void;
+}) {
   const validationSchema = Yup.object().shape({
     clients: Yup.array().of(
       Yup.object().shape({
-        fullName: Yup.string().required("Full Legal Name is required"),
+        name: Yup.string().required("Full Legal Name is required"),
         address: Yup.string().required("Home address is required"),
-        phoneNumber: Yup.string()
+        phone: Yup.string()
           .required("Phone number is required")
           .matches(/^[0-9]+$/, "Phone number must be digits only"),
         email: Yup.string()
@@ -21,14 +28,21 @@ export function ClientInformation({ onBack }: { onBack: () => void }) {
     ),
   });
   const initialValues = {
-    clients: [{ fullName: "", address: "", phoneNumber: "", email: "" }],
+    clients: [
+      {
+        name: "",
+        address: "",
+        phone: "",
+        email: "",
+      },
+    ],
   };
 
   const clientFields = [
     {
       label: "Full Legal Name",
       placeholder: "Enter your full legal name",
-      name: "fullName",
+      name: "name",
       type: "text",
     },
     {
@@ -40,7 +54,7 @@ export function ClientInformation({ onBack }: { onBack: () => void }) {
     {
       label: "Phone number",
       placeholder: "Enter your phone number",
-      name: "phoneNumber",
+      name: "phone",
       type: "text",
     },
     {
@@ -56,8 +70,9 @@ export function ClientInformation({ onBack }: { onBack: () => void }) {
       initialValues={initialValues}
       validationSchema={validationSchema}
       isInitialValid={false}
-      onSubmit={(values) => {
-        console.log(values);
+      onSubmit={(values: Partial<BusinessEntityCreation>) => {
+        // console.log(values);
+        onNext(values);
       }}
     >
       {({ values, isValid }) => (
@@ -67,7 +82,7 @@ export function ClientInformation({ onBack }: { onBack: () => void }) {
             <FieldArray name="clients">
               {({ push, remove }) => (
                 <div className="flex flex-col w-full md:gap-[2.75rem] gap-6 md:mt-[2.75rem] mt-6">
-                  {values.clients.map((client, index) => (
+                  {values?.clients?.map((client, index) => (
                     <div key={index} className="flex flex-col gap-4">
                       <h2 className="font-[600] text-[1rem] text-[#808080] items-center gap-1 flex flex-row">
                         {index !== 0 ? (
@@ -100,16 +115,16 @@ export function ClientInformation({ onBack }: { onBack: () => void }) {
                     type="button"
                     onClick={() =>
                       push({
-                        fullName: "",
+                        name: "",
                         address: "",
-                        phoneNumber: "",
+                        phone: "",
                         email: "",
                       })
                     }
                     className={clsx(
                       "text-[#B85042] text-[1rem] font-[600] text-start w-fit",
                       {
-                        hidden: values.clients.length >= 2,
+                        hidden: (values?.clients?.length ?? 0) >= 2,
                       }
                     )}
                   >

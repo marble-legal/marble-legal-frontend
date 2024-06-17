@@ -1,5 +1,6 @@
 import { boolean } from "yup";
 import apiClient from "./client";
+import { BusinessEntityCreation } from "../types/business-entity.types";
 const apiURLEndpoint = process.env.REACT_APP_API_URL;
 
 export const api = {
@@ -112,5 +113,14 @@ export const api = {
   },
   changePassword: (id: string, data: any) => {
     return apiClient.patch(`/users/${id}/password`, data);
+  },
+  createEntity: (data: BusinessEntityCreation) => {
+    return apiClient.post("/business-entities", data);
+  },
+  getEntities: () => {
+    return apiClient.get(`/business-entities`);
+  },
+  getEntity: (id: string) => {
+    return apiClient.get(`/business-entities/${id}`);
   },
 };

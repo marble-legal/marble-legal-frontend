@@ -26,7 +26,7 @@ function MainApp() {
       {showSettings && <SettingsModal onClose={toggleSettings} />}
       <Sidebar toggleSettings={toggleSettings} />
       <div className="bg-[white] pl-0 p-3 w-full">
-        <div className="flex-1 overflow-auto bg-[#F2F5FB] lg:pt-0 pt-[3.5rem] rounded-[12px] h-[calc(100vh-24px)]">
+        <div className="flex-1 overflow-auto md:bg-[#F2F5FB] lg:pt-0 pt-[3.5rem] rounded-[12px] h-[calc(100vh-24px)]">
           <Outlet />
         </div>
       </div>

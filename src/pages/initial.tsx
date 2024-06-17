@@ -5,10 +5,12 @@ import Dropdown from "../components/Dropdown";
 import { AuthProvider, useAuth } from "../AuthContext";
 import SettingsModal from "../components/settings/Settings";
 import ProfileImageIcon from "../assets/icons/profile.svg";
+import useViewportHeight from "../helpers/useViewportHeight";
 
 function InitialApp() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const vh = useViewportHeight();
   const [showSettings, setShowSettings] = useState(false);
   const toggleSettings = () => setShowSettings(!showSettings);
 
@@ -35,11 +37,9 @@ function InitialApp() {
       <div className="md:bg-[white] bg-[#F2F5FB] md:p-3 w-full">
         <div
           className="flex-1 md:overflow-hidden bg-[#F2F5FB] p-4 md:rounded-[12px] h-full overflow-auto"
-          style={
-            {
-              // height: vh - 24,
-            }
-          }
+          style={{
+            height: vh - 24,
+          }}
         >
           <div className="flex justify-between">
             <Link

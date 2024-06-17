@@ -1,44 +1,61 @@
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { CreateEntityFooter } from "../CreateEntity";
+import { api } from "../../../helpers/api";
+import { BusinessEntityCreation } from "../../../types/business-entity.types";
+import { ShowToast } from "../../../components/toast";
 
-export function ManagementQuestions({ onBack }: { onBack: () => void }) {
+export function ManagementQuestions({
+  onBack,
+  updateFormData,
+  formData,
+  closeModal,
+}: {
+  onBack: () => void;
+  updateFormData: (data: any) => Partial<BusinessEntityCreation>;
+  formData: BusinessEntityCreation;
+  closeModal: () => void;
+}) {
   const validationSchema = Yup.object().shape({
-    manage: Yup.string().required("Please select a business entity type"),
-    signing: Yup.string().required("Please select a business entity type"),
-    contracts: Yup.string().required("Please enter a name"),
-    officers: Yup.string().required("Please enter a name"),
+    managementDetail: Yup.string().required(
+      "Please select a business entity type"
+    ),
+    signingResponsibility: Yup.string().required(
+      "Please select a business entity type"
+    ),
+    powersDetail: Yup.string().required("Please enter a name"),
+    initialOfficers: Yup.string().required("Please enter a name"),
   });
   const initialValues = {
-    manage: "",
-    signing: "",
-    contracts: "",
-    officers: "",
+    managementDetail: "",
+    signingResponsibility: "",
+    powersDetail: "",
+    initialOfficers: "",
   };
 
   const fields = [
     {
       label:
         "Will all owners/members/partners manage the business or will a single member perform this duty?",
-      name: "manage",
+      name: "managementDetail",
       placeholder: "Describe here",
     },
     {
       label:
         "Who will be responsible for signing documents on behalf of the business?",
-      name: "signing",
+      name: "signingResponsibility",
       placeholder: "Describe here",
     },
     {
       label:
         "Will all owners/members/partners be able to enter into contracts, open and close accounts, deposit or withdraw funds, and engage the services of other professionals or will a single member have these powers? If a single member or members, please identify.",
-      name: "contracts",
+      name: "powersDetail",
       placeholder: "Describe here",
     },
     {
       label:
         "If forming a corporation, do you know who the initial officers will be (President, Secretary, Treasurer, etc.)? If yes, please identify.",
-      name: "officers",
+      name: "initialOfficers",
       placeholder: "Describe here",
     },
   ];
@@ -48,8 +65,27 @@ export function ManagementQuestions({ onBack }: { onBack: () => void }) {
       initialValues={initialValues}
       validationSchema={validationSchema}
       isInitialValid={false}
-      onSubmit={(values) => {
-        console.log(values);
+      onSubmit={(values: Partial<BusinessEntityCreation>) => {
+        // console.log(values);
+        //  updateFormData(values);
+        api
+          .createEntity({
+            ...values,
+            ...formData,
+          })
+          .then(() => {
+            ShowToast({
+              message: "Entity created successfully",
+              type: "success",
+            });
+            closeModal();
+          })
+          .catch((err) => {
+            ShowToast({
+              message: err?.response?.data?.message || "Error creating entity",
+              type: "error",
+            });
+          });
       }}
     >
       {({ values, isValid, setValues }) => (

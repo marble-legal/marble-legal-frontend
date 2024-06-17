@@ -5,14 +5,21 @@ import FormField from "../../../components/FormField";
 import Button from "../../../components/Button";
 import clsx from "clsx";
 import { CreateEntityFooter } from "../CreateEntity";
+import { BusinessEntityCreation } from "../../../types/business-entity.types";
 
-export function OwnerQuestions({ onBack }: { onBack: () => void }) {
+export function OwnerQuestions({
+  onBack,
+  onNext,
+}: {
+  onBack: () => void;
+  onNext: (data: Partial<BusinessEntityCreation>) => void;
+}) {
   const validationSchema = Yup.object().shape({
     owners: Yup.array().of(
       Yup.object().shape({
-        ownerName: Yup.string().required("Owner name is required"),
+        name: Yup.string().required("Owner name is required"),
         address: Yup.string().required("Address is required"),
-        ownershipInterest: Yup.number()
+        interest: Yup.number()
           .required("Ownership interest is required")
           .min(0, "Ownership interest must be greater than or equal to 0")
           .max(100, "Ownership interest must be less than or equal to 100"),
@@ -21,52 +28,54 @@ export function OwnerQuestions({ onBack }: { onBack: () => void }) {
           .min(0, "Initial contribution must be greater than or equal to 0"),
       })
     ),
-    usCitizens: Yup.boolean().required(
+    isInvestorsUsCitizen: Yup.boolean().required(
       "Please specify if all owners are U.S. citizens"
     ),
-    transferRestrictions: Yup.boolean().required(
+    isRestrictionsOnTransfer: Yup.boolean().required(
       "Please specify if there are any transfer restrictions"
     ),
-    transferRestrictionsDescription: Yup.string().nullable(),
-    sharedProfitsAndLosses: Yup.boolean().required(
+    restrictionsOnTransferDetail: Yup.string().nullable(),
+    isProfitsLossSharedEqually: Yup.boolean().required(
       "Please specify if profits and losses will be shared equally"
     ),
   });
   const initialValues = {
     owners: [
       {
-        ownerName: "",
+        name: "",
         address: "",
-        ownershipInterest: 0,
-        initialContribution: 0,
+        interest: "",
+        initialContribution: "",
       },
     ],
-    usCitizens: false,
-    transferRestrictions: false,
-    transferRestrictionsDescription: "",
-    sharedProfitsAndLosses: false,
+    isInvestorsUsCitizen: false,
+    isRestrictionsOnTransfer: false,
+    restrictionsOnTransferDetail: "",
+    isProfitsLossSharedEqually: false,
   };
 
   const questions = [
     {
       label: "Are all of the initial investor/owners U.S. citizens?",
-      valueKey: "usCitizens",
-      additionalContent: null,
+      valueKey: "isInvestorsUsCitizen",
     },
     {
       label:
         "Do you want there to be any restrictions on transfers or sales of owner's interests?",
-      valueKey: "transferRestrictions",
-      additionalContent: (values, setValues) => (
+      valueKey: "isRestrictionsOnTransfer",
+      additionalContent: (
+        values: Partial<BusinessEntityCreation>,
+        setValues: any
+      ): React.ReactNode => (
         <textarea
           className="w-full h-[100px] border-[1px] border-solid border-[#E2E2E2] rounded-[10px] p-4 text-[0.875rem] font-[500] font-[Inter] leading-[18px] bg-transparent"
           placeholder="Describe here"
-          name="transferRestrictionsDescription"
-          value={values.transferRestrictionsDescription}
+          name="restrictionsOnTransferDetail"
+          value={values.restrictionsOnTransferDetail}
           onChange={(e) =>
             setValues({
               ...values,
-              transferRestrictionsDescription: e.target.value,
+              restrictionsOnTransferDetail: e.target.value,
             })
           }
         />
@@ -74,15 +83,15 @@ export function OwnerQuestions({ onBack }: { onBack: () => void }) {
     },
     {
       label: "Will profits and losses be shared equally amongst the owners?",
-      valueKey: "sharedProfitsAndLosses",
-      additionalContent: null,
+      valueKey: "isProfitsLossSharedEqually",
     },
   ];
+
   const ownerFields = [
     {
       label: "Owner name",
       placeholder: "Enter owner name",
-      name: "ownerName",
+      name: "name",
       type: "text",
     },
     {
@@ -94,7 +103,7 @@ export function OwnerQuestions({ onBack }: { onBack: () => void }) {
     {
       label: "Ownership interest (%)",
       placeholder: "Enter ownership interest",
-      name: "ownershipInterest",
+      name: "interest",
       type: "number",
     },
     {
@@ -110,8 +119,9 @@ export function OwnerQuestions({ onBack }: { onBack: () => void }) {
       initialValues={initialValues}
       validationSchema={validationSchema}
       isInitialValid={false}
-      onSubmit={(values) => {
-        console.log(values);
+      onSubmit={(values: Partial<BusinessEntityCreation>) => {
+        // console.log(values);
+        onNext(values);
       }}
     >
       {({ values, isValid, setValues }) => (
@@ -121,7 +131,7 @@ export function OwnerQuestions({ onBack }: { onBack: () => void }) {
             <FieldArray name="owners">
               {({ push, remove }) => (
                 <div className="flex flex-col w-full md:gap-[1.5rem] gap-6 md:mt-[2.5rem] mt-6">
-                  {values.owners.map((owner, index) => (
+                  {values?.owners?.map((owner, index) => (
                     <div key={index} className="flex flex-col gap-4">
                       <h2 className="font-[600] text-[1rem] text-[#808080] items-center gap-1 flex flex-row">
                         {index !== 0 ? (
@@ -166,7 +176,7 @@ export function OwnerQuestions({ onBack }: { onBack: () => void }) {
                     className={clsx(
                       "text-[#B85042] text-[1rem] font-[600] text-start w-fit",
                       {
-                        hidden: values.owners.length >= 2,
+                        hidden: (values?.clients?.length ?? 0) >= 2,
                       }
                     )}
                   >

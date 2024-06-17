@@ -3,30 +3,68 @@
 @tailwind components;
 @tailwind utilities;
 
-.create-entity-textarea {
-  @apply w-full h-24 border border-solid border-[#E2E2E2] rounded-lg p-4 text-[0.875rem] font-[500] font-inter leading-[18px] bg-transparent;
-}
+@layer components {
+  .create-entity-textarea {
+    @apply w-full h-24 border border-solid border-[#E2E2E2] rounded-lg p-4 text-[0.875rem] font-[500] font-inter leading-[18px] bg-transparent;
+  }
 
-.create-entity-button {
-  @apply font-[600] text-[0.875rem] w-fit transition-all duration-100;
-}
+  .create-entity-button {
+    @apply font-[600] text-[0.875rem] w-fit transition-all duration-100;
+  }
 
-.create-entity-button:hover {
-  @apply opacity-80;
-}
+  .create-entity-button:hover {
+    @apply opacity-80;
+  }
 
-.create-entity-button:active {
-  @apply bg-[#D9D9D9];
-}
+  .create-entity-button:active {
+    @apply bg-[#D9D9D9];
+  }
 
-.create-entity-button-active {
-  @apply bg-[#F5F5F5] border-black text-black;
-}
+  .create-entity-button-active {
+    @apply bg-[#F5F5F5] border-black text-black;
+  }
 
-.create-entity-label {
-  @apply text-black md:text-[1.125rem] text-[0.875rem] font-inter font-[600] leading-[160%];
-}
+  .create-entity-label {
+    @apply text-black md:text-[1.125rem] text-[0.875rem] font-inter font-[600] leading-[160%];
+  }
 
-.create-entity-title {
-  @apply font-[600] md:text-[1.75rem] text-[1.25rem] md:mt-[1.875rem] mt-4 font-outfit;
+  .create-entity-title {
+    @apply font-[600] md:text-[1.75rem] text-[1.25rem] md:mt-[1.875rem] mt-4 font-outfit;
+  }
+
+  .entity-details-card {
+    @apply bg-white p-4 rounded-lg w-full shadow-[2px_4px_9px_0px_rgba(107,103,158,0.05)] flex flex-col gap-4;
+  }
+
+  .entity-details-sub-card {
+    @apply border-solid border-[1px] border-[#E0E9FD] rounded-[10px] bg-[#F8FBFF] p-4 gap-[0.875rem] flex flex-col;
+  }
+
+  .entity-details-sub-title {
+    @apply text-[0.875rem] font-[500] leading-[110%] w-max;
+  }
+
+  .entity-details-value {
+    @apply text-black text-[0.875rem] font-[500] col-span-4 leading-tight md:mb-0 mb-4;
+  }
+
+  .entity-details-label {
+    @apply text-[#666] text-[0.875rem] font-[500] col-span-2 leading-tight;
+  }
+
+  .entity-details-rows {
+    @apply flex flex-col md:grid grid-cols-6 gap-2;
+  }
+
+  .entity-yes-no {
+    @apply py-2 px-6 border border-[#E0E9FD] rounded-[10px] bg-[#F8FBFF] w-fit text-sm leading-[18px] font-semibold;
+  }
+
+  .entity-hr {
+    @apply border-b border-[#D7D7D7] my-2;
+  }
+
+  .entity-details-p {
+    @apply p-3 text-sm leading-[160%] border-[#E0E9FD] rounded-[10px] bg-[#F8FBFF] border;
+  }
 }

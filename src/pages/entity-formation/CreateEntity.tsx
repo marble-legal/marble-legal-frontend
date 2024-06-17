@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FullScreenModal from "../../components/FullScreenModal";
 import clsx from "clsx";
 import { WelcomeStep } from "./create-steps/Welcome";
@@ -8,6 +8,39 @@ import { GeneralQuestions } from "./create-steps/General";
 import { FinancialQuestions } from "./create-steps/Financial";
 import { ManagementQuestions } from "./create-steps/Management";
 import Button from "../../components/Button";
+import { BusinessEntityCreation } from "../../types/business-entity.types";
+import { useAuth } from "../../AuthContext";
+
+const stepComponents = [
+  WelcomeStep,
+  ClientInformation,
+  OwnerQuestions,
+  GeneralQuestions,
+  FinancialQuestions,
+  ManagementQuestions,
+];
+
+const createSteps = (
+  setStep: React.Dispatch<React.SetStateAction<number>>,
+  updateFormData: (data: Partial<BusinessEntityCreation>) => void,
+  formData: BusinessEntityCreation
+) => {
+  return stepComponents.map((Component, index) => ({
+    step: index,
+    Component: (props) => (
+      <Component
+        {...props}
+        updateFormData={updateFormData}
+        formData={formData}
+      />
+    ),
+    onNext: (data) => {
+      updateFormData(data);
+      setStep(index + 1);
+    },
+    onBack: () => setStep(index - 1),
+  }));
+};
 
 export default function CreateEntity({
   isOpen,
@@ -16,68 +49,23 @@ export default function CreateEntity({
   isOpen: boolean;
   handleClose: () => void;
 }) {
-  const [step, setStep] = useState(0);
+  const { user } = useAuth();
+  const [formData, setFormData] = useState<BusinessEntityCreation>({
+    userId: "",
+    ...({} as Omit<BusinessEntityCreation, "userId">),
+  });
+  const updateFormData = (data: Partial<BusinessEntityCreation>) => {
+    setFormData((prev) => ({ ...prev, ...data }));
+  };
 
-  const Steps = [
-    {
-      step: 0,
-      Component: WelcomeStep,
-      onNext: () => {
-        setStep(1);
-      },
-      onBack: () => {},
-    },
-    {
-      step: 1,
-      Component: ClientInformation,
-      onNext: () => {
-        setStep(2);
-      },
-      onBack: () => {
-        setStep(0);
-      },
-    },
-    {
-      step: 2,
-      Component: OwnerQuestions,
-      onNext: () => {
-        setStep(3);
-      },
-      onBack: () => {
-        setStep(1);
-      },
-    },
-    {
-      step: 3,
-      Component: GeneralQuestions,
-      onNext: () => {
-        setStep(4);
-      },
-      onBack: () => {
-        setStep(2);
-      },
-    },
-    {
-      step: 4,
-      Component: FinancialQuestions,
-      onNext: () => {
-        setStep(5);
-      },
-      onBack: () => {
-        setStep(3);
-      },
-    },
-    {
-      step: 5,
-      Component: ManagementQuestions,
-      onNext: () => {
-        setStep(6);
-      },
-      onBack: () => {
-        setStep(4);
-      },
-    },
-  ];
+  const [step, setStep] = useState(0);
+  const Steps = createSteps(setStep, updateFormData, formData);
+
+  useEffect(() => {
+    if (user) {
+      setFormData((prev) => ({ ...prev, userId: user.id }));
+    }
+  }, [user]);
 
   return (
     <FullScreenModal
@@ -99,8 +87,10 @@ export default function CreateEntity({
           return (
             <Step.Component
               key={Step.step}
-              nextStep={Step.onNext}
+              onNext={Step.onNext}
               onBack={Step.onBack}
+              nextStep={() => setStep(step + 1)}
+              closeModal={handleClose}
             />
           );
         }

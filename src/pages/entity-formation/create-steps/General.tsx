@@ -3,18 +3,25 @@ import * as Yup from "yup";
 import Button from "../../../components/Button";
 import clsx from "clsx";
 import { CreateEntityFooter } from "../CreateEntity";
+import { BusinessEntityCreation } from "../../../types/business-entity.types";
 
-export function GeneralQuestions({ onBack }: { onBack: () => void }) {
+export function GeneralQuestions({
+  onBack,
+  onNext,
+}: {
+  onBack: () => void;
+  onNext: (data: Partial<BusinessEntityCreation>) => void;
+}) {
   const validationSchema = Yup.object().shape({
     type: Yup.string().required("Please select a business entity type"),
     issues: Yup.array().of(Yup.string()).required("Please select an issue"),
     name: Yup.string().required("Please enter a name"),
     address: Yup.string().required("Please enter an address"),
     purpose: Yup.string().required("Please enter a purpose"),
-    operation: Yup.string().required("Please enter an operation"),
+    state: Yup.string().required("Please enter an operation"),
     agent: Yup.string().required("Please enter an agent"),
-    trademarks: Yup.string().required("Please enter a trademark"),
-    license: Yup.string().required("Please enter a license"),
+    useTrademark: Yup.string().required("Please enter a trademark"),
+    specialLicenses: Yup.string().required("Please enter a license"),
   });
   const initialValues = {
     type: "",
@@ -22,10 +29,10 @@ export function GeneralQuestions({ onBack }: { onBack: () => void }) {
     name: "",
     address: "",
     purpose: "",
-    operation: "",
+    state: "",
     agent: "",
-    trademarks: "",
-    license: "",
+    useTrademark: "",
+    specialLicenses: "",
   };
   const businessEntities = [
     "Sole Proprietorship",
@@ -65,7 +72,7 @@ export function GeneralQuestions({ onBack }: { onBack: () => void }) {
     },
     {
       label: "In what state(s) will the business operate?",
-      name: "operation",
+      name: "state",
       placeholder: "Describe here",
     },
     {
@@ -76,13 +83,13 @@ export function GeneralQuestions({ onBack }: { onBack: () => void }) {
     {
       label:
         "Will the business use trademarks or logos? If yes, please describe.",
-      name: "trademarks",
+      name: "useTrademark",
       placeholder: "Describe here",
     },
     {
       label:
         "Will the business require any special licenses (i.e. liquor, gambling, etc.)? If yes, please describe.",
-      name: "license",
+      name: "specialLicenses",
       placeholder: "Describe here",
     },
   ];
@@ -92,8 +99,9 @@ export function GeneralQuestions({ onBack }: { onBack: () => void }) {
       initialValues={initialValues}
       validationSchema={validationSchema}
       isInitialValid={false}
-      onSubmit={(values) => {
-        console.log(values);
+      onSubmit={(values: Partial<BusinessEntityCreation>) => {
+        // console.log(values);
+        onNext(values);
       }}
     >
       {({ values, isValid, setValues }) => (
@@ -142,7 +150,7 @@ export function GeneralQuestions({ onBack }: { onBack: () => void }) {
                       variant="outline"
                       className={clsx("create-entity-button", {
                         "create-entity-button-active":
-                          values.issues.includes(issue),
+                          values?.issues?.includes(issue),
                       })}
                       onClick={() => {
                         setValues({

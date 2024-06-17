@@ -2,36 +2,45 @@ import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import Button from "../../../components/Button";
 import { CreateEntityFooter } from "../CreateEntity";
+import { BusinessEntityCreation } from "../../../types/business-entity.types";
 
-export function FinancialQuestions({ onBack }: { onBack: () => void }) {
+export function FinancialQuestions({
+  onBack,
+  onNext,
+}: {
+  onBack: () => void;
+  onNext: (data: Partial<BusinessEntityCreation>) => void;
+}) {
   const validationSchema = Yup.object().shape({
-    account: Yup.string().required("Please select a business entity type"),
-    loans: Yup.string().required("Please select a business entity type"),
-    accountant: Yup.string().required("Please enter a name"),
+    bankAccountType: Yup.string().required(
+      "Please select a business entity type"
+    ),
+    loanDetail: Yup.string().required("Please select a business entity type"),
+    accountantDetail: Yup.string().required("Please enter a name"),
   });
   const initialValues = {
-    account: "",
-    loans: "",
-    accountant: "",
+    bankAccountType: "",
+    loanDetail: "",
+    accountantDetail: "",
   };
 
   const additionalFields = [
     {
       label:
         "Will the business have its own bank accounts? If yes, please identify the type of accounts and the name of the institution where the accounts will be located (if known).",
-      name: "account",
+      name: "bankAccountType",
       placeholder: "Describe here",
     },
     {
       label:
         "Will the business have any loans or lines of credit? If yes, please describe.",
-      name: "loans",
+      name: "loanDetail",
       placeholder: "Describe here",
     },
     {
       label:
         "Who will be responsible for the accounting and financial record keeping for the business? Please provide the name of the individual or company.",
-      name: "accountant",
+      name: "accountantDetail",
       placeholder: "Describe here",
     },
   ];
@@ -41,8 +50,9 @@ export function FinancialQuestions({ onBack }: { onBack: () => void }) {
       initialValues={initialValues}
       validationSchema={validationSchema}
       isInitialValid={false}
-      onSubmit={(values) => {
-        console.log(values);
+      onSubmit={(values: Partial<BusinessEntityCreation>) => {
+        // console.log(values);
+        onNext(values);
       }}
     >
       {({ values, isValid, setValues }) => (
