@@ -7,15 +7,17 @@ export default function EntityDetails({
   isOpen,
   handleClose,
   data,
+  refetch,
 }: {
   isOpen: boolean;
   handleClose: () => void;
   data: BusinessEntity;
+  refetch: () => void;
 }) {
   return (
     <FullScreenModal isOpen={isOpen} onClose={handleClose}>
       <div className="max-w-[800px] items-center justify-center flex flex-col w-full mx-auto gap-5 md:py-[2.625rem] p-2">
-        <EntityDetailsCard data={data} />
+        <EntityDetailsCard data={data} refetch={refetch} />
 
         {/* Client Section */}
         <div className="entity-details-card">

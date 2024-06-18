@@ -85,7 +85,7 @@ export function Message({
             {/* {conversation.message} */}
           </div>
           <div className="flex items-center flex-wrap gap-1">
-            {sourceDocuments.map((source, i) => (
+            {sourceDocuments?.map((source, i) => (
               <a
                 key={i}
                 href={source}

@@ -46,9 +46,3 @@ export interface BusinessEntity extends BaseBusinessEntity {
   updatedAt: string;
   status: number;
 }
-export interface BusinessEntityUpdate {
-  status: number;
-}
-export interface BusinessEntityDelete {
-  id: string;
-}

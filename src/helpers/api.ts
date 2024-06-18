@@ -123,4 +123,7 @@ export const api = {
   getEntity: (id: string) => {
     return apiClient.get(`/business-entities/${id}`);
   },
+  deleteEntity: (id: string) => {
+    return apiClient.delete(`/business-entities/${id}`);
+  },
 };

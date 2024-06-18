@@ -2,8 +2,7 @@ import Button from "../../components/Button";
 import { ReactComponent as PlusIcon } from "../../assets/icons/add.svg";
 import { ReactComponent as BuildingIcon } from "../../assets/icons/buliding.svg";
 import { ReactComponent as ClockIcon } from "../../assets/icons/clock.svg";
-import { ReactComponent as BIcon } from "../../assets/icons/b.svg";
-import { ReactComponent as LocationIcon } from "../../assets/icons/location.svg";
+import { ReactComponent as DeleteIcon } from "../../assets/icons/delete.svg";
 import clsx from "clsx";
 import { useState } from "react";
 import EntityDetails from "./EntityDetails";
@@ -14,19 +13,16 @@ import { api } from "../../helpers/api";
 import { BusinessEntity } from "../../types/business-entity.types";
 import { AxiosResponse } from "axios";
 import moment from "moment";
+import { ShowToast } from "../../components/toast";
 
 export default function EntityFormation() {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [isCreateEntityOpen, setIsCreateEntityOpen] = useState(false);
   const [entityData, setEntityData] = useState({} as any);
   const handleDetailsClose = () => setIsDetailsOpen(false);
-  const { data, isLoading } = useQuery<AxiosResponse<BusinessEntity[]>>(
-    ["entities"],
-    api.getEntities
-  );
-
-  // console.log("entityData", isDetailsOpen);
-  console.log(data);
+  const { data, isLoading, refetch } = useQuery<
+    AxiosResponse<BusinessEntity[]>
+  >(["entities"], api.getEntities);
 
   return (
     <div>
@@ -46,6 +42,7 @@ export default function EntityFormation() {
         isOpen={isDetailsOpen}
         handleClose={handleDetailsClose}
         data={entityData}
+        refetch={refetch}
       />
       <CreateEntity
         isOpen={isCreateEntityOpen}
@@ -77,6 +74,7 @@ export default function EntityFormation() {
               setIsDetailsOpen(true);
               setEntityData(entity);
             }}
+            refetch={refetch}
           />
         ))}
       </div>
@@ -87,10 +85,31 @@ export default function EntityFormation() {
 export function EntityDetailsCard({
   data,
   handleOpenDetails,
+  refetch,
 }: {
   data: BusinessEntity;
   handleOpenDetails?: () => void;
+  refetch?: () => void;
 }) {
+  const handleDelete = (e: any) => {
+    e.stopPropagation();
+    api
+      .deleteEntity(data?.id)
+      .then((res) => {
+        ShowToast({
+          message: "Entity deleted successfully!",
+          type: "success",
+        });
+        refetch && refetch();
+      })
+      .catch((err) => {
+        ShowToast({
+          message: err.response.data.message || "Something went wrong!",
+          type: "error",
+        });
+      });
+  };
+
   return (
     <button
       className="text-start bg-white p-4 rounded-[12px] shadow-[2px_4px_9px_0px_rgba(107,103,158,0.05)] flex flex-row flex-wrap justify-between items-center w-full"
@@ -112,34 +131,28 @@ export function EntityDetailsCard({
               <span className="font-[400]">Applied on:</span>
               <span>{moment(data?.createdAt).format("DD MMM, YYYY")}</span>
             </div>
-            {/* <div className="flex flex-row flex-wrap gap-1 items-center">
-              <BIcon />
-              <span className="md:max-w-[150px] md:truncate">{data?.type}</span>
-            </div>
-            <div className="md:flex flex-row flex-wrap gap-1 items-center hidden">
-              <LocationIcon />
-              <span className="md:max-w-[150px] md:truncate">
-                {data?.address}
-              </span>
-            </div> */}
           </div>
         </div>
       </div>
 
       <div className="border-b-[#E5E5E5] border-b-solid border-b-[1px] my-4 w-full md:hidden flex" />
 
-      <div className="md:text-[0.875rem] text-[0.75rem] font-[500] flex flex-row items-center justify-between w-full md:w-auto">
-        {/* <div className="flex flex-row flex-wrap gap-1 items-center md:hidden text-[#666]">
-          <LocationIcon />
-          <span className="max-w-[150px] truncate">{data?.address}</span>
-        </div> */}
-
+      <div className="md:text-[0.875rem] text-[0.75rem] font-[500] flex flex-row items-center justify-between w-full md:w-auto md:gap-3">
         {data?.status === 1 ? (
           <StatusBadge status="Completed" />
         ) : data?.status === 0 ? (
           <StatusBadge status="In-progress" />
         ) : (
           <StatusBadge status="Refused" />
+        )}
+        {data?.status === 1 && (
+          <button
+            className="p-1.5 bg-[#FFF0F0] border border-[#F1D0CD] rounded-md hover:bg-[#F1D0CD] transition-all"
+            onClick={handleDelete}
+            type="button"
+          >
+            <DeleteIcon />
+          </button>
         )}
       </div>
     </button>
@@ -169,10 +182,10 @@ export function EntityDetailsCardSkeleton() {
 
       <div className="md:text-[0.875rem] text-[0.75rem] font-[500] flex flex-row items-center justify-between w-full md:w-auto">
         <span className="h-4 w-12 bg-gray-200 rounded"></span>
-        <div className="flex flex-row flex-wrap gap-1 items-center md:hidden text-[#666]">
+        {/* <div className="flex flex-row flex-wrap gap-1 items-center md:hidden text-[#666]">
           <LocationIcon />
           <span className="max-w-[150px] truncate"></span>
-        </div>
+        </div> */}
       </div>
     </div>
   );
