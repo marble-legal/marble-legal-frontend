@@ -71,11 +71,10 @@ export const CreateDraftForm = ({
         make sure to write as much details as you can for accurate results
       </p>
       <div className="flex flex-col gap-5 my-6">
-        <label
-          htmlFor="type"
-          className="text-[#030712] text-[0.875rem] font-[Inter] font-[500] font-[Inter] flex flex-col gap-2 relative"
-        >
-          <span>Type of contract</span>
+        <label htmlFor="type" className="flex flex-col gap-2 relative">
+          <span className="font-medium text-[13px] text-black">
+            Type of contract
+          </span>
           <UIPopover
             trigger={
               <button className="px-4 py-3 flex flex-row justify-between border-[#D7D7D7] border-[1px] border-solid rounded-[10px] items-center w-full">
@@ -106,11 +105,10 @@ export const CreateDraftForm = ({
             )}
           </UIPopover>
         </label>
-        <label
-          htmlFor="requirement"
-          className="text-[#030712] text-[0.875rem] font-[Inter] font-[500] font-[Inter] flex flex-col gap-2"
-        >
-          Enter your requirements
+        <label htmlFor="requirement" className="flex flex-col gap-2">
+          <span className="font-medium text-[13px] text-black">
+            Enter your requirements
+          </span>
           <textarea
             id="requirement"
             className="px-4 py-3 flex flex-row justify-between border-[#D7D7D7] border-[1px] border-solid rounded-[10px] items-center min-h-[150px]"
@@ -122,7 +120,7 @@ export const CreateDraftForm = ({
       <Button
         onClick={handleSubmit}
         loading={loading}
-        disabled={!form.type || !form.content}
+        disabled={!form.type || !form.content || form.content?.length < 100}
       >
         Generate contract draft
       </Button>
