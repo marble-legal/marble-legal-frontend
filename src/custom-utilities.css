@@ -21,7 +21,7 @@
   }
 
   .create-entity-button-active {
-    @apply bg-[#F5F5F5] border-black text-black;
+    @apply bg-[#F5F5F5] !border-black !text-black;
   }
 
   .create-entity-label {
