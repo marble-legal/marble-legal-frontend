@@ -3,10 +3,12 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 import { AuthProvider } from "../AuthContext";
 import SettingsModal from "../components/settings/Settings";
+import useStripeSession from "./subscription/useSubscription";
 
 function MainApp() {
   const [showSettings, setShowSettings] = useState(false);
   const toggleSettings = () => setShowSettings(!showSettings);
+  const { activeSubscription } = useStripeSession();
 
   if (window.innerWidth < 1024) {
     return (

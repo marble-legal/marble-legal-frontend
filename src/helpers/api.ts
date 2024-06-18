@@ -87,6 +87,65 @@ export const api = {
   getContract: (id: string) => {
     return apiClient.get(`/contracts/${id}`);
   },
+  getUserSubscription: (userId: string) => {
+    return apiClient.get(`/users/${userId}/subscriptions`);
+  },
+  customerStripePortal: (id: string) => {
+    return apiClient
+      .get(`/users/${id}/stripe-customer-portal-url`, {
+        params: {
+          // redirectUrl: "http://localhost:3002/dashboard",
+          // dynamicRedirectUrl
+          redirectUrl: window.location.origin + "/dashboard",
+        },
+      })
+      .then((res) => res.data);
+  },
+  getStripe: ({
+    id,
+    redirectUrl,
+    tier,
+    planType,
+    aiAssistant,
+    contractAnalysis,
+    contractDrafting,
+    businessEntity,
+    attorneyReview,
+  }: {
+    id: string;
+    redirectUrl: string;
+    tier: string;
+    planType: string;
+    aiAssistant?: number;
+    contractAnalysis?: number;
+    contractDrafting?: number;
+    businessEntity?: number;
+    attorneyReview?: number;
+  }) => {
+    let url = `/users/${id}/stripe-connect-url?redirectUrl=${redirectUrl}`;
+    if (tier) {
+      url += `&tier=${tier}`;
+    }
+    if (planType) {
+      url += `&planType=${planType}`;
+    }
+    if (aiAssistant) {
+      url += `&aiAssistant=${aiAssistant}`;
+    }
+    if (contractAnalysis) {
+      url += `&contractAnalysis=${contractAnalysis}`;
+    }
+    if (contractDrafting) {
+      url += `&contractDrafting=${contractDrafting}`;
+    }
+    if (businessEntity) {
+      url += `&businessEntity=${businessEntity}`;
+    }
+    if (attorneyReview) {
+      url += `&attorneyReview=${attorneyReview}`;
+    }
+    return apiClient.get(url).then((res) => res.data);
+  },
   getSignedUrl: ({ id, data }: { id: string; data: any }) => {
     // /users/{id}/images/signed-url
     return apiClient.get(`/users/${id}/images/signed-url`, {

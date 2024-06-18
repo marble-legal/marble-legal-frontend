@@ -3,10 +3,18 @@ import { ReactComponent as ContractIcon } from "../assets/icons/scan.svg";
 import { ReactComponent as DocumentIcon } from "../assets/icons/document-text.svg";
 import { ReactComponent as BuildingIcon } from "../assets/icons/buliding.svg";
 
+export const SubscriptionTier = {
+  Basic: "IN",
+  Standard: "SB",
+  Enterprise: "SP",
+  Customised: "CU",
+};
+
 export const subscriptions = [
   {
     plan: "Basic",
     price: "49",
+    tier: SubscriptionTier.Basic,
     features: [
       "Legal AI assistant",
       "10 contract generation",
@@ -21,6 +29,7 @@ export const subscriptions = [
   {
     plan: "Standard",
     price: "199",
+    tier: SubscriptionTier.Standard,
     features: [
       "Legal AI assistant",
       "50 contract generation",
@@ -35,6 +44,7 @@ export const subscriptions = [
   {
     plan: "Premium",
     price: "349",
+    tier: SubscriptionTier.Enterprise,
     features: [
       "Legal AI assistant",
       "Unlimited contract generation",
@@ -50,7 +60,7 @@ export const subscriptions = [
 
 export const featureSpecificPlan = [
   {
-    id: "assistant",
+    id: "aiAssistant",
     title: "Legal AI assistant",
     description:
       "Engage in dynamic, real-time conversations with AI to get instant answers and expert guidance.",
@@ -64,12 +74,12 @@ export const featureSpecificPlan = [
     input_label: "How many months?",
   },
   {
-    id: "draft",
+    id: "contractDrafting",
     title: "Contract draft generation",
     description:
       "Effortlessly input your contract requirements and receive meticulously crafted, customized draft contracts promptly.",
     // price: "$5 per draft generation",
-    price: "5",
+    price: "10",
     priceDesc: "per draft generation",
     icon: (
       <div className="bg-[#F5FAF0] p-3 rounded-[8px] h-fit w-fit">
@@ -79,12 +89,12 @@ export const featureSpecificPlan = [
     input_label: "# of draft you need",
   },
   {
-    id: "analysis",
+    id: "contractAnalysis",
     title: "Contract Analysis",
     description:
       "Upload existing contracts for detailed analysis and insights on clauses and key information.",
     // price: "$5 per generation",
-    price: "5",
+    price: "10",
     priceDesc: "per generation",
     icon: (
       <div className="bg-[#F2FFFC] p-3 rounded-[8px] h-fit w-fit">
@@ -94,7 +104,7 @@ export const featureSpecificPlan = [
     input_label: "# of Analysis you need",
   },
   {
-    id: "entity",
+    id: "businessEntity",
     title: "Business Entity formation",
     description:
       "Provide essential details for forming new entities and receive prompt processing by licensed attorneys.",
@@ -125,3 +135,8 @@ export const contractTypes = [
   { value: "Confidentiality Agreement", label: "Confidentiality Agreement" },
   { value: "Consulting Agreement", label: "Consulting Agreement" },
 ];
+
+export const PlanType = {
+  yearly: "Y",
+  monthly: "M",
+};

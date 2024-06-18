@@ -1,24 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Button from "../../components/Button";
-import { featureSpecificPlan } from "../../helpers/consts";
+import {
+  PlanType,
+  SubscriptionTier,
+  featureSpecificPlan,
+} from "../../helpers/consts";
 import { ReactComponent as NegativeIcon } from "../../assets/icons/negative.svg";
 import { ReactComponent as PlusIcon } from "../../assets/icons/plus.svg";
 import clsx from "clsx";
 import Selectable from "../../components/Selectable";
 import FullScreenModal from "../../components/FullScreenModal";
 
+// aiAssistant,
+// contractAnalysis,
+// contractDrafting,
+// businessEntity,
+// attorneyReview,
 const FeatureSpecificPlanModal: React.FC<{
   isOpen: boolean;
   onClose: () => void;
-}> = ({ isOpen, onClose }) => {
+  handleGetStripeSession: any;
+  isLoading: boolean;
+}> = ({ isOpen, onClose, handleGetStripeSession, isLoading }) => {
   // buying data
   const [formData, setFormData] = useState({
-    assistant: 0,
-    draft: 0,
-    analysis: 0,
-    entity: 0,
+    aiAssistant: 0,
+    contractDrafting: 0,
+    contractAnalysis: 0,
+    businessEntity: 0,
+    attorneyReview: 0,
   });
+
+  const handleCheckout = async () => {
+    await handleGetStripeSession({
+      planType: PlanType.yearly,
+      tier: SubscriptionTier.Customised,
+      ...formData,
+    });
+  };
 
   // stop behind scrolling
   if (isOpen) {
@@ -27,6 +47,23 @@ const FeatureSpecificPlanModal: React.FC<{
     document.body.style.overflow = "auto";
   }
 
+  useEffect(() => {
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+
+  const total = useMemo(() => {
+    let total = 0;
+    featureSpecificPlan.forEach((data) => {
+      if (formData[data.id] > 0) {
+        total += formData[data.id] * parseFloat(data.price);
+      }
+    });
+    return total;
+  }, [formData, featureSpecificPlan]);
+
+  console.log(formData);
   return (
     <FullScreenModal isOpen={isOpen} onClose={onClose}>
       {/* Adjusted height to account for fixed button */}
@@ -52,8 +89,13 @@ const FeatureSpecificPlanModal: React.FC<{
         </div>
 
         {/* Desktop */}
-        <Button className="items-center gap-0 md:block hidden">
-          <span className="text-[1rem] font-[700] tracking-[0.32px]">$90</span>
+        <Button
+          onClick={handleCheckout}
+          className="items-center gap-0 md:block hidden"
+        >
+          <span className="text-[1rem] font-[700] tracking-[0.32px]">
+            ${total}
+          </span>
           <span className="border-l border-white h-7 mx-3 opacity-60"></span>
           <span className="text-[1rem] font-[500] tracking-[0.32px]">
             Continue to checkout
@@ -61,8 +103,13 @@ const FeatureSpecificPlanModal: React.FC<{
         </Button>
       </div>
       {/* Mobile */}
-      <Button className="text-lg font-semibold items-center gap-0 md:hidden sticky bottom-0 px-[1.75rem] py-[1.125rem] leading-[1.125rem] md:w-auto w-[90vw] z-60">
-        <span className="text-[1rem] font-[700] tracking-[0.32px]">$90</span>
+      <Button
+        onClick={handleCheckout}
+        className="text-lg font-semibold items-center gap-0 md:hidden sticky bottom-0 px-[1.75rem] py-[1.125rem] leading-[1.125rem] md:w-auto w-[90vw] z-60"
+      >
+        <span className="text-[1rem] font-[700] tracking-[0.32px]">
+          ${total}
+        </span>
         <span className="border-l border-white h-4 mx-3 opacity-60"></span>
         <span className="text-[1rem] font-[500] tracking-[0.32px]">
           Continue to checkout
@@ -90,21 +137,21 @@ function Card({
   setFormData: any;
 }) {
   // if formData is not 0 then it is selected
-  const isSelected = formData[id.toLowerCase()] > 0;
+  const isSelected = formData[id] > 0;
 
   const handleIncrement = () => {
     setFormData((prev: any) => {
-      const count = prev[id.toLowerCase()] || 0;
-      return { ...prev, [id.toLowerCase()]: count + 1 };
+      const count = prev[id] || 0;
+      return { ...prev, [id]: count + 1 };
     });
   };
 
   // decreament only if the count is greater than 0
   const handleDecrement = () => {
     setFormData((prev: any) => {
-      const count = prev[id.toLowerCase()] || 0;
+      const count = prev[id] || 0;
       if (count > 0) {
-        return { ...prev, [id.toLowerCase()]: count - 1 };
+        return { ...prev, [id]: count - 1 };
       }
       return prev;
     });
@@ -121,9 +168,9 @@ function Card({
       onClick={
         // if the card is 0 then select it
         () => {
-          if (formData[id.toLowerCase()] === 0) {
+          if (formData[id] === 0) {
             setFormData((prev: any) => {
-              return { ...prev, [id.toLowerCase()]: 1 };
+              return { ...prev, [id]: 1 };
             });
           }
         }
@@ -137,11 +184,11 @@ function Card({
       >
         <Selectable
           // readonly
-          checked={formData[id.toLowerCase()] > 0}
+          checked={formData[id] > 0}
           onChange={(checked) => {
             if (!checked) {
               setFormData((prev: any) => {
-                return { ...prev, [id.toLowerCase()]: 0 };
+                return { ...prev, [id]: 0 };
               });
             }
           }}
@@ -179,11 +226,11 @@ function Card({
               </button>
               <input
                 className="text-[#666] text-[0.875rem] font-[500] border-[1px] border-solid border-[#D7D7D7] rounded-[4px] font-[700] w-[40px] text-center items-center"
-                value={formData[id.toLowerCase()] || 0}
+                value={formData[id] || 0}
                 onChange={(e: any) =>
                   setFormData({
                     ...formData,
-                    [id.toLowerCase()]: parseInt(e.target.value),
+                    [id]: parseInt(e.target.value),
                   })
                 }
               />

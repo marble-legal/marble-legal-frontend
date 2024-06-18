@@ -1,19 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HueBG from "../../assets/images/hue.png";
 import ToggleSwitch from "../../components/ToggleSwitch";
 import clsx from "clsx";
 import { ReactComponent as CheckCircleIcon } from "../../assets/icons/check-circle.svg";
 import Button from "../../components/Button";
 import FeatureSpecificPlanModal from "./FeatureSpecificPlan";
-import { subscriptions } from "../../helpers/consts";
+import { PlanType, subscriptions } from "../../helpers/consts";
 import useResponsive from "../../helpers/useResponsive";
-import { api } from "../../helpers/api";
-import { useAuth } from "../../AuthContext";
-import { ShowToast } from "../../components/toast";
-import { useQuery } from "@tanstack/react-query";
+import useStripeSession from "./useSubscription";
 
 export default function Subscription() {
   const { isAnyMobile } = useResponsive();
+  const { stripeLoading, handleGetStripeSession } = useStripeSession();
   const [isAnnual, setIsAnnual] = useState(false);
   const [isFeatureSpecificPlanModalOpen, setIsFeatureSpecificPlanModalOpen] =
     useState(false);
@@ -42,6 +40,8 @@ export default function Subscription() {
       <FeatureSpecificPlanModal
         isOpen={isFeatureSpecificPlanModalOpen}
         onClose={handleFeatureSpecificPlanModal}
+        isLoading={stripeLoading && isFeatureSpecificPlanModalOpen}
+        handleGetStripeSession={handleGetStripeSession}
       />
 
       <div className="md:-mt-[3.125rem] mt-[3.5rem]">
@@ -61,8 +61,14 @@ export default function Subscription() {
           </div>
         </div>
         <div className="flex flex-row flex-wrap lg:w-[950px] max-w-[950px] gap-4">
-          {subscriptions.map((sub: any, index) => (
-            <SubscriptionCard data={sub} isAnnual={isAnnual} key={index} />
+          {subscriptions.map((sub, index) => (
+            <SubscriptionCard
+              data={sub}
+              isAnnual={isAnnual}
+              key={index}
+              handleGetStripeSession={handleGetStripeSession}
+              stripeLoading={stripeLoading}
+            />
           ))}
         </div>
         <div className="mt-[3rem] text-center flex gap-1 justify-center flex-row flex-wrap">
@@ -93,6 +99,8 @@ function SubscriptionCard({
     tier,
   },
   isAnnual,
+  handleGetStripeSession,
+  stripeLoading,
 }: {
   data: {
     plan: string;
@@ -101,29 +109,22 @@ function SubscriptionCard({
     color: string;
     subscriptionBg: string;
     subscriptionText: string;
-    tier: "IN" | "SB" | "SP";
+    tier?: string;
   };
   isAnnual?: boolean;
+  handleGetStripeSession: any;
+  stripeLoading: boolean;
 }) {
-  const { user } = useAuth();
-  const { data, isLoading } = useQuery(["subscription"], () =>
-    api.getActiveSubscription(user.id)
-  );
-
-  const handleGetStripe = () => {
-    api
-      .getStripeUrl(user.id, tier, isAnnual ? "Y" : "M")
-      .then((res) => {
-        window.location.href = res.data.url;
-      })
-      .catch((err) => {
-        ShowToast({
-          message: err.response?.data?.message || "Something went wrong",
-          type: "error",
-        });
-      });
+  const [isSelected, setIsSelected] = useState(false);
+  const handleUpgrade = async () => {
+    const planType = isAnnual ? PlanType.yearly : PlanType.monthly;
+    setIsSelected(true);
+    console.log("Upgrade to", { planType, tier });
+    await handleGetStripeSession({ planType, tier });
   };
-
+  useEffect(() => {
+    if (!stripeLoading) setIsSelected(false);
+  }, [stripeLoading]);
   return (
     <div className="bg-white rounded-[12px] flex-1 flex-grow md:min-w-[30%] min-w-full">
       <div className="p-2">
@@ -159,9 +160,9 @@ function SubscriptionCard({
         </ul>
 
         <Button
+          loading={stripeLoading && isSelected}
           className="w-full mt-[1.5rem]"
-          onClick={handleGetStripe}
-          disabled={isLoading}
+          onClick={handleUpgrade}
         >
           Upgrade to {plan}
         </Button>
