@@ -225,7 +225,7 @@ function Card({
                 <NegativeIcon />
               </button>
               <input
-                className="text-[#666] text-[0.875rem] font-[500] border-[1px] border-solid border-[#D7D7D7] rounded-[4px] font-[700] w-[40px] text-center items-center"
+                className="text-[#666] text-[0.875rem] border-[1px] border-solid border-[#D7D7D7] rounded-[4px] font-[700] w-[40px] text-center items-center"
                 value={formData[id] || 0}
                 onChange={(e: any) =>
                   setFormData({

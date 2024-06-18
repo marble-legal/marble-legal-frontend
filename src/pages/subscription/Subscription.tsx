@@ -5,7 +5,11 @@ import clsx from "clsx";
 import { ReactComponent as CheckCircleIcon } from "../../assets/icons/check-circle.svg";
 import Button from "../../components/Button";
 import FeatureSpecificPlanModal from "./FeatureSpecificPlan";
-import { PlanType, subscriptions } from "../../helpers/consts";
+import {
+  PlanType,
+  SubscriptionTier,
+  subscriptions,
+} from "../../helpers/consts";
 import useResponsive from "../../helpers/useResponsive";
 import useStripeSession from "./useSubscription";
 
@@ -25,7 +29,7 @@ export default function Subscription() {
 
   return (
     <div
-      className="md:h-[calc(100%)] grid items-center justify-center"
+      className="h-[calc(100vh-50px)] overflow-auto grid items-center justify-center"
       style={
         isAnyMobile
           ? { padding: "1rem" }
@@ -60,7 +64,7 @@ export default function Subscription() {
             <span className={clsx(!isAnnual && "text-[#888]")}>Annual</span>
           </div>
         </div>
-        <div className="flex flex-row flex-wrap lg:w-[950px] max-w-[950px] gap-4">
+        <div className="flex justify-center items-center lg:items-stretch flex-col lg:flex-row flex-wrap lg:w-[1230px] max-w-[1230px] gap-4">
           {subscriptions.map((sub, index) => (
             <SubscriptionCard
               data={sub}
@@ -68,6 +72,7 @@ export default function Subscription() {
               key={index}
               handleGetStripeSession={handleGetStripeSession}
               stripeLoading={stripeLoading}
+              onFeatureSpecificPlan={handleFeatureSpecificPlanModal}
             />
           ))}
         </div>
@@ -101,6 +106,7 @@ function SubscriptionCard({
   isAnnual,
   handleGetStripeSession,
   stripeLoading,
+  onFeatureSpecificPlan,
 }: {
   data: {
     plan: string;
@@ -114,9 +120,14 @@ function SubscriptionCard({
   isAnnual?: boolean;
   handleGetStripeSession: any;
   stripeLoading: boolean;
+  onFeatureSpecificPlan: () => void;
 }) {
   const [isSelected, setIsSelected] = useState(false);
   const handleUpgrade = async () => {
+    if (tier === SubscriptionTier.Customised) {
+      onFeatureSpecificPlan();
+      return;
+    }
     const planType = isAnnual ? PlanType.yearly : PlanType.monthly;
     setIsSelected(true);
     console.log("Upgrade to", { planType, tier });
@@ -126,7 +137,7 @@ function SubscriptionCard({
     if (!stripeLoading) setIsSelected(false);
   }, [stripeLoading]);
   return (
-    <div className="bg-white rounded-[12px] flex-1 flex-grow md:min-w-[30%] min-w-full">
+    <div className="bg-white rounded-[12px] flex-1 flex-grow max-w-[295px] md:min-w-[295px] min-w-full flex flex-col">
       <div className="p-2">
         <div
           className="p-4 grid rounded-[9px] gap-[0.75rem]"
@@ -143,18 +154,24 @@ function SubscriptionCard({
           >
             <span className="text-[0.8125rem] font-[500]">{plan}</span>
           </div>
-          <span className="font-[600] text-[1.25rem] font-outfit">
-            ${isAnnual ? parseFloat(price) * 12 : price}/
-            {isAnnual ? "year" : "month"}
-          </span>
+          {tier !== SubscriptionTier.Customised ? (
+            <span className="font-[600] text-[1.25rem] font-outfit">
+              ${isAnnual ? parseFloat(price) * 12 : price}/
+              {isAnnual ? "year" : "month"}
+            </span>
+          ) : (
+            <span className="font-[600] text-[1.25rem] font-outfit">
+              {price}
+            </span>
+          )}
         </div>
       </div>
-      <div className="px-6 py-3 text-[0.9375rem] font-[500]">
-        <ul className="grid gap-4">
+      <div className="flex flex-col px-6 py-3 text-[0.9375rem] font-[500] flex-1">
+        <ul className="flex-1 flex flex-col gap-4">
           {features.map((feature, index) => (
-            <li className="flex items-center gap-[0.625rem]" key={index}>
+            <li className="flex items-start gap-[0.625rem]" key={index}>
               <CheckCircleIcon />
-              <span>{feature}</span>
+              <span className="flex-1">{feature}</span>
             </li>
           ))}
         </ul>
