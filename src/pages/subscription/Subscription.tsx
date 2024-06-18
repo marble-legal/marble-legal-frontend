@@ -7,6 +7,10 @@ import Button from "../../components/Button";
 import FeatureSpecificPlanModal from "./FeatureSpecificPlan";
 import { subscriptions } from "../../helpers/consts";
 import useResponsive from "../../helpers/useResponsive";
+import { api } from "../../helpers/api";
+import { useAuth } from "../../AuthContext";
+import { ShowToast } from "../../components/toast";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Subscription() {
   const { isAnyMobile } = useResponsive();
@@ -57,11 +61,11 @@ export default function Subscription() {
           </div>
         </div>
         <div className="flex flex-row flex-wrap lg:w-[950px] max-w-[950px] gap-4">
-          {subscriptions.map((sub, index) => (
+          {subscriptions.map((sub: any, index) => (
             <SubscriptionCard data={sub} isAnnual={isAnnual} key={index} />
           ))}
         </div>
-        <div className="mt-[3rem] text-center flex gap-1 justify-center flex flex-row flex-wrap">
+        <div className="mt-[3rem] text-center flex gap-1 justify-center flex-row flex-wrap">
           <span className="text-[1.125rem] text-[#666] font-[500]">
             Looking for a plan with specific features?
           </span>
@@ -79,7 +83,15 @@ export default function Subscription() {
 }
 
 function SubscriptionCard({
-  data: { plan, price, features, color, subscriptionBg, subscriptionText },
+  data: {
+    plan,
+    price,
+    features,
+    color,
+    subscriptionBg,
+    subscriptionText,
+    tier,
+  },
   isAnnual,
 }: {
   data: {
@@ -89,9 +101,29 @@ function SubscriptionCard({
     color: string;
     subscriptionBg: string;
     subscriptionText: string;
+    tier: "IN" | "SB" | "SP";
   };
   isAnnual?: boolean;
 }) {
+  const { user } = useAuth();
+  const { data, isLoading } = useQuery(["subscription"], () =>
+    api.getActiveSubscription(user.id)
+  );
+
+  const handleGetStripe = () => {
+    api
+      .getStripeUrl(user.id, tier, isAnnual ? "Y" : "M")
+      .then((res) => {
+        window.location.href = res.data.url;
+      })
+      .catch((err) => {
+        ShowToast({
+          message: err.response?.data?.message || "Something went wrong",
+          type: "error",
+        });
+      });
+  };
+
   return (
     <div className="bg-white rounded-[12px] flex-1 flex-grow md:min-w-[30%] min-w-full">
       <div className="p-2">
@@ -126,7 +158,13 @@ function SubscriptionCard({
           ))}
         </ul>
 
-        <Button className="w-full mt-[1.5rem]">Upgrade to {plan}</Button>
+        <Button
+          className="w-full mt-[1.5rem]"
+          onClick={handleGetStripe}
+          disabled={isLoading}
+        >
+          Upgrade to {plan}
+        </Button>
       </div>
     </div>
   );

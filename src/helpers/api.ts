@@ -126,4 +126,16 @@ export const api = {
   deleteEntity: (id: string) => {
     return apiClient.delete(`/business-entities/${id}`);
   },
+  getStripeUrl: (id: string, tier: "IN" | "SB" | "SP", planType: "M" | "Y") => {
+    return apiClient.get(`/users/${id}/stripe-connect-url`, {
+      params: {
+        redirectUrl: `${window.location.origin}/dashboard`,
+        tier: tier,
+        planType: planType,
+      },
+    });
+  },
+  getActiveSubscription: (id: string) => {
+    return apiClient.get(`/users/${id}/subscriptions`);
+  },
 };
