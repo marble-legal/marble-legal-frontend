@@ -24,7 +24,6 @@ export const subscriptions = [
     color: "#F3FAFE",
     subscriptionBg: "#D5EFFA",
     subscriptionText: "#139EA7",
-    tier: "IN",
   },
   {
     plan: "Standard",
@@ -39,7 +38,6 @@ export const subscriptions = [
     color: "#F9F3FE",
     subscriptionBg: "#DECAFF",
     subscriptionText: "#883EC2",
-    tier: "SB",
   },
   {
     plan: "Premium",
@@ -54,7 +52,6 @@ export const subscriptions = [
     color: "#FEF5F3",
     subscriptionBg: "#FFE5D6",
     subscriptionText: "#B85042",
-    tier: "SP",
   },
 ];
 
