@@ -33,7 +33,7 @@ interface BaseBusinessEntity {
   loanDetail: string;
   accountantDetail: string;
   managementDetail: string;
-  signingResponsibility: string;
+  signingResposibility: string;
   powersDetail: string;
   initialOfficers: string;
 }

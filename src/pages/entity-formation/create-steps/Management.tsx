@@ -20,7 +20,7 @@ export function ManagementQuestions({
     managementDetail: Yup.string().required(
       "Please select a business entity type"
     ),
-    signingResponsibility: Yup.string().required(
+    signingResposibility: Yup.string().required(
       "Please select a business entity type"
     ),
     powersDetail: Yup.string().required("Please enter a name"),
@@ -28,7 +28,7 @@ export function ManagementQuestions({
   });
   const initialValues = {
     managementDetail: "",
-    signingResponsibility: "",
+    signingResposibility: "",
     powersDetail: "",
     initialOfficers: "",
   };
@@ -43,7 +43,7 @@ export function ManagementQuestions({
     {
       label:
         "Who will be responsible for signing documents on behalf of the business?",
-      name: "signingResponsibility",
+      name: "signingResposibility",
       placeholder: "Describe here",
     },
     {

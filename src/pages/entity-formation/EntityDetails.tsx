@@ -240,9 +240,7 @@ export default function EntityDetails({
               <span className="font-bold">Q2)</span> Who will be responsible for
               signing documents on behalf of the business?
             </div>
-            <div className="entity-details-p">
-              {data?.signingResponsibility}
-            </div>
+            <div className="entity-details-p">{data?.signingResposibility}</div>
           </div>
           <div className="entity-hr" />
           <div className="flex flex-col gap-2.5">
