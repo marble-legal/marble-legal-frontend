@@ -10,11 +10,13 @@ export function ManagementQuestions({
   updateFormData,
   formData,
   closeModal,
+  setStep,
 }: {
   onBack: () => void;
   updateFormData: (data: any) => Partial<BusinessEntityCreation>;
   formData: BusinessEntityCreation;
   closeModal: () => void;
+  setStep: (step: number) => void;
 }) {
   const validationSchema = Yup.object().shape({
     managementDetail: Yup.string().required(
@@ -62,10 +64,14 @@ export function ManagementQuestions({
 
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={formData || initialValues}
       validationSchema={validationSchema}
-      isInitialValid={false}
-      onSubmit={(values: Partial<BusinessEntityCreation>) => {
+      isInitialValid={
+        formData
+          ? validationSchema.isValidSync(formData)
+          : validationSchema.isValidSync(initialValues)
+      }
+      onSubmit={(values: Partial<BusinessEntityCreation>, { resetForm }) => {
         // console.log(values);
         //  updateFormData(values);
         api
@@ -79,6 +85,8 @@ export function ManagementQuestions({
               type: "success",
             });
             closeModal();
+            resetForm();
+            setStep(0);
           })
           .catch((err) => {
             ShowToast({

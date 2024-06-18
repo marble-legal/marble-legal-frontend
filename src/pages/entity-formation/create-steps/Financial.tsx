@@ -7,9 +7,11 @@ import { BusinessEntityCreation } from "../../../types/business-entity.types";
 export function FinancialQuestions({
   onBack,
   onNext,
+  formData,
 }: {
   onBack: () => void;
   onNext: (data: Partial<BusinessEntityCreation>) => void;
+  formData: Partial<BusinessEntityCreation>;
 }) {
   const validationSchema = Yup.object().shape({
     bankAccountType: Yup.string().required(
@@ -47,9 +49,13 @@ export function FinancialQuestions({
 
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={formData || initialValues}
       validationSchema={validationSchema}
-      isInitialValid={false}
+      isInitialValid={
+        formData
+          ? validationSchema.isValidSync(formData)
+          : validationSchema.isValidSync(initialValues)
+      }
       onSubmit={(values: Partial<BusinessEntityCreation>) => {
         // console.log(values);
         onNext(values);

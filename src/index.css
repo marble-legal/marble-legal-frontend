@@ -31,3 +31,43 @@ input[type="checkbox"]:checked + label svg {
 input[type="checkbox"]:checked + label {
   background-color: #bd5d50;
 }
+
+.label {
+  color: #000; /* text-[#030712] */
+  font-size: 0.875rem; /* text-[0.875rem] */
+  font-family: "Inter", sans-serif; /* font-inter */
+}
+
+/* Input Styles */
+.input {
+  background-color: transparent; /* bg-transparent */
+  width: 100%; /* w-full */
+  border-radius: 10px; /* rounded-[10px] */
+  border-width: 1px; /* border-[1px] */
+  border-style: solid; /* border-solid */
+  border-color: #e2e2e2; /* border-[#E2E2E2] */
+  padding-left: 16px; /* px-4 (4 * 4px) */
+  padding-right: 16px; /* px-4 (4 * 4px) */
+  padding-top: 12px; /* py-3 (3 * 4px) */
+  padding-bottom: 12px; /* py-3 (3 * 4px) */
+  font-size: 0.875rem; /* text-[0.875rem] */
+  font-weight: 500; /* font-medium */
+  font-family: "Inter", sans-serif; /* font-inter */
+  line-height: 18px; /* leading-[18px] */
+}
+
+/* Input Focus-Visible Styles */
+.input:focus-visible {
+  outline: none; /* outline-none */
+  box-shadow: 0 0 0 1px var(--tw-ring-color),
+    0 0 0 calc(1px + 1px) var(--tw-ring-color); /* ring-[1px] */
+  --tw-ring-color: var(--secondaryGreen); /* ring-secondaryGreen */
+}
+
+/* Input Disabled Styles */
+.input:disabled {
+  cursor: not-allowed; /* cursor-not-allowed */
+  background-color: #f6f6f6; /* bg-[#F6F6F6] */
+  color: #b4b4b4; /* text-[#B4B4B4] */
+  border-color: #d7d7d7; /* border-[#D7D7D7] */
+}

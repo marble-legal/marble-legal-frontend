@@ -8,6 +8,7 @@ export default function FormField({
   placeholder,
   noIcon,
   className,
+  ...props
 }: any) {
   const { handleChange, values, errors, touched, setTouched } =
     useFormikContext<any>(); // Provide type 'any' to useFormikContext
@@ -29,6 +30,7 @@ export default function FormField({
       error={touched[name] && errors[name]}
       noIcon={noIcon}
       className={className}
+      {...props}
     />
   );
 }

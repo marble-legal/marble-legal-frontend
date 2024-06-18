@@ -1,7 +1,6 @@
-import { FieldArray, Form, Formik } from "formik";
+import { Field, FieldArray, Form, Formik, useFormikContext } from "formik";
 import { ReactComponent as DeleteIcon } from "../../../assets/icons/delete.svg";
 import * as Yup from "yup";
-import FormField from "../../../components/FormField";
 import clsx from "clsx";
 import { CreateEntityFooter } from "../CreateEntity";
 import { BusinessEntityCreation } from "../../../types/business-entity.types";
@@ -9,9 +8,11 @@ import { BusinessEntityCreation } from "../../../types/business-entity.types";
 export function ClientInformation({
   onBack,
   onNext,
+  formData,
 }: {
   onBack: () => void;
   onNext: (data: Partial<BusinessEntityCreation>) => void;
+  formData: Partial<BusinessEntityCreation>;
 }) {
   const validationSchema = Yup.object().shape({
     clients: Yup.array().of(
@@ -27,6 +28,7 @@ export function ClientInformation({
       })
     ),
   });
+
   const initialValues = {
     clients: [
       {
@@ -38,105 +40,124 @@ export function ClientInformation({
     ],
   };
 
-  const clientFields = [
-    {
-      label: "Full Legal Name",
-      placeholder: "Enter your full legal name",
-      name: "name",
-      type: "text",
-    },
-    {
-      label: "Home address",
-      placeholder: "Enter your home address",
-      name: "address",
-      type: "text",
-    },
-    {
-      label: "Phone number",
-      placeholder: "Enter your phone number",
-      name: "phone",
-      type: "text",
-    },
-    {
-      label: "Email",
-      placeholder: "Enter your email address",
-      name: "email",
-      type: "email",
-    },
-  ];
-
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={formData.clients ? formData : initialValues}
       validationSchema={validationSchema}
-      isInitialValid={false}
+      isInitialValid={
+        formData.clients
+          ? validationSchema.isValidSync(formData)
+          : validationSchema.isValidSync(initialValues)
+      }
       onSubmit={(values: Partial<BusinessEntityCreation>) => {
-        // console.log(values);
         onNext(values);
       }}
     >
-      {({ values, isValid }) => (
-        <Form className="w-full md:h-[calc(100%-48px)] h-[calc(100%-8px)] flex flex-col gap-[2.75rem] justify-between">
-          <div className="md:w-[540px] w-full mx-auto">
-            <h1 className="create-entity-title">Client Information</h1>
-            <FieldArray name="clients">
-              {({ push, remove }) => (
-                <div className="flex flex-col w-full md:gap-[2.75rem] gap-6 md:mt-[2.75rem] mt-6">
-                  {values?.clients?.map((client, index) => (
-                    <div key={index} className="flex flex-col gap-4">
-                      <h2 className="font-[600] text-[1rem] text-[#808080] items-center gap-1 flex flex-row">
-                        {index !== 0 ? (
-                          <button
-                            type="button"
-                            onClick={() => {
-                              remove(index);
-                            }}
-                          >
-                            <DeleteIcon />
-                          </button>
-                        ) : null}
-                        Client {index + 1}
-                      </h2>
-                      {clientFields.map((field) => (
-                        <FormField
-                          key={field.name}
-                          label={field.label}
-                          placeholder={field.placeholder}
-                          name={`clients.${index}.${field.name}`}
-                          type={field.type}
-                          noIcon
-                        />
-                      ))}
-                    </div>
-                  ))}
-
-                  {/* Add another client */}
-                  <button
-                    type="button"
-                    onClick={() =>
-                      push({
-                        name: "",
-                        address: "",
-                        phone: "",
-                        email: "",
-                      })
-                    }
-                    className={clsx(
-                      "text-[#B85042] text-[1rem] font-[600] text-start w-fit",
-                      {
-                        hidden: (values?.clients?.length ?? 0) >= 2,
-                      }
-                    )}
-                  >
-                    + Add another
-                  </button>
-                </div>
-              )}
-            </FieldArray>
-          </div>
-          <CreateEntityFooter onBack={onBack} isValid={isValid} />
-        </Form>
-      )}
+      <ClientForm onBack={onBack} />
     </Formik>
+  );
+}
+
+function ClientForm({ onBack }: { onBack: () => void }) {
+  const { values, isValid } = useFormikContext<any>();
+
+  return (
+    <Form className="w-full md:h-[calc(100%-48px)] h-[calc(100%-8px)] flex flex-col gap-[2.75rem] justify-between">
+      <div className="md:w-[540px] w-full mx-auto">
+        <h1 className="create-entity-title">Client Information</h1>
+        <FieldArray name="clients">
+          {({ push, remove }) => (
+            <div className="flex flex-col w-full md:gap-[2.75rem] gap-6 md:mt-[2.75rem] mt-6">
+              {values?.clients?.map((client, index) => (
+                <div key={index} className="flex flex-col gap-4">
+                  <h2 className="font-[600] text-[1rem] text-[#808080] items-center gap-1 flex flex-row">
+                    {index !== 0 ? (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          remove(index);
+                        }}
+                      >
+                        <DeleteIcon />
+                      </button>
+                    ) : null}
+                    Client {index + 1}
+                  </h2>
+                  <div className="input-container">
+                    <label className="label" htmlFor={`clients.${index}.name`}>
+                      Full Legal Name
+                    </label>
+                    <Field
+                      name={`clients.${index}.name`}
+                      id={`clients.${index}.name`}
+                      placeholder="Write here"
+                      className="input"
+                    />
+                  </div>
+                  <div className="input-container">
+                    <label
+                      className="label"
+                      htmlFor={`clients.${index}.address`}
+                    >
+                      Home address
+                    </label>
+                    <Field
+                      name={`clients.${index}.address`}
+                      id={`clients.${index}.address`}
+                      placeholder="Write here"
+                      className="input"
+                    />
+                  </div>
+                  <div className="input-container">
+                    <label className="label" htmlFor={`clients.${index}.phone`}>
+                      Phone number
+                    </label>
+                    <Field
+                      name={`clients.${index}.phone`}
+                      id={`clients.${index}.phone`}
+                      placeholder="Write here"
+                      className="input"
+                    />
+                  </div>
+                  <div className="input-container">
+                    <label className="label" htmlFor={`clients.${index}.email`}>
+                      Email
+                    </label>
+                    <Field
+                      name={`clients.${index}.email`}
+                      id={`clients.${index}.email`}
+                      placeholder="Write here"
+                      className="input"
+                    />
+                  </div>
+                </div>
+              ))}
+
+              {/* Add another client */}
+              <button
+                type="button"
+                onClick={() =>
+                  push({
+                    name: "",
+                    address: "",
+                    phone: "",
+                    email: "",
+                  })
+                }
+                className={clsx(
+                  "text-[#B85042] text-[1rem] font-[600] text-start w-fit",
+                  {
+                    hidden: (values?.clients?.length ?? 0) >= 2,
+                  }
+                )}
+              >
+                + Add another
+              </button>
+            </div>
+          )}
+        </FieldArray>
+      </div>
+      <CreateEntityFooter onBack={onBack} isValid={isValid} />
+    </Form>
   );
 }

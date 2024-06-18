@@ -91,6 +91,7 @@ export default function CreateEntity({
               onBack={Step.onBack}
               nextStep={() => setStep(step + 1)}
               closeModal={handleClose}
+              setStep={setStep}
             />
           );
         }

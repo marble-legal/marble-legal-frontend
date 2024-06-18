@@ -67,4 +67,8 @@
   .entity-details-p {
     @apply p-3 text-sm leading-[160%] border-[#E0E9FD] rounded-[10px] bg-[#F8FBFF] border;
   }
+
+  .input-container {
+    @apply flex flex-col gap-[0.25rem] font-inter;
+  }
 }

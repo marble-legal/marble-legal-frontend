@@ -1,7 +1,7 @@
-import { FieldArray, Form, Formik } from "formik";
+import { Field, FieldArray, Form, Formik } from "formik";
 import { ReactComponent as DeleteIcon } from "../../../assets/icons/delete.svg";
 import * as Yup from "yup";
-import FormField from "../../../components/FormField";
+// import FormField from "../../../components/FormField";
 import Button from "../../../components/Button";
 import clsx from "clsx";
 import { CreateEntityFooter } from "../CreateEntity";
@@ -10,9 +10,11 @@ import { BusinessEntityCreation } from "../../../types/business-entity.types";
 export function OwnerQuestions({
   onBack,
   onNext,
+  formData,
 }: {
   onBack: () => void;
   onNext: (data: Partial<BusinessEntityCreation>) => void;
+  formData: Partial<BusinessEntityCreation>;
 }) {
   const validationSchema = Yup.object().shape({
     owners: Yup.array().of(
@@ -116,9 +118,13 @@ export function OwnerQuestions({
 
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={formData.owners ? formData : initialValues}
       validationSchema={validationSchema}
-      isInitialValid={false}
+      isInitialValid={
+        formData.clients
+          ? validationSchema.isValidSync(formData)
+          : validationSchema.isValidSync(initialValues)
+      }
       onSubmit={(values: Partial<BusinessEntityCreation>) => {
         // console.log(values);
         onNext(values);
@@ -148,15 +154,22 @@ export function OwnerQuestions({
                       </h2>
                       <div className="w-full md:grid md:grid-cols-2 gap-[1.25rem] flex flex-row flex-wrap">
                         {ownerFields.map((field) => (
-                          <FormField
-                            key={field.name}
-                            label={field.label}
-                            placeholder={field.placeholder}
-                            name={`owners.${index}.${field.name}`}
-                            type={field.type}
-                            noIcon
-                            className="w-full"
-                          />
+                          <div className="input-container">
+                            <label
+                              className="label"
+                              htmlFor={`owners.${index}.${field.name}`}
+                            >
+                              {field.label}
+                            </label>
+
+                            <Field
+                              key={field.name}
+                              name={`owners.${index}.${field.name}`}
+                              id={`owners.${index}.${field.name}`}
+                              placeholder={field.placeholder}
+                              className="input"
+                            />
+                          </div>
                         ))}
                       </div>
                     </div>
@@ -173,12 +186,7 @@ export function OwnerQuestions({
                         initialContribution: 0,
                       })
                     }
-                    className={clsx(
-                      "text-[#B85042] text-[1rem] font-[600] text-start w-fit",
-                      {
-                        hidden: (values?.clients?.length ?? 0) >= 2,
-                      }
-                    )}
+                    className="text-[#B85042] text-[1rem] font-[600] text-start w-fit"
                   >
                     + Add another
                   </button>
