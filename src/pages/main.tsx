@@ -10,29 +10,26 @@ function MainApp() {
   const toggleSettings = () => setShowSettings(!showSettings);
   const { activeSubscription } = useStripeSession();
 
-  if (window.innerWidth < 1024) {
-    return (
+  return (
+    <>
+      <div className="flex-1 hidden lg:flex flex-col lg:flex-row">
+        {showSettings && <SettingsModal onClose={toggleSettings} />}
+        <Sidebar toggleSettings={toggleSettings} />
+        <div className="bg-[white] pl-0 p-3 w-full">
+          <div className="flex-1 overflow-auto md:bg-[#F2F5FB] lg:pt-0 pt-[3.5rem] rounded-[12px] h-[calc(100vh-24px)]">
+            <Outlet />
+          </div>
+        </div>
+      </div>
       <>
         {/* <MobileMenu /> */}
-        <div className="bg-[white] pl-0 md:p-3 w-full">
+        <div className="bg-[white] pl-0 md:p-3 w-full lg:hidden">
           <div className="flex-1 mt-[62px] lg:mt-0 overflow-auto bg-[#F2F5FB] lg:pt-0 rounded-[12px] lg:mx-4">
             <Outlet />
           </div>
         </div>
       </>
-    );
-  }
-
-  return (
-    <div className="flex-1 flex flex-col lg:flex-row">
-      {showSettings && <SettingsModal onClose={toggleSettings} />}
-      <Sidebar toggleSettings={toggleSettings} />
-      <div className="bg-[white] pl-0 p-3 w-full">
-        <div className="flex-1 overflow-auto md:bg-[#F2F5FB] lg:pt-0 pt-[3.5rem] rounded-[12px] h-[calc(100vh-24px)]">
-          <Outlet />
-        </div>
-      </div>
-    </div>
+    </>
   );
 }
 
