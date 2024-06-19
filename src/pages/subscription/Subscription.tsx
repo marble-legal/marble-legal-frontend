@@ -29,7 +29,7 @@ export default function Subscription() {
 
   return (
     <div
-      className="h-[calc(100vh-50px)] overflow-auto grid items-center justify-center"
+      className="h-[calc(100vh-50px)] overflow-auto flex flex-col items-center justify-center"
       style={
         isAnyMobile
           ? { padding: "1rem" }
@@ -48,11 +48,11 @@ export default function Subscription() {
         handleGetStripeSession={handleGetStripeSession}
       />
 
-      <div className="md:-mt-[3.125rem] mt-[3.5rem]">
+      <div className="md:-mt-[3.125rem] mt-[3.5rem] h-[calc(100vh-100px)] overflow-auto px-4">
         <div className="mb-4 justify-center gap-[1.25rem] grid">
-          <h1 className="text-center font-[700] text-[1.75rem] font-outfit">
+          <div className="text-center font-[700] text-[1.75rem]">
             Choose a plan
-          </h1>
+          </div>
         </div>
         <div className="mt-3 mb-[2.5rem] flex flex-col gap-6">
           <p className="leading-[150%] text-[#888] text-[0.875rem] max-w-[430px] text-center mx-auto font-[500]">
@@ -130,7 +130,6 @@ function SubscriptionCard({
     }
     const planType = isAnnual ? PlanType.yearly : PlanType.monthly;
     setIsSelected(true);
-    console.log("Upgrade to", { planType, tier });
     await handleGetStripeSession({ planType, tier });
   };
   useEffect(() => {
@@ -160,9 +159,7 @@ function SubscriptionCard({
               {isAnnual ? "year" : "month"}
             </span>
           ) : (
-            <span className="font-[600] text-[1.25rem] font-outfit">
-              {price}
-            </span>
+            <span className="font-[600] text-[19px] font-outfit">{price}</span>
           )}
         </div>
       </div>

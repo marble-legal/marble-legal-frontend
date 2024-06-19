@@ -2,6 +2,7 @@ import { ReactComponent as MessageIcon } from "../assets/icons/message-text.svg"
 import { ReactComponent as ContractIcon } from "../assets/icons/scan.svg";
 import { ReactComponent as DocumentIcon } from "../assets/icons/document-text.svg";
 import { ReactComponent as BuildingIcon } from "../assets/icons/buliding.svg";
+import { ReactComponent as AttorneyIcon } from "../assets/icons/attorny.svg";
 
 export const SubscriptionTier = {
   Basic: "IN",
@@ -86,7 +87,7 @@ export const featureSpecificPlan = [
         <DocumentIcon className="[&>g>path]:fill-[#5E9B22] [&>path]:fill-[#5E9B22] w-8 h-8" />
       </div>
     ),
-    input_label: "# of draft you need",
+    input_label: "# of drafts",
   },
   {
     id: "contractAnalysis",
@@ -101,7 +102,7 @@ export const featureSpecificPlan = [
         <ContractIcon className="[&>g>path]:fill-[#42B89C] [&>path]:fill-[#42B89C] w-8 h-8" />
       </div>
     ),
-    input_label: "# of Analysis you need",
+    input_label: "# of Analysis",
   },
   {
     id: "businessEntity",
@@ -116,7 +117,22 @@ export const featureSpecificPlan = [
         <BuildingIcon className="[&>g>path]:fill-[#5A42B8] [&>g>g>path]:fill-[#5A42B8] [&>path]:fill-[#5A42B8] w-8 h-8" />
       </div>
     ),
-    input_label: "# of entities you need",
+    input_label: "# of entities",
+  },
+  {
+    id: "attorneyReview",
+    title: "Attorney Review",
+    description:
+      "Ensure legal accuracy and compliance with expert attorney feedback",
+    price: "100",
+    priceDesc: "per review",
+    icon: (
+      <div className="bg-[rgba(232,232,232,0.50)] p-3 rounded-[8px] h-fit w-fit">
+        <AttorneyIcon className="w-8 h-8" />
+      </div>
+    ),
+    input_label: "# of reviews",
+    isHorizontal: true,
   },
 ];
 
@@ -139,4 +155,12 @@ export const contractTypes = [
 export const PlanType = {
   yearly: "Y",
   monthly: "M",
+};
+
+export const FeatureCode = {
+  aiAssitant: "AI",
+  contractAnalysis: "CA",
+  contractDrafting: "CD",
+  businessEntity: "BE",
+  attorneyReview: "AR",
 };

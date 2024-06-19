@@ -11,6 +11,7 @@ import { ReactComponent as PlusIcon } from "../../assets/icons/plus.svg";
 import clsx from "clsx";
 import Selectable from "../../components/Selectable";
 import FullScreenModal from "../../components/FullScreenModal";
+import useResponsive from "../../helpers/useResponsive";
 
 // aiAssistant,
 // contractAnalysis,
@@ -67,7 +68,7 @@ const FeatureSpecificPlanModal: React.FC<{
   return (
     <FullScreenModal isOpen={isOpen} onClose={onClose}>
       {/* Adjusted height to account for fixed button */}
-      <div className="md:h-[calc(100vh-3rem)] py-[2rem]  h-auto items-center content-center text-center flex flex-col gap-[3rem] justify-center">
+      <div className="md:h-[calc(100vh-3rem)] py-[2rem]  h-auto items-center text-center flex flex-col gap-[3rem]">
         <div className="grid gap-4">
           <h2 className="font-outfit text-[2rem] font-[700] leading-[110%]">
             Feature specific plan
@@ -77,7 +78,7 @@ const FeatureSpecificPlanModal: React.FC<{
           </p>
         </div>
 
-        <div className="flex flex-row flex-wrap gap-4">
+        <div className="flex flex-row flex-wrap gap-4 px-28">
           {featureSpecificPlan.map((data) => (
             <Card
               key={data.title}
@@ -120,7 +121,16 @@ const FeatureSpecificPlanModal: React.FC<{
 };
 
 function Card({
-  data: { id, title, description, price, icon, priceDesc, input_label },
+  data: {
+    id,
+    title,
+    description,
+    price,
+    icon,
+    priceDesc,
+    input_label,
+    isHorizontal,
+  },
   formData,
   setFormData,
 }: {
@@ -132,10 +142,12 @@ function Card({
     icon: React.ReactNode;
     priceDesc: string;
     input_label: string;
+    isHorizontal?: boolean;
   };
   formData: Record<string, number>;
   setFormData: any;
 }) {
+  const { isAnyMobile } = useResponsive();
   // if formData is not 0 then it is selected
   const isSelected = formData[id] > 0;
 
@@ -157,10 +169,13 @@ function Card({
     });
   };
 
+  const showHorizontal = !isAnyMobile && isHorizontal;
   return (
     <button
       className={clsx(
-        "p-5 bg-white rounded-[8px] flex-1 flex-grow text-start md:min-w-[20%] min-w-full min-h-[330px] transition-all relative",
+        `p-5 bg-white rounded-[8px] flex-1 flex-grow text-start md:min-w-[20%] min-w-full ${
+          showHorizontal ? "" : "min-h-[330px]"
+        } transition-all relative`,
         isSelected
           ? "border-[2px] border-solid border-[#80A48B]"
           : "border-[2px] border-transparent"
@@ -195,33 +210,46 @@ function Card({
         />
       </div>
 
-      <div className="h-full justify-between flex flex-col">
-        <div className="grid gap-4">
+      <div
+        className={`flex justify-between ${
+          showHorizontal ? "" : "h-full flex-col"
+        }`}
+      >
+        <div
+          className={showHorizontal ? "flex gap-4 items-center" : "grid gap-4"}
+        >
           {icon}
-          <div className="gap-2 grid">
+          <div className="flex-1 gap-2 grid">
             <span className="font-outfit text-[1rem] font-[500] leading-[110%]">
               {title}
             </span>
-            <p className="max-w-[250px] tracking-[-0.28px] leading-[150%] text-[0.875rem] font-[500] text-[#888]">
+            <p className="tracking-[-0.28px] leading-[150%] text-[0.875rem] font-[500] text-[#888]">
               {description}
             </p>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="flex flex-col gap-4">
+        <div
+          className={
+            showHorizontal ? "flex flex-col gap-3" : "flex flex-col gap-4"
+          }
+        >
           <div className="flex flex-row gap-1">
             <span className="font-[500] text-[1rem]">${price}</span>
             <span className="font-italic text-[0.875rem] leading-[150%] font-[500] text-[#666]">
               {priceDesc}
             </span>
           </div>
-          <div className="border-[1px] border-solid border-[#DDD] rounded-[5px] px-2 py-1.5 flex flex-row justify-between items-center">
+          <div className="border-[1px] gap-8 border-solid border-[#DDD] rounded-[5px] px-2 py-1.5 flex flex-row justify-between items-center">
             <span className="text-[#666] text-[0.75rem] font-[500]">
               {input_label}
             </span>
             <div className="flex flex-row gap-0.5">
-              <button onClick={handleDecrement}>
+              <button
+                onClick={handleDecrement}
+                disabled={!formData[id] || Number(formData[id]) <= 0}
+              >
                 <NegativeIcon />
               </button>
               <input

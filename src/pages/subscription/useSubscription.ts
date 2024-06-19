@@ -1,8 +1,9 @@
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ShowToast } from "../../components/toast";
 import { getUser } from "../../helpers/utils";
 import { api } from "../../helpers/api";
+import { FeatureCode } from "../../helpers/consts";
 
 const useStripeSession = () => {
   const [stripeLoading, setStripeLoading] = useState(false);
@@ -116,6 +117,99 @@ const useStripeSession = () => {
       return "";
     }
     return "ST";
+  }, [activeSubscription]);
+
+  const subscriptionStatus = useMemo(() => {
+    console.log(activeSubscription);
+    const subscription = activeSubscription?.[0];
+    let subscriptionStatus = {
+      isCustomised: false,
+      aiAssistant: false,
+      contractAnalysis: false,
+      contractDrafting: false,
+      businessEntity: false,
+      attorneyReview: false,
+
+      assignedAiAssistant: 0,
+      assignedContractAnalysis: 0,
+      assignedContractDrafting: 0,
+      assignedBusinessEntity: 0,
+      assignedAttorneyReview: 0,
+
+      currentAiAssistant: 0,
+      currentContractAnalysis: 0,
+      currentContractDrafting: 0,
+      currentBusinessEntity: 0,
+      currentAttorneyReview: 0,
+    };
+    if (!subscription) return subscriptionStatus;
+
+    // check for tier subscription
+    if (subscription.tier) {
+    } else {
+      // customised subscription
+      subscriptionStatus.isCustomised = true;
+      const { currentCredit, assignedCredit } = subscription;
+      const assignedAiAssistant = subscription.assignedCredit.find(
+        (credit) => credit.feature === FeatureCode.aiAssitant
+      );
+      const assignedContractAnalysis = subscription.assignedCredit.find(
+        (credit) => credit.feature === FeatureCode.contractAnalysis
+      );
+      const assignedContractDrafting = subscription.assignedCredit.find(
+        (credit) => credit.feature === FeatureCode.contractDrafting
+      );
+      const assignedBusinessEntity = subscription.assignedCredit.find(
+        (credit) => credit.feature === FeatureCode.businessEntity
+      );
+      const assignedAttorneyReview = subscription.assignedCredit.find(
+        (credit) => credit.feature === FeatureCode.attorneyReview
+      );
+
+      // current credit
+      const currentAiAssistant = subscription.currentCredit.find(
+        (credit) => credit.feature === FeatureCode.aiAssitant
+      );
+      const currentContractAnalysis = subscription.currentCredit.find(
+        (credit) => credit.feature === FeatureCode.contractAnalysis
+      );
+      const currentContractDrafting = subscription.currentCredit.find(
+        (credit) => credit.feature === FeatureCode.contractDrafting
+      );
+      const currentBusinessEntity = subscription.currentCredit.find(
+        (credit) => credit.feature === FeatureCode.businessEntity
+      );
+      const currentAttorneyReview = subscription.currentCredit.find(
+        (credit) => credit.feature === FeatureCode.attorneyReview
+      );
+
+      // check for aiAssistant
+      subscriptionStatus.aiAssistant =
+        Number(currentAiAssistant?.quantity || 0) > 0;
+      subscriptionStatus.contractAnalysis =
+        Number(currentContractAnalysis?.quantity || 0) > 0;
+      subscriptionStatus.contractDrafting =
+        Number(currentContractDrafting?.quantity || 0) > 0;
+      subscriptionStatus.businessEntity =
+        Number(currentBusinessEntity?.quantity || 0) > 0;
+      subscriptionStatus.attorneyReview =
+        Number(currentAttorneyReview?.quantity || 0) > 0;
+
+      subscriptionStatus = {
+        ...subscriptionStatus,
+        assignedAiAssistant: assignedAiAssistant?.quantity || 0,
+        assignedContractAnalysis: assignedContractAnalysis?.quantity || 0,
+        assignedContractDrafting: assignedContractDrafting?.quantity || 0,
+        assignedBusinessEntity: assignedBusinessEntity?.quantity || 0,
+        assignedAttorneyReview: assignedAttorneyReview?.quantity || 0,
+
+        currentAiAssistant: currentAiAssistant?.quantity || 0,
+        currentContractAnalysis: currentContractAnalysis?.quantity || 0,
+        currentContractDrafting: currentContractDrafting?.quantity || 0,
+        currentBusinessEntity: currentBusinessEntity?.quantity || 0,
+        currentAttorneyReview: currentAttorneyReview?.quantity || 0,
+      };
+    }
   }, [activeSubscription]);
 
   return {
