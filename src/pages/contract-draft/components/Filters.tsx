@@ -38,7 +38,7 @@ export function FilterPopup({
       setTempFilters({
         ...tempFilters,
         date: {
-          startDate: moment().local().endOf("year").format("YYYY-MM-DD"),
+          startDate: moment().local().startOf("year").format("YYYY-MM-DD"),
           endDate: moment().local().endOf("year").format("YYYY-MM-DD"),
         },
         selectedDateFilter: value,
@@ -80,7 +80,6 @@ export function FilterPopup({
   const onApplyFilters = () => {
     setFilters(tempFilters);
   };
-
   return (
     <UIPopover
       shouldCloseOnScroll={false}
@@ -143,8 +142,7 @@ export function FilterPopup({
                       <input
                         type="date"
                         className="border-[1px] rounded-md py-2 px-3 text-xs placeholder-[#999999]"
-                        value={tempFilters?.date?.endDate}
-                        min={tempFilters?.date?.startDate}
+                        value={tempFilters?.date?.endDate || ""}
                         max={new Date().toISOString().split("T")[0]}
                         onChange={(e) =>
                           setTempFilters({
@@ -195,7 +193,13 @@ export function FilterPopup({
               }}
               disabled={
                 tempFilters?.selectedDateFilter === "custom_date" &&
-                (!tempFilters?.date?.startDate || !tempFilters?.date?.endDate)
+                (!tempFilters?.date?.startDate ||
+                  !tempFilters?.date?.endDate ||
+                  (tempFilters?.date?.startDate && tempFilters?.date?.endDate
+                    ? moment(tempFilters?.date?.startDate).isAfter(
+                        moment(tempFilters?.date?.endDate)
+                      )
+                    : false))
               }
             >
               Apply
