@@ -14,8 +14,11 @@ import { BusinessEntity } from "../../types/business-entity.types";
 import { AxiosResponse } from "axios";
 import moment from "moment";
 import { ShowToast } from "../../components/toast";
+import useSubscription from "../subscription/useSubscription";
 
 export default function EntityFormation() {
+  const { isLoading: subscriptionLoading, subscriptionStatus } =
+    useSubscription();
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [isCreateEntityOpen, setIsCreateEntityOpen] = useState(false);
   const [entityData, setEntityData] = useState({} as any);
@@ -28,14 +31,24 @@ export default function EntityFormation() {
     <div>
       <MobileMenu
         renderAction={
-          <Button
-            className="!p-2 ml-auto float-end"
-            onClick={() => {
-              setIsCreateEntityOpen(true);
-            }}
-          >
-            <PlusIcon />
-          </Button>
+          <div className="flex justify-end gap-2 items-center">
+            {subscriptionStatus.assignedBusinessEntity > 0 && (
+              <span className="text-[0.875rem]">
+                {subscriptionStatus.assignedBusinessEntity -
+                  subscriptionStatus.currentBusinessEntity}
+                /{subscriptionStatus.assignedBusinessEntity}
+              </span>
+            )}
+            <Button
+              className="!p-2"
+              onClick={() => {
+                setIsCreateEntityOpen(true);
+              }}
+              disabled={!subscriptionStatus.businessEntity}
+            >
+              <PlusIcon />
+            </Button>
+          </div>
         }
       />
       <EntityDetails
@@ -53,16 +66,26 @@ export default function EntityFormation() {
           Business Entity formation
         </h1>
 
-        <Button
-          variant="primary"
-          className="flex gap-1 px-6 py-3 bg-[#B84242] border-[#B85042] font-[500]"
-          onClick={() => {
-            setIsCreateEntityOpen(true);
-          }}
-        >
-          <PlusIcon />
-          Form an entity
-        </Button>
+        <div className="flex items-center gap-2">
+          {subscriptionStatus.assignedBusinessEntity > 0 && (
+            <span className="text-[0.875rem]">
+              {subscriptionStatus.assignedBusinessEntity -
+                subscriptionStatus.currentBusinessEntity}
+              /{subscriptionStatus.assignedBusinessEntity} credits left
+            </span>
+          )}
+          <Button
+            variant="primary"
+            className="flex gap-1 px-6 py-3 bg-[#B84242] border-[#B85042] font-[500]"
+            onClick={() => {
+              setIsCreateEntityOpen(true);
+            }}
+            disabled={!subscriptionStatus.businessEntity}
+          >
+            <PlusIcon />
+            Form an entity
+          </Button>
+        </div>
       </div>
       <div className="py-[1.625rem] flex flex-col gap-[1.375rem] md:px-[1.875rem] px-[1rem]">
         {isLoading && [1, 2, 3].map((i) => <EntityDetailsCardSkeleton />)}

@@ -4,11 +4,18 @@ import ToggleSwitch from "../../ToggleSwitch";
 import { api } from "../../../helpers/api";
 import { useAuth } from "../../../AuthContext";
 import { ShowToast } from "../../toast";
+import useSubscription from "../../../pages/subscription/useSubscription";
+import { PlanType, subscriptions } from "../../../helpers/consts";
+import { useNavigate } from "react-router-dom";
 
 export default function Security() {
+  const navigate = useNavigate();
   const handleToggle = () => setIsToggled((prev) => !prev);
   const { user, refetch } = useAuth();
   const [isToggled, setIsToggled] = useState(user.isEmailNotificationOn);
+  const { activeSubscription } = useSubscription();
+
+  const subscription = activeSubscription?.[0];
 
   const handleToggleEmail = () => {
     api
@@ -31,6 +38,13 @@ export default function Security() {
     handleToggle();
   };
 
+  const handleUpgrade = () => {
+    navigate("/subscription");
+  };
+
+  const subscriptionType = subscription
+    ? subscriptions.find((item) => item.tier === subscription?.tier)
+    : null;
   return (
     <div className="md:p-[1.5rem] p-[1.25rem] w-full flex flex-col gap-[2.25rem]">
       <div className="flex flex-col gap-4">
@@ -61,14 +75,24 @@ export default function Security() {
         </span>
         <div className="border-solid border-[1px] border-[#CBD5E1] p-4 rounded-[6px] flex flex-row flex-wrap justify-between w-full gap-4 items-center">
           <div className="flex flex-row gap-3 items-center">
-            <div className="py-[0.375rem] px-[0.625rem] bg-[#DECAFF] rounded-[6px] h-fit text-[#883EC2] text-[0.8125rem] font-[500] leading-[120%]">
-              Standard
+            <div
+              style={{
+                backgroundColor: subscriptionType?.subscriptionBg,
+                color: subscriptionType?.subscriptionText,
+              }}
+              className="py-[0.375rem] px-[0.625rem] bg-[#DECAFF] rounded-[6px] h-fit text-[#883EC2] text-[0.8125rem] font-[500] leading-[120%]"
+            >
+              {subscriptionType?.plan}
             </div>
             <span className="font-[700] text-[1rem] text-[#0F172A] tracking-[-0.32ppx] leading-[120%]">
-              $199/month
+              ${subscription?.price}/
+              {subscription?.planType === PlanType.monthly ? "month" : "year"}
             </span>
           </div>
-          <Button className="px-[1.5rem] py-[0.675rem] h-fit !leading-[18px] md:w-auto w-full">
+          <Button
+            onClick={handleUpgrade}
+            className="px-[1.5rem] py-[0.675rem] h-fit !leading-[18px] md:w-auto w-full"
+          >
             Upgrade
           </Button>
         </div>

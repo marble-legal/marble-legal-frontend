@@ -1,7 +1,15 @@
 import { useState } from "react";
 import { ReactComponent as ArrowUpIcon } from "../../../assets/icons/arrow-up.svg";
 
-export function Editor({ onSend, isSending }) {
+export function Editor({
+  onSend,
+  isSending,
+  disabled,
+}: {
+  onSend: (message: any) => void;
+  isSending: boolean;
+  disabled?: boolean;
+}) {
   const [message, setMessage] = useState("");
   const handleSend = () => {
     onSend(message);
@@ -27,6 +35,7 @@ export function Editor({ onSend, isSending }) {
             rows={1}
             className="w-full bg-transparent max-h-[30vh] border-none focus:outline-none text-base font-medium"
             placeholder="Write your question here"
+            disabled={disabled}
           />
           {/* <div
             className="w-full bg-transparent max-h-[30vh] border-none focus:outline-none text-base font-medium"
@@ -39,7 +48,7 @@ export function Editor({ onSend, isSending }) {
         <button
           onClick={handleSend}
           className="p-1 bg-[#B85042] rounded justify-center items-center gap-2.5 flex"
-          disabled={isSending}
+          disabled={isSending || disabled}
         >
           <ArrowUpIcon className="w-4 h-4" />
         </button>

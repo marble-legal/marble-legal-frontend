@@ -88,7 +88,9 @@ export const api = {
     return apiClient.get(`/contracts/${id}`);
   },
   getUserSubscription: (userId: string) => {
-    return apiClient.get(`/users/${userId}/subscriptions`);
+    return apiClient
+      .get(`/users/${userId}/subscriptions`)
+      .then((res) => res.data);
   },
   customerStripePortal: (id: string) => {
     return apiClient

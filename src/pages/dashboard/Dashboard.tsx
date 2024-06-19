@@ -11,8 +11,10 @@ import Spinner from "../../components/Spinners";
 import React from "react";
 import { getUser } from "../../helpers/utils";
 import MobileMenu from "../../components/MobileMenu";
+import useSubscription from "../subscription/useSubscription";
 
 export default function Dashboard() {
+  const { isLoading, subscriptionStatus } = useSubscription();
   const [conversation, setConversation] = useState<any[]>([]);
   const [message, setMessage] = useState("");
   const [sending, setSending] = useState(false);
@@ -187,7 +189,11 @@ export default function Dashboard() {
           </div>
         </div>
         <div className="w-full self-center px-[18px] md:w-[580px] mb-4">
-          <Editor onSend={askQuery} isSending={sending} />
+          <Editor
+            disabled={!subscriptionStatus.aiAssistant}
+            onSend={askQuery}
+            isSending={sending}
+          />
         </div>
       </div>
     </>

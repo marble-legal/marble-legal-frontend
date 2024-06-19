@@ -97,6 +97,7 @@ function SubscriptionCard({
   data: {
     plan,
     price,
+    yearlyPrice,
     features,
     color,
     subscriptionBg,
@@ -111,6 +112,7 @@ function SubscriptionCard({
   data: {
     plan: string;
     price: string;
+    yearlyPrice?: string;
     features: string[];
     color: string;
     subscriptionBg: string;
@@ -155,8 +157,7 @@ function SubscriptionCard({
           </div>
           {tier !== SubscriptionTier.Customised ? (
             <span className="font-[600] text-[1.25rem] font-outfit">
-              ${isAnnual ? parseFloat(price) * 12 : price}/
-              {isAnnual ? "year" : "month"}
+              ${isAnnual ? yearlyPrice : price}/{isAnnual ? "year" : "month"}
             </span>
           ) : (
             <span className="font-[600] text-[19px] font-outfit">{price}</span>

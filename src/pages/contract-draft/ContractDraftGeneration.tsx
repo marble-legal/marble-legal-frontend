@@ -12,8 +12,10 @@ import { ContractView } from "./components/ContractView";
 import { DeleteContractDraftConfirm } from "./components/DeleteContractDraftConfirm";
 import { FilterPopup } from "./components/Filters";
 import moment from "moment";
+import useSubscription from "../subscription/useSubscription";
 
 export default function ContractDraftGeneration() {
+  const { isLoading, subscriptionStatus } = useSubscription();
   const [createDraftModal, setCreateDraftModal] = useState(false);
   const {
     search,
@@ -60,12 +62,17 @@ export default function ContractDraftGeneration() {
       <MobileMenu
         renderAction={
           <div className="flex justify-end gap-2 items-center">
-            <span className="text-[0.875rem] text-black/60 font-medium">
-              4/20
-            </span>
+            {subscriptionStatus.assignedContractDrafting > 0 && (
+              <span className="text-[0.875rem] text-black/60 font-medium">
+                {subscriptionStatus.assignedContractDrafting -
+                  subscriptionStatus.currentContractDrafting}
+                /{subscriptionStatus.assignedContractDrafting}
+              </span>
+            )}
             <Button
               className="!px-2 !py-2 h-8"
               onClick={() => setCreateDraftModal(true)}
+              disabled={!subscriptionStatus.contractDrafting}
             >
               <PlusIcon className="!w-4 !h-4" />
             </Button>
@@ -79,13 +86,18 @@ export default function ContractDraftGeneration() {
             Contract draft generation
           </h1>
           <div className="flex flex-row gap-3 items-center">
-            <span className="text-[0.875rem]">
-              4/20 credits left for this month
-            </span>
+            {subscriptionStatus.assignedContractDrafting > 0 && (
+              <span className="text-[0.875rem]">
+                {subscriptionStatus.assignedContractDrafting -
+                  subscriptionStatus.currentContractDrafting}
+                /{subscriptionStatus.assignedContractDrafting} credits left
+              </span>
+            )}
             <Button
               variant="primary"
               className="flex gap-1 px-6 py-3 bg-[#B84242] shadow-[0px_13px_22.6px_0px_rgba(255,255,255,0.10)_inset,0px_0px_0px_2px_rgba(255,255,255,0.18)_inset] border-secondaryRed font-[500]"
               onClick={() => setCreateDraftModal(true)}
+              disabled={!subscriptionStatus.contractDrafting}
             >
               <PlusIcon />
               Create a contract
@@ -232,6 +244,7 @@ export default function ContractDraftGeneration() {
                 variant="primary"
                 className="flex gap-1 px-6 py-3 font-[500]"
                 onClick={() => setCreateDraftModal(true)}
+                disabled={!subscriptionStatus.contractDrafting}
               >
                 <PlusIcon />
                 Create a contract

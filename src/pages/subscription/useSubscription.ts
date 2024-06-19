@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ShowToast } from "../../components/toast";
 import { getUser } from "../../helpers/utils";
 import { api } from "../../helpers/api";
-import { FeatureCode } from "../../helpers/consts";
+import { FeatureCode, SubscriptionTier } from "../../helpers/consts";
 
 const useStripeSession = () => {
   const [stripeLoading, setStripeLoading] = useState(false);
@@ -145,7 +145,22 @@ const useStripeSession = () => {
     if (!subscription) return subscriptionStatus;
 
     // check for tier subscription
-    if (subscription.tier) {
+    if (
+      [
+        SubscriptionTier.Basic,
+        SubscriptionTier.Enterprise,
+        SubscriptionTier.Standard,
+      ].includes(subscription.tier)
+    ) {
+      return {
+        ...subscriptionStatus,
+
+        aiAssistant: true,
+        contractAnalysis: true,
+        contractDrafting: true,
+        businessEntity: true,
+        attorneyReview: false,
+      };
     } else {
       // customised subscription
       subscriptionStatus.isCustomised = true;
@@ -197,18 +212,21 @@ const useStripeSession = () => {
 
       subscriptionStatus = {
         ...subscriptionStatus,
-        assignedAiAssistant: assignedAiAssistant?.quantity || 0,
-        assignedContractAnalysis: assignedContractAnalysis?.quantity || 0,
-        assignedContractDrafting: assignedContractDrafting?.quantity || 0,
-        assignedBusinessEntity: assignedBusinessEntity?.quantity || 0,
-        assignedAttorneyReview: assignedAttorneyReview?.quantity || 0,
+        assignedAiAssistant: Number(assignedAiAssistant?.quantity) || 0,
+        assignedContractAnalysis:
+          Number(assignedContractAnalysis?.quantity) || 0,
+        assignedContractDrafting:
+          Number(assignedContractDrafting?.quantity) || 0,
+        assignedBusinessEntity: Number(assignedBusinessEntity?.quantity) || 0,
+        assignedAttorneyReview: Number(assignedAttorneyReview?.quantity) || 0,
 
-        currentAiAssistant: currentAiAssistant?.quantity || 0,
-        currentContractAnalysis: currentContractAnalysis?.quantity || 0,
-        currentContractDrafting: currentContractDrafting?.quantity || 0,
-        currentBusinessEntity: currentBusinessEntity?.quantity || 0,
-        currentAttorneyReview: currentAttorneyReview?.quantity || 0,
+        currentAiAssistant: Number(currentAiAssistant?.quantity) || 0,
+        currentContractAnalysis: Number(currentContractAnalysis?.quantity) || 0,
+        currentContractDrafting: Number(currentContractDrafting?.quantity) || 0,
+        currentBusinessEntity: Number(currentBusinessEntity?.quantity) || 0,
+        currentAttorneyReview: Number(currentAttorneyReview?.quantity) || 0,
       };
+      return subscriptionStatus;
     }
   }, [activeSubscription]);
 
@@ -219,6 +237,7 @@ const useStripeSession = () => {
     activeSubscription,
     isLoading,
     refetch,
+    subscriptionStatus,
   };
 };
 

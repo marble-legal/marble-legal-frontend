@@ -8,7 +8,7 @@ import { useContractAnalysis } from "./contract-analysis-context";
 import { ReactComponent as ContractsIcon } from "../../assets/icons/contracts.svg";
 import { ReactComponent as CloseIcon } from "../../assets/icons/x.svg";
 
-export function UploadContract({ onSuccess }) {
+export function UploadContract({ onSuccess, disabled }) {
   const { refetchContractList } = useContractAnalysis() as any;
   const [uploading, setUploading] = useState(false);
   const [file, setFile] = useState<File | null>(null);
@@ -61,6 +61,7 @@ export function UploadContract({ onSuccess }) {
             accept={{
               "application/pdf": [".pdf"],
             }}
+            disabled={disabled}
           >
             {({ getRootProps, getInputProps }) => (
               <section className="border-[2px] border-dashed border-[#64B667] bg-[#EDF5EF] px-[30px] py-[50px] lg:px-[3.125rem] lg:py-[3.125rem] rounded-[10px] w-[324px] md:w-[400px] lg:w-[550px] text-center">
@@ -83,7 +84,7 @@ export function UploadContract({ onSuccess }) {
           onClick={handleUpload}
           variant="primary"
           className="flex gap-2.5 px-6 py-3"
-          disabled={!file || uploading}
+          disabled={!file || uploading || disabled}
           loading={uploading}
         >
           Upload and start analyzing it
