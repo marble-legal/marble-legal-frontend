@@ -128,7 +128,7 @@ export default function ContractDraftGeneration() {
 
       <div className="py-4 flex flex-col h-[calc(100vh-150px)] md:h-[calc(100vh-180px)]">
         <div className="w-full px-5 md:hidden mb-4 flex justify-between items-center">
-          {hasFilters && (
+          {hasFilters ? (
             <button
               className="text-secondaryRed whitespace-nowrap font-medium"
               onClick={(e) => {
@@ -146,6 +146,8 @@ export default function ContractDraftGeneration() {
             >
               Clear all filters
             </button>
+          ) : (
+            <div />
           )}
           <span className="text-black text-sm font-medium leading-none">
             Total drafts: {rest?.contractList?.length}
