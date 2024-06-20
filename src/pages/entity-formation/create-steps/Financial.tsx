@@ -35,13 +35,13 @@ export function FinancialQuestions({
     },
     {
       label:
-        "Will the business have any loans or lines of credit? If yes, please describe.",
+        "Have you taken out any loans to pay for startup costs of the business? If yes, please describe the nature of the loan and identify the institution that holds the loan.",
       name: "loanDetail",
       placeholder: "Describe here",
     },
     {
       label:
-        "Who will be responsible for the accounting and financial record keeping for the business? Please provide the name of the individual or company.",
+        "Does the business have an accountant? If yes, please provide the name and contact information for the accountant.",
       name: "accountantDetail",
       placeholder: "Describe here",
     },
