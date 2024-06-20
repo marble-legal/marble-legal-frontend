@@ -78,7 +78,7 @@ const FeatureSpecificPlanModal: React.FC<{
           </p>
         </div>
 
-        <div className="flex flex-row flex-wrap gap-4 px-28">
+        <div className="flex flex-row flex-wrap gap-4 md:px-28 px-4">
           {featureSpecificPlan.map((data) => (
             <Card
               key={data.title}
