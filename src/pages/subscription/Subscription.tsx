@@ -77,12 +77,12 @@ export default function Subscription() {
           ))}
         </div>
         <div className="mt-[3rem] text-center flex gap-1 justify-center flex-row flex-wrap">
-          <span className="text-[1.125rem] text-[#666] font-[500]">
+          <span className="md:text-[1.125rem] text-sm text-[#666] font-[500]">
             Looking for a plan with specific features?
           </span>
           <Button
             variant="link"
-            className="text-[1.125rem] font-[600]"
+            className="md:text-[1.125rem] text-sm font-[600]"
             onClick={handleFeatureSpecificPlanModal}
           >
             Click here.
