@@ -48,7 +48,7 @@ export default function EntityFormation() {
   };
 
   return (
-    <div>
+    <div className="h-full">
       <MobileMenu
         renderAction={
           <div className="flex justify-end gap-2 items-center">
@@ -103,7 +103,7 @@ export default function EntityFormation() {
         {isLoading &&
           [1, 2, 3].map((i) => <EntityDetailsCardSkeleton key={i} />)}
         {data?.data?.length === 0 && (
-          <div className="flex flex-col items-center justify-center gap-4">
+          <div className="flex flex-col items-center justify-center gap-4 h-[calc(100vh-10rem)]">
             <span className="font-[500]">No entities found</span>
           </div>
         )}

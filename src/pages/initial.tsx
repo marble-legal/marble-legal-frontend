@@ -44,7 +44,7 @@ function InitialApp() {
           <div className="flex justify-between">
             <Link
               to="/dashboard"
-              className="flex font-outfit font-[500] text-[1.125rem] items-center gap-1"
+              className="flex font-outfit font-[500] text-[1.125rem] items-center gap-1 z-[9]"
             >
               <img src={LogoIcon} alt="logo" className="h-[1.875rem]" />
               {/* <span>Marble Legal</span> */}
