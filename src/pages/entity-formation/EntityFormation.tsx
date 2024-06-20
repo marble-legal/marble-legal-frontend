@@ -88,7 +88,7 @@ export default function EntityFormation() {
             onClick={handleCreateEntity}
           >
             <PlusIcon />
-            Form an entity
+            Apply for an entity
           </Button>
         </div>
       </div>
