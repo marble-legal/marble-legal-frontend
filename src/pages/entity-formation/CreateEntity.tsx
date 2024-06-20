@@ -45,9 +45,11 @@ const createSteps = (
 export default function CreateEntity({
   isOpen,
   handleClose,
+  refetchEntities,
 }: {
   isOpen: boolean;
   handleClose: () => void;
+  refetchEntities: () => void;
 }) {
   const { user } = useAuth();
   const [formData, setFormData] = useState<BusinessEntityCreation>({
@@ -92,6 +94,7 @@ export default function CreateEntity({
               nextStep={() => setStep(step + 1)}
               closeModal={handleClose}
               setStep={setStep}
+              refetchEntities={refetchEntities}
             />
           );
         }

@@ -16,18 +16,21 @@ import moment from "moment";
 import { ShowToast } from "../../components/toast";
 import useSubscription from "../subscription/useSubscription";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../AuthContext";
 
 export default function EntityFormation() {
   const navigate = useNavigate();
   const { isLoading: subscriptionLoading, subscriptionStatus } =
     useSubscription();
+  const { user } = useAuth();
+  console.log(user);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [isCreateEntityOpen, setIsCreateEntityOpen] = useState(false);
   const [entityData, setEntityData] = useState({} as any);
   const handleDetailsClose = () => setIsDetailsOpen(false);
   const { data, isLoading, refetch } = useQuery<
     AxiosResponse<BusinessEntity[]>
-  >(["entities"], api.getEntities);
+  >(["entities"], () => api.getEntities({ userId: user.id }));
 
   const handleCreateEntity = () => {
     if (!subscriptionStatus.businessEntity) {
@@ -64,6 +67,7 @@ export default function EntityFormation() {
       <CreateEntity
         isOpen={isCreateEntityOpen}
         handleClose={() => setIsCreateEntityOpen(false)}
+        refetchEntities={refetch}
       />
       <div className="shadow-header px-[1.875rem] py-4 md:flex justify-between border-b-solid border-b-[1px] border-[#DADCE2] items-center hidden">
         <h1 className="font-outfit text-[1.25rem] font-[500]">
@@ -91,6 +95,11 @@ export default function EntityFormation() {
       <div className="py-[1.625rem] flex flex-col gap-[1.375rem] md:px-[1.875rem] px-[1rem]">
         {isLoading &&
           [1, 2, 3].map((i) => <EntityDetailsCardSkeleton key={i} />)}
+        {data?.data?.length === 0 && (
+          <div className="flex flex-col items-center justify-center gap-4">
+            <span className="font-[500]">No entities found</span>
+          </div>
+        )}
 
         {data?.data.map((entity, index) => (
           <EntityDetailsCard

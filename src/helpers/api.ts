@@ -178,8 +178,12 @@ export const api = {
   createEntity: (data: BusinessEntityCreation) => {
     return apiClient.post("/business-entities", data);
   },
-  getEntities: () => {
-    return apiClient.get(`/business-entities`);
+  getEntities: ({ userId }) => {
+    return apiClient.get(`/business-entities`, {
+      params: {
+        userId,
+      },
+    });
   },
   getEntity: (id: string) => {
     return apiClient.get(`/business-entities/${id}`);

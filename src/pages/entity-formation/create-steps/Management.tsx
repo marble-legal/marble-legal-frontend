@@ -11,12 +11,14 @@ export function ManagementQuestions({
   formData,
   closeModal,
   setStep,
+  refetchEntities,
 }: {
   onBack: () => void;
   updateFormData: (data: any) => Partial<BusinessEntityCreation>;
   formData: BusinessEntityCreation;
   closeModal: () => void;
   setStep: (step: number) => void;
+  refetchEntities: () => void;
 }) {
   const validationSchema = Yup.object().shape({
     managementDetail: Yup.string().required(
@@ -87,6 +89,7 @@ export function ManagementQuestions({
             closeModal();
             resetForm();
             setStep(0);
+            refetchEntities();
           })
           .catch((err) => {
             ShowToast({
