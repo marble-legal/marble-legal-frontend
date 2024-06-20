@@ -80,11 +80,6 @@ export function Initial() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // const user = getUser();
-  // const { data: activeSubscription, isLoading } = useQuery(
-  //   ["subscription"],
-  //   () => api.getUserSubscription(user.id)
-  // );
 
   useEffect(() => {
     const token = localStorage.getItem("token");

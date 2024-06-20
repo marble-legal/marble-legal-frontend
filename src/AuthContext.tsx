@@ -13,8 +13,13 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const userId = getUser().id;
-  const { data: userData, refetch } = useQuery(["user"], () =>
-    api.getUser({ id: userId })
+  const { data: userData, refetch } = useQuery(
+    ["user"],
+    () => api.getUser({ id: userId }),
+    {
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      cacheTime: 10 * 60 * 1000, // 10 minutes
+    }
   );
 
   useEffect(() => {

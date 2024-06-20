@@ -37,7 +37,10 @@ export default function MobileMenu({
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const navigate = useNavigate();
   const userId = getUser().id;
-  const { data: user } = useQuery(["user"], () => api.getUser({ id: userId }));
+  const { data: user } = useQuery(["user"], () => api.getUser({ id: userId }), {
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    cacheTime: 10 * 60 * 1000, // 10 minutes
+  });
   const [showSettings, setShowSettings] = useState(false);
   const { user: userSelf } = useAuth();
   const toggleSettings = () => {

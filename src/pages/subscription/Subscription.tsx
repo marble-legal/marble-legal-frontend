@@ -29,10 +29,10 @@ export default function Subscription() {
 
   return (
     <div
-      className="h-[calc(100vh-50px)] overflow-auto flex flex-col items-center justify-center"
+      className="flex flex-col items-center justify-center"
       style={
         isAnyMobile
-          ? { padding: "1rem" }
+          ? { padding: "0rem" }
           : {
               backgroundImage: `url(${HueBG})`,
               backgroundSize: "auto",
@@ -48,7 +48,7 @@ export default function Subscription() {
         handleGetStripeSession={handleGetStripeSession}
       />
 
-      <div className="md:-mt-[3.125rem] mt-[3.5rem] h-[calc(100vh-100px)] overflow-auto px-4">
+      <div className="md:-mt-[3.125rem] md:px-4 content-center mt-[2.75rem]">
         <div className="mb-4 justify-center gap-[1.25rem] grid">
           <div className="text-center font-[700] text-[1.75rem]">
             Choose a plan
