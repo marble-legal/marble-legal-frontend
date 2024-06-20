@@ -16,8 +16,10 @@ import MobileMenu from "../../components/MobileMenu";
 import { BottomView } from "../../components/BottomView";
 import { useContractAnalysis } from "./contract-analysis-context";
 import useSubscription from "../subscription/useSubscription";
+import { useNavigate } from "react-router-dom";
 
 export default function ContractAnalysis() {
+  const navigate = useNavigate();
   const { isLoading, subscriptionStatus } = useSubscription();
   const [bottomView, setBottomView] = useState(false);
   const [uploadContract, setUploadContract] = useState(false);
@@ -28,6 +30,14 @@ export default function ContractAnalysis() {
     setUploadContract(false);
     setBottomView(false);
     setSelectedContract(contract);
+  };
+
+  const handleUploadContract = () => {
+    if (!subscriptionStatus.contractAnalysis) {
+      navigate("/subscription");
+    } else {
+      setUploadContract(true);
+    }
   };
 
   useEffect(() => {
@@ -57,8 +67,7 @@ export default function ContractAnalysis() {
 
             <Button
               className="w-8 h-8 flex justify-center items-center !px-0 !py-4"
-              onClick={() => setUploadContract(true)}
-              disabled={!subscriptionStatus.contractAnalysis}
+              onClick={handleUploadContract}
             >
               <UploadIcon className="w-4 h-4" />
             </Button>
@@ -82,8 +91,7 @@ export default function ContractAnalysis() {
               <Button
                 variant="primary"
                 className="flex gap-1 px-6 py-3 bg-[#B84242] border-[#B85042] font-[500]"
-                onClick={() => setUploadContract(true)}
-                disabled={!subscriptionStatus.contractAnalysis}
+                onClick={handleUploadContract}
               >
                 <UploadIcon />
                 Upload a contract

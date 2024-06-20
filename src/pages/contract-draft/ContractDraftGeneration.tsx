@@ -13,8 +13,10 @@ import { DeleteContractDraftConfirm } from "./components/DeleteContractDraftConf
 import { FilterPopup } from "./components/Filters";
 import moment from "moment";
 import useSubscription from "../subscription/useSubscription";
+import { useNavigate } from "react-router-dom";
 
 export default function ContractDraftGeneration() {
+  const navigate = useNavigate();
   const { isLoading, subscriptionStatus } = useSubscription();
   const [createDraftModal, setCreateDraftModal] = useState(false);
   const {
@@ -45,6 +47,14 @@ export default function ContractDraftGeneration() {
     setSelectedContract(contract);
   };
 
+  const handleCreateDraft = () => {
+    if (!subscriptionStatus.contractDrafting) {
+      navigate("/subscription");
+    } else {
+      setCreateDraftModal(true);
+    }
+  };
+
   const hasFilters = useMemo(() => {
     return (
       filters.date.startDate || filters.date.endDate || filters.types.length > 0
@@ -69,11 +79,7 @@ export default function ContractDraftGeneration() {
                 /{subscriptionStatus.assignedContractDrafting}
               </span>
             )}
-            <Button
-              className="!px-2 !py-2 h-8"
-              onClick={() => setCreateDraftModal(true)}
-              disabled={!subscriptionStatus.contractDrafting}
-            >
+            <Button className="!px-2 !py-2 h-8" onClick={handleCreateDraft}>
               <PlusIcon className="!w-4 !h-4" />
             </Button>
           </div>
@@ -96,8 +102,7 @@ export default function ContractDraftGeneration() {
             <Button
               variant="primary"
               className="flex gap-1 px-6 py-3 bg-[#B84242] shadow-[0px_13px_22.6px_0px_rgba(255,255,255,0.10)_inset,0px_0px_0px_2px_rgba(255,255,255,0.18)_inset] border-secondaryRed font-[500]"
-              onClick={() => setCreateDraftModal(true)}
-              disabled={!subscriptionStatus.contractDrafting}
+              onClick={handleCreateDraft}
             >
               <PlusIcon />
               Create a contract
@@ -245,8 +250,7 @@ export default function ContractDraftGeneration() {
               <Button
                 variant="primary"
                 className="flex gap-1 px-6 py-3 font-[500]"
-                onClick={() => setCreateDraftModal(true)}
-                disabled={!subscriptionStatus.contractDrafting}
+                onClick={handleCreateDraft}
               >
                 <PlusIcon />
                 Create a contract

@@ -15,8 +15,10 @@ import { AxiosResponse } from "axios";
 import moment from "moment";
 import { ShowToast } from "../../components/toast";
 import useSubscription from "../subscription/useSubscription";
+import { useNavigate } from "react-router-dom";
 
 export default function EntityFormation() {
+  const navigate = useNavigate();
   const { isLoading: subscriptionLoading, subscriptionStatus } =
     useSubscription();
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
@@ -26,6 +28,14 @@ export default function EntityFormation() {
   const { data, isLoading, refetch } = useQuery<
     AxiosResponse<BusinessEntity[]>
   >(["entities"], api.getEntities);
+
+  const handleCreateEntity = () => {
+    if (!subscriptionStatus.businessEntity) {
+      navigate("/subscription");
+    } else {
+      setIsCreateEntityOpen(true);
+    }
+  };
 
   return (
     <div>
@@ -39,13 +49,7 @@ export default function EntityFormation() {
                 /{subscriptionStatus.assignedBusinessEntity}
               </span>
             )}
-            <Button
-              className="!p-2"
-              onClick={() => {
-                setIsCreateEntityOpen(true);
-              }}
-              disabled={!subscriptionStatus.businessEntity}
-            >
+            <Button className="!p-2" onClick={handleCreateEntity}>
               <PlusIcon />
             </Button>
           </div>
@@ -77,10 +81,7 @@ export default function EntityFormation() {
           <Button
             variant="primary"
             className="flex gap-1 px-6 py-3 bg-[#B84242] border-[#B85042] font-[500]"
-            onClick={() => {
-              setIsCreateEntityOpen(true);
-            }}
-            disabled={!subscriptionStatus.businessEntity}
+            onClick={handleCreateEntity}
           >
             <PlusIcon />
             Form an entity
