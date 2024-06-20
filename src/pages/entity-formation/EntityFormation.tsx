@@ -89,9 +89,10 @@ export default function EntityFormation() {
         </div>
       </div>
       <div className="py-[1.625rem] flex flex-col gap-[1.375rem] md:px-[1.875rem] px-[1rem]">
-        {isLoading && [1, 2, 3].map((i) => <EntityDetailsCardSkeleton />)}
+        {isLoading &&
+          [1, 2, 3].map((i) => <EntityDetailsCardSkeleton key={i} />)}
 
-        {data?.data.map((entity) => (
+        {data?.data.map((entity, index) => (
           <EntityDetailsCard
             data={entity}
             handleOpenDetails={() => {
@@ -99,6 +100,7 @@ export default function EntityFormation() {
               setEntityData(entity);
             }}
             refetch={refetch}
+            key={index}
           />
         ))}
       </div>

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
-import { AuthProvider } from "../AuthContext";
+import { AuthProvider, useAuth } from "../AuthContext";
 import SettingsModal from "../components/settings/Settings";
 import useStripeSession from "./subscription/useSubscription";
+import useSubscription from "./subscription/useSubscription";
 
 function MainApp() {
   const [showSettings, setShowSettings] = useState(false);
@@ -37,6 +38,7 @@ export function Main() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { activeSubscription } = useSubscription();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -52,6 +54,13 @@ export function Main() {
       }
     }
   }, [location]);
+
+  // console.log(activeSubscription);
+  useEffect(() => {
+    if (activeSubscription?.length === 0) {
+      navigate("/subscription");
+    }
+  }, [activeSubscription]);
 
   if (!isLoggedIn) return null;
 
