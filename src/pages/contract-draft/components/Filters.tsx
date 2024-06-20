@@ -6,6 +6,7 @@ import Button from "../../../components/Button";
 import RadioButton from "../../../components/RadioButton";
 import { contractTypes } from "../../../helpers/consts";
 import Checkbox from "../../../components/Checkbox";
+import { useMemo } from "react";
 
 export function FilterPopup({
   hasFilters,
@@ -80,6 +81,23 @@ export function FilterPopup({
   const onApplyFilters = () => {
     setFilters(tempFilters);
   };
+
+  const isDisabled = useMemo(() => {
+    if (tempFilters?.selectedDateFilter == "custom_date") {
+      // check if start date and end date should be correct
+      // also check if it's future date
+      return (
+        !tempFilters?.date?.startDate ||
+        !tempFilters?.date?.endDate ||
+        moment(tempFilters?.date?.startDate).isAfter(moment()) ||
+        moment(tempFilters?.date?.endDate).isAfter(moment()) ||
+        moment(tempFilters?.date?.startDate).isAfter(
+          moment(tempFilters?.date?.endDate)
+        )
+      );
+    }
+  }, [tempFilters?.date, tempFilters?.selectedDateFilter]);
+
   return (
     <UIPopover
       shouldCloseOnScroll={false}
@@ -191,16 +209,7 @@ export function FilterPopup({
                 onApplyFilters();
                 close();
               }}
-              disabled={
-                tempFilters?.selectedDateFilter === "custom_date" &&
-                (!tempFilters?.date?.startDate ||
-                  !tempFilters?.date?.endDate ||
-                  (tempFilters?.date?.startDate && tempFilters?.date?.endDate
-                    ? moment(tempFilters?.date?.startDate).isAfter(
-                        moment(tempFilters?.date?.endDate)
-                      )
-                    : false))
-              }
+              disabled={isDisabled}
             >
               Apply
             </Button>
