@@ -134,29 +134,44 @@ export default function ContractDraftGeneration() {
       <div className="py-4 flex flex-col h-[calc(100%-150px)] md:h-[calc(100vh-180px)]">
         <div className="w-full px-5 md:hidden mb-4 flex justify-between items-center">
           {hasFilters ? (
-            <button
-              className="text-secondaryRed whitespace-nowrap font-medium"
-              onClick={(e) => {
-                e.stopPropagation();
-                e.preventDefault();
-                setFilters({
-                  date: { startDate: "", endDate: "" },
-                  types: [],
-                });
-                setTempFilters({
-                  date: { startDate: "", endDate: "" },
-                  types: [],
-                });
-              }}
-            >
-              Clear all filters
-            </button>
+            <>
+              <button
+                className="text-secondaryRed whitespace-nowrap font-medium"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  setFilters({
+                    date: { startDate: "", endDate: "" },
+                    types: [],
+                  });
+                  setTempFilters({
+                    date: { startDate: "", endDate: "" },
+                    types: [],
+                  });
+                }}
+              >
+                Clear all filters
+              </button>
+              <span className="text-black text-sm font-medium leading-none">
+                Total drafts: {rest?.contractList?.length}
+              </span>
+            </>
           ) : (
-            <div />
+            <>
+              <span className="text-black text-sm font-medium leading-none">
+                Total drafts: {rest?.contractList?.length}
+              </span>
+              <div>
+                {subscriptionStatus.assignedContractDrafting > 0 && (
+                  <span className="text-[0.875rem]">
+                    {subscriptionStatus.assignedContractDrafting -
+                      subscriptionStatus.currentContractDrafting}
+                    /{subscriptionStatus.assignedContractDrafting} credits left
+                  </span>
+                )}
+              </div>
+            </>
           )}
-          <span className="text-black text-sm font-medium leading-none">
-            Total drafts: {rest?.contractList?.length}
-          </span>
         </div>
         <div className="mx-4 md:mx-5 mb-2 flex items-center gap-2 pb-2 overflow-auto md:overflow-hidden md:flex-wrap">
           {filters.date.startDate && (

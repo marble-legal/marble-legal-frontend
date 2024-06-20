@@ -139,7 +139,7 @@ export function FilterPopup({
                     <div className="flex flex-row gap-1 items-center">
                       <input
                         type="date"
-                        className="border-[1px] rounded-md py-2 px-3 text-xs placeholder-[#999999]"
+                        className="border-[1px] rounded-md py-2 px-3 text-xs bg-white"
                         value={tempFilters?.date?.startDate}
                         max={new Date().toISOString().split("T")[0]}
                         onChange={(e) =>
@@ -159,9 +159,10 @@ export function FilterPopup({
                       <span className="opacity-[0.4] text-xs">to</span>
                       <input
                         type="date"
-                        className="border-[1px] rounded-md py-2 px-3 text-xs placeholder-[#999999]"
-                        value={tempFilters?.date?.endDate || ""}
+                        className="border-[1px] rounded-md py-2 px-3 text-xs placeholder-[#999999] bg-white"
+                        value={tempFilters?.date?.endDate || "dd/mm/yyyy"}
                         max={new Date().toISOString().split("T")[0]}
+                        placeholder="dd/mm/yyyy"
                         onChange={(e) =>
                           setTempFilters({
                             ...tempFilters,
