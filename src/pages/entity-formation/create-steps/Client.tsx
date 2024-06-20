@@ -81,7 +81,7 @@ function ClientForm({ onBack }: { onBack: () => void }) {
                         <DeleteIcon />
                       </button>
                     ) : null}
-                    Client {index + 1}
+                    Client #{index + 1}
                   </h2>
                   <div className="input-container">
                     <label className="label" htmlFor={`clients.${index}.name`}>

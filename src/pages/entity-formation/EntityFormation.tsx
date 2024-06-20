@@ -23,14 +23,18 @@ export default function EntityFormation() {
   const { isLoading: subscriptionLoading, subscriptionStatus } =
     useSubscription();
   const { user } = useAuth();
-  console.log(user);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [isCreateEntityOpen, setIsCreateEntityOpen] = useState(false);
   const [entityData, setEntityData] = useState({} as any);
   const handleDetailsClose = () => setIsDetailsOpen(false);
   const { data, isLoading, refetch } = useQuery<
     AxiosResponse<BusinessEntity[]>
-  >(["entities"], () => api.getEntities({ userId: user.id }));
+  >(["entities"], () => api.getEntities({ userId: user.id }), {
+    refetchOnMount: false,
+    refetchIntervalInBackground: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+  });
 
   const handleCreateEntity = () => {
     if (!subscriptionStatus.businessEntity) {

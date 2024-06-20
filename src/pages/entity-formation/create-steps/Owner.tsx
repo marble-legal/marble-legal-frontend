@@ -150,7 +150,7 @@ export function OwnerQuestions({
                             <DeleteIcon />
                           </button>
                         ) : null}
-                        Owner/Investor {index + 1}
+                        Owner/Investor #{index + 1}
                       </h2>
                       <div className="w-full md:grid md:grid-cols-2 gap-[1.25rem] flex flex-row flex-wrap">
                         {ownerFields.map((field) => (
