@@ -48,7 +48,7 @@ export default function Subscription() {
         handleGetStripeSession={handleGetStripeSession}
       />
 
-      <div className="md:-mt-[3.125rem] md:h-screen md:px-4 content-center">
+      <div className="md:-mt-[3.125rem] mt-[2.75rem] md:h-screen md:px-4 content-center">
         <div className="mb-4 justify-center gap-[1.25rem] grid">
           <div className="text-center font-[700] text-[1.75rem]">
             Choose a plan
