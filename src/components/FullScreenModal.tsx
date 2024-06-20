@@ -86,7 +86,7 @@ const FullScreenModal: React.FC<{
           {actionView}
           <motion.div
             className={clsx(
-              `bg-[#F2F5FB] rounded-tl-lg rounded-tr-lg shadow-lg w-full relative z-51 h-[calc(100vh-3rem)] md:p-0 p-4 overflow-auto`,
+              `bg-[#F2F5FB] rounded-tl-lg rounded-tr-lg shadow-lg w-full relative z-51 h-[100%] md:p-0 p-4 overflow-auto`,
               customContentClassName
             )}
             variants={modalVariants}

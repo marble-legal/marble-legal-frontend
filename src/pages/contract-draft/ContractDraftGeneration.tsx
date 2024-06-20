@@ -62,7 +62,7 @@ export default function ContractDraftGeneration() {
   }, [filters]);
 
   return (
-    <div className="">
+    <div className="h-[calc(100vh-62px)]">
       {createDraftModal && (
         <CreateDraftForm
           onClose={() => setCreateDraftModal(false)}
@@ -131,7 +131,7 @@ export default function ContractDraftGeneration() {
         </div>
       </div>
 
-      <div className="py-4 flex flex-col h-[calc(100vh-150px)] md:h-[calc(100vh-180px)]">
+      <div className="py-4 flex flex-col h-[calc(100%-150px)] md:h-[calc(100vh-180px)]">
         <div className="w-full px-5 md:hidden mb-4 flex justify-between items-center">
           {hasFilters ? (
             <button
