@@ -91,7 +91,7 @@ export function ContractMessaging() {
       />
       <div
         ref={(e) => (listRef.current = e)}
-        className={`w-[100%] px-7 mt-5 flex-1 flex flex-col h-[calc(100vh-150px)] overflow-auto`}
+        className={`w-[100%] px-7 mt-5 flex-1 flex flex-col h-[calc(100vh-75px)] overflow-auto`}
       >
         <div
           className={`w-full mx-auto ${
