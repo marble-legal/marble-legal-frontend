@@ -13,9 +13,10 @@ const useStripeSession = () => {
     data: activeSubscription,
     isLoading,
     refetch,
-  } = useQuery(["subscription"], () => api.getUserSubscription(user.id), {
+  } = useQuery(["subscription"], () => api.getUserSubscription(user?.id), {
     staleTime: 5 * 60 * 1000, // 5 minutes
     cacheTime: 10 * 60 * 1000, // 10 minutes
+    enabled: !!user?.id,
   });
 
   const handleGetStripeSession = useCallback(
@@ -36,15 +37,7 @@ const useStripeSession = () => {
       businessEntity?: number;
       attorneyReview?: number;
     }) => {
-      console.log(
-        "dddd",
-        aiAssistant,
-        contractAnalysis,
-        contractDrafting,
-        businessEntity,
-        attorneyReview
-      );
-      if (!tier || !user.id) return;
+      if (!tier || !user?.id) return;
       setStripeLoading(true);
       if (activeSubscription?.[0]) {
         // api
@@ -65,7 +58,7 @@ const useStripeSession = () => {
         //     setStripeLoading(false);
         //   });
         api
-          .customerStripePortal(user.id)
+          .customerStripePortal(user?.id)
           .then((res) => {
             window.location.href = res.url;
             setStripeLoading(false);
@@ -82,7 +75,7 @@ const useStripeSession = () => {
       } else {
         try {
           const session = await api.getStripe({
-            id: user.id,
+            id: user?.id,
             redirectUrl: window.location.origin + "/dashboard",
             planType,
             tier,
@@ -106,7 +99,7 @@ const useStripeSession = () => {
       }
       refetch();
     },
-    [activeSubscription, user.id, refetch]
+    [activeSubscription, user?.id, refetch]
   );
 
   const nextPackage = useCallback((): string => {
