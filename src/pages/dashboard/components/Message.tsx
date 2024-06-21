@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ReactComponent as LikeIcon } from "../../../assets/icons/like.svg";
 import { ReactComponent as DisLikeIcon } from "../../../assets/icons/dislike.svg";
 import { ReactComponent as CopyIcon } from "../../../assets/icons/copy.svg";
-import { ReactComponent as LogoIcon } from "../../../assets/icons/logo.svg";
+import { ReactComponent as LogoIcon } from "../../../assets/icons/logo-mini.svg";
 import { ReactComponent as BrowserIcon } from "../../../assets/icons/browser.svg";
 import ProfileImageIcon from "../../../assets/icons/profile.svg";
 
