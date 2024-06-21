@@ -62,25 +62,22 @@ export function ContractAnalysisProvider({ children }) {
     }
   };
 
-  const fetchContracts = useCallback(
-    async (userId?: string, selectLast = false) => {
-      if (!userId) return;
-      try {
-        setLoading(true);
-        const res = await api.getContracts(userId, false);
-        setLoading(false);
-        setContractList(res.data || []);
-        if (selectLast && res?.data?.length > 0) {
-          setSelectedContract(res.data[res.data.length - 1]);
-        } else {
-          if (!selectedContract && res?.data?.[0]) {
-            setSelectedContract(res.data[0]);
-          }
+  const fetchContracts = async (userId?: string, selectLast = false) => {
+    if (!userId) return;
+    try {
+      setLoading(true);
+      const res = await api.getContracts(userId, false);
+      setLoading(false);
+      setContractList(res.data || []);
+      if (selectLast && res?.data?.length > 0) {
+        setSelectedContract(res.data[res.data.length - 1]);
+      } else {
+        if (!selectedContract && res?.data?.[0]) {
+          setSelectedContract(res.data[0]);
         }
-      } catch (e) {}
-    },
-    [selectedContract]
-  );
+      }
+    } catch (e) {}
+  };
 
   const refetch = async (selectLast = false) => {
     if (!user.id) return;
@@ -91,7 +88,7 @@ export function ContractAnalysisProvider({ children }) {
     if (user.id) {
       fetchContracts(user.id);
     }
-  }, [user.id, fetchContracts]);
+  }, [user.id]);
 
   useEffect(() => {
     if (selectedContract?.id) {

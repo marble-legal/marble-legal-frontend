@@ -69,6 +69,7 @@ export default function CreateEntity({
         userId: user.id,
         ...({} as Omit<BusinessEntityCreation, "userId">),
       });
+      setStep(0);
     }
   }, [user, isOpen]);
 

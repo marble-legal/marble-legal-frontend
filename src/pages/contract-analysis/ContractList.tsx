@@ -2,6 +2,7 @@ import SearchComponent from "../../components/Search";
 import { ReactComponent as ContractsIcon } from "../../assets/icons/contracts.svg";
 import { cva } from "class-variance-authority";
 import { useState } from "react";
+import Spinner from "../../components/Spinners";
 
 const filterContracts = (contracts, search) => {
   if (!search) return contracts;
@@ -72,7 +73,7 @@ function ContractButton({
   );
 }
 
-export function ContractList({ list, onSelect, selectedContract }) {
+export function ContractList({ list, onSelect, selectedContract, isLoading }) {
   const [search, setSearch] = useState("");
   return (
     <div className="bg-white w-full lg:max-w-[316px] lg:w-[316px] flex-[0.5] rounded-[12px] lg:p-2.5">
@@ -84,16 +85,23 @@ export function ContractList({ list, onSelect, selectedContract }) {
         onChange={(e) => setSearch(e.target.value)}
       />
       <div className="mt-3 flex flex-col gap-2 h-[calc(100vh-300px)] lg:h-[calc(100vh-265px)] overflow-auto">
-        {filterContracts(list, search)?.map((contract) => (
-          <ContractButton
-            key={contract.id}
-            contract={contract}
-            onClick={() => onSelect(contract)}
-            variant={
-              selectedContract?.id === contract.id ? "active" : "default"
-            }
-          />
-        ))}
+        {isLoading && (
+          <div className="mt-10 [&_circle]:stroke-primary [&_path]:fill-primary flex justify-center">
+            <Spinner />
+          </div>
+        )}
+        {!isLoading
+          ? filterContracts(list, search)?.map((contract) => (
+              <ContractButton
+                key={contract.id}
+                contract={contract}
+                onClick={() => onSelect(contract)}
+                variant={
+                  selectedContract?.id === contract.id ? "active" : "default"
+                }
+              />
+            ))
+          : null}
         {/* <ContractButton />
         <ContractButton variant="active" /> */}
       </div>

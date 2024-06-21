@@ -121,6 +121,7 @@ export default function ContractAnalysis() {
                   list={contractList}
                   onSelect={handleContractSelect}
                   selectedContract={selectedContract}
+                  isLoading={loading}
                 />
               </div>
               <div className="bg-white pb-4 lg:pb-0 flex-1 flex-grow rounded-[12px]">
@@ -136,6 +137,7 @@ export default function ContractAnalysis() {
           selectedContract={selectedContract}
           list={contractList}
           onSelect={handleContractSelect}
+          isLoading={loading}
         />
       </BottomView>
       {/* )} */}
