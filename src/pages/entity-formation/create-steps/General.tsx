@@ -112,7 +112,7 @@ export function GeneralQuestions({
     >
       {({ values, isValid, setValues }) => (
         <Form className="w-full md:h-[calc(100%-48px)] h-[calc(100%-8px)] flex flex-col gap-[2.75rem] justify-between">
-          <div className="md:w-[700px] w-full mx-auto">
+          <div className="md:w-[700px] w-full mx-auto overflow-auto pr-4">
             <h1 className="create-entity-title">General Questions</h1>
 
             {/* TYPE */}

@@ -64,10 +64,13 @@ export default function CreateEntity({
   const Steps = createSteps(setStep, updateFormData, formData);
 
   useEffect(() => {
-    if (user) {
-      setFormData((prev) => ({ ...prev, userId: user.id }));
+    if (user?.id && isOpen) {
+      setFormData({
+        userId: user.id,
+        ...({} as Omit<BusinessEntityCreation, "userId">),
+      });
     }
-  }, [user]);
+  }, [user, isOpen]);
 
   return (
     <FullScreenModal
@@ -122,9 +125,11 @@ const StepIndicator = ({ steps, currentStep }) => {
 export function CreateEntityFooter({
   onBack,
   isValid,
+  saving,
 }: {
   onBack: () => void;
   isValid: boolean;
+  saving?: boolean;
 }) {
   return (
     <div className="sticky bottom-0 right-0 w-full md:p-4 px-0 py-4 border-t-solid border-t-[1px] bg-[#F2F5FB]">
@@ -136,7 +141,12 @@ export function CreateEntityFooter({
         >
           Back
         </Button>
-        <Button type="submit" disabled={!isValid} className="leading-[18px]">
+        <Button
+          type="submit"
+          disabled={!isValid || saving}
+          loading={saving}
+          className="leading-[18px]"
+        >
           Continue
         </Button>
       </div>

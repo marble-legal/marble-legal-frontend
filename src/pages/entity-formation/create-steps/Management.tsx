@@ -4,6 +4,7 @@ import { CreateEntityFooter } from "../CreateEntity";
 import { api } from "../../../helpers/api";
 import { BusinessEntityCreation } from "../../../types/business-entity.types";
 import { ShowToast } from "../../../components/toast";
+import { useState } from "react";
 
 export function ManagementQuestions({
   onBack,
@@ -20,6 +21,7 @@ export function ManagementQuestions({
   setStep: (step: number) => void;
   refetchEntities: () => void;
 }) {
+  const [saving, setSaving] = useState(false);
   const validationSchema = Yup.object().shape({
     managementDetail: Yup.string().required(
       "Please select a business entity type"
@@ -76,6 +78,7 @@ export function ManagementQuestions({
       onSubmit={(values: Partial<BusinessEntityCreation>, { resetForm }) => {
         // console.log(values);
         //  updateFormData(values);
+        setSaving(true);
         api
           .createEntity({
             ...values,
@@ -96,12 +99,15 @@ export function ManagementQuestions({
               message: err?.response?.data?.message || "Error creating entity",
               type: "error",
             });
+          })
+          .finally(() => {
+            setSaving(false);
           });
       }}
     >
       {({ values, isValid, setValues }) => (
         <Form className="w-full md:h-[calc(100%-48px)] h-[calc(100%-8px)] flex flex-col gap-[2.75rem] justify-between">
-          <div className="md:w-[700px] w-full mx-auto">
+          <div className="md:w-[700px] w-full mx-auto overflow-auto pr-4">
             <h1 className="create-entity-title">Management consideration</h1>
 
             <div className="md:mt-[2.5rem] flex flex-col md:gap-[2.5rem] gap-6 mt-6">
@@ -128,7 +134,11 @@ export function ManagementQuestions({
             </div>
           </div>
 
-          <CreateEntityFooter onBack={onBack} isValid={isValid} />
+          <CreateEntityFooter
+            saving={saving}
+            onBack={onBack}
+            isValid={isValid}
+          />
         </Form>
       )}
     </Formik>
