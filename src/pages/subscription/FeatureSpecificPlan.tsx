@@ -92,7 +92,7 @@ const FeatureSpecificPlanModal: React.FC<{
         {/* Desktop */}
         <Button
           onClick={handleCheckout}
-          className="items-center gap-0 md:block hidden"
+          className="items-center gap-0 md:block hidden mb-2"
         >
           <span className="text-[1rem] font-[700] tracking-[0.32px]">
             ${total}
@@ -102,11 +102,12 @@ const FeatureSpecificPlanModal: React.FC<{
             Continue to checkout
           </span>
         </Button>
+        <div className="md:p-5" />
       </div>
       {/* Mobile */}
       <Button
         onClick={handleCheckout}
-        className="text-lg font-semibold items-center gap-0 md:hidden sticky bottom-0 px-[1.75rem] py-[1.125rem] leading-[1.125rem] md:w-auto w-[90vw] z-60"
+        className="text-lg  mb-2 font-semibold items-center gap-0 md:hidden sticky bottom-0 px-[1.75rem] py-[1.125rem] leading-[1.125rem] md:w-auto w-[90vw] z-60"
       >
         <span className="text-[1rem] font-[700] tracking-[0.32px]">
           ${total}
