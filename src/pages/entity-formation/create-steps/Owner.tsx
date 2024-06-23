@@ -1,4 +1,4 @@
-import { Field, FieldArray, Form, Formik } from "formik";
+import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
 import { ReactComponent as DeleteIcon } from "../../../assets/icons/delete.svg";
 import * as Yup from "yup";
 // import FormField from "../../../components/FormField";
@@ -169,6 +169,11 @@ export function OwnerQuestions({
                               placeholder={field.placeholder}
                               className="input"
                             />
+                            <span className="error">
+                              <ErrorMessage
+                                name={`owners.${index}.${field.name}`}
+                              />
+                            </span>
                           </div>
                         ))}
                       </div>

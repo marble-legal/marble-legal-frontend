@@ -1,4 +1,11 @@
-import { Field, FieldArray, Form, Formik, useFormikContext } from "formik";
+import {
+  ErrorMessage,
+  Field,
+  FieldArray,
+  Form,
+  Formik,
+  useFormikContext,
+} from "formik";
 import { ReactComponent as DeleteIcon } from "../../../assets/icons/delete.svg";
 import * as Yup from "yup";
 import clsx from "clsx";
@@ -93,6 +100,9 @@ function ClientForm({ onBack }: { onBack: () => void }) {
                       placeholder="Write here"
                       className="input"
                     />
+                    <span className="error">
+                      <ErrorMessage name={`clients.${index}.name`} />
+                    </span>
                   </div>
                   <div className="input-container">
                     <label
@@ -107,6 +117,9 @@ function ClientForm({ onBack }: { onBack: () => void }) {
                       placeholder="Write here"
                       className="input"
                     />
+                    <span className="error">
+                      <ErrorMessage name={`clients.${index}.address`} />
+                    </span>
                   </div>
                   <div className="input-container">
                     <label className="label" htmlFor={`clients.${index}.phone`}>
@@ -118,6 +131,9 @@ function ClientForm({ onBack }: { onBack: () => void }) {
                       placeholder="Write here"
                       className="input"
                     />
+                    <span className="error">
+                      <ErrorMessage name={`clients.${index}.phone`} />
+                    </span>
                   </div>
                   <div className="input-container">
                     <label className="label" htmlFor={`clients.${index}.email`}>
@@ -129,6 +145,9 @@ function ClientForm({ onBack }: { onBack: () => void }) {
                       placeholder="Write here"
                       className="input"
                     />
+                    <span className="error">
+                      <ErrorMessage name={`clients.${index}.email`} />
+                    </span>
                   </div>
                 </div>
               ))}

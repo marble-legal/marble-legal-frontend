@@ -1,4 +1,4 @@
-import { Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import Button from "../../../components/Button";
 import clsx from "clsx";
@@ -181,19 +181,25 @@ export function GeneralQuestions({
                   <label htmlFor={field.name} className="create-entity-label">
                     {field.label}
                   </label>
-                  <textarea
-                    className="create-entity-textarea"
-                    placeholder={field.placeholder}
-                    name={field.name}
-                    id={field.name}
-                    value={values[field.name]}
-                    onChange={(e) =>
-                      setValues({
-                        ...values,
-                        [field.name]: e.target.value,
-                      })
-                    }
-                  />
+                  <div>
+                    <Field
+                      className="create-entity-textarea"
+                      placeholder={field.placeholder}
+                      name={field.name}
+                      as="textarea"
+                      id={field.name}
+                      value={values[field.name]}
+                      onChange={(e) =>
+                        setValues({
+                          ...values,
+                          [field.name]: e.target.value,
+                        })
+                      }
+                    />
+                    <span className="error">
+                      <ErrorMessage name={field.name} />
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>

@@ -71,4 +71,8 @@
   .input-container {
     @apply flex flex-col gap-[0.25rem] font-inter;
   }
+
+  .error {
+    @apply text-red-400 text-xs font-[500] leading-[110%];
+  }
 }
