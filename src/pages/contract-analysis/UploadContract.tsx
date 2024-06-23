@@ -30,7 +30,7 @@ export function UploadContract({ onSuccess, disabled }) {
   };
 
   return (
-    <div className="h-[calc(100vh-80px)] lg:h-[calc(100vh-90px)] flex flex-col items-center justify-center gap-4">
+    <div className="h-[calc(100dvh-80px)] lg:h-[calc(100dvh-90px)] flex flex-col items-center justify-center gap-4">
       <h2 className="text-[1.75rem] font-[700] font-outfit text-center">
         Upload contract
       </h2>

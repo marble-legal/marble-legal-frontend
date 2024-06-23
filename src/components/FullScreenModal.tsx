@@ -24,7 +24,7 @@ const FullScreenModal: React.FC<{
 
   const modalVariants = {
     hidden: {
-      y: "100vh",
+      y: "100dvh",
       // opacity: 0,
     },
     visible: {
@@ -33,7 +33,7 @@ const FullScreenModal: React.FC<{
       transition: { type: "tween", duration: 0.25, ease: "linear" },
     },
     exit: {
-      y: "100vh",
+      y: "100dvh",
       // opacity: 0,
       transition: { type: "tween", duration: 0.25, ease: "linear" },
     },

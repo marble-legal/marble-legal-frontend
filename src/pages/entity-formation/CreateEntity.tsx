@@ -77,7 +77,7 @@ export default function CreateEntity({
     <FullScreenModal
       isOpen={isOpen}
       onClose={handleClose}
-      customContentClassName="!pb-0"
+      customContentClassName="!pb-0 !bg-white"
     >
       {step !== 0 && (
         <div className="md:p-5">

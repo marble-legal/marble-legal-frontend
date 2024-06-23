@@ -57,7 +57,7 @@ export function ContractMessaging() {
   const isEmpty = !conversations?.length && !conversationLoading;
 
   return (
-    <div className="relative flex flex-col h-[calc(100vh-110px)] lg:h-full">
+    <div className="relative flex flex-col h-[calc(100dvh-110px)] lg:h-full">
       <div className="shadow-header px-7 flex justify-between items-center md:px-4 py-[0.875rem] border-b-solid border-b-[1px] border-[#DADCE2]">
         <div>
           <h1 className="max-w-[250px] overflow-hidden whitespace-nowrap text-ellipsis md:max-w-full font-outfit text-[1rem] font-[600]">
@@ -91,7 +91,7 @@ export function ContractMessaging() {
       />
       <div
         ref={(e) => (listRef.current = e)}
-        className={`w-[100%] px-7 mt-5 flex-1 flex flex-col h-[calc(100vh-75px)] overflow-auto`}
+        className={`w-[100%] px-7 mt-5 flex-1 flex flex-col h-[calc(100dvh-75px)] overflow-auto`}
       >
         <div
           className={`w-full mx-auto ${

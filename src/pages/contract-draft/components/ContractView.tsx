@@ -215,7 +215,7 @@ export function ContractView({ isOpen, onClose, contract, onUpdate }) {
               Delete
             </button>
           </div>
-          <div className="h-[calc(100vh-110px)] overflow-auto">
+          <div className="h-[calc(100dvh-110px)] overflow-auto">
             <div
               // dangerouslySetInnerHTML={{ __html: contract.generatedContent }}
               className="md:w-[682px] mx-auto bg-white rounded-[12px] md:p-7 [&_.wmde-markdown]:!bg-transparent [&_.wmde-markdown]:!text-black"

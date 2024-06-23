@@ -13,7 +13,7 @@ export function EditContractView({ contract, onDiscard, isOpen, onChange }) {
     <div>
       <div
         data-color-mode="light"
-        className="md:w-[682px] mx-auto overflow-auto !h-[calc(100vh-110px)] bg-white rounded-[12px] md:p-7 [&_.wmde-markdown]:!bg-transparent [&_.wmde-markdown]:!text-black"
+        className="md:w-[682px] mx-auto overflow-auto !h-[calc(100dvh-110px)] bg-white rounded-[12px] md:p-7 [&_.wmde-markdown]:!bg-transparent [&_.wmde-markdown]:!text-black"
       >
         <ReactQuill
           theme="bubble"

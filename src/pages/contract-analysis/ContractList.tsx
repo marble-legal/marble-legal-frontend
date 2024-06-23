@@ -84,7 +84,7 @@ export function ContractList({ list, onSelect, selectedContract, isLoading }) {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
-      <div className="mt-3 flex flex-col gap-2 h-[calc(100vh-300px)] lg:h-[calc(100vh-265px)] overflow-auto">
+      <div className="mt-3 flex flex-col gap-2 h-[calc(100dvh-300px)] lg:h-[calc(100dvh-265px)] overflow-auto">
         {isLoading && (
           <div className="mt-10 [&_circle]:stroke-primary [&_path]:fill-primary flex justify-center">
             <Spinner />

@@ -68,7 +68,7 @@ const FeatureSpecificPlanModal: React.FC<{
   return (
     <FullScreenModal isOpen={isOpen} onClose={onClose}>
       {/* Adjusted height to account for fixed button */}
-      <div className="md:h-[calc(100vh-3rem)] py-[2rem]  h-auto items-center text-center flex flex-col gap-[3rem]">
+      <div className="md:h-[calc(100dvh-3rem)] py-[2rem]  h-auto items-center text-center flex flex-col gap-[3rem]">
         <div className="grid gap-4">
           <h2 className="font-outfit text-[2rem] font-[700] leading-[110%]">
             Feature specific plan
