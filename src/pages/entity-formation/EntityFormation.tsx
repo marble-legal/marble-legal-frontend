@@ -30,13 +30,12 @@ export default function EntityFormation() {
   const { data, isLoading, refetch } = useQuery<
     AxiosResponse<BusinessEntity[]>
   >(["entities", user?.id], () => api.getEntities({ userId: user.id }), {
-    enabled: !isCreateEntityOpen, // Disable the query when isOpen is true
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    cacheTime: 10 * 60 * 1000, // 10 minutes
-    refetchOnWindowFocus: !isCreateEntityOpen, // Prevent refetching on window focus
-    refetchOnMount: !isCreateEntityOpen,
-    refetchOnReconnect: !isCreateEntityOpen,
-    refetchIntervalInBackground: !isCreateEntityOpen,
+    refetchInterval: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: false,
+    enabled: !!user?.id,
   });
 
   const handleCreateEntity = () => {
