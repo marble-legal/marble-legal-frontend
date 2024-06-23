@@ -139,7 +139,7 @@ export function OwnerQuestions({
                 <div className="flex flex-col w-full md:gap-[1.5rem] gap-6 md:mt-[2.5rem] mt-6">
                   {values?.owners?.map((owner, index) => (
                     <div key={index} className="flex flex-col gap-4">
-                      <h2 className="font-[600] text-[1rem] text-[#808080] items-center gap-1 flex flex-row">
+                      <h2 className="font-[600] text-[1rem] text-[#808080] items-center gap-1 flex flex-row uppercase">
                         {index !== 0 ? (
                           <button
                             type="button"

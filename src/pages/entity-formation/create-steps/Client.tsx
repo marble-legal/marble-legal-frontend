@@ -77,7 +77,7 @@ function ClientForm({ onBack }: { onBack: () => void }) {
             <div className="flex flex-col w-full md:gap-[2.75rem] gap-6 md:mt-[2.75rem] mt-6">
               {values?.clients?.map((client, index) => (
                 <div key={index} className="flex flex-col gap-4">
-                  <h2 className="font-[600] text-[1rem] text-[#808080] items-center gap-1 flex flex-row">
+                  <h2 className="font-[600] text-[1rem] text-[#808080] items-center gap-1 flex flex-row uppercase">
                     {index !== 0 ? (
                       <button
                         type="button"
