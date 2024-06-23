@@ -196,9 +196,9 @@ export function GeneralQuestions({
                         })
                       }
                     />
-                    <span className="error">
+                    {/* <span className="error">
                       <ErrorMessage name={field.name} />
-                    </span>
+                    </span> */}
                   </div>
                 </div>
               ))}

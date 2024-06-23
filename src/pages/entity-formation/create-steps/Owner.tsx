@@ -169,11 +169,11 @@ export function OwnerQuestions({
                               placeholder={field.placeholder}
                               className="input"
                             />
-                            <span className="error">
+                            {/* <span className="error">
                               <ErrorMessage
                                 name={`owners.${index}.${field.name}`}
                               />
-                            </span>
+                            </span> */}
                           </div>
                         ))}
                       </div>

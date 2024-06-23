@@ -28,7 +28,9 @@ export function ClientInformation({
         address: Yup.string().required("Home address is required"),
         phone: Yup.string()
           .required("Phone number is required")
-          .matches(/^[0-9]+$/, "Phone number must be digits only"),
+          .matches(/^[0-9]+$/, "Phone number must be digits only")
+          .min(10, "Phone number must be 10 digits")
+          .max(10, "Phone number must be 10 digits"),
         email: Yup.string()
           .email("Invalid email address")
           .required("Email is required"),
@@ -100,9 +102,9 @@ function ClientForm({ onBack }: { onBack: () => void }) {
                       placeholder="Write here"
                       className="input"
                     />
-                    <span className="error">
+                    {/* <span className="error">
                       <ErrorMessage name={`clients.${index}.name`} />
-                    </span>
+                    </span> */}
                   </div>
                   <div className="input-container">
                     <label
@@ -117,9 +119,9 @@ function ClientForm({ onBack }: { onBack: () => void }) {
                       placeholder="Write here"
                       className="input"
                     />
-                    <span className="error">
+                    {/* <span className="error">
                       <ErrorMessage name={`clients.${index}.address`} />
-                    </span>
+                    </span> */}
                   </div>
                   <div className="input-container">
                     <label className="label" htmlFor={`clients.${index}.phone`}>
