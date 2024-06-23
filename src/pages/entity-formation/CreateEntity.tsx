@@ -133,7 +133,7 @@ export function CreateEntityFooter({
   saving?: boolean;
 }) {
   return (
-    <div className="sticky bottom-0 right-0 w-full md:p-4 px-0 py-4 border-t-solid border-t-[1px] bg-[#F2F5FB]">
+    <div className="sticky bottom-0 right-0 w-full md:p-4 px-0 py-4 border-t-solid border-t-[1px] bg-[white]">
       <div className="float-end gap-3 flex flex-row">
         <Button
           variant="ghost"

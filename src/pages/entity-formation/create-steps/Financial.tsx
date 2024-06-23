@@ -62,42 +62,46 @@ export function FinancialQuestions({
       }}
     >
       {({ values, isValid, setValues }) => (
-        <Form className="w-full md:h-[calc(100%-48px)] h-[calc(100%-8px)] flex flex-col gap-[2.75rem] justify-between">
-          <div className="md:w-[700px] w-full mx-auto overflow-auto pr-4">
-            <h1 className="create-entity-title">
-              Financial and accounting information
-            </h1>
+        <Form className="w-full flex flex-col gap-5 justify-between md:min-h-[calc(100%-48px)] min-h-[calc(100%-8px)]">
+          <div className="overflow-auto">
+            <div className="md:w-[700px] w-full mx-auto pr-4">
+              <h1 className="create-entity-title">
+                Financial and accounting information
+              </h1>
 
-            <div className="md:mt-[2.5rem] mt-6 flex flex-col md:gap-[2.5rem] gap-6">
-              {additionalFields.map((field) => (
-                <div key={field.name} className="flex flex-col gap-[1.125rem]">
-                  <label htmlFor={field.name} className="create-entity-label">
-                    {field.label}
-                  </label>
-                  <div>
-                    <Field
-                      className="create-entity-textarea"
-                      placeholder={field.placeholder}
-                      name={field.name}
-                      id={field.name}
-                      as="textarea"
-                      value={values[field.name]}
-                      onChange={(e) =>
-                        setValues({
-                          ...values,
-                          [field.name]: e.target.value,
-                        })
-                      }
-                    />
-                    {/* <span className="error">
+              <div className="md:mt-[2.5rem] mt-6 flex flex-col md:gap-[2.5rem] gap-6">
+                {additionalFields.map((field) => (
+                  <div
+                    key={field.name}
+                    className="flex flex-col gap-[1.125rem]"
+                  >
+                    <label htmlFor={field.name} className="create-entity-label">
+                      {field.label}
+                    </label>
+                    <div>
+                      <Field
+                        className="create-entity-textarea"
+                        placeholder={field.placeholder}
+                        name={field.name}
+                        id={field.name}
+                        as="textarea"
+                        value={values[field.name]}
+                        onChange={(e) =>
+                          setValues({
+                            ...values,
+                            [field.name]: e.target.value,
+                          })
+                        }
+                      />
+                      {/* <span className="error">
                       <ErrorMessage name={field.name} />
                     </span> */}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
-
           <CreateEntityFooter onBack={onBack} isValid={isValid} />
         </Form>
       )}

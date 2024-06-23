@@ -131,90 +131,89 @@ export function OwnerQuestions({
       }}
     >
       {({ values, isValid, setValues }) => (
-        <Form className="w-full md:h-[calc(100%-48px)] h-[calc(100%-8px)] flex flex-col gap-[2.75rem] justify-between">
-          <div className="md:w-[700px] w-full mx-auto overflow-auto pr-4">
-            <h1 className="create-entity-title">Ownership Questions</h1>
-            <FieldArray name="owners">
-              {({ push, remove }) => (
-                <div className="flex flex-col w-full md:gap-[1.5rem] gap-6 md:mt-[2.5rem] mt-6">
-                  {values?.owners?.map((owner, index) => (
-                    <div key={index} className="flex flex-col gap-4">
-                      <h2 className="font-[600] text-[1rem] text-[#808080] items-center gap-1 flex flex-row uppercase">
-                        {index !== 0 ? (
-                          <button
-                            type="button"
-                            onClick={() => {
-                              remove(index);
-                            }}
-                          >
-                            <DeleteIcon />
-                          </button>
-                        ) : null}
-                        Owner/Investor #{index + 1}
-                      </h2>
-                      <div className="w-full md:grid md:grid-cols-2 gap-[1.25rem] flex flex-row flex-wrap">
-                        {ownerFields.map((field) => (
-                          <div className="input-container">
-                            <label
-                              className="label"
-                              htmlFor={`owners.${index}.${field.name}`}
+        <Form className="w-full flex flex-col gap-5 justify-between md:min-h-[calc(100%-48px)] min-h-[calc(100%-8px)]">
+          <div className="overflow-auto">
+            <div className="md:w-[700px] w-full mx-auto pr-4">
+              <h1 className="create-entity-title">Ownership Questions</h1>
+              <FieldArray name="owners">
+                {({ push, remove }) => (
+                  <div className="flex flex-col w-full md:gap-[1.5rem] gap-6 md:mt-[2.5rem] mt-6">
+                    {values?.owners?.map((owner, index) => (
+                      <div key={index} className="flex flex-col gap-4">
+                        <h2 className="font-[600] text-[1rem] text-[#808080] items-center gap-1 flex flex-row uppercase">
+                          {index !== 0 ? (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                remove(index);
+                              }}
                             >
-                              {field.label}
-                            </label>
-
-                            <Field
-                              key={field.name}
-                              name={`owners.${index}.${field.name}`}
-                              id={`owners.${index}.${field.name}`}
-                              placeholder={field.placeholder}
-                              className="input"
-                            />
-                            {/* <span className="error">
-                              <ErrorMessage
+                              <DeleteIcon />
+                            </button>
+                          ) : null}
+                          Owner/Investor #{index + 1}
+                        </h2>
+                        <div className="w-full md:grid md:grid-cols-2 gap-[1.25rem] flex flex-row flex-wrap">
+                          {ownerFields.map((field) => (
+                            <div className="input-container">
+                              <label
+                                className="label"
+                                htmlFor={`owners.${index}.${field.name}`}
+                              >
+                                {field.label}
+                              </label>
+                              <Field
+                                key={field.name}
                                 name={`owners.${index}.${field.name}`}
+                                id={`owners.${index}.${field.name}`}
+                                placeholder={field.placeholder}
+                                className="input"
                               />
-                            </span> */}
-                          </div>
-                        ))}
+                              {/* <span className="error">
+                                <ErrorMessage
+                                  name={`owners.${index}.${field.name}`}
+                                />
+                              </span> */}
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  ))}
-
-                  {/* Add another Owner */}
-                  <button
-                    type="button"
-                    onClick={() =>
-                      push({
-                        ownerName: "",
-                        address: "",
-                        ownershipInterest: 0,
-                        initialContribution: 0,
-                      })
+                    ))}
+                    {/* Add another Owner */}
+                    <button
+                      type="button"
+                      onClick={() =>
+                        push({
+                          ownerName: "",
+                          address: "",
+                          ownershipInterest: 0,
+                          initialContribution: 0,
+                        })
+                      }
+                      className="text-[#B85042] text-[1rem] font-[600] text-start w-fit"
+                    >
+                      + Add another
+                    </button>
+                  </div>
+                )}
+              </FieldArray>
+              <div className="mt-[2.5rem] flex flex-col gap-[2.5rem]">
+                {questions.map((question) => (
+                  <QuestionBlock
+                    key={question.label}
+                    label={question.label}
+                    value={values[question.valueKey]}
+                    onChange={(value) =>
+                      setValues({ ...values, [question.valueKey]: value })
                     }
-                    className="text-[#B85042] text-[1rem] font-[600] text-start w-fit"
-                  >
-                    + Add another
-                  </button>
-                </div>
-              )}
-            </FieldArray>
-
-            <div className="mt-[2.5rem] flex flex-col gap-[2.5rem]">
-              {questions.map((question) => (
-                <QuestionBlock
-                  key={question.label}
-                  label={question.label}
-                  value={values[question.valueKey]}
-                  onChange={(value) =>
-                    setValues({ ...values, [question.valueKey]: value })
-                  }
-                  name={question.valueKey}
-                  additionalContent={question.additionalContent?.(
-                    values,
-                    setValues
-                  )}
-                />
-              ))}
+                    name={question.valueKey}
+                    additionalContent={question.additionalContent?.(
+                      values,
+                      setValues
+                    )}
+                  />
+                ))}
+              </div>
             </div>
           </div>
 

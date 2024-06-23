@@ -111,97 +111,102 @@ export function GeneralQuestions({
       }}
     >
       {({ values, isValid, setValues }) => (
-        <Form className="w-full md:h-[calc(100%-48px)] h-[calc(100%-8px)] flex flex-col gap-[2.75rem] justify-between">
-          <div className="md:w-[700px] w-full mx-auto overflow-auto pr-4">
-            <h1 className="create-entity-title">General Questions</h1>
+        <Form className="w-full flex flex-col gap-5 justify-between md:min-h-[calc(100%-48px)] min-h-[calc(100%-8px)]">
+          <div className="overflow-auto">
+            <div className="md:w-[700px] w-full mx-auto pr-4">
+              <h1 className="create-entity-title">General Questions</h1>
 
-            {/* TYPE */}
-            <div className="md:mt-[2.5rem] mt-6 flex flex-col md:gap-[2.5rem] gap-6">
-              <div className="flex flex-col gap-[1.125rem]">
-                <label htmlFor="usCitizens" className="create-entity-label">
-                  Place a check next to the type of business entity that you
-                  would like to create:
-                </label>
-                <div className="flex flex-row gap-3 flex-wrap">
-                  {businessEntities.map((entity) => (
-                    <Button
-                      key={entity}
-                      variant="outline"
-                      className={clsx("create-entity-button", {
-                        "create-entity-button-active": values.type === entity,
-                      })}
-                      onClick={() =>
-                        setValues({
-                          ...values,
-                          type: entity,
-                        })
-                      }
-                    >
-                      {entity}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Issues Selection */}
-              <div className="flex flex-col gap-[1.125rem]">
-                <label htmlFor="usCitizens" className="create-entity-label">
-                  Place a check next to any issues that are important to you in
-                  choosing a business entity:
-                </label>
-                <div className="flex flex-row gap-3 flex-wrap">
-                  {issues.map((issue) => (
-                    <Button
-                      key={issue}
-                      variant="outline"
-                      className={clsx("create-entity-button", {
-                        "create-entity-button-active":
-                          values?.issues?.includes(issue),
-                      })}
-                      onClick={() => {
-                        setValues({
-                          ...values,
-                          issues: Array.isArray(values.issues)
-                            ? values.issues.includes(issue)
-                              ? values.issues.filter((i) => i !== issue)
-                              : values.issues.concat(issue)
-                            : [issue], // Ensure it's an array
-                        });
-                      }}
-                    >
-                      {issue}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-
-              {/* TextArea Fields */}
-              {fields.map((field) => (
-                <div key={field.name} className="flex flex-col gap-[1.125rem]">
-                  <label htmlFor={field.name} className="create-entity-label">
-                    {field.label}
+              {/* TYPE */}
+              <div className="md:mt-[2.5rem] mt-6 flex flex-col md:gap-[2.5rem] gap-6">
+                <div className="flex flex-col gap-[1.125rem]">
+                  <label htmlFor="usCitizens" className="create-entity-label">
+                    Place a check next to the type of business entity that you
+                    would like to create:
                   </label>
-                  <div>
-                    <Field
-                      className="create-entity-textarea"
-                      placeholder={field.placeholder}
-                      name={field.name}
-                      as="textarea"
-                      id={field.name}
-                      value={values[field.name]}
-                      onChange={(e) =>
-                        setValues({
-                          ...values,
-                          [field.name]: e.target.value,
-                        })
-                      }
-                    />
-                    {/* <span className="error">
-                      <ErrorMessage name={field.name} />
-                    </span> */}
+                  <div className="flex flex-row gap-3 flex-wrap">
+                    {businessEntities.map((entity) => (
+                      <Button
+                        key={entity}
+                        variant="outline"
+                        className={clsx("create-entity-button", {
+                          "create-entity-button-active": values.type === entity,
+                        })}
+                        onClick={() =>
+                          setValues({
+                            ...values,
+                            type: entity,
+                          })
+                        }
+                      >
+                        {entity}
+                      </Button>
+                    ))}
                   </div>
                 </div>
-              ))}
+
+                {/* Issues Selection */}
+                <div className="flex flex-col gap-[1.125rem]">
+                  <label htmlFor="usCitizens" className="create-entity-label">
+                    Place a check next to any issues that are important to you
+                    in choosing a business entity:
+                  </label>
+                  <div className="flex flex-row gap-3 flex-wrap">
+                    {issues.map((issue) => (
+                      <Button
+                        key={issue}
+                        variant="outline"
+                        className={clsx("create-entity-button", {
+                          "create-entity-button-active":
+                            values?.issues?.includes(issue),
+                        })}
+                        onClick={() => {
+                          setValues({
+                            ...values,
+                            issues: Array.isArray(values.issues)
+                              ? values.issues.includes(issue)
+                                ? values.issues.filter((i) => i !== issue)
+                                : values.issues.concat(issue)
+                              : [issue], // Ensure it's an array
+                          });
+                        }}
+                      >
+                        {issue}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* TextArea Fields */}
+                {fields.map((field) => (
+                  <div
+                    key={field.name}
+                    className="flex flex-col gap-[1.125rem]"
+                  >
+                    <label htmlFor={field.name} className="create-entity-label">
+                      {field.label}
+                    </label>
+                    <div>
+                      <Field
+                        className="create-entity-textarea"
+                        placeholder={field.placeholder}
+                        name={field.name}
+                        as="textarea"
+                        id={field.name}
+                        value={values[field.name]}
+                        onChange={(e) =>
+                          setValues({
+                            ...values,
+                            [field.name]: e.target.value,
+                          })
+                        }
+                      />
+                      {/* <span className="error">
+                      <ErrorMessage name={field.name} />
+                    </span> */}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 

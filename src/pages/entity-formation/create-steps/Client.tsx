@@ -71,112 +71,122 @@ function ClientForm({ onBack }: { onBack: () => void }) {
   const { values, isValid } = useFormikContext<any>();
 
   return (
-    <Form className="w-full md:h-[calc(100%-48px)] h-[calc(100%-8px)] flex flex-col gap-[2.75rem] justify-between">
-      <div className="md:w-[540px] w-full mx-auto overflow-auto pr-4">
-        <h1 className="create-entity-title">Client Information</h1>
-        <FieldArray name="clients">
-          {({ push, remove }) => (
-            <div className="flex flex-col w-full md:gap-[2.75rem] gap-6 md:mt-[2.75rem] mt-6">
-              {values?.clients?.map((client, index) => (
-                <div key={index} className="flex flex-col gap-4">
-                  <h2 className="font-[600] text-[1rem] text-[#808080] items-center gap-1 flex flex-row uppercase">
-                    {index !== 0 ? (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          remove(index);
-                        }}
+    <Form className="w-full flex flex-col gap-5 justify-between md:min-h-[calc(100%-48px)] min-h-[calc(100%-8px)]">
+      <div className="overflow-auto">
+        <div className="md:w-[540px] w-full mx-auto pr-4">
+          <h1 className="create-entity-title">Client Information</h1>
+          <FieldArray name="clients">
+            {({ push, remove }) => (
+              <div className="flex flex-col w-full md:gap-[2.75rem] gap-6 md:mt-[2.75rem] mt-6">
+                {values?.clients?.map((client, index) => (
+                  <div key={index} className="flex flex-col gap-4">
+                    <h2 className="font-[600] text-[1rem] text-[#808080] items-center gap-1 flex flex-row uppercase">
+                      {index !== 0 ? (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            remove(index);
+                          }}
+                        >
+                          <DeleteIcon />
+                        </button>
+                      ) : null}
+                      Client #{index + 1}
+                    </h2>
+                    <div className="input-container">
+                      <label
+                        className="label"
+                        htmlFor={`clients.${index}.name`}
                       >
-                        <DeleteIcon />
-                      </button>
-                    ) : null}
-                    Client #{index + 1}
-                  </h2>
-                  <div className="input-container">
-                    <label className="label" htmlFor={`clients.${index}.name`}>
-                      Full Legal Name
-                    </label>
-                    <Field
-                      name={`clients.${index}.name`}
-                      id={`clients.${index}.name`}
-                      placeholder="Write here"
-                      className="input"
-                    />
-                    {/* <span className="error">
-                      <ErrorMessage name={`clients.${index}.name`} />
-                    </span> */}
+                        Full Legal Name
+                      </label>
+                      <Field
+                        name={`clients.${index}.name`}
+                        id={`clients.${index}.name`}
+                        placeholder="Write here"
+                        className="input"
+                      />
+                      {/* <span className="error">
+                        <ErrorMessage name={`clients.${index}.name`} />
+                      </span> */}
+                    </div>
+                    <div className="input-container">
+                      <label
+                        className="label"
+                        htmlFor={`clients.${index}.address`}
+                      >
+                        Home address
+                      </label>
+                      <Field
+                        name={`clients.${index}.address`}
+                        id={`clients.${index}.address`}
+                        placeholder="Write here"
+                        className="input"
+                      />
+                      {/* <span className="error">
+                        <ErrorMessage name={`clients.${index}.address`} />
+                      </span> */}
+                    </div>
+                    <div className="input-container">
+                      <label
+                        className="label"
+                        htmlFor={`clients.${index}.phone`}
+                      >
+                        Phone number
+                      </label>
+                      <Field
+                        name={`clients.${index}.phone`}
+                        id={`clients.${index}.phone`}
+                        placeholder="Write here"
+                        className="input"
+                      />
+                      <span className="error">
+                        <ErrorMessage name={`clients.${index}.phone`} />
+                      </span>
+                    </div>
+                    <div className="input-container">
+                      <label
+                        className="label"
+                        htmlFor={`clients.${index}.email`}
+                      >
+                        Email
+                      </label>
+                      <Field
+                        name={`clients.${index}.email`}
+                        id={`clients.${index}.email`}
+                        placeholder="Write here"
+                        className="input"
+                      />
+                      <span className="error">
+                        <ErrorMessage name={`clients.${index}.email`} />
+                      </span>
+                    </div>
                   </div>
-                  <div className="input-container">
-                    <label
-                      className="label"
-                      htmlFor={`clients.${index}.address`}
-                    >
-                      Home address
-                    </label>
-                    <Field
-                      name={`clients.${index}.address`}
-                      id={`clients.${index}.address`}
-                      placeholder="Write here"
-                      className="input"
-                    />
-                    {/* <span className="error">
-                      <ErrorMessage name={`clients.${index}.address`} />
-                    </span> */}
-                  </div>
-                  <div className="input-container">
-                    <label className="label" htmlFor={`clients.${index}.phone`}>
-                      Phone number
-                    </label>
-                    <Field
-                      name={`clients.${index}.phone`}
-                      id={`clients.${index}.phone`}
-                      placeholder="Write here"
-                      className="input"
-                    />
-                    <span className="error">
-                      <ErrorMessage name={`clients.${index}.phone`} />
-                    </span>
-                  </div>
-                  <div className="input-container">
-                    <label className="label" htmlFor={`clients.${index}.email`}>
-                      Email
-                    </label>
-                    <Field
-                      name={`clients.${index}.email`}
-                      id={`clients.${index}.email`}
-                      placeholder="Write here"
-                      className="input"
-                    />
-                    <span className="error">
-                      <ErrorMessage name={`clients.${index}.email`} />
-                    </span>
-                  </div>
-                </div>
-              ))}
-
-              {/* Add another client */}
-              <button
-                type="button"
-                onClick={() =>
-                  push({
-                    name: "",
-                    address: "",
-                    phone: "",
-                    email: "",
-                  })
-                }
-                className={clsx(
-                  "text-[#B85042] text-[1rem] font-[600] text-start w-fit",
-                  {
-                    hidden: (values?.clients?.length ?? 0) >= 2,
+                ))}
+                {/* Add another client */}
+                <button
+                  type="button"
+                  onClick={() =>
+                    push({
+                      name: "",
+                      address: "",
+                      phone: "",
+                      email: "",
+                    })
                   }
-                )}
-              >
-                + Add another
-              </button>
-            </div>
-          )}
-        </FieldArray>
+                  className={clsx(
+                    "text-[#B85042] text-[1rem] font-[600] text-start w-fit",
+                    {
+                      hidden: (values?.clients?.length ?? 0) >= 2,
+                    }
+                  )}
+                >
+                  + Add another
+                </button>
+              </div>
+            )}
+          </FieldArray>
+        </div>
       </div>
       <CreateEntityFooter onBack={onBack} isValid={isValid} />
     </Form>
