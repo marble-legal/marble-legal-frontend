@@ -62,7 +62,7 @@ export default function ContractDraftGeneration() {
   }, [filters]);
 
   return (
-    <div className="h-[calc(100dvh-62px)]">
+    <div className="overflow-hidden lg:h-[calc(100dvh-62px)]">
       {createDraftModal && (
         <CreateDraftForm
           onClose={() => setCreateDraftModal(false)}
