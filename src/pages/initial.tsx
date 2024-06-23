@@ -36,7 +36,7 @@ function InitialApp() {
       {showSettings && <SettingsModal onClose={toggleSettings} />}
       <div className="md:bg-[white] bg-[#F2F5FB] md:p-3 w-full">
         <div
-          className="flex-1 md:overflow-hidden bg-[#F2F5FB] p-4 md:rounded-[12px] h-full overflow-auto"
+          className="flex-1 bg-[#F2F5FB] p-4 md:rounded-[12px] h-full overflow-auto"
           style={{
             height: vh - 24,
           }}
