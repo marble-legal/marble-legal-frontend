@@ -18,7 +18,7 @@ import { contractTypes } from "../../helpers/consts";
 
 export default function ContractDraftGeneration() {
   const navigate = useNavigate();
-  const { isLoading, subscriptionStatus } = useSubscription();
+  const { isLoading, subscriptionStatus, refetch } = useSubscription();
   const [createDraftModal, setCreateDraftModal] = useState(false);
   const {
     search,
@@ -283,7 +283,10 @@ export default function ContractDraftGeneration() {
           isOpen={!!selectedContract}
           onClose={() => setSelectedContract(null)}
           contract={{ ...selectedContract }}
-          onUpdate={refetchContractList}
+          onUpdate={() => {
+            refetch();
+            refetchContractList();
+          }}
         />
       )}
       {!!deleteConfirm && (
