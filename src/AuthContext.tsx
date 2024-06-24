@@ -17,8 +17,8 @@ export const AuthProvider = ({ children }) => {
     ["user"],
     () => api.getUser({ id: userId }),
     {
-      staleTime: 5 * 60 * 1000, // 5 minutes
-      cacheTime: 10 * 60 * 1000, // 10 minutes
+      staleTime: 15 * 60 * 1000,
+      cacheTime: 15 * 60 * 1000,
     }
   );
 
