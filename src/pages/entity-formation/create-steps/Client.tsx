@@ -67,7 +67,7 @@ export function ClientInformation({
   );
 }
 
-function ClientForm({ onBack }: { onBack: () => void }) {
+function ClientForm({ onBack }: { onBack: (data: any) => void }) {
   const { values, isValid } = useFormikContext<any>();
 
   return (
@@ -188,7 +188,12 @@ function ClientForm({ onBack }: { onBack: () => void }) {
           </FieldArray>
         </div>
       </div>
-      <CreateEntityFooter onBack={onBack} isValid={isValid} />
+      <CreateEntityFooter
+        onBack={() => {
+          onBack({ ...values });
+        }}
+        isValid={isValid}
+      />
     </Form>
   );
 }

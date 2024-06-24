@@ -140,19 +140,15 @@ export const featureSpecificPlan = [
 ];
 
 export const contractTypes = [
-  { value: "Employment Contracts", label: "Employment Contracts" },
-  { value: "Non-Disclosure Agreement", label: "Non-Disclosure Agreement" },
-  { value: "Service Agreement", label: "Service Agreement" },
-  { value: "Lease Agreement", label: "Lease Agreement" },
-  { value: "Partnership Agreement", label: "Partnership Agreement" },
-  {
-    value: "Independent Contractor Agreement",
-    label: "Independent Contractor Agreement",
-  },
-  { value: "Sales Agreement", label: "Sales Agreement" },
-  { value: "Licensing Agreement", label: "Licensing Agreement" },
-  { value: "Confidentiality Agreement", label: "Confidentiality Agreement" },
-  { value: "Consulting Agreement", label: "Consulting Agreement" },
+  { value: "business-consulting", label: "Business Consulting" },
+  { value: "employment", label: "Employment" },
+  { value: "llc", label: "LLC" },
+  { value: "llc-operating-agreements", label: "LLC Operating Agreements" },
+  { value: "llc-ownership-assignment", label: "LLC Ownership Assignment" },
+  { value: "non-profit", label: "Non-Profit" },
+  { value: "promissory-note-mortgages", label: "Promissory Note Mortgages" },
+  { value: "real-estate", label: "Real Estate" },
+  { value: "trust-probate", label: "Trust Probate" },
 ];
 
 export const PlanType = {

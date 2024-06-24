@@ -38,7 +38,10 @@ const createSteps = (
       updateFormData(data);
       setStep(index + 1);
     },
-    onBack: () => setStep(index - 1),
+    onBack: (data) => {
+      updateFormData(data);
+      setStep(index - 1);
+    },
   }));
 };
 
@@ -77,7 +80,7 @@ export default function CreateEntity({
     <FullScreenModal
       isOpen={isOpen}
       onClose={handleClose}
-      customContentClassName="!pb-0 !bg-white"
+      customContentClassName={`!pb-0 ${step !== 0 ? "!bg-white" : ""}`}
     >
       {step !== 0 && (
         <div className="md:p-5">

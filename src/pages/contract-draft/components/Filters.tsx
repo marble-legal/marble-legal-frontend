@@ -182,7 +182,7 @@ export function FilterPopup({
 
               <div className="flex flex-col">
                 <span className="tracking-tight font-bold text-sm mb-3">
-                  Filter by date Created
+                  Filter by contract type
                 </span>
                 <div className="flex flex-col gap-3.5">
                   {contractTypes.map((type, index) => (
@@ -197,7 +197,7 @@ export function FilterPopup({
                         checked={tempFilters?.types?.includes(type.value)}
                         onChange={() => handleCheckboxChange(type.value)}
                       />
-                      {type.value}
+                      {type.label}
                     </label>
                   ))}
                 </div>

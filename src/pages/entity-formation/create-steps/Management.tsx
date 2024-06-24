@@ -14,7 +14,7 @@ export function ManagementQuestions({
   setStep,
   refetchEntities,
 }: {
-  onBack: () => void;
+  onBack: (data: any) => void;
   updateFormData: (data: any) => Partial<BusinessEntityCreation>;
   formData: BusinessEntityCreation;
   closeModal: () => void;
@@ -127,12 +127,12 @@ export function ManagementQuestions({
                         id={field.name}
                         as="textarea"
                         value={values[field.name]}
-                        onChange={(e) =>
+                        onChange={(e) => {
                           setValues({
                             ...values,
                             [field.name]: e.target.value,
-                          })
-                        }
+                          });
+                        }}
                       />
                       {/* <span className="error">
                         <ErrorMessage name={field.name} />
@@ -146,7 +146,10 @@ export function ManagementQuestions({
 
           <CreateEntityFooter
             saving={saving}
-            onBack={onBack}
+            onBack={() => {
+              onBack({ ...values });
+              // updateFormData((prev) => ({ ...prev, values }));
+            }}
             isValid={isValid}
           />
         </Form>

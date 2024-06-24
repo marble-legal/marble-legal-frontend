@@ -9,7 +9,7 @@ export function FinancialQuestions({
   onNext,
   formData,
 }: {
-  onBack: () => void;
+  onBack: (data: any) => void;
   onNext: (data: Partial<BusinessEntityCreation>) => void;
   formData: Partial<BusinessEntityCreation>;
 }) {
@@ -102,7 +102,12 @@ export function FinancialQuestions({
               </div>
             </div>
           </div>
-          <CreateEntityFooter onBack={onBack} isValid={isValid} />
+          <CreateEntityFooter
+            onBack={() => {
+              onBack({ ...values });
+            }}
+            isValid={isValid}
+          />
         </Form>
       )}
     </Formik>
