@@ -14,7 +14,7 @@ export function ManagementQuestions({
   setStep,
   refetchEntities,
 }: {
-  onBack: () => void;
+  onBack: (data: any) => void;
   updateFormData: (data: any) => Partial<BusinessEntityCreation>;
   formData: BusinessEntityCreation;
   closeModal: () => void;
@@ -147,8 +147,8 @@ export function ManagementQuestions({
           <CreateEntityFooter
             saving={saving}
             onBack={() => {
-              onBack();
-              updateFormData((prev) => ({ ...prev, values }));
+              onBack({ ...values });
+              // updateFormData((prev) => ({ ...prev, values }));
             }}
             isValid={isValid}
           />

@@ -10,7 +10,7 @@ export function GeneralQuestions({
   onNext,
   formData,
 }: {
-  onBack: () => void;
+  onBack: (data: any) => void;
   onNext: (data: Partial<BusinessEntityCreation>) => void;
   formData: Partial<BusinessEntityCreation>;
 }) {
@@ -210,7 +210,13 @@ export function GeneralQuestions({
             </div>
           </div>
 
-          <CreateEntityFooter onBack={onBack} isValid={isValid} />
+          <CreateEntityFooter
+            onBack={() => {
+              onBack({ ...values });
+              // updateFormData((prev) => ({ ...prev, values }));
+            }}
+            isValid={isValid}
+          />
         </Form>
       )}
     </Formik>

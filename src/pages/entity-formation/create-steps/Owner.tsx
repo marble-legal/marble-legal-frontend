@@ -12,7 +12,7 @@ export function OwnerQuestions({
   onNext,
   formData,
 }: {
-  onBack: () => void;
+  onBack: (data: any) => void;
   onNext: (data: Partial<BusinessEntityCreation>) => void;
   formData: Partial<BusinessEntityCreation>;
 }) {
@@ -168,6 +168,7 @@ export function OwnerQuestions({
                                 id={`owners.${index}.${field.name}`}
                                 placeholder={field.placeholder}
                                 className="input"
+                                value={owner[field.name]}
                               />
                               {/* <span className="error">
                                 <ErrorMessage
@@ -217,7 +218,12 @@ export function OwnerQuestions({
             </div>
           </div>
 
-          <CreateEntityFooter onBack={onBack} isValid={isValid} />
+          <CreateEntityFooter
+            onBack={() => {
+              onBack({ ...values });
+            }}
+            isValid={isValid}
+          />
         </Form>
       )}
     </Formik>
