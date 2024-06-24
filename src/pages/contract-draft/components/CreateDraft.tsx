@@ -78,7 +78,9 @@ export const CreateDraftForm = ({
           <UIPopover
             trigger={
               <button className="px-4 py-3 flex flex-row justify-between border-[#D7D7D7] border-[1px] border-solid rounded-[10px] items-center w-full">
-                {form.type || "Choose the type"}{" "}
+                {contractTypes.find((t) => t.value === form.type)?.label ||
+                  form.type ||
+                  "Choose the type"}{" "}
                 <ChevronIcon className="rotate-[90deg] [&_path]:stroke-[#888888]" />
               </button>
             }

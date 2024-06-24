@@ -14,6 +14,7 @@ import { FilterPopup } from "./components/Filters";
 import moment from "moment";
 import useSubscription from "../subscription/useSubscription";
 import { useNavigate } from "react-router-dom";
+import { contractTypes } from "../../helpers/consts";
 
 export default function ContractDraftGeneration() {
   const navigate = useNavigate();
@@ -204,7 +205,9 @@ export default function ContractDraftGeneration() {
           )}
           {filters.types.map((type) => (
             <div className="rounded-md whitespace-nowrap border border-[#D7D7D7] py-2.5 px-3 flex gap-1 items-center">
-              <span>{type}</span>
+              <span>
+                {contractTypes.find((t) => t.value === type)?.label || type}
+              </span>
               <button
                 onClick={() => {
                   setFilters((prev) => {
