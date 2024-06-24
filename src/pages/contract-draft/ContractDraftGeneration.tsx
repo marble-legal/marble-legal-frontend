@@ -249,7 +249,7 @@ export default function ContractDraftGeneration() {
           )}
         </div>
 
-        <div className="md:px-5 px-4 flex flex-col gap-4 overflow-auto flex-1">
+        <div className="md:px-5 lg:pb-12 px-4 flex flex-col gap-4 overflow-auto flex-1">
           {rest.loading && <CardSkeleton />}
           {!rest.loading &&
             rest.contractList?.map((contract: any) => (
