@@ -54,7 +54,7 @@ export default function EntityDetails({
               <div className="entity-details-rows">
                 <div className="entity-details-label">Full legal name</div>
                 <div className="entity-details-value">{owner.name}</div>
-                <div className="entity-details-label">Home address</div>
+                <div className="entity-details-label">Address</div>
                 <div className="entity-details-value">{owner.address}</div>
                 <div className="entity-details-label">
                   Ownership interest (%)
