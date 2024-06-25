@@ -133,7 +133,7 @@ const FeatureSpecificPlanModal: React.FC<{
             Continue to checkout
           </span>
         </Button>
-        <div className="md:p-5" />
+        {/* <div className="md:p-5" /> */}
       </div>
       {/* Mobile */}
       <Button
