@@ -32,6 +32,7 @@ export function ClientInformation({
           .min(10, "Phone number must be 10 digits")
           .max(10, "Phone number must be 10 digits"),
         email: Yup.string()
+          .matches(/^[^\s+@]+@[^\s@]+\.[^\s@]+$/, "Invalid email address")
           .email("Invalid email address")
           .required("Email is required"),
       })
