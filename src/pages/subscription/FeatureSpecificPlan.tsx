@@ -54,13 +54,28 @@ const FeatureSpecificPlanModal: React.FC<{
     };
   }, []);
 
+  useEffect(() => {
+    if (
+      formData.contractDrafting === 0 &&
+      formData.contractAnalysis === 0 &&
+      formData.attorneyReview !== 0
+    ) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        attorneyReview: 0,
+      }));
+    }
+  }, [formData.contractDrafting, formData.contractAnalysis]);
+
   const total = useMemo(() => {
     let total = 0;
+
     featureSpecificPlan.forEach((data) => {
       if (formData[data.id] > 0) {
         total += formData[data.id] * parseFloat(data.price);
       }
     });
+
     return total;
   }, [formData, featureSpecificPlan]);
 
@@ -68,7 +83,7 @@ const FeatureSpecificPlanModal: React.FC<{
   return (
     <FullScreenModal isOpen={isOpen} onClose={onClose}>
       {/* Adjusted height to account for fixed button */}
-      <div className="md:h-[calc(100dvh-3rem)] py-[2rem]  h-auto items-center text-center flex flex-col gap-[3rem]">
+      <div className="md:h-[calc(100dvh-3rem)] py-[2rem]  h-auto items-center text-center flex flex-col gap-[3rem] justify-center">
         <div className="grid gap-4">
           <h2 className="font-outfit text-[2rem] font-[700] leading-[110%]">
             Feature specific plan
@@ -79,19 +94,35 @@ const FeatureSpecificPlanModal: React.FC<{
         </div>
 
         <div className="flex flex-row flex-wrap gap-4 md:px-28 px-4">
-          {featureSpecificPlan.map((data) => (
-            <Card
-              key={data.title}
-              data={data}
-              formData={formData}
-              setFormData={setFormData}
-            />
-          ))}
+          {featureSpecificPlan.map((data) => {
+            if (
+              data.id === "attorneyReview" &&
+              formData.contractDrafting === 0 &&
+              formData.contractAnalysis === 0
+            ) {
+              return null;
+            } else {
+              return (
+                <Card
+                  key={data.title}
+                  data={data}
+                  formData={formData}
+                  setFormData={setFormData}
+                />
+              );
+            }
+          })}
         </div>
 
         {/* Desktop */}
         <Button
           onClick={handleCheckout}
+          disabled={
+            formData.aiAssistant === 0 &&
+            formData.businessEntity === 0 &&
+            formData.contractAnalysis === 0 &&
+            formData.contractDrafting === 0
+          }
           className="items-center gap-0 md:block hidden mb-2"
         >
           <span className="text-[1rem] font-[700] tracking-[0.32px]">
@@ -107,6 +138,12 @@ const FeatureSpecificPlanModal: React.FC<{
       {/* Mobile */}
       <Button
         onClick={handleCheckout}
+        disabled={
+          formData.aiAssistant === 0 &&
+          formData.businessEntity === 0 &&
+          formData.contractAnalysis === 0 &&
+          formData.contractDrafting === 0
+        }
         className="text-lg  mb-2 font-semibold items-center gap-0 md:hidden sticky bottom-0 px-[1.75rem] py-[1.125rem] leading-[1.125rem] md:w-auto w-[90vw] z-60"
       >
         <span className="text-[1rem] font-[700] tracking-[0.32px]">
