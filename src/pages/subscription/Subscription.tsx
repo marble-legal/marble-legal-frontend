@@ -15,10 +15,13 @@ import useStripeSession from "./useSubscription";
 
 export default function Subscription() {
   const { isAnyMobile } = useResponsive();
-  const { stripeLoading, handleGetStripeSession } = useStripeSession();
+  const { stripeLoading, handleGetStripeSession, activeSubscription } =
+    useStripeSession();
   const [isAnnual, setIsAnnual] = useState(false);
   const [isFeatureSpecificPlanModalOpen, setIsFeatureSpecificPlanModalOpen] =
     useState(false);
+
+  const subscription = activeSubscription?.[0];
 
   const handleToggle = () => {
     setIsAnnual(!isAnnual);
@@ -73,6 +76,7 @@ export default function Subscription() {
               handleGetStripeSession={handleGetStripeSession}
               stripeLoading={stripeLoading}
               onFeatureSpecificPlan={handleFeatureSpecificPlanModal}
+              currentSubscription={subscription}
             />
           ))}
         </div>
@@ -104,6 +108,7 @@ function SubscriptionCard({
     subscriptionText,
     tier,
   },
+  currentSubscription,
   isAnnual,
   handleGetStripeSession,
   stripeLoading,
@@ -123,6 +128,7 @@ function SubscriptionCard({
   handleGetStripeSession: any;
   stripeLoading: boolean;
   onFeatureSpecificPlan: () => void;
+  currentSubscription: any;
 }) {
   const [isSelected, setIsSelected] = useState(false);
   const handleUpgrade = async () => {
@@ -137,6 +143,8 @@ function SubscriptionCard({
   useEffect(() => {
     if (!stripeLoading) setIsSelected(false);
   }, [stripeLoading]);
+
+  const isCurrentPlan = currentSubscription?.tier === tier;
   return (
     <div className="bg-white rounded-[12px] flex-1 flex-grow max-w-[295px] md:min-w-[295px] min-w-full flex flex-col">
       <div className="p-2">
@@ -178,8 +186,9 @@ function SubscriptionCard({
           loading={stripeLoading && isSelected}
           className="w-full mt-[1.5rem]"
           onClick={handleUpgrade}
+          disabled={isCurrentPlan && tier !== SubscriptionTier.Customised}
         >
-          Upgrade to {plan}
+          {isCurrentPlan ? "Subscribed" : `Upgrade to ${plan}`}
         </Button>
       </div>
     </div>

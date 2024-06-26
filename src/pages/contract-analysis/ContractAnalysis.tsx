@@ -57,9 +57,8 @@ export default function ContractAnalysis() {
           <div className="flex justify-end items-center gap-2">
             {subscriptionStatus.assignedContractAnalysis > 0 && (
               <span className="text-[0.875rem]">
-                {subscriptionStatus.assignedContractAnalysis -
-                  subscriptionStatus.currentContractAnalysis}
-                /{subscriptionStatus.assignedContractAnalysis}
+                {subscriptionStatus.currentContractAnalysis}/
+                {subscriptionStatus.assignedContractAnalysis}
               </span>
             )}
             <Button
