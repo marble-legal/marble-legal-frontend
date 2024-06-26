@@ -41,6 +41,7 @@ const useStripeSession = () => {
       setStripeLoading(true);
       if (
         activeSubscription?.[0] &&
+        !activeSubscription?.[0]?.cancelledAt &&
         activeSubscription?.[0]?.tier !== SubscriptionTier.Customised &&
         tier !== SubscriptionTier.Customised
       ) {
