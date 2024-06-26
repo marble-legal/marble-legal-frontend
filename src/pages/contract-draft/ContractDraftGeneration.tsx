@@ -62,6 +62,8 @@ export default function ContractDraftGeneration() {
     );
   }, [filters]);
 
+  // console.log(subscriptionStatus);
+
   return (
     <div className="overflow-hidden lg:h-[calc(100dvh-62px)]">
       {createDraftModal && (
@@ -95,9 +97,8 @@ export default function ContractDraftGeneration() {
           <div className="flex flex-row gap-3 items-center">
             {subscriptionStatus.assignedContractDrafting > 0 && (
               <span className="text-[0.875rem]">
-                {subscriptionStatus.assignedContractDrafting -
-                  subscriptionStatus.currentContractDrafting}
-                /{subscriptionStatus.assignedContractDrafting} credits left
+                {subscriptionStatus.currentContractDrafting}/
+                {subscriptionStatus.assignedContractDrafting} credits left
               </span>
             )}
             <Button
