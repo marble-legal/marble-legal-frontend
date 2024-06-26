@@ -20,8 +20,11 @@ import { useAuth } from "../../AuthContext";
 
 export default function EntityFormation() {
   const navigate = useNavigate();
-  const { isLoading: subscriptionLoading, subscriptionStatus } =
-    useSubscription();
+  const {
+    isLoading: subscriptionLoading,
+    subscriptionStatus,
+    refetch: refetchSubscription,
+  } = useSubscription();
   const { user } = useAuth();
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [isCreateEntityOpen, setIsCreateEntityOpen] = useState(false);
@@ -73,7 +76,10 @@ export default function EntityFormation() {
       <CreateEntity
         isOpen={isCreateEntityOpen}
         handleClose={() => setIsCreateEntityOpen(false)}
-        refetchEntities={refetch}
+        refetchEntities={() => {
+          refetchSubscription();
+          refetch();
+        }}
       />
       <div className="shadow-header px-[1.875rem] py-4 md:flex justify-between border-b-solid border-b-[1px] border-[#DADCE2] items-center hidden">
         <h1 className="font-outfit text-[1.25rem] font-[500]">
@@ -83,9 +89,8 @@ export default function EntityFormation() {
         <div className="flex items-center gap-2">
           {subscriptionStatus.assignedBusinessEntity > 0 && (
             <span className="text-[0.875rem]">
-              {subscriptionStatus.assignedBusinessEntity -
-                subscriptionStatus.currentBusinessEntity}
-              /{subscriptionStatus.assignedBusinessEntity} credits left
+              {subscriptionStatus.currentBusinessEntity}/
+              {subscriptionStatus.assignedBusinessEntity} credits left
             </span>
           )}
           <Button

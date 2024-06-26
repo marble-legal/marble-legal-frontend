@@ -20,7 +20,11 @@ import { useNavigate } from "react-router-dom";
 
 export default function ContractAnalysis() {
   const navigate = useNavigate();
-  const { isLoading, subscriptionStatus } = useSubscription();
+  const {
+    isLoading,
+    subscriptionStatus,
+    refetch: refetchSubscription,
+  } = useSubscription();
   const [bottomView, setBottomView] = useState(false);
   const [uploadContract, setUploadContract] = useState(false);
   const { contractList, loading, setSelectedContract, selectedContract } =
@@ -82,9 +86,8 @@ export default function ContractAnalysis() {
           <div className="flex items-center gap-2">
             {subscriptionStatus.assignedContractAnalysis > 0 && (
               <span className="text-[0.875rem]">
-                {subscriptionStatus.assignedContractAnalysis -
-                  subscriptionStatus.currentContractAnalysis}
-                /{subscriptionStatus.assignedContractAnalysis} credits left
+                {subscriptionStatus.currentContractAnalysis}/
+                {subscriptionStatus.assignedContractAnalysis} credits left
               </span>
             )}
             {!uploadContract ? (
@@ -111,7 +114,10 @@ export default function ContractAnalysis() {
         {uploadContract ? (
           <UploadContract
             disabled={!subscriptionStatus.contractAnalysis}
-            onSuccess={() => setUploadContract(false)}
+            onSuccess={() => {
+              refetchSubscription();
+              setUploadContract(false);
+            }}
           />
         ) : (
           <>

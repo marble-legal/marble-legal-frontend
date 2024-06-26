@@ -41,7 +41,8 @@ const useStripeSession = () => {
       setStripeLoading(true);
       if (
         activeSubscription?.[0] &&
-        activeSubscription?.[0]?.tier !== SubscriptionTier.Customised
+        activeSubscription?.[0]?.tier !== SubscriptionTier.Customised &&
+        tier !== SubscriptionTier.Customised
       ) {
         // api
         //   .patchStripe(user.id, type, activeSubscription[0].subscriptionId)

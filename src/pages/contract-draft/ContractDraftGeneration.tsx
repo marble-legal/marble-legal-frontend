@@ -69,7 +69,10 @@ export default function ContractDraftGeneration() {
       {createDraftModal && (
         <CreateDraftForm
           onClose={() => setCreateDraftModal(false)}
-          onUpdate={() => refetchContractList()}
+          onUpdate={() => {
+            refetch();
+            return refetchContractList();
+          }}
         />
       )}
       <MobileMenu
@@ -166,9 +169,8 @@ export default function ContractDraftGeneration() {
               <div>
                 {subscriptionStatus.assignedContractDrafting > 0 && (
                   <span className="text-[0.875rem]">
-                    {subscriptionStatus.assignedContractDrafting -
-                      subscriptionStatus.currentContractDrafting}
-                    /{subscriptionStatus.assignedContractDrafting} credits left
+                    {subscriptionStatus.currentContractDrafting}/
+                    {subscriptionStatus.assignedContractDrafting} credits left
                   </span>
                 )}
               </div>
