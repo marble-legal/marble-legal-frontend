@@ -58,29 +58,33 @@ export function ContractMessaging() {
 
   return (
     <div className="relative flex flex-col h-[calc(100dvh-110px)] lg:h-full">
-      <div className="shadow-header px-7 flex justify-between items-center md:px-4 py-[0.875rem] border-b-solid border-b-[1px] border-[#DADCE2]">
-        <div>
-          <h1 className="max-w-[250px] overflow-hidden whitespace-nowrap text-ellipsis md:max-w-full font-outfit text-[1rem] font-[600]">
-            {selectedContract?.title}
-          </h1>
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="hidden lg:block text-[#646464] text-[13px] font-normal leading-[14.30px]">
-            Uploaded on{" "}
-            {moment(selectedContract?.createdAt).format("MMM DD, YYYY")}
+      {!!selectedContract && (
+        <div className="shadow-header px-7 flex justify-between items-center md:px-4 py-[0.875rem] border-b-solid border-b-[1px] border-[#DADCE2]">
+          <div>
+            <h1 className="max-w-[250px] overflow-hidden whitespace-nowrap text-ellipsis md:max-w-[300px] font-outfit text-[1rem] font-[600]">
+              {selectedContract?.title}
+            </h1>
           </div>
-          <UIPopover trigger={<HorizontalDotIcon />}>
-            {(close) => (
-              <Dropdown
-                onDelete={(e) => {
-                  onDelete(e);
-                  close();
-                }}
-              />
-            )}
-          </UIPopover>
+          <div className="flex items-center gap-2">
+            <>
+              <div className="hidden lg:block text-[#646464] text-[13px] font-normal leading-[14.30px]">
+                Uploaded on{" "}
+                {moment(selectedContract?.createdAt).format("MMM DD, YYYY")}
+              </div>
+              <UIPopover trigger={<HorizontalDotIcon />}>
+                {(close) => (
+                  <Dropdown
+                    onDelete={(e) => {
+                      onDelete(e);
+                      close();
+                    }}
+                  />
+                )}
+              </UIPopover>
+            </>
+          </div>
         </div>
-      </div>
+      )}
       <div
         style={{
           background:
@@ -158,7 +162,11 @@ export function ContractMessaging() {
         </div>
       </div>
       <div className="w-full pt-1 lg:pt-0 px-7 mx-auto pb-1 lg:pb-2.5">
-        <Editor onSend={askQuery} isSending={sending} />
+        <Editor
+          onSend={askQuery}
+          isSending={sending}
+          disabled={!selectedContract}
+        />
       </div>
       {deleteConfirm && (
         <DeleteContractConfirm
