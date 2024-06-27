@@ -140,6 +140,7 @@ function SubscriptionCard({
     setIsSelected(true);
     await handleGetStripeSession({ planType, tier });
   };
+  const handleContactUs = () => {};
   useEffect(() => {
     if (!stripeLoading) setIsSelected(false);
   }, [stripeLoading]);
@@ -163,7 +164,9 @@ function SubscriptionCard({
           >
             <span className="text-[0.8125rem] font-[500]">{plan}</span>
           </div>
-          {tier !== SubscriptionTier.Customised ? (
+          {![SubscriptionTier.Customised, SubscriptionTier.Enterprise].includes(
+            tier as string
+          ) ? (
             <span className="font-[600] text-[1.25rem] font-outfit">
               ${isAnnual ? yearlyPrice : price}/{isAnnual ? "year" : "month"}
             </span>
@@ -185,10 +188,16 @@ function SubscriptionCard({
         <Button
           loading={stripeLoading && isSelected}
           className="w-full mt-[1.5rem]"
-          onClick={handleUpgrade}
+          onClick={
+            SubscriptionTier.Enterprise ? handleContactUs : handleUpgrade
+          }
           disabled={isCurrentPlan && tier !== SubscriptionTier.Customised}
         >
-          {isCurrentPlan ? "Subscribed" : `Upgrade to ${plan}`}
+          {isCurrentPlan
+            ? "Subscribed"
+            : tier === SubscriptionTier.Enterprise
+            ? "Contact us"
+            : `Upgrade to ${plan}`}
         </Button>
       </div>
     </div>

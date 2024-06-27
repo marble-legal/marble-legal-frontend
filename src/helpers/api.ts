@@ -203,4 +203,8 @@ export const api = {
   getActiveSubscription: (id: string) => {
     return apiClient.get(`/users/${id}/subscriptions`);
   },
+  cancelSubscription: (userId: string, subscriptionId: string) => {
+    const url = `/users/${userId}/subscriptions/${subscriptionId}`;
+    return apiClient.delete(url);
+  },
 };

@@ -7,13 +7,15 @@ import { ShowToast } from "../../toast";
 import useSubscription from "../../../pages/subscription/useSubscription";
 import { PlanType, subscriptions } from "../../../helpers/consts";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function Security() {
   const navigate = useNavigate();
   const handleToggle = () => setIsToggled((prev) => !prev);
   const { user, refetch } = useAuth();
   const [isToggled, setIsToggled] = useState(user.isEmailNotificationOn);
-  const { activeSubscription } = useSubscription();
+  const { activeSubscription, refetch: refetchSubscription } =
+    useSubscription();
 
   const subscription = activeSubscription?.[0];
 
@@ -42,9 +44,33 @@ export default function Security() {
     navigate("/subscription");
   };
 
+  const handleCancel = async () => {
+    try {
+      toast.loading("Cancelling subscription...");
+      const response = api.cancelSubscription(
+        user.id,
+        subscription?.subscriptionId
+      );
+      toast.dismiss();
+      if ([200, 201].includes((await response).status)) {
+        ShowToast({
+          type: "success",
+          message: "Subscription cancelled successfully",
+        });
+        refetchSubscription();
+      }
+    } catch (error: any) {
+      ShowToast({
+        message: error.response.data.message || "Something went wrong!",
+        type: "error",
+      });
+    }
+  };
+
   const subscriptionType = subscription
     ? subscriptions.find((item) => item.tier === subscription?.tier)
     : null;
+  console.log(subscription);
   return (
     <div className="md:p-[1.5rem] p-[1.25rem] w-full flex flex-col gap-[2.25rem]">
       <div className="flex flex-col gap-4">
@@ -70,9 +96,18 @@ export default function Security() {
         </div>
       </div>
       <div className="flex flex-col gap-4">
-        <span className="text-[0.75rem] font-[600] uppercase tracking-[0.48px]">
-          Current Subscription
-        </span>
+        <div className="flex justify-between items-center">
+          <span className="text-[0.75rem] font-[600] uppercase tracking-[0.48px]">
+            Current Subscription
+          </span>
+          <button
+            type="button"
+            onClick={handleCancel}
+            className="text-[#475569] text-[13px] underline"
+          >
+            Cancel plan
+          </button>
+        </div>
         <div className="border-solid border-[1px] border-[#CBD5E1] p-4 rounded-[6px] flex flex-row flex-wrap justify-between w-full gap-4 items-center">
           <div className="flex flex-row gap-3 items-center">
             <div
@@ -85,7 +120,7 @@ export default function Security() {
               {subscriptionType?.plan}
             </div>
             <span className="font-[700] text-[1rem] text-[#0F172A] tracking-[-0.32ppx] leading-[120%]">
-              ${subscription?.price}/
+              ${subscription?.amount}/
               {subscription?.planType === PlanType.monthly ? "month" : "year"}
             </span>
           </div>

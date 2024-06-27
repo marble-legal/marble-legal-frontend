@@ -6,8 +6,8 @@ import { ReactComponent as AttorneyIcon } from "../assets/icons/attorny.svg";
 
 export const SubscriptionTier = {
   Basic: "IN",
-  Standard: "SB",
-  Enterprise: "SP",
+  Standard: "SP",
+  Enterprise: "SB",
   Customised: "CU",
 };
 
@@ -50,9 +50,9 @@ export const subscriptions = [
     subscriptionText: "#B85042",
   },
   {
-    plan: "Contact for custom pricing and plans",
-    price: "99.99",
-    yearlyPrice: "999",
+    plan: "Enterprise",
+    price: "Contact for custom pricing and plans",
+    yearlyPrice: "Contact for custom pricing and plans",
     tier: SubscriptionTier.Enterprise,
     features: ["Unlimited queries", "Lead generation"],
     color: "rgba(213, 250, 226, 0.30)",

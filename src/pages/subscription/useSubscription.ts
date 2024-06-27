@@ -1,13 +1,15 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ShowToast } from "../../components/toast";
 import { getUser } from "../../helpers/utils";
 import { api } from "../../helpers/api";
 import { FeatureCode, SubscriptionTier } from "../../helpers/consts";
+import { useLocation } from "react-router-dom";
 
 const useStripeSession = () => {
   const [stripeLoading, setStripeLoading] = useState(false);
   const user = getUser();
+  const { pathname } = useLocation();
 
   const {
     data: activeSubscription,
@@ -230,6 +232,10 @@ const useStripeSession = () => {
       return subscriptionStatus;
     }
   }, [activeSubscription]);
+
+  useEffect(() => {
+    refetch();
+  }, [pathname]);
 
   return {
     handleGetStripeSession,
