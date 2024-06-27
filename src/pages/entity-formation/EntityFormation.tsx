@@ -4,7 +4,7 @@ import { ReactComponent as BuildingIcon } from "../../assets/icons/buliding.svg"
 import { ReactComponent as ClockIcon } from "../../assets/icons/clock.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/icons/delete.svg";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import EntityDetails from "./EntityDetails";
 import MobileMenu from "../../components/MobileMenu";
 import CreateEntity from "./CreateEntity";
@@ -30,16 +30,23 @@ export default function EntityFormation() {
   const [isCreateEntityOpen, setIsCreateEntityOpen] = useState(false);
   const [entityData, setEntityData] = useState({} as any);
   const handleDetailsClose = () => setIsDetailsOpen(false);
-  const { data, isLoading, refetch } = useQuery<
-    AxiosResponse<BusinessEntity[]>
-  >(["entities", user?.id], () => api.getEntities({ userId: user.id }), {
-    refetchInterval: false,
-    refetchOnMount: false,
-    refetchOnReconnect: false,
-    refetchIntervalInBackground: false,
-    refetchOnWindowFocus: false,
-    enabled: !!user?.id,
-  });
+  const [isLoading, setIsLoading] = useState(false);
+  const [data, setData] = useState([]);
+
+  const fetchEntities = async () => {
+    setIsLoading(true);
+    try {
+      const response = await api.getEntities({ userId: user.id });
+      setData(response?.data || []);
+    } catch (error: any) {
+      ShowToast({
+        message: error.response.data.message || "Something went wrong!",
+        type: "error",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleCreateEntity = () => {
     if (!subscriptionStatus.businessEntity) {
@@ -48,6 +55,12 @@ export default function EntityFormation() {
       setIsCreateEntityOpen(true);
     }
   };
+
+  useEffect(() => {
+    if (user?.id) {
+      fetchEntities();
+    }
+  }, [user?.id]);
 
   return (
     <div className="h-full">
@@ -71,14 +84,14 @@ export default function EntityFormation() {
         isOpen={isDetailsOpen}
         handleClose={handleDetailsClose}
         data={entityData}
-        refetch={refetch}
+        refetch={fetchEntities}
       />
       <CreateEntity
         isOpen={isCreateEntityOpen}
         handleClose={() => setIsCreateEntityOpen(false)}
         refetchEntities={() => {
           refetchSubscription();
-          refetch();
+          fetchEntities();
         }}
       />
       <div className="shadow-header px-[1.875rem] py-4 md:flex justify-between border-b-solid border-b-[1px] border-[#DADCE2] items-center hidden">
@@ -106,20 +119,20 @@ export default function EntityFormation() {
       <div className="py-[1.625rem] flex flex-col gap-[1.375rem] md:px-[1.875rem] px-[1rem]">
         {isLoading &&
           [1, 2, 3].map((i) => <EntityDetailsCardSkeleton key={i} />)}
-        {data?.data?.length === 0 && (
+        {data?.length === 0 && (
           <div className="flex flex-col items-center justify-center gap-4 h-[calc(100vh-10rem)]">
             <span className="font-[500]">No entities found</span>
           </div>
         )}
 
-        {data?.data.map((entity, index) => (
+        {data.map((entity, index) => (
           <EntityDetailsCard
             data={entity}
             handleOpenDetails={() => {
               setIsDetailsOpen(true);
               setEntityData(entity);
             }}
-            refetch={refetch}
+            refetch={fetchEntities}
             key={index}
           />
         ))}
