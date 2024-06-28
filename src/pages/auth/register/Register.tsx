@@ -60,11 +60,11 @@ const RegisterForm = () => {
                   });
                 });
             })
-            .catch(() => {
+            .catch((e: any) => {
               actions.setSubmitting(false);
               ShowToast({
                 type: "error",
-                message: "Email already exists.",
+                message: e?.response?.data?.message || "Failed to register",
               });
             });
         }}
