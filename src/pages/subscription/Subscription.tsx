@@ -140,7 +140,9 @@ function SubscriptionCard({
     setIsSelected(true);
     await handleGetStripeSession({ planType, tier });
   };
-  const handleContactUs = () => {};
+  const handleContactUs = () => {
+    console.log("contact us");
+  };
   useEffect(() => {
     if (!stripeLoading) setIsSelected(false);
   }, [stripeLoading]);
@@ -189,7 +191,9 @@ function SubscriptionCard({
           loading={stripeLoading && isSelected}
           className="w-full mt-[1.5rem]"
           onClick={
-            SubscriptionTier.Enterprise ? handleContactUs : handleUpgrade
+            tier === SubscriptionTier.Enterprise
+              ? handleContactUs
+              : handleUpgrade
           }
           disabled={isCurrentPlan && tier !== SubscriptionTier.Customised}
         >
