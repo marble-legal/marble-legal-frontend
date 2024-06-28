@@ -24,7 +24,7 @@ export const subscriptions = [
   {
     plan: "Base",
     price: "19.99",
-    yearlyPrice: "199",
+    yearlyPrice: "199.99",
     tier: SubscriptionTier.Basic,
     features: [
       "10 queries per month",
@@ -38,7 +38,7 @@ export const subscriptions = [
   {
     plan: "Professional",
     price: "99.99",
-    yearlyPrice: "999",
+    yearlyPrice: "999.99",
     tier: SubscriptionTier.Standard,
     features: [
       "Unlimited queries",
