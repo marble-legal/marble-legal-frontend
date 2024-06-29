@@ -27,7 +27,7 @@ export default function Button({
       "px-6 py-3 bg-transparent rounded-[10px] justify-center items-center gap-1.5 inline-flex text-secondaryRed text-[0.875rem] disabled:text-[#888] transition-all shadow-button focus-visible:outline-secondaryRed focus-visible:ring-[1px] focus-visible:ring-secondaryRed focus-visible:ring-offset-[1px] focus-visible:ring-offset-[1px] disabled:cursor-not-allowed disabled:shadow-disabledButton disabled:text-[#888] hover:bg-[#F2F5FB]",
     link: "text-secondaryRed text-[0.875rem] transition-all font-[600] hover:underline",
     outline:
-      "border-[1px] border-solid border-[#D7D7D7] px-3 py-[0.625rem] text-[#666] rounded-[8px]",
+      "border-[1px] border-solid border-[#D7D7D7] px-3 py-[0.625rem] text-[#666] rounded-[8px] hover:bg-gray-50 transition-all",
   };
 
   return (

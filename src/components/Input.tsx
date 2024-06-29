@@ -77,7 +77,7 @@ export default function CustomInput({
           maxLength={40}
           disabled={isDisabled}
           className={clsx(
-            "bg-transparent w-full rounded-[10px] border-[1px] border-solid border-[#E2E2E2] px-4 py-3 text-[0.875rem] font-[500] font-[Inter] focus-visible:outline-none focus-visible:ring-[1px] focus-visible:ring-secondaryGreen focus-visible:ring-ring ring-offset-[1px] disabled:cursor-not-allowed disabled:bg-[#F6F6F6] disabled:text-[#B4B4B4] disabled:border-[#D7D7D7] leading-[18px]",
+            "bg-transparent w-full rounded-[10px] border-[1px] border-solid border-[#E2E2E2] px-4 py-3 text-[0.875rem] font-[500] font-[Inter] focus-visible:outline-none focus-visible:border-[1.5px] focus-visible:border-secondaryGreen disabled:cursor-not-allowed disabled:bg-[#F6F6F6] disabled:text-[#B4B4B4] disabled:border-[#D7D7D7] leading-[18px]",
             { "!focus-visible:!ring-errorRed": error }, // Correctly formatted conditional class
             { "pl-10": !noIcon },
             { "pl-4": noIcon }

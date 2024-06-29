@@ -74,7 +74,7 @@ const ResetPasswordContent = () => {
     <div className="grid items-center h-full justify-center relative bg-white">
       <Button
         variant="outline"
-        className="absolute top-4 md:left-0 left-4"
+        className="absolute top-4 md:left-0 left-4 pr-[0.875rem]"
         onClick={() => window.history.back()}
       >
         <div className="gap-1 flex items-center">
