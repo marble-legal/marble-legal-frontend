@@ -1,6 +1,6 @@
 import Button from "../../components/Button";
 import { ReactComponent as PlusIcon } from "../../assets/icons/add.svg";
-import { ReactComponent as BuildingIcon } from "../../assets/icons/buliding.svg";
+import { ReactComponent as BuildingIcon } from "../../assets/icons/internal-building.svg";
 import { ReactComponent as ClockIcon } from "../../assets/icons/clock.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/icons/delete.svg";
 import clsx from "clsx";
@@ -177,10 +177,10 @@ export function EntityDetailsCard({
       }}
     >
       <div className="flex flex-row flex-wrap gap-4">
-        <div className="bg-[#F9F6FF] p-3 rounded-[7px] w-fit">
+        <div className="bg-[#F9F6FF] p-[1.125rem] rounded-[7px] w-fit">
           <BuildingIcon className="[&_path]:fill-[#5A42B8]" />
         </div>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 self-center">
           <span className="font-[500] text-[1.125rem] leading-[110%]">
             {data?.name}
           </span>
@@ -222,10 +222,10 @@ export function EntityDetailsCardSkeleton() {
   return (
     <div className="animate-pulse bg-white p-4 rounded-[12px] shadow-[2px_4px_9px_0px_rgba(107,103,158,0.05)] flex flex-row flex-wrap justify-between items-center w-full">
       <div className="flex flex-row flex-wrap gap-4">
-        <div className="bg-[#F9F6FF] p-3 rounded-[7px] w-fit">
+        <div className="bg-[#F9F6FF] p-[1.125rem] rounded-[7px] w-fit">
           <BuildingIcon className="[&_path]:fill-[#5A42B8]" />
         </div>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 self-center">
           <span className="font-[500] text-[1.125rem] leading-[110%] w-[200px] h-4 bg-gray-200 rounded"></span>
           <div className="flex flex-row flex-wrap gap-[1.5rem] md:text-[0.875rem] text-[0.75rem] font-[500] text-[#666]">
             <div className="flex flex-row flex-wrap gap-1 items-center">
@@ -257,7 +257,7 @@ interface StatusBadgeProps {
 const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
   return (
     <div
-      className={clsx("flex items-center py-1.5 px-3 rounded-lg border", {
+      className={clsx("flex items-center py-1.5 px-3 rounded-[6px] border", {
         "border-[#64B667] bg-[#EBFFEB]": status === "Completed",
         "border-[#FBBC04] bg-[#FFF5E9]": status === "In-progress",
         "border-[#B85042] bg-[#FFF6F5]": status === "Refused",

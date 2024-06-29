@@ -2,7 +2,7 @@ import HueBG from "../../assets/images/hue.png";
 import { ReactComponent as MessageIcon } from "../../assets/icons/message-text.svg";
 import { ReactComponent as ContractIcon } from "../../assets/icons/scan.svg";
 import { ReactComponent as DocumentIcon } from "../../assets/icons/document-text.svg";
-import { ReactComponent as BuildingIcon } from "../../assets/icons/buliding.svg";
+import { ReactComponent as BuildingIcon } from "../../assets/icons/internal-building.svg";
 import { ReactComponent as ChevronIcon } from "../../assets/icons/chevron.svg";
 import { ReactComponent as PremiumCrownIcon } from "../../assets/icons/premium-crown.svg";
 import ProfileImageIcon from "../../assets/icons/profile.svg";

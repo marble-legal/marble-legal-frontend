@@ -1,7 +1,7 @@
 import { ReactComponent as MessageIcon } from "../assets/icons/message-text.svg";
 import { ReactComponent as ContractIcon } from "../assets/icons/scan.svg";
 import { ReactComponent as DocumentIcon } from "../assets/icons/document-text.svg";
-import { ReactComponent as BuildingIcon } from "../assets/icons/buliding.svg";
+import { ReactComponent as BuildingIcon } from "../assets/icons/internal-building.svg";
 import { ReactComponent as AttorneyIcon } from "../assets/icons/attorny.svg";
 
 export const SubscriptionTier = {
