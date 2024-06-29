@@ -119,6 +119,7 @@ export default function Sidebar({
             items={items}
             direction="up"
             className="!w-full"
+            triggerClassName="!rounded-[8px] !p-3"
           />
         </div>
       </div>
