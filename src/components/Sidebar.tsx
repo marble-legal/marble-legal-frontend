@@ -10,6 +10,7 @@ import { ReactComponent as SettingsIcon } from "../assets/icons/setting.svg";
 import { ReactComponent as LogoutIcon } from "../assets/icons/logout.svg";
 import { ReactComponent as ShieldIcon } from "../assets/icons/shield.svg";
 import { ReactComponent as CrownIcon } from "../assets/icons/crown.svg";
+import { ReactComponent as SideBarHue } from "../assets/images/sidebar-hue.svg";
 import ProfileImageIcon from "../assets/icons/profile.svg";
 import menuImage from "../assets/images/sidebar.png";
 import Dropdown from "./Dropdown";
@@ -54,6 +55,7 @@ export default function Sidebar({
         backgroundPosition: "bottom",
       }}
     >
+      <SideBarHue className="absolute top-0 left-0" />
       <div className="border-[1px] border-solid border-[#E5EFF6] p-4 rounded-[12px] bg-[#FDFEFD] mb-5">
         <Link
           to="/home"
@@ -95,8 +97,10 @@ export default function Sidebar({
             to="/subscription"
             className="bg-[#FFF7F7] flex gap-[0.375rem] p-4 font-[500] text-[1rem] justify-center border-[1px] border-solid border-[#F1D6D3] rounded-[10px] mb-[0.625rem] items-center cursor-pointer"
           >
-            <CrownIcon className="w-[1.5rem] h-[1.5rem]" />
-            <span>Upgrade your plan</span>
+            <CrownIcon className="w-5 h-5" />
+            <span className="font-medium leading-[110%]">
+              Upgrade your plan
+            </span>
           </Link>
           <Dropdown
             label={
