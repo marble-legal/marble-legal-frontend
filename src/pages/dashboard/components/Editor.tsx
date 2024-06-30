@@ -27,7 +27,7 @@ export function Editor({
 
   return (
     <div>
-      <div className="px-4 py-3.5 bg-white rounded-lg border border-[#DBDCE8] justify-between items-center gap-2 flex">
+      <div className="px-4 py-3.5 bg-white rounded-lg border border-[#DBDCE8] justify-between items-center flex">
         <div className="justify-start flex-1 items-center flex">
           {/* <textarea
             value={message}
@@ -47,7 +47,7 @@ export function Editor({
             disabled={disabled}
           /> */}
           <div
-            className="w-full bg-transparent max-h-[30vh] border-none focus:outline-none text-base font-medium"
+            className="w-full bg-transparent max-h-[30vh] overflow-auto pr-4 border-none focus:outline-none text-base font-medium"
             contentEditable={!disabled}
             suppressContentEditableWarning
             onInput={handleInput}
