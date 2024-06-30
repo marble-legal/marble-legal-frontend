@@ -84,24 +84,26 @@ export function Message({
 
             {/* {conversation.message} */}
           </div>
-          <div className="flex items-center flex-wrap gap-1">
-            {sourceDocuments?.map((source, i) => (
-              <a
-                key={i}
-                href={typeof source === "string" ? source : source.url}
-                target="_blank"
-                rel="noreferrer"
-                className="text-black flex items-center gap-1.5 rounded-[10px] px-4 py-3 text-xs font-medium border border-[#E6E6E6] bg-white shadow-[0px_2px_2.3px_0px_rgba(186,207,193,0.20)]"
-              >
-                <BrowserIcon className="!w-3.5 !h-3.5" />
-                <span className="underline">
-                  {typeof source !== "string"
-                    ? source.case_name
-                    : `Opinion ${i + 1}`}
-                </span>
-              </a>
-            ))}
-          </div>
+          {sourceDocuments?.length > 0 && (
+            <div className="flex items-center flex-wrap gap-1">
+              {sourceDocuments?.map((source, i) => (
+                <a
+                  key={i}
+                  href={typeof source === "string" ? source : source.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-black flex items-center gap-1.5 rounded-[10px] px-4 py-3 text-xs font-medium border border-[#E6E6E6] bg-white shadow-[0px_2px_2.3px_0px_rgba(186,207,193,0.20)]"
+                >
+                  <BrowserIcon className="!w-3.5 !h-3.5" />
+                  <span className="underline">
+                    {typeof source !== "string"
+                      ? source.case_name
+                      : `Opinion ${i + 1}`}
+                  </span>
+                </a>
+              ))}
+            </div>
+          )}
         </div>
       </div>
       {onLike && onDisLike && (
