@@ -182,15 +182,15 @@ const Dropdown = ({ onDelete }) => {
   return (
     <div
       style={{ zIndex: 2 }}
-      className="z-20 w-[110px] flex flex-col justify-center items-center bg-white shadow-[0_6px_24px_0_rgba(28,43,40,0.25)] rounded-xl py-2 mr-8"
+      className="z-20 w-[110px] flex flex-col justify-center items-center bg-white shadow-[0_6px_24px_0_rgba(28,43,40,0.25)] rounded-xl !p-0 mr-8"
     >
       <ul
-        className="p-1 text-sm text-gray-700 "
+        className="p-1 text-sm text-gray-700 w-full"
         aria-labelledby="dropdownMenuIconButton"
       >
         <li>
           <button
-            className="w-full text-[#E3270E] px-3 h-10 flex items-center justify-center text-base rounded-[10px] hover:bg-[#F1F6F1]"
+            className="!w-full text-[#E3270E] px-3 h-10 flex items-center justify-center text-base rounded-[10px] hover:bg-[#F1F6F1] transition-all"
             onClick={(e) => {
               e.stopPropagation();
 

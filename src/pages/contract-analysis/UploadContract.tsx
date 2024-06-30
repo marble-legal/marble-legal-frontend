@@ -7,11 +7,41 @@ import { ReactComponent as DocumentUploadIcon } from "../../assets/icons/documen
 import { useContractAnalysis } from "./contract-analysis-context";
 import { ReactComponent as ContractsIcon } from "../../assets/icons/contracts.svg";
 import { ReactComponent as CloseIcon } from "../../assets/icons/x.svg";
+import { PopupModal } from "../../components/PopupModal";
 
-export function UploadContract({ onSuccess, disabled }) {
-  const { refetchContractList } = useContractAnalysis() as any;
+export function UploadContract({
+  onSuccess,
+  disabled,
+  handleClose,
+}: {
+  onSuccess: () => void;
+  disabled: boolean;
+  handleClose?: () => void;
+}) {
+  if (handleClose) {
+    return (
+      <PopupModal
+        onClose={handleClose}
+        contentClassName="md:max-w-[600px] px-4 max-w-full mx-auto max-h-[400px]"
+      >
+        <UploadContent onSuccess={onSuccess} disabled={disabled} />
+      </PopupModal>
+    );
+  }
+
+  return <UploadContent onSuccess={onSuccess} disabled={disabled} />;
+}
+
+function UploadContent({
+  onSuccess,
+  disabled,
+}: {
+  onSuccess: () => void;
+  disabled: boolean;
+}) {
   const [uploading, setUploading] = useState(false);
   const [file, setFile] = useState<File | null>(null);
+  const { refetchContractList } = useContractAnalysis() as any;
 
   const handleUpload = () => {
     if (!file) return;

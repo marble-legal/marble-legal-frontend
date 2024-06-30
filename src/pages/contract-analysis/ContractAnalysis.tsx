@@ -27,6 +27,7 @@ export default function ContractAnalysis() {
   } = useSubscription();
   const [bottomView, setBottomView] = useState(false);
   const [uploadContract, setUploadContract] = useState(false);
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const { contractList, loading, setSelectedContract, selectedContract } =
     useContractAnalysis() as any;
 
@@ -39,14 +40,18 @@ export default function ContractAnalysis() {
   const handleUploadContract = () => {
     if (!subscriptionStatus.contractAnalysis) {
       navigate("/subscription");
-    } else {
+    } else if (contractList?.length === 0) {
       setUploadContract(true);
+    } else {
+      setIsUploadModalOpen(true);
     }
   };
 
   useEffect(() => {
     if (!loading && contractList?.length === 0) {
       setUploadContract(true);
+    } else {
+      setUploadContract(false);
     }
   }, [contractList, loading]);
 
@@ -89,7 +94,7 @@ export default function ContractAnalysis() {
                 {subscriptionStatus.assignedContractAnalysis} credits left
               </span>
             )}
-            {!uploadContract ? (
+            {!loading && !uploadContract && (
               <Button
                 variant="primary"
                 className="flex gap-1 px-6 py-3 bg-[#B84242] border-[#B85042] font-[500]"
@@ -98,19 +103,22 @@ export default function ContractAnalysis() {
                 <UploadIcon />
                 Upload a contract
               </Button>
-            ) : contractList?.length > 0 ? (
-              <Button
-                variant="primary"
-                className="flex gap-1 px-6 py-3 bg-[#B84242] border-[#B85042] font-[500]"
-                onClick={() => setUploadContract(false)}
-              >
-                <ArrowIcon className="[&_path]:stroke-white" />
-                Back
-              </Button>
-            ) : null}
+            )}
           </div>
         </div>
-        {uploadContract ? (
+        {isUploadModalOpen && (
+          <UploadContract
+            disabled={!subscriptionStatus.contractAnalysis}
+            onSuccess={() => {
+              refetchSubscription();
+              setIsUploadModalOpen(false);
+            }}
+            handleClose={() => {
+              setIsUploadModalOpen(false);
+            }}
+          />
+        )}
+        {uploadContract && (
           <UploadContract
             disabled={!subscriptionStatus.contractAnalysis}
             onSuccess={() => {
@@ -118,23 +126,22 @@ export default function ContractAnalysis() {
               setUploadContract(false);
             }}
           />
-        ) : (
-          <>
-            <div className="h-[calc(100dvh-62px)] lg:h-[calc(100dvh-102px)] px-[18px] lg:px-6 py-4 flex flex-col lg:flex-row gap-2.5">
-              <div className="hidden lg:block">
-                <ContractList
-                  list={contractList}
-                  onSelect={handleContractSelect}
-                  selectedContract={selectedContract}
-                  isLoading={loading}
-                />
-              </div>
-              <div className="bg-white pb-4 lg:pb-0 flex-1 flex-grow rounded-[12px]">
-                <ContractMessaging />
-              </div>
-            </div>
-          </>
         )}
+        <>
+          <div className="h-[calc(100dvh-62px)] lg:h-[calc(100dvh-102px)] px-[18px] lg:px-6 py-4 flex flex-col lg:flex-row gap-2.5">
+            <div className="hidden lg:block">
+              <ContractList
+                list={contractList}
+                onSelect={handleContractSelect}
+                selectedContract={selectedContract}
+                isLoading={loading}
+              />
+            </div>
+            <div className="bg-white pb-4 lg:pb-0 flex-1 flex-grow rounded-[12px]">
+              <ContractMessaging />
+            </div>
+          </div>
+        </>
       </div>
       {/* {bottomView && ( */}
       <BottomView open={bottomView} onClose={() => setBottomView(false)}>

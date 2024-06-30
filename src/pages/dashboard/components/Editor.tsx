@@ -47,8 +47,8 @@ export function Editor({
         </div>
         <button
           onClick={handleSend}
-          className="p-1 bg-[#B85042] rounded justify-center items-center gap-2.5 flex"
-          disabled={isSending || disabled}
+          className="p-1 bg-[#B85042] rounded justify-center items-center gap-2.5 flex disabled:bg-gray-400 transition-all"
+          disabled={isSending || disabled || message.length === 0}
         >
           <ArrowUpIcon className="w-4 h-4" />
         </button>
