@@ -15,9 +15,11 @@ import moment from "moment";
 import useSubscription from "../subscription/useSubscription";
 import { useNavigate } from "react-router-dom";
 import { contractTypes } from "../../helpers/consts";
+import useResponsive from "../../helpers/useResponsive";
 
 export default function ContractDraftGeneration() {
   const navigate = useNavigate();
+  const { isAnyMobile } = useResponsive();
   const { isLoading, subscriptionStatus, refetch } = useSubscription();
   const [createDraftModal, setCreateDraftModal] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
@@ -154,7 +156,7 @@ export default function ContractDraftGeneration() {
           </div>
         </div>
       </div>
-      {!isScrolling && (
+      {!!(!isScrolling || isAnyMobile) && (
         <div className="flex flex-row justify-between items-center md:px-5 px-4 mt-5">
           <div className="flex flex-row gap-2.5 md:w-auto w-full">
             <SearchComponent

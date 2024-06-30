@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ReactComponent as ArrowUpIcon } from "../../../assets/icons/arrow-up.svg";
 
 export function Editor({
@@ -11,16 +11,25 @@ export function Editor({
   disabled?: boolean;
 }) {
   const [message, setMessage] = useState("");
+  const messageRef = useRef<any>(null);
   const handleSend = () => {
-    onSend(message);
-    setMessage("");
+    if (message && !isSending) {
+      messageRef.current.textContent = "";
+      onSend(message);
+      setMessage("");
+    }
+  };
+
+  const handleInput = (e) => {
+    setMessage(e.currentTarget.textContent);
+    console.log(e.currentTarget.textContent);
   };
 
   return (
     <div>
       <div className="px-4 py-3.5 bg-white rounded-lg border border-[#DBDCE8] justify-between items-center gap-2 flex">
         <div className="justify-start flex-1 items-center flex">
-          <textarea
+          {/* <textarea
             value={message}
             onChange={(e) => {
               setMessage(e.target.value);
@@ -36,14 +45,22 @@ export function Editor({
             className="w-full bg-transparent max-h-[30vh] border-none focus:outline-none text-base font-medium"
             placeholder="Write your question here"
             disabled={disabled}
-          />
-          {/* <div
+          /> */}
+          <div
             className="w-full bg-transparent max-h-[30vh] border-none focus:outline-none text-base font-medium"
-            contentEditable
-            onChange={(e) => console.log(e.currentTarget.textContent)}
-          >
-            Hello World
-          </div> */}
+            contentEditable={!disabled}
+            suppressContentEditableWarning
+            onInput={handleInput}
+            style={{ wordBreak: "break-all" }}
+            ref={(e) => (messageRef.current = e)}
+            onKeyDown={(e) => {
+              console.log(e.key, "key down");
+              if (e.key === "Enter") {
+                e.preventDefault();
+                handleSend();
+              }
+            }}
+          ></div>
         </div>
         <button
           onClick={handleSend}
