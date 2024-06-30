@@ -16,14 +16,14 @@ export function ContractListItem({ contract, onView, onDelete }) {
   return (
     <div className="bg-white w-full flex flex-row p-4 justify-between gap-5 rounded-[12px] shadow-[2px_4px_9px_0px_rgba(107,103,158,0.05)]">
       <div className="flex flex-1 flex-row gap-4 items-start md:items-center">
-        <div className="bg-[#F5FAF0] p-3 rounded-[8px] h-fit">
+        <div className="bg-[#F5FAF0] p-3 rounded-[8px] h-[100%] flex flex-col justify-center">
           <DocumentIcon className="[&>g>path]:fill-[#5E9B22] [&>path]:fill-[#5E9B22] w-8 h-8" />
         </div>
         <div className="flex flex-col gap-3">
           <span className="text-sm md:text-[1.125rem] font-[500] leading-[110%] line-clamp-2 md:line-clamp-none">
             {contract?.title}
           </span>
-          <span className="text-[13px] text-black/60 md:text-[0.9375rem] font-[500] leading-[110%] opacity-[0.6] line-clamp-1 md:line-clamp-none">
+          <span className="text-[13px] text-black/60 md:text-[0.9375rem] font-[500] leading-[110%] opacity-[0.6] line-clamp-1 md:line-clamp-2">
             {contract?.summary}
           </span>
           <span className="md:hidden text-[#808080] text-[0.875rem] font-[500]">
@@ -68,10 +68,10 @@ const Dropdown = ({ onDelete, onView, onDownload }) => {
   return (
     <div
       style={{ zIndex: 2 }}
-      className="z-20 flex flex-col justify-center items-center bg-white shadow-[0_6px_24px_0_rgba(28,43,40,0.25)] rounded-xl py-2 mr-8"
+      className="z-20 flex flex-col justify-center items-center bg-white shadow-[0_6px_24px_0_rgba(28,43,40,0.25)] rounded-xl py-2 mr-12"
     >
       <ul
-        className="p-1 text-sm text-gray-700 text-start"
+        className="px-2 text-sm text-gray-700 text-start flex flex-col gap-1"
         aria-labelledby="dropdownMenuIconButton"
       >
         <li>
