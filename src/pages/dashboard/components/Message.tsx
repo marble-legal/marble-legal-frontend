@@ -108,7 +108,7 @@ export function Message({
         <div className="absolute md:-right-[72px] md:top-0 right-0 -bottom-6 md:bottom-0 md:h-full md:justify-start md:items-center gap-2 flex">
           <button
             onClick={() => onLike(conversation.id)}
-            className="w-4 h-4 rounded justify-center items-center flex"
+            className="w-4 h-4 rounded justify-center items-center flex hover:opacity-70 transition-all"
           >
             <LikeIcon
               className={`w-4 h-4 ${
@@ -120,7 +120,7 @@ export function Message({
           </button>
           <button
             onClick={() => onDisLike(conversation.id)}
-            className="w-4 h-4 rounded justify-center items-center flex"
+            className="w-4 h-4 rounded justify-center items-center flex hover:opacity-70 transition-all"
           >
             <DisLikeIcon
               className={`w-4 h-4 ${
@@ -132,7 +132,7 @@ export function Message({
           </button>
           <button
             onClick={() => handleCopy(conversation.message)}
-            className="w-4 h-4 rounded justify-center items-center flex"
+            className="w-4 h-4 rounded justify-center items-center flex hover:opacity-70 transition-all"
           >
             <CopyIcon
               className={`w-4 h-4 ${

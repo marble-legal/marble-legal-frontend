@@ -132,7 +132,7 @@ export default function Dashboard() {
         />
         <div
           ref={(e) => (listRef.current = e)}
-          className={`w-[100%] mt-5 flex-1 flex flex-col items-center h-[calc(100dvh-200px)] overflow-auto`}
+          className={`w-[100%] flex-1 flex flex-col items-center h-[calc(100dvh-200px)] overflow-auto`}
         >
           <div
             className={`w-full px-[18px] md:w-[580px] ${
