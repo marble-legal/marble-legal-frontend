@@ -52,17 +52,17 @@ export const subscriptions = [
     subscriptionText: "#B85042",
     subscriptionBorder: "#B8504226",
   },
-  {
-    plan: "Enterprise",
-    price: "Contact for custom pricing and plans",
-    yearlyPrice: "Contact for custom pricing and plans",
-    tier: SubscriptionTier.Enterprise,
-    features: ["Unlimited queries", "Lead generation"],
-    color: "rgba(213, 250, 226, 0.30)",
-    subscriptionBg: "#D6FFE1",
-    subscriptionText: "#1B7329",
-    subscriptionBorder: "#42B85526",
-  },
+  // {
+  //   plan: "Enterprise",
+  //   price: "Contact for custom pricing and plans",
+  //   yearlyPrice: "Contact for custom pricing and plans",
+  //   tier: SubscriptionTier.Enterprise,
+  //   features: ["Unlimited queries", "Lead generation"],
+  //   color: "rgba(213, 250, 226, 0.30)",
+  //   subscriptionBg: "#D6FFE1",
+  //   subscriptionText: "#1B7329",
+  //   subscriptionBorder: "#42B85526",
+  // },
 ];
 
 export const featureSpecificPlan = [
