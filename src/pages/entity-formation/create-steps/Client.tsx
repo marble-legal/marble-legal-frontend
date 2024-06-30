@@ -176,10 +176,10 @@ function ClientForm({ onBack }: { onBack: (data: any) => void }) {
                     })
                   }
                   className={clsx(
-                    "text-[#B85042] text-[1rem] font-[600] text-start w-fit",
-                    {
-                      hidden: (values?.clients?.length ?? 0) >= 2,
-                    }
+                    "text-[#B85042] text-[1rem] font-[600] text-start w-fit"
+                    // {
+                    //   hidden: (values?.clients?.length ?? 0) >= 2,
+                    // }
                   )}
                 >
                   + Add another
