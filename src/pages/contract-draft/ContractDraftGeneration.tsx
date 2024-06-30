@@ -3,7 +3,7 @@ import { ReactComponent as PlusIcon } from "../../assets/icons/add.svg";
 import { ReactComponent as CloseIcon } from "../../assets/icons/x.svg";
 import { ReactComponent as DocumentIcon } from "../../assets/icons/document-text.svg";
 import SearchComponent from "../../components/Search";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import MobileMenu from "../../components/MobileMenu";
 import { useContractGeneration } from "./context/contract-generation-context";
 import { CreateDraftForm } from "./components/CreateDraft";
@@ -20,6 +20,8 @@ export default function ContractDraftGeneration() {
   const navigate = useNavigate();
   const { isLoading, subscriptionStatus, refetch } = useSubscription();
   const [createDraftModal, setCreateDraftModal] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
+  const contentRef = useRef<any>(null);
   const {
     search,
     setSearch,
@@ -62,6 +64,21 @@ export default function ContractDraftGeneration() {
     );
   }, [filters]);
 
+  useEffect(() => {
+    if (contentRef.current) {
+      contentRef.current.addEventListener("scroll", () => {
+        setIsScrolling(contentRef.current.scrollTop > 0);
+      });
+    }
+    return () => {
+      if (contentRef.current) {
+        contentRef.current.removeEventListener("scroll", () => {
+          setIsScrolling(contentRef.current.scrollTop > 0);
+        });
+      }
+    };
+  }, [contentRef.current]);
+
   // console.log(subscriptionStatus);
 
   return (
@@ -94,9 +111,31 @@ export default function ContractDraftGeneration() {
 
       <div className="md:sticky md:block top-0 z-[5] bg-[#F2F5FB]">
         <div className="shadow-header px-[1.875rem] py-4 md:flex justify-between border-b-solid border-b-[1px] border-[#DADCE2] items-center hidden">
-          <h1 className="font-outfit text-[1.25rem] font-[500]">
-            Contract draft generation
-          </h1>
+          {isScrolling ? (
+            <div className="flex gap-2.5 items-center">
+              <div className="flex flex-row gap-2.5 md:w-auto w-full">
+                <SearchComponent
+                  onChange={(e) => setSearch(e.target.value)}
+                  value={search}
+                />
+                <FilterPopup
+                  hasFilters={hasFilters}
+                  setFilters={setFilters}
+                  tempFilters={tempFilters}
+                  setTempFilters={setTempFilters}
+                />
+              </div>
+              <div className="hidden md:block">
+                <span className="font-medium">
+                  Total drafts: {rest?.contractList?.length}
+                </span>
+              </div>
+            </div>
+          ) : (
+            <h1 className="font-outfit text-[1.25rem] font-[500]">
+              Contract draft generation
+            </h1>
+          )}
           <div className="flex flex-row gap-3 items-center">
             {subscriptionStatus.assignedContractDrafting > 0 && (
               <span className="text-[0.875rem]">
@@ -115,27 +154,35 @@ export default function ContractDraftGeneration() {
           </div>
         </div>
       </div>
-      <div className="flex flex-row justify-between items-center md:px-5 px-4 mt-5">
-        <div className="flex flex-row gap-2.5 md:w-auto w-full">
-          <SearchComponent
-            onChange={(e) => setSearch(e.target.value)}
-            value={search}
-          />
-          <FilterPopup
-            hasFilters={hasFilters}
-            setFilters={setFilters}
-            tempFilters={tempFilters}
-            setTempFilters={setTempFilters}
-          />
+      {!isScrolling && (
+        <div className="flex flex-row justify-between items-center md:px-5 px-4 mt-5">
+          <div className="flex flex-row gap-2.5 md:w-auto w-full">
+            <SearchComponent
+              onChange={(e) => setSearch(e.target.value)}
+              value={search}
+            />
+            <FilterPopup
+              hasFilters={hasFilters}
+              setFilters={setFilters}
+              tempFilters={tempFilters}
+              setTempFilters={setTempFilters}
+            />
+          </div>
+          <div className="hidden md:block">
+            <span className="font-medium">
+              Total drafts: {rest?.contractList?.length}
+            </span>
+          </div>
         </div>
-        <div className="hidden md:block">
-          <span className="font-medium">
-            Total drafts: {rest?.contractList?.length}
-          </span>
-        </div>
-      </div>
+      )}
 
-      <div className="py-4 md:pb-4 flex flex-col h-[calc(100dvh-130px)] md:h-[calc(100dvh-160px)]">
+      <div
+        className={`py-4 md:pb-4 flex flex-col h-[calc(100dvh-130px)] ${
+          isScrolling
+            ? "md:h-[calc(100dvh-100px)]"
+            : "md:h-[calc(100dvh-160px)]"
+        }`}
+      >
         <div className="w-full px-5 md:hidden mb-4 flex justify-between items-center">
           {hasFilters ? (
             <>
@@ -176,7 +223,11 @@ export default function ContractDraftGeneration() {
             </>
           )}
         </div>
-        <div className="mx-4 md:mx-5 mb-2 flex items-center gap-2 pb-2 overflow-auto md:overflow-hidden md:flex-wrap">
+        <div
+          className={`${
+            hasFilters ? "mx-4 md:mx-5 mb-2 pb-2 " : ""
+          } flex items-center gap-2 overflow-auto md:overflow-hidden md:flex-wrap`}
+        >
           {filters.date.startDate && (
             <div className="whitespace-nowrap rounded-md border border-[#D7D7D7] py-2.5 px-3 flex gap-1 items-center">
               <span>
@@ -251,7 +302,10 @@ export default function ContractDraftGeneration() {
           )}
         </div>
 
-        <div className="md:px-5 lg:pb-4 px-4 flex flex-col gap-4 overflow-auto flex-1">
+        <div
+          ref={(e) => (contentRef.current = e)}
+          className="md:px-5 lg:pb-4 px-4 flex flex-col gap-4 overflow-auto flex-1"
+        >
           {rest.loading && <CardSkeleton />}
           {!rest.loading &&
             rest.contractList?.map((contract: any) => (
