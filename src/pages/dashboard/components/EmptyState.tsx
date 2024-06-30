@@ -7,8 +7,8 @@ export function EmptyState() {
       <div className="bg-white rounded-[12px] flex justify-center items-center">
         <Logo />
       </div>
-      <div className="text-black mt-[8px] mb-7 font-medium text-base leading-[27.2px]">
-        Ask any legal query you have
+      <div className="text-black mt-[8px] mb-7 font-medium text-base leading-[27.2px] text-center">
+        Ask about any ambiguous clauses or terms in your contract.
       </div>
       <div className="flex flex-col gap-2">
         <div className="p-4 lg:w-[400px] bg-slate-100 rounded-lg border border-gray-300 justify-start lg:items-center flex">
