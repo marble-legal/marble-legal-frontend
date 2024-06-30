@@ -44,9 +44,9 @@ function InitialApp() {
           <div className="flex justify-between">
             <Link
               to="/dashboard"
-              className="flex font-outfit font-[500] text-[1.125rem] items-center gap-1 z-[9]"
+              className="flex font-outfit font-[500] text-[1.125rem] items-center gap-1 z-[9] p-1"
             >
-              <img src={LogoIcon} alt="logo" className="h-[1.875rem]" />
+              <img src={LogoIcon} alt="logo" className="h-[2.5rem]" />
               {/* <span>Marble Legal</span> */}
             </Link>
             <Dropdown
@@ -66,7 +66,7 @@ function InitialApp() {
               items={items}
               direction="down"
               // className="!rounded-full"
-              triggerClassName="!rounded-full !pr-4 !p-2 "
+              triggerClassName="!rounded-full !pr-4 !p-2 !shadow-[0px_4px_8px_0px_rgba(78,137,137,0.05)]"
             />
           </div>
           <Outlet />

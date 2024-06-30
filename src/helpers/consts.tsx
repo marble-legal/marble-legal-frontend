@@ -20,6 +20,7 @@ export const subscriptions = [
     color: "#F3FAFE",
     subscriptionBg: "#D5EFFA",
     subscriptionText: "#139EA7",
+    subscriptionBorder: "#139EA726",
   },
   {
     plan: "Base",
@@ -34,6 +35,7 @@ export const subscriptions = [
     color: "#F9F3FE",
     subscriptionBg: "#DECAFF",
     subscriptionText: "#883EC2",
+    subscriptionBorder: "#883EC203",
   },
   {
     plan: "Professional",
@@ -48,6 +50,7 @@ export const subscriptions = [
     color: "#FEF5F3",
     subscriptionBg: "#FFE5D6",
     subscriptionText: "#B85042",
+    subscriptionBorder: "#B8504226",
   },
   {
     plan: "Enterprise",
@@ -58,6 +61,7 @@ export const subscriptions = [
     color: "rgba(213, 250, 226, 0.30)",
     subscriptionBg: "#D6FFE1",
     subscriptionText: "#1B7329",
+    subscriptionBorder: "#42B85526",
   },
 ];
 

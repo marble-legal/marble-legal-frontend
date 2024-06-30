@@ -61,7 +61,7 @@ export default function Subscription() {
           <p className="leading-[150%] text-[#888] text-[0.875rem] max-w-[430px] text-center mx-auto font-[500]">
             Select a plan that fits your needs and enjoy a 7-day free trial.
           </p>
-          <div className="flex flex-row gap-[0.625rem] items-center text-[0.75rem] font-[500] px-[1.25rem] py-2 bg-white w-fit mx-auto rounded-full transition-all">
+          <div className="flex flex-row gap-[0.625rem] items-center text-sm font-[500] px-[1.25rem] py-2 bg-white w-fit mx-auto rounded-full transition-all">
             <span className={clsx(isAnnual && "text-[#888]")}>Monthly</span>
             <ToggleSwitch isToggled={isAnnual} handleToggle={handleToggle} />
             <span className={clsx(!isAnnual && "text-[#888]")}>Annual</span>
@@ -106,6 +106,7 @@ function SubscriptionCard({
     color,
     subscriptionBg,
     subscriptionText,
+    subscriptionBorder,
     tier,
   },
   currentSubscription,
@@ -122,6 +123,7 @@ function SubscriptionCard({
     color: string;
     subscriptionBg: string;
     subscriptionText: string;
+    subscriptionBorder: string;
     tier?: string;
   };
   isAnnual?: boolean;
@@ -162,6 +164,7 @@ function SubscriptionCard({
             style={{
               background: subscriptionBg,
               color: subscriptionText,
+              border: `0.5px solid ${subscriptionBorder}`,
             }}
           >
             <span className="text-[0.8125rem] font-[500]">{plan}</span>
@@ -177,7 +180,7 @@ function SubscriptionCard({
           )}
         </div>
       </div>
-      <div className="flex flex-col px-6 py-3 text-[0.9375rem] font-[500] flex-1">
+      <div className="flex flex-col px-5 pt-3 pb-5 text-[0.9375rem] font-[500] flex-1">
         <ul className="flex-1 flex flex-col gap-4">
           {features.map((feature, index) => (
             <li className="flex items-start gap-[0.625rem]" key={index}>

@@ -95,22 +95,19 @@ const FeatureSpecificPlanModal: React.FC<{
 
         <div className="flex flex-row flex-wrap gap-4 md:px-28 px-4">
           {featureSpecificPlan.map((data) => {
-            if (
-              data.id === "attorneyReview" &&
-              formData.contractDrafting === 0 &&
-              formData.contractAnalysis === 0
-            ) {
-              return null;
-            } else {
-              return (
-                <Card
-                  key={data.title}
-                  data={data}
-                  formData={formData}
-                  setFormData={setFormData}
-                />
-              );
-            }
+            return (
+              <Card
+                key={data.title}
+                data={data}
+                formData={formData}
+                setFormData={setFormData}
+                disabled={
+                  data.id === "attorneyReview" &&
+                  formData.contractDrafting === 0 &&
+                  formData.contractAnalysis === 0
+                }
+              />
+            );
           })}
         </div>
 
@@ -171,6 +168,7 @@ function Card({
   },
   formData,
   setFormData,
+  disabled,
 }: {
   data: {
     id: string;
@@ -184,6 +182,7 @@ function Card({
   };
   formData: Record<string, number>;
   setFormData: any;
+  disabled?: boolean;
 }) {
   const { isAnyMobile } = useResponsive();
   // if formData is not 0 then it is selected
@@ -216,8 +215,10 @@ function Card({
         } transition-all relative`,
         isSelected
           ? "border-[2px] border-solid border-[#80A48B]"
-          : "border-[2px] border-transparent"
+          : "border-[2px] border-transparent",
+        disabled ? "opacity-40" : ""
       )}
+      disabled={disabled}
       onClick={
         // if the card is 0 then select it
         () => {
