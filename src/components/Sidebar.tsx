@@ -55,8 +55,8 @@ export default function Sidebar({
         backgroundPosition: "bottom",
       }}
     >
-      <SideBarHue className="absolute top-0 left-0" />
-      <div className="border-[1px] border-solid border-[#E5EFF6] p-4 rounded-[12px] bg-[#FDFEFD] mb-5">
+      <SideBarHue className="absolute top-0 left-0 z-0" />
+      <div className="border-[1px] border-solid border-[#E5EFF6] p-4 rounded-[12px] bg-[#FDFEFD] mb-5 z-[1] bg-transparent">
         <Link
           to="/home"
           className="flex font-outfit font-[500] text-[1.125rem] items-center gap-1"
@@ -66,7 +66,7 @@ export default function Sidebar({
         </Link>
       </div>
 
-      <div className="grid gap-[0.375rem]">
+      <div className="grid gap-[0.375rem] z-[1]">
         <CustomLink
           to="/dashboard"
           activePath="/dashboard"

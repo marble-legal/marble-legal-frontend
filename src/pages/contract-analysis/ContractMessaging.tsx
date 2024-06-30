@@ -161,7 +161,7 @@ export function ContractMessaging() {
           )}
         </div>
       </div>
-      <div className="w-full pt-1 lg:pt-0 px-7 mx-auto pb-1 lg:pb-2.5">
+      <div className="w-full pt-1 lg:pt-0 px-2.5 mx-auto pb-1 lg:pb-2.5">
         <Editor
           onSend={askQuery}
           isSending={sending}

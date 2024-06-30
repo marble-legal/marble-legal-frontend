@@ -46,7 +46,7 @@ export default function ContractAnalysis() {
 
   useEffect(() => {
     if (!loading && contractList?.length === 0) {
-      // setUploadContract(true);
+      setUploadContract(true);
     }
   }, [contractList, loading]);
 
