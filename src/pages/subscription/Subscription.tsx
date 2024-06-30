@@ -149,7 +149,10 @@ function SubscriptionCard({
     if (!stripeLoading) setIsSelected(false);
   }, [stripeLoading]);
 
-  const isCurrentPlan = currentSubscription?.tier === tier;
+  const isCurrentPlan =
+    currentSubscription?.tier === tier &&
+    currentSubscription?.planType ===
+      (isAnnual ? PlanType.yearly : PlanType.monthly);
   return (
     <div className="bg-white rounded-[12px] flex-1 flex-grow max-w-[295px] md:min-w-[295px] min-w-full flex flex-col">
       <div className="p-2">
