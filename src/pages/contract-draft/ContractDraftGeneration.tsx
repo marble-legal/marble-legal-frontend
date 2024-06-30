@@ -65,7 +65,7 @@ export default function ContractDraftGeneration() {
   // console.log(subscriptionStatus);
 
   return (
-    <div className="overflow-hidden lg:h-[calc(100dvh-62px)]">
+    <div className="overflow-hidden lg:h-[calc(100dvh-24px)]">
       {createDraftModal && (
         <CreateDraftForm
           onClose={() => setCreateDraftModal(false)}
@@ -114,29 +114,28 @@ export default function ContractDraftGeneration() {
             </Button>
           </div>
         </div>
-
-        <div className="flex flex-row justify-between items-center md:px-5 px-4 mt-5">
-          <div className="flex flex-row gap-2.5 md:w-auto w-full">
-            <SearchComponent
-              onChange={(e) => setSearch(e.target.value)}
-              value={search}
-            />
-            <FilterPopup
-              hasFilters={hasFilters}
-              setFilters={setFilters}
-              tempFilters={tempFilters}
-              setTempFilters={setTempFilters}
-            />
-          </div>
-          <div className="hidden md:block">
-            <span className="font-medium">
-              Total drafts: {rest?.contractList?.length}
-            </span>
-          </div>
+      </div>
+      <div className="flex flex-row justify-between items-center md:px-5 px-4 mt-5">
+        <div className="flex flex-row gap-2.5 md:w-auto w-full">
+          <SearchComponent
+            onChange={(e) => setSearch(e.target.value)}
+            value={search}
+          />
+          <FilterPopup
+            hasFilters={hasFilters}
+            setFilters={setFilters}
+            tempFilters={tempFilters}
+            setTempFilters={setTempFilters}
+          />
+        </div>
+        <div className="hidden md:block">
+          <span className="font-medium">
+            Total drafts: {rest?.contractList?.length}
+          </span>
         </div>
       </div>
 
-      <div className="py-4 flex flex-col h-[calc(100dvh-130px)] md:h-[calc(100dvh-180px)]">
+      <div className="py-4 md:pb-4 flex flex-col h-[calc(100dvh-130px)] md:h-[calc(100dvh-160px)]">
         <div className="w-full px-5 md:hidden mb-4 flex justify-between items-center">
           {hasFilters ? (
             <>
@@ -252,7 +251,7 @@ export default function ContractDraftGeneration() {
           )}
         </div>
 
-        <div className="md:px-5 lg:pb-12 px-4 flex flex-col gap-4 overflow-auto flex-1">
+        <div className="md:px-5 lg:pb-4 px-4 flex flex-col gap-4 overflow-auto flex-1">
           {rest.loading && <CardSkeleton />}
           {!rest.loading &&
             rest.contractList?.map((contract: any) => (
@@ -310,7 +309,7 @@ function CardSkeleton() {
   return (
     <div className="bg-white w-full flex flex-row p-4 justify-between rounded-[12px] shadow-[2px_4px_9px_0px_rgba(107,103,158,0.05)] animate-pulse">
       <div className="flex flex-row gap-4 items-center">
-        <div className="bg-[#F5FAF0] p-3 rounded-[8px] h-fit">
+        <div className="bg-[#F5FAF0] p-3 rounded-[8px] h-[100%] flex flex-col justify-center">
           <DocumentIcon className="[&>g>path]:fill-[#5E9B22] [&>path]:fill-[#5E9B22] w-8 h-8" />
         </div>
         <div className="flex flex-col gap-3">
