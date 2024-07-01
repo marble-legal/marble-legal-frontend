@@ -9,6 +9,7 @@ import ProfileImageIcon from "../../../assets/icons/profile.svg";
 import { getInitial } from "../../../helpers/utils";
 import MDEditor from "@uiw/react-md-editor";
 import { useAuth } from "../../../AuthContext";
+import { ShowToast } from "../../../components/toast";
 
 export function Message({
   conversation,
@@ -133,7 +134,13 @@ export function Message({
             />
           </button>
           <button
-            onClick={() => handleCopy(conversation.message)}
+            onClick={() => {
+              handleCopy(conversation.message);
+              ShowToast({
+                message: "Copied to clipboard",
+                type: "success",
+              });
+            }}
             className="w-4 h-4 rounded justify-center items-center flex hover:opacity-70 transition-all"
           >
             <CopyIcon
