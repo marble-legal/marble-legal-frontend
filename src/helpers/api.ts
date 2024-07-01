@@ -207,4 +207,7 @@ export const api = {
     const url = `/users/${userId}/subscriptions/${subscriptionId}`;
     return apiClient.delete(url);
   },
+  updateActivity: (id: string) => {
+    return apiClient.post(`/users/${id}/active`);
+  },
 };

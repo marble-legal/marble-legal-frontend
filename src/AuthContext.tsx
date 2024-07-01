@@ -28,6 +28,22 @@ export const AuthProvider = ({ children }) => {
     }
   }, [userData]);
 
+  // Call updateActivity once when the component mounts
+  useEffect(() => {
+    const updateActivity = async () => {
+      try {
+        await api.updateActivity(userId);
+        console.log("User activity updated");
+      } catch (error) {
+        console.error("Failed to update user activity", error);
+      }
+    };
+
+    if (userId) {
+      updateActivity();
+    }
+  }, [userId]);
+
   // Value provided by the context
   const value = {
     user,
