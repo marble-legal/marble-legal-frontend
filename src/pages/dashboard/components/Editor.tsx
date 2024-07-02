@@ -27,7 +27,7 @@ export function Editor({
 
   return (
     <div>
-      <div className="px-4 py-3.5 bg-white rounded-lg border border-[#DBDCE8] justify-between items-center flex">
+      <div className="px-4 py-3.5 bg-white rounded-lg border border-[#DBDCE8] justify-between items-end flex">
         <div className="justify-start flex-1 items-center flex">
           {/* <textarea
             value={message}

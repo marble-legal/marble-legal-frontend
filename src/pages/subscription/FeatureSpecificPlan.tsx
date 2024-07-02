@@ -104,7 +104,8 @@ const FeatureSpecificPlanModal: React.FC<{
                 disabled={
                   data.id === "attorneyReview" &&
                   formData.contractDrafting === 0 &&
-                  formData.contractAnalysis === 0
+                  formData.contractAnalysis === 0 &&
+                  formData.businessEntity === 0
                 }
               />
             );
