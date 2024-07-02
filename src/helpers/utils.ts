@@ -111,8 +111,7 @@ export function getInitial(firstName: string, lastName: string) {
   }
 }
 
-export function downloadPDF(url: string) {
-  const fileName = url.split("/").pop() || "file.pdf";
+export function downloadFile(url: string, fileName: string) {
   fetch(url)
     .then((res) => res.blob())
     .then((blob) => {
@@ -122,6 +121,16 @@ export function downloadPDF(url: string) {
       a.download = fileName;
       a.click();
     });
+}
+
+export function downloadDoc(url: string) {
+  const fileName = url.split("/").pop() || "file.docx";
+  downloadFile(url, fileName);
+}
+
+export function downloadPDF(url: string) {
+  const fileName = url.split("/").pop() || "file.pdf";
+  downloadFile(url, fileName);
 }
 
 export function copyToClipboard(element: string) {

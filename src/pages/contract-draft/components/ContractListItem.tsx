@@ -4,7 +4,7 @@ import { ReactComponent as DeleteIcon } from "../../../assets/icons/delete.svg";
 import { ReactComponent as DownloadIcon } from "../../../assets/icons/download.svg";
 import { ReactComponent as ViewIcon } from "../../../assets/icons/view.svg";
 import UIPopover from "../../../components/Popover";
-import { downloadPDF } from "../../../helpers/utils";
+import { downloadDoc, downloadPDF } from "../../../helpers/utils";
 import moment from "moment";
 
 export function ContractListItem({ contract, onView, onDelete }) {
@@ -13,6 +13,13 @@ export function ContractListItem({ contract, onView, onDelete }) {
       downloadPDF(contract?.pdfUrl);
     }
   };
+
+  const handleDocDownload = (contract) => {
+    if (contract?.docUrl) {
+      downloadDoc(contract?.docUrl);
+    }
+  };
+
   return (
     <div className="bg-white w-full flex flex-row p-4 justify-between gap-5 rounded-[12px] shadow-[2px_4px_9px_0px_rgba(107,103,158,0.05)]">
       <div className="flex flex-1 flex-row gap-4 items-start md:items-center">
@@ -56,6 +63,11 @@ export function ContractListItem({ contract, onView, onDelete }) {
                 close();
                 handleDownload(contract);
               }}
+              onDocDownload={() => {
+                close();
+                handleDocDownload(contract);
+              }}
+              contract={contract}
             />
           )}
         </UIPopover>
@@ -64,7 +76,13 @@ export function ContractListItem({ contract, onView, onDelete }) {
   );
 }
 
-const Dropdown = ({ onDelete, onView, onDownload }) => {
+const Dropdown = ({
+  onDelete,
+  onView,
+  onDownload,
+  onDocDownload,
+  contract,
+}) => {
   return (
     <div
       style={{ zIndex: 2 }}
@@ -95,9 +113,23 @@ const Dropdown = ({ onDelete, onView, onDownload }) => {
             }}
           >
             <DownloadIcon />
-            Download
+            Download PDF
           </button>
         </li>
+        {contract?.docUrl && (
+          <li>
+            <button
+              className="w-full text-[#808080] font-[500] px-3 h-10 flex gap-2.5 items-center text-base rounded-[10px] hover:bg-[#F1F6F1]"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDocDownload();
+              }}
+            >
+              <DownloadIcon />
+              Download Docx
+            </button>
+          </li>
+        )}
         <li>
           <button
             className="w-full text-[#808080] font-[500] px-3 h-10 flex gap-2.5 items-center text-base rounded-[10px] hover:bg-[#F1F6F1]"

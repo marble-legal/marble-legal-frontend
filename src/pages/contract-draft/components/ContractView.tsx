@@ -10,13 +10,17 @@ import { ReactComponent as CheckIcon } from "../../../assets/icons/check.svg";
 
 import { ReactComponent as DownloadIcon } from "../../../assets/icons/download.svg";
 import { DeleteContractDraftConfirm } from "./DeleteContractDraftConfirm";
-import { copyToClipboard, downloadPDF } from "../../../helpers/utils";
+import {
+  copyToClipboard,
+  downloadDoc,
+  downloadPDF,
+} from "../../../helpers/utils";
 import ReactQuill from "react-quill";
 import { ShowToast } from "../../../components/toast";
 import { api } from "../../../helpers/api";
 import Spinner from "../../../components/Spinners";
 
-function ViewAction({ onEdit, onDownload, onCopy, isCopied }) {
+function ViewAction({ onEdit, onDownload, onCopy, isCopied, onDocDownload }) {
   return (
     <div className="bg-white md:bg-transparent text-xs md:text-sm rounded-[10px] px-6 md:px-0 flex items-center gap-3">
       <button
@@ -24,7 +28,14 @@ function ViewAction({ onEdit, onDownload, onCopy, isCopied }) {
         className="py-4 flex items-center gap-1.5 hover:text-black/60"
       >
         <DownloadIcon />
-        Download
+        <span className="hidden lg:inline">Download </span>PDF
+      </button>
+      <button
+        onClick={onDocDownload}
+        className="py-4 flex items-center gap-1.5 hover:text-black/60"
+      >
+        <DownloadIcon />
+        <span className="hidden lg:inline">Download </span>Docx
       </button>
       <div className="h-3 border-l border-l-[#A69EC8]/60" />
       <button
@@ -152,6 +163,12 @@ export function ContractView({ isOpen, onClose, contract, onUpdate }) {
     }
   };
 
+  const handleDocDownload = (contract) => {
+    if (contract?.docUrl) {
+      downloadDoc(contract?.docUrl);
+    }
+  };
+
   useEffect(() => {
     if (isOpen && contract) {
       fetchContract(contract.id);
@@ -174,6 +191,7 @@ export function ContractView({ isOpen, onClose, contract, onUpdate }) {
                   onDownload={() => handleDownload(contractDetails)}
                   onEdit={() => setEdit({ ...contractDetails })}
                   isCopied={isCopied}
+                  onDocDownload={() => handleDocDownload(contractDetails)}
                 />
                 <div className="bg-white md:bg-transparent rounded-[10px] px-2.5 text-xs md:text-sm">
                   <button
@@ -181,7 +199,7 @@ export function ContractView({ isOpen, onClose, contract, onUpdate }) {
                     className="py-4 flex items-center gap-1.5 hover:text-black/60"
                   >
                     <DeleteIcon />
-                    Delete
+                    <span className="hidden lg:inline">Delete</span>
                   </button>
                 </div>
               </div>
@@ -206,6 +224,7 @@ export function ContractView({ isOpen, onClose, contract, onUpdate }) {
               onDownload={() => handleDownload(contractDetails)}
               onEdit={() => setEdit(contractDetails)}
               isCopied={isCopied}
+              onDocDownload={() => handleDocDownload(contractDetails)}
             />
             <button
               onClick={() => onDelete(contractDetails)}
