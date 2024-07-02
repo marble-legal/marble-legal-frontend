@@ -191,7 +191,11 @@ export const api = {
   deleteEntity: (id: string) => {
     return apiClient.delete(`/business-entities/${id}`);
   },
-  getStripeUrl: (id: string, tier: "IN" | "SB" | "SP", planType: "M" | "Y") => {
+  getStripeUrl: (
+    id: string,
+    tier: "IN" | "SB" | "SP" | "CU",
+    planType: "M" | "Y"
+  ) => {
     return apiClient.get(`/users/${id}/stripe-connect-url`, {
       params: {
         redirectUrl: `${window.location.origin}/dashboard`,

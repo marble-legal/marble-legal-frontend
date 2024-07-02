@@ -6,8 +6,8 @@ import { ReactComponent as AttorneyIcon } from "../assets/icons/attorny.svg";
 
 export const SubscriptionTier = {
   Basic: "IN",
-  Standard: "SP",
-  Enterprise: "SB",
+  Standard: "SB",
+  Enterprise: "SP",
   Customised: "CU",
 };
 
