@@ -4,7 +4,7 @@ import { ReactComponent as MessageText } from "../../../assets/icons/message-tex
 export function EmptyState() {
   return (
     <div className="self-center flex flex-col items-center">
-      <div className="bg-white rounded-[12px] flex justify-center items-center">
+      <div className="rounded-[12px] flex justify-center items-center">
         <Logo />
       </div>
       <div className="text-black mt-[8px] mb-7 font-medium text-base leading-[27.2px] text-center">
