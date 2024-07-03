@@ -204,7 +204,7 @@ export function EntityDetailsCard({
         ) : (
           <StatusBadge status="Refused" />
         )}
-        {data?.status === 1 && (
+        {/* {data?.status === 1 && (
           <button
             className="p-1.5 bg-[#FFF0F0] border border-[#F1D0CD] rounded-md hover:bg-[#F1D0CD] transition-all"
             onClick={handleDelete}
@@ -212,7 +212,7 @@ export function EntityDetailsCard({
           >
             <DeleteIcon />
           </button>
-        )}
+        )} */}
       </div>
     </button>
   );
