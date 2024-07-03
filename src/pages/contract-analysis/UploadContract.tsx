@@ -22,7 +22,7 @@ export function UploadContract({
     return (
       <PopupModal
         onClose={handleClose}
-        contentClassName="md:max-w-[600px] px-4 max-w-full mx-auto max-h-[400px]"
+        contentClassName="md:max-w-[600px] px-4 max-w-full mx-auto max-h-[450px] overflow-auto"
       >
         <UploadContent onSuccess={onSuccess} disabled={disabled} />
       </PopupModal>
