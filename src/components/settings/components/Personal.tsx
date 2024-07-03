@@ -22,21 +22,23 @@ export default function Personal({
   const [isImageUploading, setImageUploading] = useState(false);
 
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e?.target?.files?.[0];
+    if (!file) return;
     setImageUploading(true);
     api
       .getSignedUrl({
         id: user.id,
         data: {
-          mimeType: e?.target?.files?.[0]?.type,
+          mimeType: file?.type,
           uploadType: "USER_PROFILE",
-          fileName: e?.target?.files?.[0]?.name,
+          fileName: file?.name,
         },
       })
       .then((res: any) => {
         axios
-          .put(res.data.uploadUrl, e?.target?.files?.[0], {
+          .put(res.data.uploadUrl, file, {
             headers: {
-              "Content-Type": e?.target?.files?.[0].type,
+              "Content-Type": file?.type,
             },
           })
           .then(() => {
