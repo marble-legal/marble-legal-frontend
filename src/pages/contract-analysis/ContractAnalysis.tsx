@@ -127,21 +127,23 @@ export default function ContractAnalysis() {
             }}
           />
         )}
-        <>
-          <div className="h-[calc(100dvh-62px)] lg:h-[calc(100dvh-102px)] px-[18px] lg:px-6 py-4 flex flex-col lg:flex-row gap-2.5">
-            <div className="hidden lg:block">
-              <ContractList
-                list={contractList}
-                onSelect={handleContractSelect}
-                selectedContract={selectedContract}
-                isLoading={loading}
-              />
+        {!uploadContract && (
+          <>
+            <div className="h-[calc(100dvh-62px)] lg:h-[calc(100dvh-102px)] px-[18px] lg:px-6 py-4 flex flex-col lg:flex-row gap-2.5">
+              <div className="hidden lg:block">
+                <ContractList
+                  list={contractList}
+                  onSelect={handleContractSelect}
+                  selectedContract={selectedContract}
+                  isLoading={loading}
+                />
+              </div>
+              <div className="bg-white pb-4 lg:pb-0 flex-1 flex-grow rounded-[12px]">
+                <ContractMessaging />
+              </div>
             </div>
-            <div className="bg-white pb-4 lg:pb-0 flex-1 flex-grow rounded-[12px]">
-              <ContractMessaging />
-            </div>
-          </div>
-        </>
+          </>
+        )}
       </div>
       {/* {bottomView && ( */}
       <BottomView open={bottomView} onClose={() => setBottomView(false)}>
