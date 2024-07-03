@@ -57,13 +57,8 @@ export default function Sidebar({
     >
       <SideBarHue className="absolute top-0 left-0 z-0" />
       <div className="border-[1px] border-solid border-[#E5EFF6] p-4 rounded-[12px] bg-[#FDFEFD] mb-5 z-[1] bg-transparent">
-        <Link
-          to="/home"
-          className="flex font-outfit font-[500] text-[1.125rem] items-center gap-1"
-        >
-          <img src={LogoIcon} alt="logo" className="h-[1.875rem]" />
-          {/* <span>Marble Legal</span> */}
-        </Link>
+        <img src={LogoIcon} alt="logo" className="h-[1.875rem]" />
+        {/* <span>Marble Legal</span> */}
       </div>
 
       <div className="grid gap-[0.375rem] z-[1]">
