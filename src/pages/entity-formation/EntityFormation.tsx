@@ -49,7 +49,9 @@ export default function EntityFormation() {
   };
 
   const handleCreateEntity = () => {
-    if (!subscriptionStatus.businessEntity) {
+    const canCreateEntity = subscriptionStatus.currentBusinessEntity > 0;
+    // !subscriptionStatus.businessEntity
+    if (!canCreateEntity) {
       navigate("/subscription");
     } else {
       setIsCreateEntityOpen(true);

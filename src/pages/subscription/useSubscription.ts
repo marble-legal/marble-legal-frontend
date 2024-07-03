@@ -151,86 +151,97 @@ const useStripeSession = () => {
     if (
       [
         SubscriptionTier.Basic,
-        SubscriptionTier.Enterprise,
+        // SubscriptionTier.Enterprise,
         SubscriptionTier.Standard,
       ].includes(subscription.tier)
     ) {
-      return {
+      subscriptionStatus = {
         ...subscriptionStatus,
 
         aiAssistant: true,
         contractAnalysis: true,
         contractDrafting: true,
-        businessEntity: true,
+        businessEntity: false,
         attorneyReview: false,
       };
-    } else {
-      // customised subscription
-      subscriptionStatus.isCustomised = true;
-      const { currentCredit, assignedCredit } = subscription;
-      const assignedAiAssistant = subscription.assignedCredit.find(
-        (credit) => credit.feature === FeatureCode.aiAssitant
-      );
-      const assignedContractAnalysis = subscription.assignedCredit.find(
-        (credit) => credit.feature === FeatureCode.contractAnalysis
-      );
-      const assignedContractDrafting = subscription.assignedCredit.find(
-        (credit) => credit.feature === FeatureCode.contractDrafting
-      );
-      const assignedBusinessEntity = subscription.assignedCredit.find(
-        (credit) => credit.feature === FeatureCode.businessEntity
-      );
-      const assignedAttorneyReview = subscription.assignedCredit.find(
-        (credit) => credit.feature === FeatureCode.attorneyReview
-      );
+    }
+    // customised subscription
+    subscriptionStatus.isCustomised = true;
+    const { currentCredit = [], assignedCredit = [] } = subscription;
+    const assignedAiAssistant = assignedCredit.find(
+      (credit) => credit.feature === FeatureCode.aiAssitant
+    );
+    const assignedContractAnalysis = assignedCredit.find(
+      (credit) => credit.feature === FeatureCode.contractAnalysis
+    );
+    const assignedContractDrafting = assignedCredit.find(
+      (credit) => credit.feature === FeatureCode.contractDrafting
+    );
+    const assignedBusinessEntity = assignedCredit.find(
+      (credit) => credit.feature === FeatureCode.businessEntity
+    );
+    const assignedAttorneyReview = assignedCredit.find(
+      (credit) => credit.feature === FeatureCode.attorneyReview
+    );
 
-      // current credit
-      const currentAiAssistant = subscription.currentCredit.find(
-        (credit) => credit.feature === FeatureCode.aiAssitant
-      );
-      const currentContractAnalysis = subscription.currentCredit.find(
-        (credit) => credit.feature === FeatureCode.contractAnalysis
-      );
-      const currentContractDrafting = subscription.currentCredit.find(
-        (credit) => credit.feature === FeatureCode.contractDrafting
-      );
-      const currentBusinessEntity = subscription.currentCredit.find(
-        (credit) => credit.feature === FeatureCode.businessEntity
-      );
-      const currentAttorneyReview = subscription.currentCredit.find(
-        (credit) => credit.feature === FeatureCode.attorneyReview
-      );
+    // current credit
+    const currentAiAssistant = currentCredit.find(
+      (credit) => credit.feature === FeatureCode.aiAssitant
+    );
+    const currentContractAnalysis = currentCredit.find(
+      (credit) => credit.feature === FeatureCode.contractAnalysis
+    );
+    const currentContractDrafting = currentCredit.find(
+      (credit) => credit.feature === FeatureCode.contractDrafting
+    );
+    const currentBusinessEntity = currentCredit.find(
+      (credit) => credit.feature === FeatureCode.businessEntity
+    );
+    const currentAttorneyReview = currentCredit.find(
+      (credit) => credit.feature === FeatureCode.attorneyReview
+    );
 
-      // check for aiAssistant
-      subscriptionStatus.aiAssistant =
-        Number(currentAiAssistant?.quantity || 0) > 0;
-      subscriptionStatus.contractAnalysis =
-        Number(currentContractAnalysis?.quantity || 0) > 0;
-      subscriptionStatus.contractDrafting =
-        Number(currentContractDrafting?.quantity || 0) > 0;
-      subscriptionStatus.businessEntity =
-        Number(currentBusinessEntity?.quantity || 0) > 0;
-      subscriptionStatus.attorneyReview =
-        Number(currentAttorneyReview?.quantity || 0) > 0;
+    // check for aiAssistant
+    subscriptionStatus.aiAssistant =
+      Number(currentAiAssistant?.quantity || 0) > 0;
+    subscriptionStatus.contractAnalysis =
+      Number(currentContractAnalysis?.quantity || 0) > 0;
+    subscriptionStatus.contractDrafting =
+      Number(currentContractDrafting?.quantity || 0) > 0;
+    subscriptionStatus.businessEntity =
+      Number(currentBusinessEntity?.quantity || 0) > 0;
+    subscriptionStatus.attorneyReview =
+      Number(currentAttorneyReview?.quantity || 0) > 0;
 
+    subscriptionStatus = {
+      ...subscriptionStatus,
+      assignedAiAssistant: Number(assignedAiAssistant?.quantity) || 0,
+      assignedContractAnalysis: Number(assignedContractAnalysis?.quantity) || 0,
+      assignedContractDrafting: Number(assignedContractDrafting?.quantity) || 0,
+      assignedBusinessEntity: Number(assignedBusinessEntity?.quantity) || 0,
+      assignedAttorneyReview: Number(assignedAttorneyReview?.quantity) || 0,
+
+      currentAiAssistant: Number(currentAiAssistant?.quantity) || 0,
+      currentContractAnalysis: Number(currentContractAnalysis?.quantity) || 0,
+      currentContractDrafting: Number(currentContractDrafting?.quantity) || 0,
+      currentBusinessEntity: Number(currentBusinessEntity?.quantity) || 0,
+      currentAttorneyReview: Number(currentAttorneyReview?.quantity) || 0,
+    };
+
+    // check for Standard tier subscription, unlimited
+    if (
+      SubscriptionTier.Standard === subscription.tier ||
+      SubscriptionTier.Basic === subscription.tier
+    ) {
       subscriptionStatus = {
         ...subscriptionStatus,
-        assignedAiAssistant: Number(assignedAiAssistant?.quantity) || 0,
-        assignedContractAnalysis:
-          Number(assignedContractAnalysis?.quantity) || 0,
-        assignedContractDrafting:
-          Number(assignedContractDrafting?.quantity) || 0,
-        assignedBusinessEntity: Number(assignedBusinessEntity?.quantity) || 0,
-        assignedAttorneyReview: Number(assignedAttorneyReview?.quantity) || 0,
-
-        currentAiAssistant: Number(currentAiAssistant?.quantity) || 0,
-        currentContractAnalysis: Number(currentContractAnalysis?.quantity) || 0,
-        currentContractDrafting: Number(currentContractDrafting?.quantity) || 0,
-        currentBusinessEntity: Number(currentBusinessEntity?.quantity) || 0,
-        currentAttorneyReview: Number(currentAttorneyReview?.quantity) || 0,
+        aiAssistant: true,
+        contractAnalysis: true,
+        contractDrafting: true,
       };
-      return subscriptionStatus;
     }
+
+    return subscriptionStatus;
   }, [activeSubscription]);
 
   useEffect(() => {
