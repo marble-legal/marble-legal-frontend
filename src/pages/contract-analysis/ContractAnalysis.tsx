@@ -4,7 +4,7 @@ import { ReactComponent as ListIcon } from "../../assets/icons/list.svg";
 import SearchComponent from "../../components/Search";
 import { ReactComponent as ArrowIcon } from "../../assets/icons/arrow.svg";
 import { cva } from "class-variance-authority";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { getUser } from "../../helpers/utils";
 import { api } from "../../helpers/api";
 import Dropzone from "react-dropzone";
@@ -17,12 +17,15 @@ import { BottomView } from "../../components/BottomView";
 import { useContractAnalysis } from "./contract-analysis-context";
 import useSubscription from "../subscription/useSubscription";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../AuthContext";
+import { FeatureCode, SubscriptionTier } from "../../helpers/consts";
 
 export default function ContractAnalysis() {
   const navigate = useNavigate();
   const {
     isLoading,
     subscriptionStatus,
+    subscription,
     refetch: refetchSubscription,
   } = useSubscription();
   const [bottomView, setBottomView] = useState(false);
@@ -30,6 +33,7 @@ export default function ContractAnalysis() {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const { contractList, loading, setSelectedContract, selectedContract } =
     useContractAnalysis() as any;
+  const { user: userDetails, refetch: refetchUser } = useAuth();
 
   const handleContractSelect = (contract: any) => {
     setUploadContract(false);
@@ -37,8 +41,22 @@ export default function ContractAnalysis() {
     setSelectedContract(contract);
   };
 
+  const analysisCredit = userDetails?.currentCredit?.find(
+    (item) => item.feature === FeatureCode.contractAnalysis
+  );
+
+  const isAnalysisEnabled = useMemo(() => {
+    if (subscription?.tier === SubscriptionTier.Standard) {
+      return true;
+    }
+    if (analysisCredit && analysisCredit?.quantity > 0) {
+      return true;
+    }
+    return false;
+  }, [subscription, analysisCredit]);
+
   const handleUploadContract = () => {
-    if (!subscriptionStatus.contractAnalysis) {
+    if (!isAnalysisEnabled) {
       navigate("/subscription");
     } else if (contractList?.length === 0) {
       setUploadContract(true);
@@ -55,17 +73,28 @@ export default function ContractAnalysis() {
     }
   }, [contractList, loading]);
 
+  const renderCredit = () => {
+    if (subscription?.tier === SubscriptionTier.Standard) {
+      return null;
+    }
+    return (
+      <>
+        {analysisCredit && (
+          <span className="text-sm">
+            {analysisCredit?.quantity}{" "}
+            <span className="hidden md:inline">credits </span>left
+          </span>
+        )}
+      </>
+    );
+  };
+
   return (
     <>
       <MobileMenu
         renderAction={
           <div className="flex justify-end items-center gap-2">
-            {subscriptionStatus.assignedContractAnalysis > 0 && (
-              <span className="text-[0.875rem]">
-                {subscriptionStatus.currentContractAnalysis}/
-                {subscriptionStatus.assignedContractAnalysis}
-              </span>
-            )}
+            {renderCredit()}
             <Button
               className="w-8 h-8 flex justify-center bg-white border border-[#D7D7D7] rounded-[10px] items-center !px-0 !py-4"
               onClick={() => setBottomView(true)}
@@ -88,12 +117,7 @@ export default function ContractAnalysis() {
             Contract Analysis
           </h1>
           <div className="flex items-center gap-2">
-            {subscriptionStatus.assignedContractAnalysis > 0 && (
-              <span className="text-[0.875rem]">
-                {subscriptionStatus.currentContractAnalysis}/
-                {subscriptionStatus.assignedContractAnalysis} credits left
-              </span>
-            )}
+            {renderCredit()}
             {!loading && !uploadContract && (
               <Button
                 variant="primary"
@@ -108,8 +132,9 @@ export default function ContractAnalysis() {
         </div>
         {isUploadModalOpen && (
           <UploadContract
-            disabled={!subscriptionStatus.contractAnalysis}
+            disabled={!isAnalysisEnabled}
             onSuccess={() => {
+              refetchUser();
               refetchSubscription();
               setIsUploadModalOpen(false);
             }}
@@ -120,7 +145,7 @@ export default function ContractAnalysis() {
         )}
         {uploadContract && (
           <UploadContract
-            disabled={!subscriptionStatus.contractAnalysis}
+            disabled={!isAnalysisEnabled}
             onSuccess={() => {
               refetchSubscription();
               setUploadContract(false);

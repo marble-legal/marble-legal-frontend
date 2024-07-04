@@ -248,6 +248,8 @@ const useStripeSession = () => {
     refetch();
   }, [pathname]);
 
+  const subscription = activeSubscription?.[0];
+
   return {
     handleGetStripeSession,
     stripeLoading,
@@ -256,6 +258,7 @@ const useStripeSession = () => {
     isLoading,
     refetch,
     subscriptionStatus,
+    subscription,
   };
 };
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { api } from "../../helpers/api";
 import Button from "../../components/Button";
 import { ReactComponent as LikeIcon } from "../../assets/icons/like.svg";
@@ -12,9 +12,11 @@ import React from "react";
 import { getUser } from "../../helpers/utils";
 import MobileMenu from "../../components/MobileMenu";
 import useSubscription from "../subscription/useSubscription";
+import { useAuth } from "../../AuthContext";
+import { FeatureCode, SubscriptionTier } from "../../helpers/consts";
 
 export default function Dashboard() {
-  const { isLoading, subscriptionStatus } = useSubscription();
+  const { isLoading, subscription, subscriptionStatus } = useSubscription();
   const [conversation, setConversation] = useState<any[]>([]);
   const [message, setMessage] = useState("");
   const [sending, setSending] = useState(false);
@@ -24,6 +26,7 @@ export default function Dashboard() {
   const [error, setError] = useState("");
   const listRef = React.useRef<HTMLDivElement | null>(null);
   const user = getUser();
+  const { user: userDetails, refetch: refetchUser } = useAuth();
 
   const askQuery = async (message: string) => {
     if (!message) return;
@@ -34,6 +37,7 @@ export default function Dashboard() {
       setSending(false);
       if ([200, 201].includes(response.status)) {
         setCurrentReply(response.data);
+        refetchUser();
         fetchConversation(false);
       }
     } catch (error) {
@@ -113,15 +117,50 @@ export default function Dashboard() {
   }, [conversation, currentReply, currentUserMessage]);
 
   const isEmpty = !conversation.length && !loading;
+  const assistentCredit = userDetails?.currentCredit?.find(
+    (item) => item.feature === FeatureCode.aiAssitant
+  );
+  const isPromptEnabled = useMemo(() => {
+    if (subscription?.tier === SubscriptionTier.Standard) {
+      return true;
+    }
+    if (assistentCredit && assistentCredit?.quantity > 0) {
+      return true;
+    }
+    return false;
+  }, [subscription, assistentCredit]);
+
+  const renderCredit = () => {
+    if (subscription?.tier === SubscriptionTier.Standard) {
+      return null;
+    }
+    return (
+      <>
+        {assistentCredit && (
+          <span className="text-sm">
+            {assistentCredit?.quantity} query left
+          </span>
+        )}
+      </>
+    );
+  };
+
   return (
     <>
-      <MobileMenu />
+      <MobileMenu
+        renderAction={
+          <div className="flex justify-end items-center gap-2">
+            {renderCredit()}
+          </div>
+        }
+      />
 
       <div className="relative flex flex-col h-[calc(100dvh-56px)] md:h-[calc(100dvh-110px)] lg:h-full">
-        <div className="hidden lg:block shadow-header px-[1.875rem] py-4 border-b-solid border-b-[1px] border-[#DADCE2]">
+        <div className="hidden lg:flex justify-between items-center shadow-header px-[1.875rem] py-4 border-b-solid border-b-[1px] border-[#DADCE2]">
           <h1 className="font-outfit text-[1.25rem] font-[500]">
             Legal AI assistant
           </h1>
+          <div>{renderCredit()}</div>
         </div>
         <div
           style={{
@@ -190,7 +229,7 @@ export default function Dashboard() {
         </div>
         <div className="w-full self-center px-[18px] md:w-[580px] mb-4">
           <Editor
-            disabled={!subscriptionStatus.aiAssistant}
+            disabled={!isPromptEnabled}
             onSend={askQuery}
             isSending={sending}
           />

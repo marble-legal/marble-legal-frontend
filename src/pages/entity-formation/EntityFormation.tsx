@@ -4,7 +4,7 @@ import { ReactComponent as BuildingIcon } from "../../assets/icons/internal-buil
 import { ReactComponent as ClockIcon } from "../../assets/icons/clock.svg";
 import { ReactComponent as DeleteIcon } from "../../assets/icons/delete.svg";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import EntityDetails from "./EntityDetails";
 import MobileMenu from "../../components/MobileMenu";
 import CreateEntity from "./CreateEntity";
@@ -17,12 +17,14 @@ import { ShowToast } from "../../components/toast";
 import useSubscription from "../subscription/useSubscription";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
+import { FeatureCode, SubscriptionTier } from "../../helpers/consts";
 
 export default function EntityFormation() {
   const navigate = useNavigate();
   const {
     isLoading: subscriptionLoading,
     subscriptionStatus,
+    subscription,
     refetch: refetchSubscription,
   } = useSubscription();
   const { user } = useAuth();
@@ -32,6 +34,7 @@ export default function EntityFormation() {
   const handleDetailsClose = () => setIsDetailsOpen(false);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
+  const { user: userDetails, refetch: refetchUser } = useAuth();
 
   const fetchEntities = async () => {
     setIsLoading(true);
@@ -48,10 +51,19 @@ export default function EntityFormation() {
     }
   };
 
+  const entityFormationCredit = userDetails?.currentCredit?.find(
+    (item) => item.feature === FeatureCode.businessEntity
+  );
+
+  const isEntityFormationEnabled = useMemo(() => {
+    if (entityFormationCredit && entityFormationCredit?.quantity > 0) {
+      return true;
+    }
+    return false;
+  }, [subscription, entityFormationCredit]);
+
   const handleCreateEntity = () => {
-    const canCreateEntity = subscriptionStatus.currentBusinessEntity > 0;
-    // !subscriptionStatus.businessEntity
-    if (!canCreateEntity) {
+    if (!isEntityFormationEnabled) {
       navigate("/subscription");
     } else {
       setIsCreateEntityOpen(true);
@@ -64,18 +76,28 @@ export default function EntityFormation() {
     }
   }, [user?.id]);
 
+  const renderCredit = () => {
+    if (subscription?.tier === SubscriptionTier.Standard) {
+      return null;
+    }
+    return (
+      <>
+        {entityFormationCredit && (
+          <span className="text-sm">
+            {entityFormationCredit?.quantity}{" "}
+            <span className="hidden md:inline">credits </span>left
+          </span>
+        )}
+      </>
+    );
+  };
+
   return (
     <div className="h-full">
       <MobileMenu
         renderAction={
           <div className="flex justify-end gap-2 items-center">
-            {subscriptionStatus.assignedBusinessEntity > 0 && (
-              <span className="text-[0.875rem]">
-                {subscriptionStatus.assignedBusinessEntity -
-                  subscriptionStatus.currentBusinessEntity}
-                /{subscriptionStatus.assignedBusinessEntity}
-              </span>
-            )}
+            {renderCredit()}
             <Button className="!p-2" onClick={handleCreateEntity}>
               <PlusIcon />
             </Button>
@@ -102,12 +124,7 @@ export default function EntityFormation() {
         </h1>
 
         <div className="flex items-center gap-2">
-          {subscriptionStatus.assignedBusinessEntity > 0 && (
-            <span className="text-[0.875rem]">
-              {subscriptionStatus.currentBusinessEntity}/
-              {subscriptionStatus.assignedBusinessEntity} credits left
-            </span>
-          )}
+          {renderCredit()}
           <Button
             variant="primary"
             className="flex gap-1 px-6 py-3 bg-[#B84242] border-[#B85042] font-[500]"

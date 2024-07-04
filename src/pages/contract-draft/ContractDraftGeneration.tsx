@@ -14,16 +14,23 @@ import { FilterPopup } from "./components/Filters";
 import moment from "moment";
 import useSubscription from "../subscription/useSubscription";
 import { useNavigate } from "react-router-dom";
-import { contractTypes } from "../../helpers/consts";
+import {
+  FeatureCode,
+  SubscriptionTier,
+  contractTypes,
+} from "../../helpers/consts";
 import useResponsive from "../../helpers/useResponsive";
+import { useAuth } from "../../AuthContext";
 
 export default function ContractDraftGeneration() {
   const navigate = useNavigate();
   const { isAnyMobile } = useResponsive();
-  const { isLoading, subscriptionStatus, refetch } = useSubscription();
+  const { isLoading, subscription, subscriptionStatus, refetch } =
+    useSubscription();
   const [createDraftModal, setCreateDraftModal] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   const contentRef = useRef<any>(null);
+  const { user: userDetails, refetch: refetchUser } = useAuth();
   const {
     search,
     setSearch,
@@ -52,8 +59,22 @@ export default function ContractDraftGeneration() {
     setSelectedContract(contract);
   };
 
+  const draftCredit = userDetails?.currentCredit?.find(
+    (item) => item.feature === FeatureCode.contractDrafting
+  );
+
+  const isDraftEnabled = useMemo(() => {
+    if (subscription?.tier === SubscriptionTier.Standard) {
+      return true;
+    }
+    if (draftCredit && draftCredit?.quantity > 0) {
+      return true;
+    }
+    return false;
+  }, [subscription, draftCredit]);
+
   const handleCreateDraft = () => {
-    if (!subscriptionStatus.contractDrafting) {
+    if (!isDraftEnabled) {
       navigate("/subscription");
     } else {
       setCreateDraftModal(true);
@@ -83,6 +104,19 @@ export default function ContractDraftGeneration() {
 
   // console.log(subscriptionStatus);
 
+  const renderCredit = () => {
+    if (subscription?.tier === SubscriptionTier.Standard) {
+      return null;
+    }
+    return (
+      <>
+        {draftCredit && (
+          <span className="text-xs">{draftCredit?.quantity} credits left</span>
+        )}
+      </>
+    );
+  };
+
   return (
     <div className="overflow-hidden lg:h-[calc(100dvh-24px)]">
       {createDraftModal && (
@@ -97,13 +131,7 @@ export default function ContractDraftGeneration() {
       <MobileMenu
         renderAction={
           <div className="flex justify-end gap-2 items-center">
-            {subscriptionStatus.assignedContractDrafting > 0 && (
-              <span className="text-[0.875rem] text-black/60 font-medium">
-                {subscriptionStatus.assignedContractDrafting -
-                  subscriptionStatus.currentContractDrafting}
-                /{subscriptionStatus.assignedContractDrafting}
-              </span>
-            )}
+            {renderCredit()}
             <Button className="!px-2 !py-2 h-8" onClick={handleCreateDraft}>
               <PlusIcon className="!w-4 !h-4" />
             </Button>
@@ -139,12 +167,7 @@ export default function ContractDraftGeneration() {
             </h1>
           )}
           <div className="flex flex-row gap-3 items-center">
-            {subscriptionStatus.assignedContractDrafting > 0 && (
-              <span className="text-[0.875rem]">
-                {subscriptionStatus.currentContractDrafting}/
-                {subscriptionStatus.assignedContractDrafting} credits left
-              </span>
-            )}
+            {renderCredit()}
             <Button
               variant="primary"
               className="flex gap-1 px-6 py-3 bg-[#B84242] shadow-[0px_13px_22.6px_0px_rgba(255,255,255,0.10)_inset,0px_0px_0px_2px_rgba(255,255,255,0.18)_inset] border-secondaryRed font-[500]"
@@ -214,14 +237,7 @@ export default function ContractDraftGeneration() {
               <span className="text-black text-sm font-medium leading-none">
                 Total drafts: {rest?.contractList?.length}
               </span>
-              <div>
-                {subscriptionStatus.assignedContractDrafting > 0 && (
-                  <span className="text-[0.875rem]">
-                    {subscriptionStatus.currentContractDrafting}/
-                    {subscriptionStatus.assignedContractDrafting} credits left
-                  </span>
-                )}
-              </div>
+              <div>{renderCredit()}</div>
             </>
           )}
         </div>
