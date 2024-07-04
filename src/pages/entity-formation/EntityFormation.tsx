@@ -77,9 +77,6 @@ export default function EntityFormation() {
   }, [user?.id]);
 
   const renderCredit = () => {
-    if (subscription?.tier === SubscriptionTier.Standard) {
-      return null;
-    }
     return (
       <>
         {entityFormationCredit && (

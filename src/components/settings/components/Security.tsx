@@ -9,14 +9,18 @@ import { PlanType, subscriptions } from "../../../helpers/consts";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import moment from "moment";
+import Spinner from "../../Spinners";
 
 export default function Security({ onClose }) {
   const navigate = useNavigate();
   const handleToggle = () => setIsToggled((prev) => !prev);
   const { user, refetch } = useAuth();
   const [isToggled, setIsToggled] = useState(user.isEmailNotificationOn);
-  const { activeSubscription, refetch: refetchSubscription } =
-    useSubscription();
+  const {
+    activeSubscription,
+    isLoading,
+    refetch: refetchSubscription,
+  } = useSubscription();
 
   const subscription = activeSubscription?.[0];
 
@@ -59,7 +63,9 @@ export default function Security({ onClose }) {
           type: "success",
           message: "Subscription cancelled successfully",
         });
-        refetchSubscription();
+        setTimeout(() => {
+          refetchSubscription();
+        }, 2000);
       }
     } catch (error: any) {
       ShowToast({
@@ -101,9 +107,14 @@ export default function Security({ onClose }) {
       </div>
       <div className="flex flex-col gap-4">
         <div className="flex justify-between items-center">
-          <span className="text-[0.75rem] font-[600] uppercase tracking-[0.48px]">
+          <div className="text-[0.75rem] font-[600] uppercase tracking-[0.48px] flex items-center gap-2">
             Current Subscription
-          </span>
+            {isLoading && (
+              <div className="[&_circle]:stroke-primary [&_path]:fill-primary flex justify-center">
+                <Spinner />
+              </div>
+            )}
+          </div>
           {!isCanceled && hasSubscription && (
             <button
               type="button"

@@ -14,6 +14,7 @@ const useStripeSession = () => {
   const {
     data: activeSubscription,
     isLoading,
+    isFetching,
     refetch,
   } = useQuery(["subscription"], () => api.getUserSubscription(user?.id), {
     staleTime: 15 * 60 * 1000,
@@ -255,7 +256,7 @@ const useStripeSession = () => {
     stripeLoading,
     nextPackage,
     activeSubscription,
-    isLoading,
+    isLoading: isLoading || isFetching,
     refetch,
     subscriptionStatus,
     subscription,
