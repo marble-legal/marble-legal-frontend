@@ -124,6 +124,7 @@ export default function ContractDraftGeneration() {
           onClose={() => setCreateDraftModal(false)}
           onUpdate={() => {
             refetch();
+            refetchUser();
             return refetchContractList();
           }}
         />
