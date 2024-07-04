@@ -8,6 +8,7 @@ import useSubscription from "../../../pages/subscription/useSubscription";
 import { PlanType, subscriptions } from "../../../helpers/consts";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import moment from "moment";
 
 export default function Security() {
   const navigate = useNavigate();
@@ -70,6 +71,8 @@ export default function Security() {
   const subscriptionType = subscription
     ? subscriptions.find((item) => item.tier === subscription?.tier)
     : null;
+  const isCanceled = !!subscription?.cancelledAt;
+  const hasSubscription = !!subscription;
   console.log(subscription);
   return (
     <div className="md:p-[1.5rem] p-[1.25rem] w-full flex flex-col gap-[2.25rem]">
@@ -100,29 +103,45 @@ export default function Security() {
           <span className="text-[0.75rem] font-[600] uppercase tracking-[0.48px]">
             Current Subscription
           </span>
-          <button
-            type="button"
-            onClick={handleCancel}
-            className="text-[#475569] text-[13px] underline"
-          >
-            Cancel plan
-          </button>
+          {!isCanceled && hasSubscription && (
+            <button
+              type="button"
+              onClick={handleCancel}
+              className="text-[#475569] text-[13px] underline"
+            >
+              Cancel plan
+            </button>
+          )}
         </div>
         <div className="border-solid border-[1px] border-[#CBD5E1] p-4 rounded-[6px] flex flex-row flex-wrap justify-between w-full gap-4 items-center">
-          <div className="flex flex-row gap-3 items-center">
-            <div
-              style={{
-                backgroundColor: subscriptionType?.subscriptionBg,
-                color: subscriptionType?.subscriptionText,
-              }}
-              className="py-[0.375rem] px-[0.625rem] bg-[#DECAFF] rounded-[6px] h-fit text-[#883EC2] text-[0.8125rem] font-[500] leading-[120%]"
-            >
-              {subscriptionType?.plan}
-            </div>
-            <span className="font-[700] text-[1rem] text-[#0F172A] tracking-[-0.32ppx] leading-[120%]">
-              ${subscription?.amount}/
-              {subscription?.planType === PlanType.monthly ? "month" : "year"}
-            </span>
+          <div className="flex flex-col gap-1">
+            {hasSubscription ? (
+              <div className="flex flex-row gap-3 items-center">
+                <div
+                  style={{
+                    backgroundColor: subscriptionType?.subscriptionBg,
+                    color: subscriptionType?.subscriptionText,
+                  }}
+                  className="py-[0.375rem] px-[0.625rem] bg-[#DECAFF] rounded-[6px] h-fit text-[#883EC2] text-[0.8125rem] font-[500] leading-[120%]"
+                >
+                  {subscriptionType?.plan}
+                </div>
+                <span className="font-[700] text-[1rem] text-[#0F172A] tracking-[-0.32ppx] leading-[120%]">
+                  ${subscription?.amount}/
+                  {subscription?.planType === PlanType.monthly
+                    ? "month"
+                    : "year"}
+                </span>
+              </div>
+            ) : (
+              <div className="text-sm font-medium">No Active Subscription</div>
+            )}
+            {isCanceled && (
+              <span className="text-xs">
+                Canceled on{" "}
+                {moment(subscription?.cancelledAt).format("MMM DD, YYYY")}
+              </span>
+            )}
           </div>
           <Button
             onClick={handleUpgrade}
