@@ -72,6 +72,7 @@ const LoginFormContent = () => {
       email: response.data.email,
       fullName: response.data.name,
       googleId: response.data.id,
+      googleIdToken: response.data.id,
       userType: "U",
     };
 

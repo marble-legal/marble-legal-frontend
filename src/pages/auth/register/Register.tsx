@@ -84,11 +84,12 @@ const RegisterFormContent = () => {
       email: response.data.email,
       fullName: response.data.name,
       googleId: response.data.id,
+      googleIdToken: response.data.id,
       userType: "U",
     };
 
     api
-      .register(payload)
+      .login(payload)
       .then((res) => {
         localStorage.setItem("token", res.data.accessToken);
         localStorage.setItem("user", JSON.stringify(res.data));

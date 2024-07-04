@@ -9,9 +9,10 @@ import ProfileImageIcon from "../../assets/icons/profile.svg";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
 import useResponsive from "../../helpers/useResponsive";
+import { useEffect } from "react";
 
 export default function Home() {
-  const { user } = useAuth();
+  const { user, refetch } = useAuth();
   const { isAnyMobile } = useResponsive();
   const items = [
     {
@@ -59,6 +60,12 @@ export default function Home() {
       link: "/entity-formation",
     },
   ];
+
+  useEffect(() => {
+    if (refetch) {
+      refetch();
+    }
+  }, []);
 
   return (
     <div

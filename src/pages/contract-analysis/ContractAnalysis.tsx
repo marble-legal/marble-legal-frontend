@@ -81,8 +81,7 @@ export default function ContractAnalysis() {
       <>
         {analysisCredit && (
           <span className="text-sm">
-            {analysisCredit?.quantity}{" "}
-            <span className="hidden md:inline">credits </span>left
+            {analysisCredit?.quantity} <span>analysis </span>left
           </span>
         )}
       </>
@@ -94,7 +93,7 @@ export default function ContractAnalysis() {
       <MobileMenu
         renderAction={
           <div className="flex justify-end items-center gap-2">
-            {renderCredit()}
+            <div className="hidden md:flex ">{renderCredit()}</div>
             <Button
               className="w-8 h-8 flex justify-center bg-white border border-[#D7D7D7] rounded-[10px] items-center !px-0 !py-4"
               onClick={() => setBottomView(true)}
@@ -130,6 +129,10 @@ export default function ContractAnalysis() {
             )}
           </div>
         </div>
+        <div className="flex md:hidden justify-end pt-2 px-3">
+          {renderCredit()}
+        </div>
+
         {isUploadModalOpen && (
           <UploadContract
             disabled={!isAnalysisEnabled}
@@ -147,6 +150,7 @@ export default function ContractAnalysis() {
           <UploadContract
             disabled={!isAnalysisEnabled}
             onSuccess={() => {
+              refetchUser();
               refetchSubscription();
               setUploadContract(false);
             }}

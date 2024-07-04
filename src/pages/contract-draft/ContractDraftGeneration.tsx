@@ -111,7 +111,7 @@ export default function ContractDraftGeneration() {
     return (
       <>
         {draftCredit && (
-          <span className="text-xs">{draftCredit?.quantity} credits left</span>
+          <span className="text-xs">{draftCredit?.quantity} drafts left</span>
         )}
       </>
     );

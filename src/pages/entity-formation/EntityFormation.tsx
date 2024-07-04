@@ -79,10 +79,10 @@ export default function EntityFormation() {
   const renderCredit = () => {
     return (
       <>
-        {entityFormationCredit && (
+        {!entityFormationCredit && (
           <span className="text-sm">
-            {entityFormationCredit?.quantity}{" "}
-            <span className="hidden md:inline">credits </span>left
+            {entityFormationCredit?.quantity || 100}{" "}
+            <span className=" md:inline">entity formation </span>left
           </span>
         )}
       </>
@@ -93,7 +93,7 @@ export default function EntityFormation() {
     <div className="h-full">
       <MobileMenu
         renderAction={
-          <div className="flex justify-end gap-2 items-center">
+          <div className="hidden md:flex justify-end gap-2 items-center">
             {renderCredit()}
             <Button className="!p-2" onClick={handleCreateEntity}>
               <PlusIcon />
@@ -116,7 +116,7 @@ export default function EntityFormation() {
           fetchEntities();
         }}
       />
-      <div className="shadow-header px-[1.875rem] py-4 md:flex justify-between border-b-solid border-b-[1px] border-[#DADCE2] items-center hidden">
+      <div className="shadow-header px-[1.875rem] py-4 lg:flex justify-between border-b-solid border-b-[1px] border-[#DADCE2] items-center hidden">
         <h1 className="font-outfit text-[1.25rem] font-[500]">
           Business Entity formation
         </h1>
@@ -132,6 +132,9 @@ export default function EntityFormation() {
             Apply for an entity
           </Button>
         </div>
+      </div>
+      <div className="flex md:hidden justify-end pt-2 px-3">
+        {renderCredit()}
       </div>
       <div className="py-[1.625rem] flex flex-col gap-[1.375rem] md:px-[1.875rem] px-[1rem]">
         {isLoading &&
