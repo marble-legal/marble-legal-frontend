@@ -49,7 +49,9 @@ const LoginForm = () => {
               actions.setSubmitting(false);
               ShowToast({
                 type: "error",
-                message: "The email or password is incorrect.",
+                message:
+                  err?.response?.data?.message ||
+                  "The email or password is incorrect.",
               });
             });
         }}
@@ -81,9 +83,12 @@ const LoginFormContent = () => {
         navigate("/home");
       })
       .catch((err) => {
+        // console.log(err?.response);
         ShowToast({
           type: "error",
-          message: "The email or password is incorrect.",
+          message:
+            err?.response?.data?.message ||
+            "The email or password is incorrect.",
         });
       });
   };
