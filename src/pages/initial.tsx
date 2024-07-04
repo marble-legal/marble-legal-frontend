@@ -40,9 +40,11 @@ function InitialApp() {
           className={`flex-1 bg-[#F2F5FB] ${
             isSubscription ? "px-4 pt-4" : "p-4"
           } md:rounded-[12px] h-full overflow-auto`}
-          style={{
-            height: vh - 24,
-          }}
+          style={
+            {
+              // height: vh - 24,
+            }
+          }
         >
           <div className="flex justify-between">
             <Link
