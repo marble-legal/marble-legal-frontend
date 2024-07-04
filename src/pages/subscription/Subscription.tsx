@@ -150,6 +150,7 @@ function SubscriptionCard({
   }, [stripeLoading]);
 
   const isCurrentPlan =
+    !currentSubscription?.cancelledAt &&
     currentSubscription?.tier === tier &&
     currentSubscription?.planType ===
       (isAnnual ? PlanType.yearly : PlanType.monthly);
