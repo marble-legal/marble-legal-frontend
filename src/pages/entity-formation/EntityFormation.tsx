@@ -112,6 +112,7 @@ export default function EntityFormation() {
         handleClose={() => setIsCreateEntityOpen(false)}
         refetchEntities={() => {
           refetchSubscription();
+          refetchUser();
           fetchEntities();
         }}
       />
