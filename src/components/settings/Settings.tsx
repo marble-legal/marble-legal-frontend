@@ -107,7 +107,7 @@ export default function SettingsModal({ onClose }: { onClose: () => void }) {
         {activeTab === "changeEmail" && (
           <ChangeEmail setActiveTab={setActiveTab} />
         )}
-        {activeTab === "security" && <Security />}
+        {activeTab === "security" && <Security onClose={onClose} />}
         {activeTab === "deleteAccount" && (
           <DeleteAccount setActiveTab={setActiveTab} />
         )}

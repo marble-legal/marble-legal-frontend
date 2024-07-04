@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import moment from "moment";
 
-export default function Security() {
+export default function Security({ onClose }) {
   const navigate = useNavigate();
   const handleToggle = () => setIsToggled((prev) => !prev);
   const { user, refetch } = useAuth();
@@ -42,6 +42,7 @@ export default function Security() {
   };
 
   const handleUpgrade = () => {
+    onClose();
     navigate("/subscription");
   };
 
