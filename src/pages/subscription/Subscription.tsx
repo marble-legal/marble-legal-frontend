@@ -32,7 +32,7 @@ export default function Subscription() {
 
   return (
     <div
-      className="flex flex-col items-center justify-center"
+      className="flex flex-col items-center lg:justify-center lg:h-[calc(100dvh-90px)]"
       style={
         isAnyMobile
           ? { padding: "0rem" }
@@ -51,21 +51,21 @@ export default function Subscription() {
         handleGetStripeSession={handleGetStripeSession}
       />
 
-      <div className="md:-mt-[3.125rem] mt-[2.75rem] md:h-screen md:px-4 content-center">
+      <div className="mt-[2.75rem] md:mt-0 md:px-4">
         <div className="mb-4 justify-center gap-[1.25rem] grid">
           <div className="text-center font-[700] text-[1.75rem]">
             Choose a plan
           </div>
         </div>
-        <div className="mt-3 mb-[2.5rem] flex flex-col gap-6">
+        <div className="mt-3 mb-7 flex flex-col gap-6">
           <p className="leading-[150%] text-[#888] text-[0.875rem] max-w-[430px] text-center mx-auto font-[500]">
             Select a plan that fits your needs and enjoy a 7-day free trial.
           </p>
-          <div className="flex flex-row gap-[0.625rem] items-center text-sm font-[500] px-[1.25rem] py-2 bg-white w-fit mx-auto rounded-full transition-all">
+          {/* <div className="flex flex-row gap-[0.625rem] items-center text-sm font-[500] px-[1.25rem] py-2 bg-white w-fit mx-auto rounded-full transition-all">
             <span className={clsx(isAnnual && "text-[#888]")}>Monthly</span>
             <ToggleSwitch isToggled={isAnnual} handleToggle={handleToggle} />
             <span className={clsx(!isAnnual && "text-[#888]")}>Annual</span>
-          </div>
+          </div> */}
         </div>
         <div className="flex justify-center items-center lg:items-stretch flex-col lg:flex-row flex-wrap lg:w-[1230px] max-w-[1230px] gap-4">
           {subscriptions.map((sub, index) => (
@@ -80,7 +80,7 @@ export default function Subscription() {
             />
           ))}
         </div>
-        <div className="mt-[3rem] text-center flex gap-1 justify-center flex-row flex-wrap">
+        <div className="mt-16 mb-8 text-center flex gap-1 justify-center flex-row flex-wrap">
           <span className="md:text-[1.125rem] text-sm text-[#666] font-[500]">
             Looking for a plan with specific features?
           </span>
@@ -158,13 +158,13 @@ function SubscriptionCard({
     <div className="bg-white rounded-[12px] flex-1 flex-grow max-w-[295px] md:min-w-[295px] min-w-full flex flex-col">
       <div className="p-2">
         <div
-          className="p-4 grid rounded-[9px] gap-[0.75rem]"
+          className="px-4 pt-4 grid rounded-[9px] gap-[0.75rem]"
           style={{
             background: color,
           }}
         >
           <div
-            className="px-[0.625rem] py-[0.375rem] h-fit w-fit rounded-[6px] text-center leading-[120%]"
+            className="py-1.5 px-2.5 h-fit w-fit rounded-[6px] text-center leading-[120%]"
             style={{
               background: subscriptionBg,
               color: subscriptionText,

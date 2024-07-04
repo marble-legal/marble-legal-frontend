@@ -31,12 +31,15 @@ function InitialApp() {
     { label: "Logout", onClick: handleLogout },
   ];
 
+  const isSubscription = window.location.href.includes("/subscription");
   return (
     <div className="flex-1 flex flex-col lg:flex-row">
       {showSettings && <SettingsModal onClose={toggleSettings} />}
       <div className="md:bg-[white] bg-[#F2F5FB] md:p-3 w-full">
         <div
-          className="flex-1 bg-[#F2F5FB] p-4 md:rounded-[12px] h-full overflow-auto"
+          className={`flex-1 bg-[#F2F5FB] ${
+            isSubscription ? "px-4 pt-4" : "p-4"
+          } md:rounded-[12px] h-full overflow-auto`}
           style={{
             height: vh - 24,
           }}
