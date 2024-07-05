@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     extend: {
       screens: {
-        tall2: { raw: "(min-height: 700px)" },
+        tall2: { raw: "(min-height: 800px)" },
       },
       fontFamily: {
         outfit: ["Outfit", "sans-serif"],
