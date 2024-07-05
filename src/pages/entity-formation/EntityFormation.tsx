@@ -93,8 +93,8 @@ export default function EntityFormation() {
     <div className="h-full">
       <MobileMenu
         renderAction={
-          <div className="hidden md:flex justify-end gap-2 items-center">
-            {renderCredit()}
+          <div className="flex justify-end gap-2 items-center">
+            <div className="hidden md:block">{renderCredit()}</div>
             <Button className="!p-2" onClick={handleCreateEntity}>
               <PlusIcon />
             </Button>
