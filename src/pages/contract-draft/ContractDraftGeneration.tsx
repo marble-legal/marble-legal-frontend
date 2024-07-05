@@ -111,7 +111,7 @@ export default function ContractDraftGeneration() {
     return (
       <>
         {draftCredit && (
-          <span className="text-xs">{draftCredit?.quantity} drafts left</span>
+          <span className="text-sm">{draftCredit?.quantity} drafts left</span>
         )}
       </>
     );
@@ -132,7 +132,7 @@ export default function ContractDraftGeneration() {
       <MobileMenu
         renderAction={
           <div className="flex justify-end gap-2 items-center">
-            {renderCredit()}
+            <div className="hidden md:flex ">{renderCredit()}</div>
             <Button className="!px-2 !py-2 h-8" onClick={handleCreateDraft}>
               <PlusIcon className="!w-4 !h-4" />
             </Button>
