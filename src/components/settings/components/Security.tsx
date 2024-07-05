@@ -5,7 +5,11 @@ import { api } from "../../../helpers/api";
 import { useAuth } from "../../../AuthContext";
 import { ShowToast } from "../../toast";
 import useSubscription from "../../../pages/subscription/useSubscription";
-import { PlanType, subscriptions } from "../../../helpers/consts";
+import {
+  PlanType,
+  SubscriptionTier,
+  subscriptions,
+} from "../../../helpers/consts";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import moment from "moment";
@@ -80,6 +84,8 @@ export default function Security({ onClose }) {
     : null;
   const isCanceled = !!subscription?.cancelledAt;
   const hasSubscription = !!subscription;
+  const shouldShowCancelSubscription =
+    !!subscription && subscription.tier !== SubscriptionTier.Customised;
   console.log(subscription);
   return (
     <div className="md:p-[1.5rem] p-[1.25rem] w-full flex flex-col gap-[2.25rem]">
@@ -115,7 +121,7 @@ export default function Security({ onClose }) {
               </div>
             )}
           </div>
-          {!isCanceled && hasSubscription && (
+          {!isCanceled && shouldShowCancelSubscription && (
             <button
               type="button"
               onClick={handleCancel}
