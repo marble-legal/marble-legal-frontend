@@ -32,7 +32,7 @@ export default function Subscription() {
 
   return (
     <div
-      className="flex flex-col items-center lg:justify-center lg:h-[100dvh]"
+      className="flex flex-col items-center lg:justify-center md:h-[calc(100dvh-5.75rem)]"
       style={
         isAnyMobile
           ? { padding: "0rem" }
