@@ -79,9 +79,9 @@ export default function EntityFormation() {
   const renderCredit = () => {
     return (
       <>
-        {!entityFormationCredit && (
+        {entityFormationCredit && (
           <span className="text-sm">
-            {entityFormationCredit?.quantity || 100}{" "}
+            {entityFormationCredit?.quantity}{" "}
             <span className=" md:inline">entity formation </span>left
           </span>
         )}
