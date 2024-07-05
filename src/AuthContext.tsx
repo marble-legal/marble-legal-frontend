@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const userId = getUser().id;
   const { data: userData, refetch } = useQuery(
-    ["user"],
+    ["user", userId],
     () => api.getUser({ id: userId }),
     {
       staleTime: 15 * 60 * 1000,
