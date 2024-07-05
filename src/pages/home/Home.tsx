@@ -9,10 +9,9 @@ import ProfileImageIcon from "../../assets/icons/profile.svg";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../AuthContext";
 import useResponsive from "../../helpers/useResponsive";
-import { useEffect } from "react";
 
 export default function Home() {
-  const { user, refetch } = useAuth();
+  const { user } = useAuth();
   const { isAnyMobile } = useResponsive();
   const items = [
     {
@@ -61,15 +60,9 @@ export default function Home() {
     },
   ];
 
-  useEffect(() => {
-    if (refetch) {
-      refetch();
-    }
-  }, []);
-
   return (
     <div
-      className="md:h-[calc(100%)] grid items-center justify-center"
+      className="md:h-[calc(100dvh-5.75rem)] grid items-center justify-center -mb-4"
       style={
         isAnyMobile
           ? { padding: "1rem" }
