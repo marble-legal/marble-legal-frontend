@@ -209,7 +209,7 @@ function VerifyStep({
           noIcon
         />
         <span className="font-bold text-sm text-[#4AA064]">
-          We've sent a code to {email}
+          We've sent a code to {user?.email}
         </span>
         {/* Mobile */}
         <Button
