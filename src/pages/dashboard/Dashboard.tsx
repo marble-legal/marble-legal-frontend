@@ -26,7 +26,7 @@ export default function Dashboard() {
   const [currentReply, setCurrentReply] = useState<any>(null);
   const [error, setError] = useState("");
   const [isJurisdictionSelected, setIsJurisdictionSelected] =
-    useState<boolean>(true);
+    useState<boolean>(false);
   const listRef = React.useRef<HTMLDivElement | null>(null);
   const user = getUser();
   const { user: userDetails, refetch: refetchUser } = useAuth();
@@ -166,7 +166,7 @@ export default function Dashboard() {
           </h1>
           <div className="flex flex-row gap-4">
             <span>{renderCredit()}</span>
-            <JurisdictionDropdown />
+            {isJurisdictionSelected && <JurisdictionDropdown />}
           </div>
         </div>
 
