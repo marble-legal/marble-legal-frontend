@@ -83,7 +83,7 @@ export default function Security({ onClose }) {
     ? subscriptions.find((item) => item.tier === subscription?.tier)
     : null;
   const isCanceled = !!subscription?.cancelledAt;
-  const hasSubscription = !!subscription;
+  const hasSubscription = !!subscription && !isCanceled;
   const shouldShowCancelSubscription =
     !!subscription && subscription.tier !== SubscriptionTier.Customised;
   console.log(subscription);
@@ -154,12 +154,12 @@ export default function Security({ onClose }) {
             ) : (
               <div className="text-sm font-medium">No Active Subscription</div>
             )}
-            {isCanceled && (
+            {/* {isCanceled && (
               <span className="text-xs">
                 Canceled on{" "}
                 {moment(subscription?.cancelledAt).format("MMM DD, YYYY")}
               </span>
-            )}
+            )} */}
           </div>
           <Button
             onClick={handleUpgrade}
