@@ -154,7 +154,7 @@ export default function Dashboard() {
         renderAction={
           <div className="flex justify-end items-center gap-2">
             {renderCredit()}
-            <JurisdictionDropdown />
+            {isJurisdictionSelected && <JurisdictionDropdown />}
           </div>
         }
       />
