@@ -14,6 +14,7 @@ import MobileMenu from "../../components/MobileMenu";
 import useSubscription from "../subscription/useSubscription";
 import { useAuth } from "../../AuthContext";
 import { FeatureCode, SubscriptionTier } from "../../helpers/consts";
+import { Jurisdiction, JurisdictionDropdown } from "./components/Jurisdiction";
 
 export default function Dashboard() {
   const { isLoading, subscription, subscriptionStatus } = useSubscription();
@@ -24,6 +25,8 @@ export default function Dashboard() {
   const [currentUserMessage, setCurrentUserMessage] = useState("");
   const [currentReply, setCurrentReply] = useState<any>(null);
   const [error, setError] = useState("");
+  const [isJurisdictionSelected, setIsJurisdictionSelected] =
+    useState<boolean>(true);
   const listRef = React.useRef<HTMLDivElement | null>(null);
   const user = getUser();
   const { user: userDetails, refetch: refetchUser } = useAuth();
@@ -151,6 +154,7 @@ export default function Dashboard() {
         renderAction={
           <div className="flex justify-end items-center gap-2">
             {renderCredit()}
+            <JurisdictionDropdown />
           </div>
         }
       />
@@ -160,80 +164,89 @@ export default function Dashboard() {
           <h1 className="font-outfit text-[1.25rem] font-[500]">
             Legal AI assistant
           </h1>
-          <div>{renderCredit()}</div>
+          <div className="flex flex-row gap-4">
+            <span>{renderCredit()}</span>
+            <JurisdictionDropdown />
+          </div>
         </div>
-        <div
-          style={{
-            background:
-              "linear-gradient(0deg, rgba(242, 245, 251, 0.20) 0%, #F2F5FB 76.09%)",
-          }}
-          className="absolute top-[80px] left-0 right-0 h-[118px]"
-        />
-        <div
-          ref={(e) => (listRef.current = e)}
-          className={`w-[100%] flex-1 flex flex-col items-center h-[calc(100dvh-200px)] overflow-auto`}
-        >
-          <div
-            className={`w-full px-[18px] md:w-[580px] ${
-              isEmpty || loading ? "justify-center" : "justify-start"
-            } flex-1 flex flex-col pt-4 pb-8`}
-          >
-            {!isEmpty && !loading && (
-              <div>
-                {conversation?.map((item) => (
-                  <Message
-                    key={item.id}
-                    conversation={item}
-                    onDisLike={handleDisLike}
-                    onLike={handleLike}
-                  />
-                ))}
-                {currentUserMessage && (
-                  <Message
-                    key="current-user-message"
-                    conversation={{
-                      message: currentUserMessage,
-                      isUserMessage: true,
-                    }}
-                  />
-                )}
-                {currentReply && (
-                  <Message
-                    key="current-reply"
-                    conversation={{
-                      ...currentReply,
-                    }}
-                  />
-                )}
 
-                {!sending && (
-                  <div className="w-full flex justify-end">
-                    <Button
-                      onClick={handleRegenerate}
-                      className="bg-white text-black shadow-[0px_2px_2.3px_0px_rgba(186,207,193,0.20)] border border-[#E6E6E6] rounded-[10px]"
-                    >
-                      <RegenerateIcon />
-                      Regenerate
-                    </Button>
+        {!isJurisdictionSelected && <Jurisdiction />}
+        {isJurisdictionSelected && (
+          <>
+            <div
+              style={{
+                background:
+                  "linear-gradient(0deg, rgba(242, 245, 251, 0.20) 0%, #F2F5FB 76.09%)",
+              }}
+              className="absolute top-[80px] left-0 right-0 h-[118px]"
+            />
+            <div
+              ref={(e) => (listRef.current = e)}
+              className={`w-[100%] flex-1 flex flex-col items-center h-[calc(100dvh-200px)] overflow-auto`}
+            >
+              <div
+                className={`w-full px-[18px] md:w-[580px] ${
+                  isEmpty || loading ? "justify-center" : "justify-start"
+                } flex-1 flex flex-col pt-4 pb-8`}
+              >
+                {!isEmpty && !loading && (
+                  <div>
+                    {conversation?.map((item) => (
+                      <Message
+                        key={item.id}
+                        conversation={item}
+                        onDisLike={handleDisLike}
+                        onLike={handleLike}
+                      />
+                    ))}
+                    {currentUserMessage && (
+                      <Message
+                        key="current-user-message"
+                        conversation={{
+                          message: currentUserMessage,
+                          isUserMessage: true,
+                        }}
+                      />
+                    )}
+                    {currentReply && (
+                      <Message
+                        key="current-reply"
+                        conversation={{
+                          ...currentReply,
+                        }}
+                      />
+                    )}
+
+                    {!sending && (
+                      <div className="w-full flex justify-end">
+                        <Button
+                          onClick={handleRegenerate}
+                          className="bg-white text-black shadow-[0px_2px_2.3px_0px_rgba(186,207,193,0.20)] border border-[#E6E6E6] rounded-[10px]"
+                        >
+                          <RegenerateIcon />
+                          Regenerate
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                )}
+                {isEmpty && <EmptyState />}
+                {(loading || sending) && (
+                  <div className="[&_circle]:stroke-primary [&_path]:fill-primary h-full flex justify-center items-center">
+                    <Spinner />
                   </div>
                 )}
               </div>
-            )}
-            {isEmpty && <EmptyState />}
-            {(loading || sending) && (
-              <div className="[&_circle]:stroke-primary [&_path]:fill-primary h-full flex justify-center items-center">
-                <Spinner />
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="w-full self-center px-[18px] md:w-[580px] mb-4">
-          <Editor
-            disabled={!isPromptEnabled}
-            onSend={askQuery}
-            isSending={sending}
-          />
-        </div>
+            </div>
+            <div className="w-full self-center px-[18px] md:w-[580px] mb-4">
+              <Editor
+                disabled={!isPromptEnabled}
+                onSend={askQuery}
+                isSending={sending}
+              />
+            </div>
+          </>
+        )}
       </div>
     </>
   );

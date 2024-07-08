@@ -76,15 +76,17 @@ export default function MobileMenu({
       {showSettings && <SettingsModal onClose={toggleSettings} />}
       <Drawer direction="left" open={isDrawerOpen}>
         <div className="w-full flex justify-between items-center p-3.5 fixed top-0 left-0 bg-[white] z-[9]">
-          <DrawerTrigger className="!w-fit flex-1" onClick={toggleDrawer}>
-            <div className=" pl-2">
-              <MenuIcon className="w-[1.5rem] h-[1.5rem]" />
+          <div className="flex flex-row gap-4">
+            <DrawerTrigger className="!w-fit flex-1" onClick={toggleDrawer}>
+              <div className=" pl-2">
+                <MenuIcon className="w-[1.5rem] h-[1.5rem]" />
+              </div>
+            </DrawerTrigger>
+            <div className="flex-1 flex justify-center items-center w-full">
+              <Link to="/home" className="h-[34px] w-[74px]">
+                <img src={LogoIcon} alt="logo" className="h-full w-full" />
+              </Link>
             </div>
-          </DrawerTrigger>
-          <div className="flex-1 flex justify-center items-center w-full">
-            <Link to="/home" className="h-[34px] w-[74px]">
-              <img src={LogoIcon} alt="logo" className="h-full w-full" />
-            </Link>
           </div>
           <div className="flex-1">{renderAction}</div>
         </div>

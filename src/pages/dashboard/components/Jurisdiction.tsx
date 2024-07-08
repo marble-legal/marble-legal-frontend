@@ -1,0 +1,75 @@
+import Button from "../../../components/Button";
+import { ReactComponent as ChevronIcon } from "../../../assets/icons/chevron.svg";
+import UIPopover from "../../../components/Popover";
+import { Jurisdictions } from "../../../helpers/consts";
+
+export function Jurisdiction() {
+  return (
+    <div className="h-full grid content-center px-5">
+      <div className="p-6 gap-6 flex flex-col bg-white max-w-[600px] mx-auto rounded-[0.75rem]">
+        <div className="flex flex-col gap-3">
+          <h1 className="text-xl leading-[110%] font-semibold font-outfit">
+            Please Select Your Jurisdiction
+          </h1>
+          <p className="text-[0.9375rem] font-inter leading-[140%] md:w-full">
+            Choose your jurisdiction to ensure accurate legal guidance tailored
+            to your location. This helps us provide relevant and precise answers
+            to your legal questions.
+          </p>
+        </div>
+
+        <UIPopover
+          trigger={
+            <button className="px-4 py-3 flex flex-row justify-between border rounded-[0.625rem] border-[#d7d7d7] w-full text-[#888] font-semibold text-sm">
+              Select{" "}
+              <ChevronIcon className="rotate-[90deg] [&_path]:stroke-[#888888]" />
+            </button>
+          }
+          align="center"
+          positions={["bottom"]}
+          shouldCloseOnScroll={false}
+        >
+          {(close) => (
+            <div className="flex flex-col w-full bg-white rounded-[0.625rem] min-w-[200px] py-4 gap-4 shadow-md max-h-[200px] overflow-auto">
+              {Jurisdictions.map((jur) => (
+                <button className="text-sm">{jur.name}</button>
+              ))}
+            </div>
+          )}
+        </UIPopover>
+
+        <Button className="font-medium">Continue</Button>
+      </div>
+    </div>
+  );
+}
+
+export function JurisdictionDropdown() {
+  return (
+    <UIPopover
+      trigger={
+        <button className="flex flex-row gap-1 items-center font-outfit">
+          <div className="flex flex-row gap-3 flex-wrap">
+            <span className="md:text-lg text-sm leading-[110%]">
+              Your Jurisdiction:
+            </span>
+            <span className="font-medium md:text-lg text-sm leading-[110%]">
+              USA
+            </span>
+          </div>
+          <ChevronIcon className="rotate-[90deg]" />
+        </button>
+      }
+      align="center"
+      positions={["bottom"]}
+    >
+      {(close) => (
+        <div className="flex flex-col w-full bg-white rounded-[0.625rem] min-w-[200px] py-4 gap-4 shadow-md max-h-[200px] overflow-auto">
+          {Jurisdictions.map((jur) => (
+            <button className="text-sm">{jur.name}</button>
+          ))}
+        </div>
+      )}
+    </UIPopover>
+  );
+}

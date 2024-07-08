@@ -166,3 +166,18 @@ export const FeatureCode = {
   businessEntity: "BE",
   attorneyReview: "AR",
 };
+
+export const Jurisdictions = [
+  { name: "Georgia", value: "GA" },
+  { name: "Arizona", value: "AZ" },
+  { name: "Ohio", value: "OH" },
+  { name: "New York", value: "NY" },
+  { name: "Florida", value: "FL" },
+  { name: "Texas", value: "TX" },
+  { name: "Pennsylvania", value: "PA" },
+  { name: "Massachusetts", value: "MA" },
+  { name: "California", value: "CA" },
+  { name: "New Jersey", value: "NJ" },
+  { name: "Virginia", value: "VA" },
+  { name: "Illinois", value: "IL" },
+];
