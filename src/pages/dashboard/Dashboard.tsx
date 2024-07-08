@@ -26,7 +26,7 @@ export default function Dashboard() {
   const [currentReply, setCurrentReply] = useState<any>(null);
   const [error, setError] = useState("");
   const [isJurisdictionSelected, setIsJurisdictionSelected] =
-    useState<boolean>(false);
+    useState<string>("");
   const listRef = React.useRef<HTMLDivElement | null>(null);
   const user = getUser();
   const { user: userDetails, refetch: refetchUser } = useAuth();
@@ -36,7 +36,10 @@ export default function Dashboard() {
     try {
       setCurrentUserMessage(message);
       setSending(true);
-      const response = await api.askQuery({ message });
+      const response = await api.askQuery({
+        message,
+        jurisdiction: isJurisdictionSelected,
+      });
       setSending(false);
       if ([200, 201].includes(response.status)) {
         setCurrentReply(response.data);
@@ -153,8 +156,12 @@ export default function Dashboard() {
       <MobileMenu
         renderAction={
           <div className="flex justify-end items-center gap-2">
-            {renderCredit()}
-            {isJurisdictionSelected && <JurisdictionDropdown />}
+            {isJurisdictionSelected && (
+              <JurisdictionDropdown
+                onChange={(jur) => setIsJurisdictionSelected(jur)}
+                value={isJurisdictionSelected}
+              />
+            )}
           </div>
         }
       />
@@ -164,13 +171,26 @@ export default function Dashboard() {
           <h1 className="font-outfit text-[1.25rem] font-[500]">
             Legal AI assistant
           </h1>
-          <div className="flex flex-row gap-4">
+          <div className="flex flex-row gap-4 items-center">
             <span>{renderCredit()}</span>
-            {isJurisdictionSelected && <JurisdictionDropdown />}
+            {isJurisdictionSelected && (
+              <JurisdictionDropdown
+                onChange={(jur) => setIsJurisdictionSelected(jur)}
+                value={isJurisdictionSelected}
+              />
+            )}
           </div>
         </div>
+        <div className="flex md:hidden justify-end pt-2 px-3">
+          {renderCredit()}
+        </div>
 
-        {!isJurisdictionSelected && <Jurisdiction />}
+        {!isJurisdictionSelected && (
+          <Jurisdiction
+            onChange={(jur) => setIsJurisdictionSelected(jur)}
+            value={isJurisdictionSelected}
+          />
+        )}
         {isJurisdictionSelected && (
           <>
             <div
