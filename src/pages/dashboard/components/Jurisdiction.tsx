@@ -44,14 +44,14 @@ export function Jurisdiction({ onChange, value }) {
           shouldCloseOnScroll={false}
         >
           {(close) => (
-            <div className="flex flex-col w-full bg-white rounded-[0.625rem] min-w-[200px] py-4 gap-4 shadow-md max-h-[200px] overflow-auto">
+            <div className="flex flex-col w-full bg-white rounded-[0.625rem] min-w-[200px] p-1 shadow-md max-h-[200px] overflow-auto">
               {Jurisdictions.filter((jur) => jur.name !== value).map((jur) => (
                 <button
                   onClick={() => {
                     setSelectedValue(jur.value);
                     close();
                   }}
-                  className="text-sm"
+                  className={`text-sm py-2 hover:bg-[#F2F5FB] rounded-md`}
                 >
                   {jur.name}
                 </button>
@@ -90,14 +90,14 @@ export function JurisdictionDropdown({ onChange, value }) {
       shouldCloseOnScroll={false}
     >
       {(close) => (
-        <div className="flex flex-col w-full bg-white rounded-[0.625rem] min-w-[200px] py-4 gap-4 shadow-md max-h-[200px] overflow-auto">
+        <div className="flex flex-col w-full bg-white rounded-[0.625rem] min-w-[200px] p-1 shadow-md max-h-[200px] overflow-auto">
           {Jurisdictions.filter((jur) => jur.name !== value).map((jur) => (
             <button
               onClick={() => {
                 onChange(jur.value);
                 close();
               }}
-              className={`text-sm`}
+              className={`text-sm py-2 hover:bg-[#F2F5FB] rounded-md`}
             >
               {jur.name}
             </button>

@@ -28,7 +28,7 @@ export const api = {
   resetPassword: (data: any) => {
     return apiClient.post("/auth/reset-password", data);
   },
-  askQuery: (data: { message: string; jurisdiction: string }) => {
+  askQuery: (data: { message: string; juridiction: string }) => {
     return apiClient.post("/conversations", data);
   },
   getAllConversations: (userId: string, contractId?: string) => {

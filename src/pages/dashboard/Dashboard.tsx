@@ -29,7 +29,11 @@ export default function Dashboard() {
     useState<string>("");
   const listRef = React.useRef<HTMLDivElement | null>(null);
   const user = getUser();
-  const { user: userDetails, refetch: refetchUser } = useAuth();
+  const {
+    user: userDetails,
+    refetch: refetchUser,
+    isLoading: userLoading,
+  } = useAuth();
 
   const askQuery = async (message: string) => {
     if (!message) return;
@@ -38,7 +42,7 @@ export default function Dashboard() {
       setSending(true);
       const response = await api.askQuery({
         message,
-        jurisdiction: isJurisdictionSelected,
+        juridiction: isJurisdictionSelected,
       });
       setSending(false);
       if ([200, 201].includes(response.status)) {
@@ -136,6 +140,16 @@ export default function Dashboard() {
     return false;
   }, [subscription, assistentCredit]);
 
+  const handleJuridictionChange = async (jurisdiction: string) => {
+    try {
+      setIsJurisdictionSelected(jurisdiction);
+      await api.editUser(user.id, { juridiction: jurisdiction });
+      refetchUser();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const renderCredit = () => {
     if (subscription?.tier === SubscriptionTier.Standard) {
       return null;
@@ -151,6 +165,13 @@ export default function Dashboard() {
     );
   };
 
+  useEffect(() => {
+    if (userDetails?.juridiction) {
+      setIsJurisdictionSelected(userDetails?.juridiction);
+    }
+  }, [userDetails?.juridiction]);
+
+  console.log(userDetails, "user details");
   return (
     <>
       <MobileMenu
@@ -158,7 +179,7 @@ export default function Dashboard() {
           <div className="flex justify-end items-center gap-2">
             {isJurisdictionSelected && (
               <JurisdictionDropdown
-                onChange={(jur) => setIsJurisdictionSelected(jur)}
+                onChange={handleJuridictionChange}
                 value={isJurisdictionSelected}
               />
             )}
@@ -175,7 +196,7 @@ export default function Dashboard() {
             <span>{renderCredit()}</span>
             {isJurisdictionSelected && (
               <JurisdictionDropdown
-                onChange={(jur) => setIsJurisdictionSelected(jur)}
+                onChange={handleJuridictionChange}
                 value={isJurisdictionSelected}
               />
             )}
@@ -185,12 +206,14 @@ export default function Dashboard() {
           {renderCredit()}
         </div>
 
-        {!isJurisdictionSelected && (
-          <Jurisdiction
-            onChange={(jur) => setIsJurisdictionSelected(jur)}
-            value={isJurisdictionSelected}
-          />
-        )}
+        {!isJurisdictionSelected &&
+          !userLoading &&
+          !userDetails?.juridiction && (
+            <Jurisdiction
+              onChange={handleJuridictionChange}
+              value={isJurisdictionSelected}
+            />
+          )}
         {isJurisdictionSelected && (
           <>
             <div

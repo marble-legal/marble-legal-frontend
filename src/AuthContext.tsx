@@ -13,14 +13,15 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const userId = getUser().id;
-  const { data: userData, refetch } = useQuery(
-    ["user", userId],
-    () => api.getUser({ id: userId }),
-    {
-      staleTime: 15 * 60 * 1000,
-      cacheTime: 15 * 60 * 1000,
-    }
-  );
+  const {
+    data: userData,
+    refetch,
+    isLoading,
+    isFetching,
+  } = useQuery(["user", userId], () => api.getUser({ id: userId }), {
+    staleTime: 15 * 60 * 1000,
+    cacheTime: 15 * 60 * 1000,
+  });
 
   useEffect(() => {
     if (userData) {
@@ -48,6 +49,7 @@ export const AuthProvider = ({ children }) => {
   const value = {
     user,
     refetch,
+    isLoading: isLoading || isFetching,
   };
 
   // Render children with auth context provider
