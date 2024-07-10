@@ -74,7 +74,7 @@ export default function CreateEntity({
       });
       setStep(0);
     }
-  }, [user, isOpen]);
+  }, [user?.id, isOpen]);
 
   return (
     <FullScreenModal

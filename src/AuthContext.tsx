@@ -19,8 +19,12 @@ export const AuthProvider = ({ children }) => {
     isLoading,
     isFetching,
   } = useQuery(["user", userId], () => api.getUser({ id: userId }), {
-    staleTime: 15 * 60 * 1000,
-    cacheTime: 15 * 60 * 1000,
+    refetchInterval: false,
+    enabled: !!userId,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: false,
   });
 
   useEffect(() => {
