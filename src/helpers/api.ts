@@ -31,10 +31,17 @@ export const api = {
   askQuery: (data: { message: string; juridiction: string }) => {
     return apiClient.post("/conversations", data);
   },
-  getAllConversations: (userId: string, contractId?: string) => {
+  getAllConversations: (
+    userId: string,
+    contractId?: string,
+    jurisdiction?: string
+  ) => {
     let url = `/conversations?userId=${userId}`;
     if (contractId) {
       url += `&contractId=${contractId}`;
+    }
+    if (jurisdiction) {
+      url += `&jurisdiction=${jurisdiction}`;
     }
     return apiClient.get(url);
   },

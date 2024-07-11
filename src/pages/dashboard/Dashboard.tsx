@@ -48,17 +48,21 @@ export default function Dashboard() {
       if ([200, 201].includes(response.status)) {
         setCurrentReply(response.data);
         refetchUser();
-        fetchConversation(false);
+        fetchConversation(false, isJurisdictionSelected);
       }
     } catch (error) {
       setSending(false);
     }
   };
 
-  const fetchConversation = async (shouldSetLoading = true) => {
+  const fetchConversation = async (shouldSetLoading = true, jurisdiction) => {
     try {
       shouldSetLoading && setLoading(true);
-      const response = await api.getAllConversations(user.id);
+      const response = await api.getAllConversations(
+        user.id,
+        undefined,
+        jurisdiction
+      );
       if ([200, 201].includes(response.status)) {
         setCurrentUserMessage("");
         setCurrentReply(null);
@@ -113,8 +117,8 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    fetchConversation();
-  }, []);
+    fetchConversation(false, isJurisdictionSelected);
+  }, [isJurisdictionSelected]);
 
   useEffect(() => {
     if (
@@ -145,6 +149,7 @@ export default function Dashboard() {
       setIsJurisdictionSelected(jurisdiction);
       await api.editUser(user.id, { juridiction: jurisdiction });
       refetchUser();
+      fetchConversation(false, jurisdiction);
     } catch (error) {
       console.log(error);
     }
@@ -171,7 +176,6 @@ export default function Dashboard() {
     }
   }, [userDetails?.juridiction]);
 
-  console.log(userDetails, "user details111");
   return (
     <>
       <MobileMenu
