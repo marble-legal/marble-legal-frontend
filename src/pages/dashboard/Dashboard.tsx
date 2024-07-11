@@ -171,7 +171,7 @@ export default function Dashboard() {
     }
   }, [userDetails?.juridiction]);
 
-  console.log(userDetails, "user details");
+  console.log(userDetails, "user details111");
   return (
     <>
       <MobileMenu
