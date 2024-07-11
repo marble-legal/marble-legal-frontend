@@ -142,9 +142,7 @@ function SubscriptionCard({
     setIsSelected(true);
     await handleGetStripeSession({ planType, tier });
   };
-  const handleContactUs = () => {
-    console.log("contact us");
-  };
+  const handleContactUs = () => {};
   useEffect(() => {
     if (!stripeLoading) setIsSelected(false);
   }, [stripeLoading]);

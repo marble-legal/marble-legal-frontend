@@ -22,7 +22,6 @@ export function Editor({
 
   const handleInput = (e) => {
     setMessage(e.currentTarget.textContent);
-    console.log(e.currentTarget.textContent);
   };
 
   return (
@@ -54,7 +53,6 @@ export function Editor({
             style={{ wordBreak: "break-all" }}
             ref={(e) => (messageRef.current = e)}
             onKeyDown={(e) => {
-              console.log(e.key, "key down");
               if (e.key === "Enter") {
                 e.preventDefault();
                 handleSend();

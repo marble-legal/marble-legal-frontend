@@ -79,7 +79,6 @@ const FeatureSpecificPlanModal: React.FC<{
     return total;
   }, [formData, featureSpecificPlan]);
 
-  console.log(formData);
   return (
     <FullScreenModal isOpen={isOpen} onClose={onClose}>
       {/* Adjusted height to account for fixed button */}
