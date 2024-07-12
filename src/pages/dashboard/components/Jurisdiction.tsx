@@ -20,12 +20,12 @@ export function Jurisdiction({ onChange, value }) {
       <div className="p-6 gap-6 flex flex-col bg-white max-w-[600px] mx-auto rounded-[0.75rem]">
         <div className="flex flex-col gap-3">
           <h1 className="text-xl leading-[110%] font-semibold font-outfit">
-            Please Select Your Jurisdiction
+            Please Select Your State
           </h1>
           <p className="text-[0.9375rem] font-inter leading-[140%] md:w-full">
-            Choose your jurisdiction to ensure accurate legal guidance tailored
-            to your location. This helps us provide relevant and precise answers
-            to your legal questions.
+            Choose your state to ensure accurate legal guidance tailored to your
+            location. This helps us provide relevant and precise answers to your
+            legal questions.
           </p>
         </div>
 
@@ -79,7 +79,7 @@ export function JurisdictionDropdown({ onChange, value }) {
         <button className="flex flex-row gap-1 items-center font-outfit">
           <div className="flex flex-row gap-3 flex-wrap">
             <span className="md:text-lg text-sm leading-[110%]">
-              Your Jurisdiction:
+              Your State:
             </span>
             <span className="font-medium md:text-lg text-sm leading-[110%]">
               {Jurisdictions.find((jur) => jur.value === value)?.name ||
