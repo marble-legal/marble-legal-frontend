@@ -60,7 +60,11 @@ export function Jurisdiction({ onChange, value }) {
           )}
         </UIPopover>
 
-        <Button onClick={handleContinue} className="font-medium">
+        <Button
+          disabled={!selectedValue}
+          onClick={handleContinue}
+          className="font-medium"
+        >
           Continue
         </Button>
       </div>
