@@ -15,6 +15,7 @@ import useSubscription from "../subscription/useSubscription";
 import { useAuth } from "../../AuthContext";
 import { FeatureCode, SubscriptionTier } from "../../helpers/consts";
 import { Jurisdiction, JurisdictionDropdown } from "./components/Jurisdiction";
+import moment from "moment";
 
 export default function Dashboard() {
   const { isLoading, subscription, subscriptionStatus } = useSubscription();
@@ -138,7 +139,11 @@ export default function Dashboard() {
     if (subscription?.tier === SubscriptionTier.Standard) {
       return true;
     }
-    if (assistentCredit && assistentCredit?.quantity > 0) {
+    if (assistentCredit && assistentCredit?.type === "month") {
+      // check if the current date is less than the expiry date
+      const date = moment(assistentCredit?.date);
+      return date.isSameOrAfter(moment());
+    } else if (assistentCredit && assistentCredit?.quantity > 0) {
       return true;
     }
     return false;
@@ -158,6 +163,14 @@ export default function Dashboard() {
   const renderCredit = () => {
     if (subscription?.tier === SubscriptionTier.Standard) {
       return null;
+    }
+    if (assistentCredit && assistentCredit?.type === "month") {
+      return (
+        <span className="text-sm">
+          Unlimited queries till{" "}
+          {moment(assistentCredit?.date).format("DD MMM, YYYY")}
+        </span>
+      );
     }
     return (
       <>
@@ -181,6 +194,9 @@ export default function Dashboard() {
       <MobileMenu
         renderAction={
           <div className="flex justify-end items-center gap-2">
+            <div className="hidden md:flex justify-end pt-2 px-3">
+              {renderCredit()}
+            </div>
             {isJurisdictionSelected && (
               <JurisdictionDropdown
                 onChange={handleJuridictionChange}
