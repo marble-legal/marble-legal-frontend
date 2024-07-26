@@ -40,7 +40,10 @@ export function DeleteContractConfirm({
   return (
     <PopupModal contentClassName="p-8 z-[22] w-[98%] self-center bg-white rounded-2xl flex-col justify-start items-center gap-6 flex w-full md:mx-auto md:w-[442px] max-w-[442px]">
       <div className="flex flex-col w-full">
-        <p className="text-center text-xl text-black/80 font-medium">
+        <p
+          className="text-center text-xl text-black/80 font-medium"
+          style={{ wordBreak: "break-all" }}
+        >
           Are you sure you want to delete contract "{contract.title}"?
         </p>
         <div className="flex gap-3 items-center w-full mt-8">
