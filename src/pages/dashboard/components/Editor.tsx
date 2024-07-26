@@ -68,6 +68,9 @@ export function Editor({
           <ArrowUpIcon className="w-4 h-4" />
         </button>
       </div>
+      <div className="text-center mt-2 text-xs">
+        Please verify important legal information with a professional.
+      </div>
     </div>
   );
 }

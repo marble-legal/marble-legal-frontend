@@ -301,7 +301,7 @@ export default function Dashboard() {
                 )}
               </div>
             </div>
-            <div className="w-full self-center px-[18px] md:w-[580px] mb-4">
+            <div className="w-full self-center px-[18px] md:w-[580px] mb-2">
               <Editor
                 disabled={!isPromptEnabled}
                 onSend={askQuery}
