@@ -29,7 +29,6 @@ const LoginForm = () => {
         isInitialValid={false}
         validationSchema={validationSchema}
         onSubmit={(values, actions) => {
-          // console.log(values);
           api
             .login(values)
             .then((res) => {
@@ -84,7 +83,6 @@ const LoginFormContent = () => {
         navigate("/home");
       })
       .catch((err) => {
-        // console.log(err?.response);
         ShowToast({
           type: "error",
           message:

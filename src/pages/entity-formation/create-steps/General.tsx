@@ -106,7 +106,6 @@ export function GeneralQuestions({
           : validationSchema.isValidSync(initialValues)
       }
       onSubmit={(values: Partial<BusinessEntityCreation>) => {
-        // console.log(values);
         onNext(values);
       }}
     >

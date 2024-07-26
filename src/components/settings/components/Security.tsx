@@ -86,7 +86,6 @@ export default function Security({ onClose }) {
   const hasSubscription = !!subscription && !isCanceled;
   const shouldShowCancelSubscription =
     !!subscription && subscription.tier !== SubscriptionTier.Customised;
-  console.log(subscription);
   return (
     <div className="md:p-[1.5rem] p-[1.25rem] w-full flex flex-col gap-[2.25rem]">
       <div className="flex flex-col gap-4">

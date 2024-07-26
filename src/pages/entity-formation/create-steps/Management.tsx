@@ -76,8 +76,6 @@ export function ManagementQuestions({
           : validationSchema.isValidSync(initialValues)
       }
       onSubmit={(values: Partial<BusinessEntityCreation>, { resetForm }) => {
-        // console.log(values);
-        //  updateFormData(values);
         setSaving(true);
         api
           .createEntity({

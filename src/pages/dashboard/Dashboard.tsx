@@ -16,6 +16,7 @@ import { useAuth } from "../../AuthContext";
 import { FeatureCode, SubscriptionTier } from "../../helpers/consts";
 import { Jurisdiction, JurisdictionDropdown } from "./components/Jurisdiction";
 import moment from "moment";
+import { ShowToast } from "../../components/toast";
 
 export default function Dashboard() {
   const { isLoading, subscription, subscriptionStatus } = useSubscription();
@@ -156,7 +157,10 @@ export default function Dashboard() {
       refetchUser();
       fetchConversation(false, jurisdiction);
     } catch (error) {
-      console.log(error);
+      ShowToast({
+        type: "error",
+        message: "Failed to update jurisdiction",
+      });
     }
   };
 

@@ -124,7 +124,6 @@ const useStripeSession = () => {
   }, [activeSubscription]);
 
   const subscriptionStatus = useMemo(() => {
-    // console.log(activeSubscription);
     const subscription = activeSubscription?.[0];
     let subscriptionStatus = {
       isCustomised: false,

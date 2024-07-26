@@ -57,7 +57,6 @@ export function FinancialQuestions({
           : validationSchema.isValidSync(initialValues)
       }
       onSubmit={(values: Partial<BusinessEntityCreation>) => {
-        // console.log(values);
         onNext(values);
       }}
     >

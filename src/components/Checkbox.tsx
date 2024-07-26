@@ -18,7 +18,6 @@ function Checkbox({
         type="checkbox"
         className="hidden" // Hides the checkbox
         defaultChecked={checked} // Default checked state
-        // onChange={(e) => console.log(e.target.checked)} // Handle change
         onChange={(e) => onChange?.(e.target.checked)} // Handle change
       />
       <label

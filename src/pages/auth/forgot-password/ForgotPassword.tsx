@@ -40,7 +40,6 @@ const ForgotPasswordForm = () => {
               setSuccess(true);
             })
             .catch((err) => {
-              // console.log(err);
               ShowToast({
                 type: "error",
                 message:

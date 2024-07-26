@@ -102,8 +102,6 @@ export default function ContractDraftGeneration() {
     };
   }, [contentRef.current]);
 
-  // console.log(subscriptionStatus);
-
   const renderCredit = () => {
     if (subscription?.tier === SubscriptionTier.Standard) {
       return null;

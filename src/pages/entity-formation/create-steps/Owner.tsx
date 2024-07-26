@@ -126,7 +126,6 @@ export function OwnerQuestions({
           : validationSchema.isValidSync(initialValues)
       }
       onSubmit={(values: Partial<BusinessEntityCreation>) => {
-        // console.log(values);
         onNext(values);
       }}
     >

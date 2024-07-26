@@ -55,7 +55,6 @@ export function Main() {
     }
   }, [location]);
 
-  // console.log(activeSubscription);
   useEffect(() => {
     if (activeSubscription?.length === 0) {
       navigate("/subscription");
