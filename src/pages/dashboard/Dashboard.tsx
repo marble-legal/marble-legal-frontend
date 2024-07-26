@@ -310,6 +310,7 @@ export default function Dashboard() {
                 disabled={!isPromptEnabled}
                 onSend={askQuery}
                 isSending={sending}
+                showLegalInfo={true}
               />
             </div>
           </>
