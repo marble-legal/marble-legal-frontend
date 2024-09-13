@@ -145,6 +145,7 @@ export const featureSpecificPlan = [
 export const contractTypes = [
   { value: "business-consulting", label: "Business Consulting" },
   { value: "employment", label: "Employment" },
+  { value: "series-a", label: "Series A" },
   { value: "llc", label: "LLC" },
   { value: "llc-operating-agreements", label: "LLC Operating Agreements" },
   { value: "llc-ownership-assignment", label: "LLC Ownership Assignment" },
