@@ -16,7 +16,7 @@ export function TermsConfirmation({
       <div className="p-6 bg-white rounded-xl flex-col justify-start items-start gap-6 flex">
         <div className="flex-col justify-start items-start gap-3 flex">
           <div className="text-black text-xl font-semibold leading-snug">
-            Please accept terms & conditions
+            Please review and accept the Terms & Conditions
           </div>
           <div className="self-stretch text-black text-[15px] font-normal leading-normal">
             Marble Legal Solutions Inc provides self-help services at your
