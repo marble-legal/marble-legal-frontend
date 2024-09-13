@@ -6,11 +6,49 @@ import SettingsModal from "../components/settings/Settings";
 import useStripeSession from "./subscription/useSubscription";
 import useSubscription from "./subscription/useSubscription";
 import { TermsConfirmation } from "./auth/terms-confirmation/TermsConfirmation";
+import { api } from "../helpers/api";
+import { ShowToast } from "../components/toast";
+import { getUser } from "../helpers/utils";
 
 function MainApp() {
   const [showSettings, setShowSettings] = useState(false);
   const toggleSettings = () => setShowSettings(!showSettings);
-  const { activeSubscription } = useStripeSession();
+  const user = getUser();
+  const [showTermsConfirmation, setShowTermsConfirmation] = useState(false);
+  const [isSavingTermsConfirmation, setIsSavingTermsConfirmation] =
+    useState(false);
+
+  const handleConfirm = async () => {
+    setIsSavingTermsConfirmation(true);
+    api
+      .editUser(user.id, { isAcceptedTnc: true })
+      .then(() => {
+        setShowTermsConfirmation(false);
+        setIsSavingTermsConfirmation(false);
+      })
+      .catch((err) => {
+        setIsSavingTermsConfirmation(false);
+        ShowToast({
+          type: "error",
+          message:
+            err.response?.data?.message ||
+            "Failed to update terms & conditions",
+        });
+      });
+  };
+
+  useEffect(() => {
+    if (user?.id) {
+      api.getUser({ id: user?.id }).then((res) => {
+        const isAcceptedTnc = res.data.isAcceptedTnc;
+        if (isAcceptedTnc) {
+          setShowTermsConfirmation(false);
+        } else {
+          setShowTermsConfirmation(true);
+        }
+      });
+    }
+  }, [user]);
 
   return (
     <>
@@ -31,6 +69,12 @@ function MainApp() {
           </div>
         </div>
       </>
+      {showTermsConfirmation && (
+        <TermsConfirmation
+          onConfirm={handleConfirm}
+          isSaving={isSavingTermsConfirmation}
+        />
+      )}
     </>
   );
 }
@@ -38,29 +82,8 @@ function MainApp() {
 export function Main() {
   const navigate = useNavigate();
   const location = useLocation();
-  const [showTermsConfirmation, setShowTermsConfirmation] = useState(false);
-  const [isSavingTermsConfirmation, setIsSavingTermsConfirmation] =
-    useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { activeSubscription } = useSubscription();
-
-  const handleConfirm = async () => {
-    setIsSavingTermsConfirmation(true);
-    setTimeout(() => {
-      localStorage.setItem("terms_confirmation", "true");
-      setShowTermsConfirmation(false);
-      setIsSavingTermsConfirmation(false);
-    }, 2000);
-  };
-
-  useEffect(() => {
-    const termsConfirmation = localStorage.getItem("terms_confirmation");
-    if (termsConfirmation) {
-      setShowTermsConfirmation(false);
-    } else {
-      setShowTermsConfirmation(true);
-    }
-  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -88,12 +111,6 @@ export function Main() {
   return (
     <AuthProvider>
       <MainApp />
-      {showTermsConfirmation && (
-        <TermsConfirmation
-          onConfirm={handleConfirm}
-          isSaving={isSavingTermsConfirmation}
-        />
-      )}
     </AuthProvider>
   );
 }
