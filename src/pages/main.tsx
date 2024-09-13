@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from "../AuthContext";
 import SettingsModal from "../components/settings/Settings";
 import useStripeSession from "./subscription/useSubscription";
 import useSubscription from "./subscription/useSubscription";
+import { TermsConfirmation } from "./auth/terms-confirmation/TermsConfirmation";
 
 function MainApp() {
   const [showSettings, setShowSettings] = useState(false);
@@ -37,8 +38,29 @@ function MainApp() {
 export function Main() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [showTermsConfirmation, setShowTermsConfirmation] = useState(false);
+  const [isSavingTermsConfirmation, setIsSavingTermsConfirmation] =
+    useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { activeSubscription } = useSubscription();
+
+  const handleConfirm = async () => {
+    setIsSavingTermsConfirmation(true);
+    setTimeout(() => {
+      localStorage.setItem("terms_confirmation", "true");
+      setShowTermsConfirmation(false);
+      setIsSavingTermsConfirmation(false);
+    }, 2000);
+  };
+
+  useEffect(() => {
+    const termsConfirmation = localStorage.getItem("terms_confirmation");
+    if (termsConfirmation) {
+      setShowTermsConfirmation(false);
+    } else {
+      setShowTermsConfirmation(true);
+    }
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -66,6 +88,12 @@ export function Main() {
   return (
     <AuthProvider>
       <MainApp />
+      {showTermsConfirmation && (
+        <TermsConfirmation
+          onConfirm={handleConfirm}
+          isSaving={isSavingTermsConfirmation}
+        />
+      )}
     </AuthProvider>
   );
 }
